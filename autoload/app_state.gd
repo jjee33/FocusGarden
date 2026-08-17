@@ -226,6 +226,94 @@ func get_sessions_for_plant(plant_uid: String) -> Array[FocusSession]:
 	return out
 
 
+## Begins growing a new plant of `species_id` and makes it the active target.
+##
+## A PlantInstance is created per plant grown, never reused, so §22's permanent
+## per-plant history stays intact: growing a second monstera does not overwrite
+## the record of the first.
+func start_growing(species_id: StringName) -> PlantInstance:
+	var species := ContentDB.get_species(species_id)
+	if species == null:
+		GameLog.error(GameLog.Category.PLANT, "Cannot grow unknown species '%s'." % species_id)
+		return null
+
+	var plant := PlantInstance.create(species_id, data.profile.active_project_id)
+	plant.pot_id = ContentDB.DEFAULT_POT_ID
+	data.plants.append(plant)
+	data.profile.active_plant_uid = plant.uid
+
+	# Seeing a species in your own pot counts as discovering it (§16). Growing it
+	# to maturity is what fills in the rest of its catalogue statistics.
+	var entry := ensure_catalogue_entry(species_id)
+	if entry.discover():
+		EventBus.catalogue_entry_discovered.emit(String(species_id))
+
+	add_journal_entry(
+		JournalEntry.create(
+			JournalEntry.Kind.SEED_PLANTED,
+			"Planted %s" % species.display_name,
+			"Started while working on %s." % get_project_name(plant.primary_project_id),
+			plant.uid
+		)
+	)
+
+	save_now()
+	EventBus.active_plant_changed.emit(plant.uid)
+	GameLog.info(GameLog.Category.PLANT, "Started growing %s (%s)." % [species.display_name, plant.uid])
+	return plant
+
+
+## Switches the growth target to an existing plant.
+func set_active_plant(plant_uid: String) -> void:
+	if data.profile.active_plant_uid == plant_uid:
+		return
+	data.profile.active_plant_uid = plant_uid
+	save_now()
+	EventBus.active_plant_changed.emit(plant_uid)
+
+
+## Plants still growing, newest first. These are what the player can switch to.
+func get_growing_plants() -> Array[PlantInstance]:
+	var out: Array[PlantInstance] = []
+	for plant: PlantInstance in data.plants:
+		if not plant.is_mature():
+			out.append(plant)
+	out.reverse()
+	return out
+
+
+func get_mature_plants() -> Array[PlantInstance]:
+	var out: Array[PlantInstance] = []
+	for plant: PlantInstance in data.plants:
+		if plant.is_mature():
+			out.append(plant)
+	return out
+
+
+## 0..1 progress of a plant toward maturity, via the one growth service.
+func get_plant_progress(plant: PlantInstance) -> float:
+	if plant == null:
+		return 0.0
+	var species := ContentDB.get_species(plant.species_id)
+	if species == null:
+		return 0.0
+	return PlantGrowthService.progress_ratio(
+		plant, species, StatisticsManager.build_plant_context(plant.uid)
+	)
+
+
+## Species the player is allowed to start growing, honouring unlock requirements.
+func get_available_species() -> Array[PlantSpecies]:
+	var context := StatisticsManager.build_context()
+	var out: Array[PlantSpecies] = []
+	for species: PlantSpecies in ContentDB.get_all_species():
+		if species.unlock_requirement == null:
+			out.append(species)
+		elif RequirementEvaluator.is_met(species.unlock_requirement, context):
+			out.append(species)
+	return out
+
+
 func get_settings() -> GameSettings:
 	return data.settings
 

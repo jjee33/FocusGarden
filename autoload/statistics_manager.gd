@@ -84,6 +84,30 @@ func get_streak() -> StreakCalculator.Result:
 	)
 
 
+## A context covering ONE plant only, for evaluating that plant's growth.
+##
+## `build_context` aggregates every session in the save and recomputes the streak,
+## which walks the whole history and parses date strings. Plant growth needs none
+## of that: a species' growth requirement is ACTIVE_PLANT-scoped by construction,
+## so only that plant's own sessions matter.
+##
+## This is not a micro-optimisation. Growth is evaluated on every session
+## completion, and the full context is O(all sessions); using it here made
+## progression cost grow with the size of the player's history for no reason
+## (§44's "no constant expensive analytics recalculation"). `plant_sessions` is
+## accepted directly so callers that already hold the list do not rescan for it.
+func build_plant_context(
+	plant_uid: String, plant_sessions: Array[FocusSession] = []
+) -> RequirementContext:
+	var context := RequirementContext.new()
+	var sessions := (
+		plant_sessions if not plant_sessions.is_empty()
+		else AppState.get_sessions_for_plant(plant_uid)
+	)
+	context.ingest_plant_sessions(sessions)
+	return context
+
+
 ## Builds the snapshot that RequirementEvaluator measures against.
 ##
 ## This is the seam between "what the player has done" and "what conditions are

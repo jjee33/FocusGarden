@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_wcddq"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_moalf"]
+
+[sub_resource type="Resource" id="Resource_8j82f"]
+script = ExtResource("1_wcddq")
+type = 1
+params = {
+"count": 100
+}
+
+[resource]
+script = ExtResource("2_moalf")
+id = &"hundred_sessions"
+title = "Well Practised"
+description = "Complete 100 focus sessions."
+rarity = 2
+requirement = SubResource("Resource_8j82f")

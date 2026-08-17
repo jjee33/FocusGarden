@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_sxco3"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_u01ts"]
+
+[sub_resource type="Resource" id="Resource_o6010"]
+script = ExtResource("1_sxco3")
+type = 1
+params = {
+"count": 1
+}
+
+[resource]
+script = ExtResource("2_u01ts")
+id = &"first_sprout"
+title = "First Sprout"
+description = "Complete your first focus session."
+requirement = SubResource("Resource_o6010")

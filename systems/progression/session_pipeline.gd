@@ -133,7 +133,10 @@ static func _apply_plant_growth(session: FocusSession, outcome: Outcome) -> Plan
 	if not plant.contributing_session_ids.has(session.id):
 		plant.contributing_session_ids.append(session.id)
 
-	var context := StatisticsManager.build_context(plant.uid)
+	# Plant-scoped only: a growth requirement never reads global figures, and the
+	# full context would re-aggregate the entire session history on every
+	# completed session (§44).
+	var context := StatisticsManager.build_plant_context(plant.uid)
 	var growth := PlantGrowthService.apply_growth(plant, species, context)
 
 	EventBus.plant_growth_changed.emit(plant.uid, plant.accumulated_focus_minutes)
@@ -143,6 +146,13 @@ static func _apply_plant_growth(session: FocusSession, outcome: Outcome) -> Plan
 	if growth.just_matured:
 		outcome.plant_matured = true
 		EventBus.plant_matured.emit(plant.uid)
+
+		# A finished plant stops being the growth target. Leaving it selected
+		# meant the next session poured time into something already complete,
+		# and Home showed a permanent "100% grown" that nothing could advance.
+		if AppState.data.profile.active_plant_uid == plant.uid:
+			AppState.data.profile.active_plant_uid = ""
+			EventBus.active_plant_changed.emit("")
 
 		var entry := AppState.ensure_catalogue_entry(plant.species_id)
 		entry.total_focus_minutes += plant.accumulated_focus_minutes

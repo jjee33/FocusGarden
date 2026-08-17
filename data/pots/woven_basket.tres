@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PotStyle" format=3]
+
+[ext_resource type="Script" path="res://models/pot_style.gd" id="1_co5ek"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_3lvvh"]
+
+[sub_resource type="Resource" id="Resource_ujga8"]
+script = ExtResource("2_3lvvh")
+type = 7
+params = {
+"count": 3
+}
+
+[resource]
+script = ExtResource("1_co5ek")
+id = &"woven_basket"
+display_name = "Woven Basket"
+shape = 4
+pattern = 4
+body_color = Color(0.79607844, 0.65882355, 0.44313726, 1)
+rim_color = Color(0.6901961, 0.56078434, 0.3529412, 1)
+accent_color = Color(0.6117647, 0.4862745, 0.29803923, 1)
+unlock_requirement = SubResource("Resource_ujga8")

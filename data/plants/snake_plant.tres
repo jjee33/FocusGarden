@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_7thls"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_foh2m"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_mycb7"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_lvit3"]
+
+[sub_resource type="Resource" id="Resource_6urr3"]
+script = ExtResource("1_7thls")
+family = "Asparagaceae"
+native_region = "West Africa"
+light_preference = "Anything from shade to bright"
+watering_preference = "Every few weeks at most"
+care_difficulty = "Very easy"
+interesting_fact = "It keeps its pores shut by day and opens them at night, losing far less water than most houseplants."
+
+[sub_resource type="Resource" id="Resource_mjgwd"]
+script = ExtResource("2_foh2m")
+scope = 1
+params = {
+"amount": 120.0
+}
+
+[sub_resource type="Resource" id="Resource_naa8m"]
+script = ExtResource("3_mycb7")
+form = 4
+leaf_shape = 4
+leaf_color_base = Color(0.23921569, 0.41960785, 0.26666668, 1)
+leaf_color_tip = Color(0.49803922, 0.64705884, 0.3372549, 1)
+stem_color = Color(0.33529413, 0.48039216, 0.2784314, 1)
+leaf_count_max = 7
+leaf_length_ratio = 0.8
+leaf_width_ratio = 0.11
+leaf_arc = 0.04
+spread_radians = 0.85
+variegation = 0.35
+variegation_color = Color(0.84705883, 0.80784315, 0.49411765, 1)
+sway_amount = 0.02
+
+[resource]
+script = ExtResource("4_lvit3")
+id = &"snake_plant"
+display_name = "Snake Plant"
+scientific_name = "Dracaena trifasciata"
+description = "Upright banded blades that seem to grow while you are not looking. Nearly impossible to discourage."
+biome_id = &"desert"
+tags = Array[StringName]([&"architectural", &"beginner"])
+growth_requirement = SubResource("Resource_mjgwd")
+morphology = SubResource("Resource_naa8m")
+botanical = SubResource("Resource_6urr3")

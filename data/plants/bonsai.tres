@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_hhgj8"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_mbobk"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_78km2"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_8ncel"]
+
+[sub_resource type="Resource" id="Resource_m6o2a"]
+script = ExtResource("1_hhgj8")
+family = "Cupressaceae"
+native_region = "Japan"
+light_preference = "Full sun, outdoors where possible"
+watering_preference = "Check daily; the pots are shallow"
+care_difficulty = "A long commitment"
+interesting_fact = "Bonsai is a cultivation practice, not a species — the tree is ordinary, and only the care is unusual."
+
+[sub_resource type="Resource" id="Resource_d7g3k"]
+script = ExtResource("2_mbobk")
+type = 2
+scope = 1
+params = {
+"count": 14
+}
+
+[sub_resource type="Resource" id="Resource_vquvm"]
+script = ExtResource("3_78km2")
+form = 1
+leaf_shape = 3
+leaf_color_base = Color(0.22352941, 0.3764706, 0.22745098, 1)
+leaf_color_tip = Color(0.47843137, 0.60784316, 0.34117648, 1)
+stem_color = Color(0.327451, 0.45882356, 0.25882354, 1)
+leaf_count_max = 13
+leaf_length_ratio = 0.22
+leaf_width_ratio = 0.95
+leaf_arc = 0.18
+spread_radians = 1.45
+sway_amount = 0.03
+
+[sub_resource type="Resource" id="Resource_cr1h4"]
+script = ExtResource("2_mbobk")
+type = 7
+params = {
+"count": 5
+}
+
+[resource]
+script = ExtResource("4_8ncel")
+id = &"bonsai"
+display_name = "Juniper Bonsai"
+scientific_name = "Juniperus procumbens"
+description = "A tree kept small on purpose, shaped over years. The only plant here that measures time in seasons."
+rarity = 4
+biome_id = &"temperate"
+tags = Array[StringName]([&"longterm", &"tree"])
+growth_requirement = SubResource("Resource_d7g3k")
+morphology = SubResource("Resource_vquvm")
+botanical = SubResource("Resource_m6o2a")
+hidden_until_discovered = true
+unlock_requirement = SubResource("Resource_cr1h4")

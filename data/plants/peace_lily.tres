@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_nfihn"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_yrdwh"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_dsv7u"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_erlj0"]
+
+[sub_resource type="Resource" id="Resource_nt5hf"]
+script = ExtResource("1_nfihn")
+family = "Araceae"
+native_region = "Tropical Americas"
+light_preference = "Low to medium indirect"
+watering_preference = "Keep evenly moist"
+care_difficulty = "Easy"
+interesting_fact = "The white 'flower' is a modified leaf; the true flowers are the tiny bumps on the spike it wraps."
+
+[sub_resource type="Resource" id="Resource_7ge5f"]
+script = ExtResource("2_yrdwh")
+scope = 1
+params = {
+"amount": 200.0
+}
+
+[sub_resource type="Resource" id="Resource_vtg6u"]
+script = ExtResource("3_dsv7u")
+form = 7
+leaf_shape = 1
+leaf_color_base = Color(0.18039216, 0.38039216, 0.21960784, 1)
+leaf_color_tip = Color(0.36078432, 0.5686275, 0.3137255, 1)
+stem_color = Color(0.30588233, 0.46078432, 0.25490198, 1)
+leaf_length_ratio = 0.52
+leaf_width_ratio = 0.3
+leaf_arc = 0.16
+spread_radians = 1.0
+has_flowers = true
+flower_shape = 2
+flower_color = Color(0.9647059, 0.9490196, 0.89411765, 1)
+flower_centre_color = Color(0.8392157, 0.8156863, 0.5568628, 1)
+
+[resource]
+script = ExtResource("4_erlj0")
+id = &"peace_lily"
+display_name = "Peace Lily"
+scientific_name = "Spathiphyllum wallisii"
+description = "Deep green leaves and a single white bract that unfurls like a held breath."
+rarity = 1
+biome_id = &"tropical"
+tags = Array[StringName]([&"flowering", &"low-light"])
+growth_requirement = SubResource("Resource_7ge5f")
+morphology = SubResource("Resource_vtg6u")
+botanical = SubResource("Resource_nt5hf")

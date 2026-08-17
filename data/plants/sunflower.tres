@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_0mv1f"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_kuhyd"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_hsqxu"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_jw0l7"]
+
+[sub_resource type="Resource" id="Resource_2r3ui"]
+script = ExtResource("1_0mv1f")
+family = "Asteraceae"
+native_region = "North America"
+light_preference = "As much direct sun as possible"
+watering_preference = "Generously; they drink hard"
+care_difficulty = "Easy"
+interesting_fact = "Young sunflowers track the sun across the sky, but mature heads settle facing east for good."
+
+[sub_resource type="Resource" id="Resource_7443i"]
+script = ExtResource("2_kuhyd")
+type = 4
+scope = 1
+params = {
+"count": 8,
+"end_hour": 11,
+"start_hour": 5
+}
+
+[sub_resource type="Resource" id="Resource_iuj3u"]
+script = ExtResource("3_hsqxu")
+form = 7
+leaf_shape = 2
+leaf_color_base = Color(0.29803923, 0.47843137, 0.19607843, 1)
+leaf_color_tip = Color(0.5176471, 0.6745098, 0.32156864, 1)
+stem_color = Color(0.3647059, 0.50980395, 0.24313727, 1)
+leaf_count_max = 7
+leaf_length_ratio = 0.54
+leaf_width_ratio = 0.74
+leaf_arc = 0.1
+has_flowers = true
+flower_color = Color(0.9372549, 0.7137255, 0.24705882, 1)
+flower_centre_color = Color(0.47843137, 0.29411766, 0.13333334, 1)
+flower_count = 1
+sway_amount = 0.06
+
+[resource]
+script = ExtResource("4_jw0l7")
+id = &"sunflower"
+display_name = "Sunflower"
+scientific_name = "Helianthus annuus"
+description = "Grows fast, grows tall, and faces the morning. Best raised alongside early starts."
+rarity = 2
+biome_id = &"temperate"
+tags = Array[StringName]([&"morning", &"annual"])
+growth_requirement = SubResource("Resource_7443i")
+morphology = SubResource("Resource_iuj3u")
+botanical = SubResource("Resource_2r3ui")

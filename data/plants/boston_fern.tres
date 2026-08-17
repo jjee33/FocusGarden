@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_xfliy"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_fcrp8"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_2wu4q"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_ftqsc"]
+
+[sub_resource type="Resource" id="Resource_2d3c3"]
+script = ExtResource("1_xfliy")
+family = "Nephrolepidaceae"
+native_region = "Tropical Americas"
+light_preference = "Bright indirect, never direct"
+watering_preference = "Constantly damp, never soggy"
+care_difficulty = "Fussy about humidity"
+interesting_fact = "Ferns reproduce by spores, not seeds — the brown dots under the fronds are not a disease."
+
+[sub_resource type="Resource" id="Resource_q800t"]
+script = ExtResource("2_fcrp8")
+scope = 1
+params = {
+"amount": 220.0
+}
+
+[sub_resource type="Resource" id="Resource_7ld87"]
+script = ExtResource("3_2wu4q")
+form = 3
+leaf_shape = 1
+leaf_color_base = Color(0.24313726, 0.47843137, 0.25882354, 1)
+leaf_color_tip = Color(0.5176471, 0.70980394, 0.39215687, 1)
+stem_color = Color(0.3372549, 0.50980395, 0.27450982, 1)
+leaf_length_ratio = 0.52
+leaf_width_ratio = 0.16
+leaf_arc = 0.22
+spread_radians = 0.95
+sway_amount = 0.075
+
+[resource]
+script = ExtResource("4_ftqsc")
+id = &"boston_fern"
+display_name = "Boston Fern"
+scientific_name = "Nephrolepis exaltata"
+description = "Soft arching fronds that fill a corner. Wants humidity, and will tell you when it is not getting it."
+rarity = 1
+biome_id = &"woodland"
+tags = Array[StringName]([&"fern", &"humidity"])
+growth_requirement = SubResource("Resource_q800t")
+morphology = SubResource("Resource_7ld87")
+botanical = SubResource("Resource_2d3c3")

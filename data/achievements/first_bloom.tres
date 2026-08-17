@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_hvxj0"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_pcsco"]
+
+[sub_resource type="Resource" id="Resource_x66ik"]
+script = ExtResource("1_hvxj0")
+type = 7
+params = {
+"count": 1
+}
+
+[resource]
+script = ExtResource("2_pcsco")
+id = &"first_bloom"
+title = "First Bloom"
+description = "Bring your first plant to maturity."
+category = 1
+requirement = SubResource("Resource_x66ik")

@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_sks6p"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_ju6m6"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_mo8lm"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_w3elb"]
+
+[sub_resource type="Resource" id="Resource_grpy5"]
+script = ExtResource("1_sks6p")
+family = "Crassulaceae"
+native_region = "Semi-desert Mexico"
+light_preference = "Bright, direct sun"
+watering_preference = "Rarely, at the soil only"
+care_difficulty = "Moderate"
+interesting_fact = "The pale bloom on the leaves is a wax coating; wiping it off removes the plant's sunscreen."
+
+[sub_resource type="Resource" id="Resource_3xuno"]
+script = ExtResource("2_ju6m6")
+scope = 1
+params = {
+"amount": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_ymmkg"]
+script = ExtResource("3_mo8lm")
+form = 5
+leaf_color_base = Color(0.49019608, 0.61960787, 0.52156866, 1)
+leaf_color_tip = Color(0.7647059, 0.8392157, 0.74509805, 1)
+stem_color = Color(0.46078432, 0.5803922, 0.40588236, 1)
+leaf_count_max = 12
+leaf_length_ratio = 0.4
+leaf_width_ratio = 0.5
+sway_amount = 0.02
+
+[resource]
+script = ExtResource("4_w3elb")
+id = &"echeveria"
+display_name = "Echeveria"
+scientific_name = "Echeveria elegans"
+description = "A geometric rosette of pale blue-green leaves, arranged with improbable precision."
+rarity = 1
+biome_id = &"desert"
+tags = Array[StringName]([&"succulent", &"geometric"])
+growth_requirement = SubResource("Resource_3xuno")
+morphology = SubResource("Resource_ymmkg")
+botanical = SubResource("Resource_grpy5")

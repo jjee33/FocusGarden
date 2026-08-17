@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_xuc5u"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_gi7ms"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_x4rl8"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_yi7nj"]
+
+[sub_resource type="Resource" id="Resource_uagm2"]
+script = ExtResource("1_xuc5u")
+family = "Araceae"
+native_region = "French Polynesia"
+light_preference = "Low to bright indirect"
+watering_preference = "When the top two inches dry out"
+care_difficulty = "Very easy"
+interesting_fact = "Pothos rarely flowers in cultivation — most plants grown indoors have never bloomed at all."
+
+[sub_resource type="Resource" id="Resource_r4311"]
+script = ExtResource("2_gi7ms")
+type = 1
+scope = 1
+params = {
+"count": 4
+}
+
+[sub_resource type="Resource" id="Resource_bysaa"]
+script = ExtResource("3_x4rl8")
+form = 2
+leaf_shape = 2
+leaf_color_base = Color(0.24705882, 0.47843137, 0.22745098, 1)
+leaf_color_tip = Color(0.54901963, 0.7529412, 0.41568628, 1)
+stem_color = Color(0.3392157, 0.50980395, 0.25882354, 1)
+leaf_count_max = 10
+leaf_length_ratio = 0.62
+leaf_width_ratio = 0.8
+leaf_arc = 0.18
+spread_radians = 1.1
+variegation = 0.5
+variegation_color = Color(0.89411765, 0.8627451, 0.6039216, 1)
+
+[resource]
+script = ExtResource("4_yi7nj")
+id = &"pothos"
+display_name = "Golden Pothos"
+scientific_name = "Epipremnum aureum"
+description = "Forgiving and eager. Trails happily from any shelf it is given, and asks for very little in return."
+tags = Array[StringName]([&"trailing", &"beginner"])
+growth_requirement = SubResource("Resource_r4311")
+morphology = SubResource("Resource_bysaa")
+botanical = SubResource("Resource_uagm2")

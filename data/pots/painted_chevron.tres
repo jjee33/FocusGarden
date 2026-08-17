@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PotStyle" format=3]
+
+[ext_resource type="Script" path="res://models/pot_style.gd" id="1_4iok1"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_vr2be"]
+
+[sub_resource type="Resource" id="Resource_nr85g"]
+script = ExtResource("2_vr2be")
+type = 9
+params = {
+"level": 8
+}
+
+[resource]
+script = ExtResource("1_4iok1")
+id = &"painted_chevron"
+display_name = "Painted Chevron"
+pattern = 2
+body_color = Color(0.8509804, 0.627451, 0.35686275, 1)
+rim_color = Color(0.7137255, 0.49803922, 0.24313726, 1)
+accent_color = Color(0.36078432, 0.2901961, 0.19607843, 1)
+unlock_requirement = SubResource("Resource_nr85g")

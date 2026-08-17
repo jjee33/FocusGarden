@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_b3gl4"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_r6exh"]
+
+[sub_resource type="Resource" id="Resource_o888r"]
+script = ExtResource("1_b3gl4")
+params = {
+"amount": 30000.0
+}
+
+[resource]
+script = ExtResource("2_r6exh")
+id = &"five_hundred_hours"
+title = "A Real Garden"
+description = "Reach 500 hours of focus."
+rarity = 4
+requirement = SubResource("Resource_o888r")

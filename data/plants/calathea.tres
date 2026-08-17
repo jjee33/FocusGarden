@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_oqkc6"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_2e6v1"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_dekvc"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_0pbda"]
+
+[sub_resource type="Resource" id="Resource_qb3kw"]
+script = ExtResource("1_oqkc6")
+family = "Marantaceae"
+native_region = "Bolivian rainforest"
+light_preference = "Medium indirect"
+watering_preference = "Distilled or rainwater; it dislikes tap minerals"
+care_difficulty = "Demanding"
+interesting_fact = "The nightly leaf movement is called nyctinasty, driven by water pressure in a hinge at each leaf base."
+
+[sub_resource type="Resource" id="Resource_n3eo8"]
+script = ExtResource("2_2e6v1")
+scope = 1
+params = {
+"amount": 420.0
+}
+
+[sub_resource type="Resource" id="Resource_ejjjb"]
+script = ExtResource("3_dekvc")
+leaf_color_base = Color(0.18431373, 0.38039216, 0.2509804, 1)
+leaf_color_tip = Color(0.43529412, 0.627451, 0.37254903, 1)
+stem_color = Color(0.30784315, 0.46078432, 0.27058825, 1)
+leaf_count_max = 8
+leaf_length_ratio = 0.5
+leaf_width_ratio = 0.68
+leaf_arc = 0.14
+spread_radians = 1.05
+variegation = 0.7
+variegation_color = Color(0.8117647, 0.8784314, 0.7529412, 1)
+
+[resource]
+script = ExtResource("4_0pbda")
+id = &"calathea"
+display_name = "Prayer Plant"
+scientific_name = "Calathea orbifolia"
+description = "Broad silver-striped leaves that lift at dusk and lower again by morning."
+rarity = 3
+biome_id = &"tropical"
+tags = Array[StringName]([&"variegated", &"demanding"])
+growth_requirement = SubResource("Resource_n3eo8")
+morphology = SubResource("Resource_ejjjb")
+botanical = SubResource("Resource_qb3kw")
+hidden_until_discovered = true

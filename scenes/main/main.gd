@@ -93,12 +93,12 @@ func _build_nav_rail() -> PanelContainer:
 
 	var brand := Label.new()
 	brand.text = "Focus Garden"
-	brand.theme_type_variation = &"Heading"
+	brand.theme_type_variation = &"NavBrand"
 	column.add_child(brand)
 
 	var tagline := Label.new()
 	tagline.text = "grow what you give time to"
-	tagline.theme_type_variation = &"Caption"
+	tagline.theme_type_variation = &"NavCaption"
 	column.add_child(tagline)
 
 	var gap := Control.new()
@@ -128,7 +128,7 @@ func _build_nav_rail() -> PanelContainer:
 		ProjectSettings.get_setting("application/config/version", "0.0.0"),
 		CURRENT_MILESTONE,
 	]
-	version.theme_type_variation = &"Caption"
+	version.theme_type_variation = &"NavCaption"
 	column.add_child(version)
 
 	return rail

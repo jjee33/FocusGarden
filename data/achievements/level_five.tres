@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_ewy0h"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_66nya"]
+
+[sub_resource type="Resource" id="Resource_apslj"]
+script = ExtResource("1_ewy0h")
+type = 9
+params = {
+"level": 5
+}
+
+[resource]
+script = ExtResource("2_66nya")
+id = &"level_five"
+title = "Settling In"
+description = "Reach level 5."
+category = 3
+requirement = SubResource("Resource_apslj")

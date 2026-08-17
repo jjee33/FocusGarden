@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_5hpja"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_0bnbg"]
+
+[sub_resource type="Resource" id="Resource_g7xhc"]
+script = ExtResource("1_5hpja")
+type = 2
+params = {
+"count": 50
+}
+
+[resource]
+script = ExtResource("2_0bnbg")
+id = &"fifty_days"
+title = "Fifty Days"
+description = "Focus on 50 separate days."
+category = 2
+rarity = 2
+requirement = SubResource("Resource_g7xhc")

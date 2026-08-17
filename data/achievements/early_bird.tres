@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_uf854"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_rn8iy"]
+
+[sub_resource type="Resource" id="Resource_jhdc6"]
+script = ExtResource("1_uf854")
+type = 4
+params = {
+"count": 25,
+"end_hour": 8,
+"start_hour": 4
+}
+
+[resource]
+script = ExtResource("2_rn8iy")
+id = &"early_bird"
+title = "Early Bird"
+description = "Complete 25 sessions before 9 AM."
+category = 2
+rarity = 1
+requirement = SubResource("Resource_jhdc6")

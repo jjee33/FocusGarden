@@ -11,15 +11,21 @@ extends Node
 
 const PLANTS_DIR: String = "res://data/plants"
 const ACHIEVEMENTS_DIR: String = "res://data/achievements"
+const POTS_DIR: String = "res://data/pots"
 const EXPEDITIONS_DIR: String = "res://data/expeditions"
 const DECORATIONS_DIR: String = "res://data/decorations"
 
+## The pot every plant starts in. Must exist in POTS_DIR.
+const DEFAULT_POT_ID: StringName = &"terracotta_basic"
+
 var _species: Dictionary = {}      ## StringName -> PlantSpecies
 var _achievements: Dictionary = {} ## StringName -> AchievementDef
+var _pots: Dictionary = {}         ## StringName -> PotStyle
 ## Insertion-ordered id lists, so catalogue and achievement screens have a stable
 ## default order that does not depend on filesystem enumeration order.
 var _species_order: Array[StringName] = []
 var _achievement_order: Array[StringName] = []
+var _pot_order: Array[StringName] = []
 
 
 func _ready() -> void:
@@ -29,8 +35,10 @@ func _ready() -> void:
 func reload() -> void:
 	_species.clear()
 	_achievements.clear()
+	_pots.clear()
 	_species_order.clear()
 	_achievement_order.clear()
+	_pot_order.clear()
 
 	for resource: Resource in _load_dir(PLANTS_DIR):
 		var species := resource as PlantSpecies
@@ -57,9 +65,21 @@ func reload() -> void:
 		_achievements[achievement.id] = achievement
 		_achievement_order.append(achievement.id)
 
+	for resource: Resource in _load_dir(POTS_DIR):
+		var pot := resource as PotStyle
+		if pot == null or not pot.is_valid():
+			GameLog.warn(GameLog.Category.DATA, "Skipped an invalid pot resource.")
+			continue
+		if _pots.has(pot.id):
+			GameLog.warn(GameLog.Category.DATA, "Duplicate pot id '%s'; keeping the first." % pot.id)
+			continue
+		_pots[pot.id] = pot
+		_pot_order.append(pot.id)
+
 	GameLog.info(
 		GameLog.Category.DATA,
-		"Content loaded: %d species, %d achievements." % [_species.size(), _achievements.size()]
+		"Content loaded: %d species, %d achievements, %d pots."
+		% [_species.size(), _achievements.size(), _pots.size()]
 	)
 
 
@@ -93,6 +113,21 @@ func get_all_achievements() -> Array[AchievementDef]:
 	var out: Array[AchievementDef] = []
 	for id: StringName in _achievement_order:
 		out.append(_achievements[id])
+	return out
+
+
+## A pot by id, falling back to the default so a plant whose saved pot was
+## removed in an update still renders (§54) instead of losing its container.
+func get_pot(id: StringName) -> PotStyle:
+	if _pots.has(id):
+		return _pots[id]
+	return _pots.get(DEFAULT_POT_ID)
+
+
+func get_all_pots() -> Array[PotStyle]:
+	var out: Array[PotStyle] = []
+	for id: StringName in _pot_order:
+		out.append(_pots[id])
 	return out
 
 

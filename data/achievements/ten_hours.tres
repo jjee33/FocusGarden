@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_mrfol"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_5oht6"]
+
+[sub_resource type="Resource" id="Resource_6moue"]
+script = ExtResource("1_mrfol")
+params = {
+"amount": 600.0
+}
+
+[resource]
+script = ExtResource("2_5oht6")
+id = &"ten_hours"
+title = "Ten Hours In"
+description = "Reach 10 hours of focus."
+requirement = SubResource("Resource_6moue")

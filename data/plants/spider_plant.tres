@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_xhr6t"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_hqun3"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_5j24p"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_3h3t0"]
+
+[sub_resource type="Resource" id="Resource_bl6gp"]
+script = ExtResource("1_xhr6t")
+family = "Asparagaceae"
+native_region = "Southern Africa"
+light_preference = "Bright indirect"
+watering_preference = "Keep lightly moist"
+care_difficulty = "Very easy"
+interesting_fact = "The dangling plantlets are clones, and will root in a glass of water within a week or two."
+
+[sub_resource type="Resource" id="Resource_3uonw"]
+script = ExtResource("2_hqun3")
+type = 1
+scope = 1
+params = {
+"count": 6
+}
+
+[sub_resource type="Resource" id="Resource_ntp3f"]
+script = ExtResource("3_5j24p")
+leaf_shape = 4
+leaf_color_base = Color(0.29803923, 0.5176471, 0.27450982, 1)
+leaf_color_tip = Color(0.5764706, 0.7607843, 0.44313726, 1)
+stem_color = Color(0.3647059, 0.5294118, 0.28235295, 1)
+leaf_count_max = 14
+leaf_length_ratio = 0.6
+leaf_width_ratio = 0.13
+leaf_arc = 0.3
+spread_radians = 1.35
+variegation = 0.6
+variegation_color = Color(0.9411765, 0.93333334, 0.76862746, 1)
+sway_amount = 0.07
+
+[resource]
+script = ExtResource("4_3h3t0")
+id = &"spider_plant"
+display_name = "Spider Plant"
+scientific_name = "Chlorophytum comosum"
+description = "Arching striped leaves that throw out little copies of themselves on long stems."
+tags = Array[StringName]([&"variegated", &"beginner"])
+growth_requirement = SubResource("Resource_3uonw")
+morphology = SubResource("Resource_ntp3f")
+botanical = SubResource("Resource_bl6gp")

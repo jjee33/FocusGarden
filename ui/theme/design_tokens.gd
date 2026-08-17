@@ -11,45 +11,62 @@ extends RefCounted
 ## literal — that is what keeps §74's "spacing is consistent, typography is
 ## consistent" true as screens are added by different hands over time.
 ##
-## PALETTE INTENT (§4): warm parchment grounds, deep moss greens, terracotta and
-## amber accents. Restrained and warm — a lamplit potting bench, not a dashboard.
-## The design deliberately commits to a single warm light look rather than
-## offering a dark mode, so contrast and mood can be tuned properly once.
+## PALETTE INTENT (§4): the interior of a small plant shop at golden hour.
+##
+## The navigation rail is the shop's deep sage wall; the content area is warm
+## light wood and paper; accents are terracotta pots and amber lantern glow.
+## Anchoring the palette to a real place rather than to abstract "brand colours"
+## is what keeps it from drifting into a generic dashboard as screens are added.
+##
+## The design deliberately commits to a single warm look rather than offering a
+## dark mode, so contrast and mood can be tuned properly once.
 
 # --- Surfaces -----------------------------------------------------------------
-const BG_BASE := Color("#F2EADA")        ## App background, warm parchment.
-const BG_SUNKEN := Color("#E6DCC7")      ## Recessed wells, track backgrounds.
-const BG_RAISED := Color("#FBF6EA")      ## Cards and panels that sit above.
-const BG_NAV := Color("#E9DFC9")         ## Persistent navigation rail.
-const BG_OVERLAY := Color("#2B2620E0")   ## Dialog scrim.
+const BG_BASE := Color("#EFE4CE")        ## App background, warm parchment.
+const BG_SUNKEN := Color("#E2D4B8")      ## Recessed wells, track backgrounds.
+const BG_RAISED := Color("#FBF5E6")      ## Cards and panels that sit above.
+const BG_OVERLAY := Color("#241F1AE0")   ## Dialog scrim.
+
+## The navigation rail: the deep sage wall of the shop. Dark enough that the
+## warm content area reads as lamplit against it.
+const BG_NAV := Color("#41695A")
+const BG_NAV_DEEP := Color("#33564A")    ## Rail footer and dividers.
+const BG_NAV_ACTIVE := Color("#527D6C")  ## Selected navigation item.
 
 # --- Ink ----------------------------------------------------------------------
-const INK_PRIMARY := Color("#3B342A")    ## Headings and body text.
-const INK_SECONDARY := Color("#6B6153")  ## Supporting text.
-const INK_MUTED := Color("#9C917D")      ## Metadata, disabled text.
+const INK_PRIMARY := Color("#383024")    ## Headings and body text.
+const INK_SECONDARY := Color("#665B49")  ## Supporting text.
+const INK_MUTED := Color("#9A8B72")      ## Metadata, disabled text.
 const INK_ON_ACCENT := Color("#FDFAF3")  ## Text on a filled accent surface.
+## Text on the sage rail. Warm cream rather than white, so the rail reads as
+## painted wood in lamplight instead of as a dark-mode panel.
+const INK_ON_NAV := Color("#EFE3CB")
+const INK_ON_NAV_MUTED := Color("#A9C0B2")
 
 # --- Accents ------------------------------------------------------------------
-const MOSS := Color("#5C8A54")           ## Primary action, growth, success.
-const MOSS_DEEP := Color("#426A3C")      ## Pressed primary.
-const MOSS_SOFT := Color("#D9E5D2")      ## Tinted fills.
-const TERRACOTTA := Color("#C4714A")     ## Pots, warm highlight.
-const AMBER := Color("#DFA144")          ## Streaks, celebration.
-const SKY := Color("#7FA8B8")            ## Breaks, calm states.
-const CLAY := Color("#B5573F")           ## Destructive actions.
+const MOSS := Color("#5B8C4A")           ## Primary action, growth, success.
+const MOSS_DEEP := Color("#3F6B35")      ## Pressed primary.
+const MOSS_SOFT := Color("#DCE7CE")      ## Tinted fills.
+const TERRACOTTA := Color("#C26A45")     ## Pots, warm highlight.
+const AMBER := Color("#E0A340")          ## Streaks, lantern glow, celebration.
+const AMBER_GLOW := Color("#F7D08A")     ## The lit part of a lantern.
+const SKY := Color("#6E9C9A")            ## Breaks, calm states.
+const CLAY := Color("#B0553C")           ## Destructive actions.
+const OAK := Color("#C69A63")            ## Shelf timber.
+const OAK_DEEP := Color("#A2743F")       ## Shelf shadow, frame joinery.
 
 # --- Lines and shadow ---------------------------------------------------------
-const BORDER_SOFT := Color("#DCD0B7")
-const BORDER_STRONG := Color("#C4B698")
+const BORDER_SOFT := Color("#D9C8A6")
+const BORDER_STRONG := Color("#BFA97F")
 ## Empty portion of a progress bar or slider. Deliberately darker than BG_SUNKEN:
 ## an earlier version reused BG_SUNKEN and the XP bar became invisible whenever it
 ## sat on a sunken card, because track and card were the same colour.
-const TRACK := Color("#D3C4A6")
+const TRACK := Color("#CFBB94")
 ## Text on a disabled filled button. Dark rather than light — a pale label on a
 ## pale disabled fill is unreadable, and §74 requires disabled states to be clear.
 const INK_ON_DISABLED := Color("#55634F")
-const FOCUS_RING := Color("#5C8A54")     ## Keyboard focus (§50).
-const SHADOW := Color("#3B342A1F")
+const FOCUS_RING := Color("#C26A45")     ## Keyboard focus (§50).
+const SHADOW := Color("#38302426")
 
 # --- Rarity (§15) -------------------------------------------------------------
 ## §50 forbids communicating status by colour alone, so every rarity has a NAME

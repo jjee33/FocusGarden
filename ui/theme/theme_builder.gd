@@ -185,19 +185,24 @@ static func _build_variations(theme: Theme) -> void:
 	var nav_normal := _button_box(Color("#00000000"), Color("#00000000"))
 	_set_margins(nav_normal, DesignTokens.SPACE_SM)
 	nav_normal.content_margin_left = DesignTokens.SPACE_MD
-	var nav_hover := _button_box(Color("#F5EEDD"), Color("#00000000"))
+	var nav_hover := _button_box(DesignTokens.BG_NAV_ACTIVE, Color("#00000000"))
 	_set_margins(nav_hover, DesignTokens.SPACE_SM)
 	nav_hover.content_margin_left = DesignTokens.SPACE_MD
-	var nav_active := _button_box(DesignTokens.BG_RAISED, DesignTokens.BORDER_SOFT)
+	# The selected entry is a lit panel against the sage wall, echoing how the
+	# content area reads as lamplit next to the rail.
+	var nav_active := _button_box(DesignTokens.BG_RAISED, Color("#00000000"))
 	_set_margins(nav_active, DesignTokens.SPACE_SM)
 	nav_active.content_margin_left = DesignTokens.SPACE_MD
 	theme.set_stylebox("normal", "NavButton", nav_normal)
 	theme.set_stylebox("hover", "NavButton", nav_hover)
 	theme.set_stylebox("pressed", "NavButton", nav_active)
 	theme.set_stylebox("focus", "NavButton", _focus_box())
-	theme.set_color("font_color", "NavButton", DesignTokens.INK_SECONDARY)
-	theme.set_color("font_hover_color", "NavButton", DesignTokens.INK_PRIMARY)
+	# Cream on sage at rest; the selected entry flips to dark ink because its
+	# background became the light card colour.
+	theme.set_color("font_color", "NavButton", DesignTokens.INK_ON_NAV)
+	theme.set_color("font_hover_color", "NavButton", DesignTokens.INK_ON_ACCENT)
 	theme.set_color("font_pressed_color", "NavButton", DesignTokens.MOSS_DEEP)
+	theme.set_color("font_hover_pressed_color", "NavButton", DesignTokens.MOSS_DEEP)
 	theme.set_font_size("font_size", "NavButton", DesignTokens.FONT_BODY)
 
 	# Chips — mutually exclusive choices (durations, projects, colours).
@@ -253,6 +258,15 @@ static func _build_variations(theme: Theme) -> void:
 	_label_variation(theme, "Heading", DesignTokens.FONT_HEADING, DesignTokens.INK_PRIMARY)
 	_label_variation(theme, "Caption", DesignTokens.FONT_CAPTION, DesignTokens.INK_MUTED)
 	_label_variation(theme, "Muted", DesignTokens.FONT_BODY, DesignTokens.INK_SECONDARY)
+	# Card titles sit between body and heading: large enough to lead the card,
+	# small enough that a two-word species name fits a grid column.
+	_label_variation(theme, "CardTitle", DesignTokens.FONT_BODY, DesignTokens.INK_PRIMARY)
+
+	# Text roles for the sage rail. The ordinary roles are dark ink and would be
+	# unreadable there, so the rail gets its own pair rather than every call site
+	# overriding a colour by hand.
+	_label_variation(theme, "NavBrand", DesignTokens.FONT_HEADING, DesignTokens.INK_ON_NAV)
+	_label_variation(theme, "NavCaption", DesignTokens.FONT_CAPTION, DesignTokens.INK_ON_NAV_MUTED)
 
 
 static func _label_variation(theme: Theme, name: String, size: int, color: Color) -> void:

@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_d4hmm"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_qvad8"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_2exkk"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_8c0d6"]
+
+[sub_resource type="Resource" id="Resource_12bui"]
+script = ExtResource("1_d4hmm")
+family = "Moraceae"
+native_region = "Southeast Asia"
+light_preference = "Bright indirect"
+watering_preference = "When the top inch dries"
+care_difficulty = "Easy"
+interesting_fact = "Its milky sap was once a commercial rubber source, before the Pará rubber tree displaced it."
+
+[sub_resource type="Resource" id="Resource_wbq7d"]
+script = ExtResource("2_qvad8")
+scope = 1
+params = {
+"amount": 260.0
+}
+
+[sub_resource type="Resource" id="Resource_smrmu"]
+script = ExtResource("3_2exkk")
+form = 1
+leaf_color_base = Color(0.18431373, 0.37254903, 0.23137255, 1)
+leaf_color_tip = Color(0.36862746, 0.56078434, 0.30588236, 1)
+stem_color = Color(0.30784315, 0.45686275, 0.26078433, 1)
+leaf_count_max = 8
+leaf_length_ratio = 0.42
+leaf_width_ratio = 0.5
+leaf_arc = 0.08
+spread_radians = 1.0
+sway_amount = 0.035
+
+[resource]
+script = ExtResource("4_8c0d6")
+id = &"rubber_plant"
+display_name = "Rubber Plant"
+scientific_name = "Ficus elastica"
+description = "Broad lacquered leaves on a confident upright stem. Grows toward whatever light it can find."
+rarity = 1
+biome_id = &"tropical"
+tags = Array[StringName]([&"architectural", &"ficus"])
+growth_requirement = SubResource("Resource_wbq7d")
+morphology = SubResource("Resource_smrmu")
+botanical = SubResource("Resource_12bui")

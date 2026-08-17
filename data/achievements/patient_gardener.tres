@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_uopn6"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_avt0h"]
+
+[sub_resource type="Resource" id="Resource_fgt02"]
+script = ExtResource("1_uopn6")
+type = 2
+params = {
+"count": 14
+}
+
+[resource]
+script = ExtResource("2_avt0h")
+id = &"patient_gardener"
+title = "The Patient Gardener"
+description = "Grow a plant that takes fourteen separate days."
+category = 4
+rarity = 4
+hidden = true
+requirement = SubResource("Resource_fgt02")

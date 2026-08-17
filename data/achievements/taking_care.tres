@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_m0jth"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_cf0fu"]
+
+[sub_resource type="Resource" id="Resource_aqqqq"]
+script = ExtResource("1_m0jth")
+type = 6
+params = {
+"count": 100
+}
+
+[resource]
+script = ExtResource("2_cf0fu")
+id = &"taking_care"
+title = "Taking Care"
+description = "Complete 100 breaks."
+category = 2
+rarity = 1
+requirement = SubResource("Resource_aqqqq")

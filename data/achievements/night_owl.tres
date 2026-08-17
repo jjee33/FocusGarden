@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_q6rj3"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_vurhc"]
+
+[sub_resource type="Resource" id="Resource_mcmjl"]
+script = ExtResource("1_q6rj3")
+type = 4
+params = {
+"count": 25,
+"end_hour": 4,
+"start_hour": 20
+}
+
+[resource]
+script = ExtResource("2_vurhc")
+id = &"night_owl"
+title = "Night Owl"
+description = "Complete 25 sessions after 8 PM."
+category = 2
+rarity = 1
+requirement = SubResource("Resource_mcmjl")

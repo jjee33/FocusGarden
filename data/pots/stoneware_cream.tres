@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PotStyle" format=3]
+
+[ext_resource type="Script" path="res://models/pot_style.gd" id="1_60dql"]
+
+[resource]
+script = ExtResource("1_60dql")
+id = &"stoneware_cream"
+display_name = "Cream Stoneware"
+shape = 2
+body_color = Color(0.89411765, 0.8392157, 0.7372549, 1)
+rim_color = Color(0.8039216, 0.73333335, 0.60784316, 1)
+accent_color = Color(0.7176471, 0.6392157, 0.52156866, 1)

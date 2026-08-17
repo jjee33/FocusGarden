@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PotStyle" format=3]
+
+[ext_resource type="Script" path="res://models/pot_style.gd" id="1_45213"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_b224d"]
+
+[sub_resource type="Resource" id="Resource_a4bv8"]
+script = ExtResource("2_b224d")
+type = 9
+params = {
+"level": 2
+}
+
+[resource]
+script = ExtResource("1_45213")
+id = &"ceramic_sage"
+display_name = "Sage Ceramic"
+shape = 1
+pattern = 1
+body_color = Color(0.49803922, 0.627451, 0.54509807, 1)
+rim_color = Color(0.4, 0.5294118, 0.43529412, 1)
+accent_color = Color(0.89411765, 0.92941177, 0.8784314, 1)
+unlock_requirement = SubResource("Resource_a4bv8")

@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_x3jgw"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_5krq1"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_o2bgb"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_fk0ub"]
+
+[sub_resource type="Resource" id="Resource_hy6yb"]
+script = ExtResource("1_x3jgw")
+family = "Cactaceae"
+native_region = "Paraguay and northern Argentina"
+light_preference = "Bright, filtered"
+watering_preference = "Very sparingly"
+care_difficulty = "Moderate"
+interesting_fact = "The brightly coloured tops sold in shops are mutants with no chlorophyll, grafted onto a green host to survive."
+
+[sub_resource type="Resource" id="Resource_qulr6"]
+script = ExtResource("2_5krq1")
+type = 4
+scope = 1
+params = {
+"count": 8,
+"end_hour": 3,
+"start_hour": 20
+}
+
+[sub_resource type="Resource" id="Resource_dm7hc"]
+script = ExtResource("3_o2bgb")
+form = 6
+leaf_shape = 5
+leaf_color_base = Color(0.3647059, 0.5411765, 0.32941177, 1)
+leaf_color_tip = Color(0.6509804, 0.7529412, 0.54901963, 1)
+stem_color = Color(0.39803922, 0.5411765, 0.30980393, 1)
+leaf_count_max = 6
+leaf_length_ratio = 0.35
+leaf_width_ratio = 0.3
+has_flowers = true
+flower_color = Color(0.9137255, 0.5372549, 0.60784316, 1)
+flower_centre_color = Color(0.9529412, 0.8509804, 0.627451, 1)
+flower_count = 1
+sway_amount = 0.015
+
+[resource]
+script = ExtResource("4_fk0ub")
+id = &"moon_cactus"
+display_name = "Moon Cactus"
+scientific_name = "Gymnocalycium mihanovichii"
+description = "A small, oddly cheerful cactus. Keeps company through late sessions."
+rarity = 3
+biome_id = &"desert"
+tags = Array[StringName]([&"evening", &"cactus"])
+growth_requirement = SubResource("Resource_qulr6")
+morphology = SubResource("Resource_dm7hc")
+botanical = SubResource("Resource_hy6yb")
+hidden_until_discovered = true

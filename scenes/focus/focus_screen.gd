@@ -98,8 +98,8 @@ func _build_setup() -> void:
 	)
 
 	_build_project_picker()
+	_build_plant_picker()
 	_build_duration_picker()
-	_build_plant_notice()
 
 	var start := Button.new()
 	start.text = "Start Focus"
@@ -220,21 +220,83 @@ func _build_duration_picker() -> void:
 	stepper.add_child(plus)
 
 
-## §9 asks the player to choose a plant. Plants do not exist until Milestone 2,
-## and saying so plainly beats an empty picker that looks broken.
-func _build_plant_notice() -> void:
+## Which plant this session feeds (§9). Shows the current target and its progress
+## so the choice is informed, per §18.
+func _build_plant_picker() -> void:
 	var card := PanelContainer.new()
-	card.theme_type_variation = &"CardSunken"
+	card.theme_type_variation = &"Card"
 	content.add_child(card)
 
-	var label := Label.new()
-	label.text = (
-		"Plant selection arrives in Milestone 2. Sessions you complete now are still "
-		+ "recorded in full, so the time will count toward whatever you grow later."
-	)
-	label.theme_type_variation = &"Caption"
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	card.add_child(label)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", DesignTokens.SPACE_LG)
+	card.add_child(row)
+
+	var plant := AppState.get_active_plant()
+	var species := ContentDB.get_species(plant.species_id) if plant != null else null
+
+	if plant != null and species != null:
+		var preview := PlantView.new()
+		preview.species = species
+		preview.growth = AppState.get_plant_progress(plant)
+		preview.pot = ContentDB.get_pot(plant.pot_id)
+		preview.custom_minimum_size = Vector2(110, 110)
+		preview.plant_height = 110
+		preview.animate = not AppState.get_settings().reduced_motion
+		row.add_child(preview)
+
+	var copy := VBoxContainer.new()
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	copy.add_theme_constant_override("separation", DesignTokens.SPACE_XXS)
+	row.add_child(copy)
+
+	var heading := Label.new()
+	heading.text = "Growing"
+	heading.theme_type_variation = &"Caption"
+	copy.add_child(heading)
+
+	var name_label := Label.new()
+	name_label.theme_type_variation = &"Heading"
+	copy.add_child(name_label)
+
+	var detail := Label.new()
+	detail.theme_type_variation = &"Muted"
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	copy.add_child(detail)
+
+	if plant == null or species == null:
+		name_label.text = "Nothing yet"
+		detail.text = "Pick a plant and this session will start growing it."
+	else:
+		name_label.text = species.display_name
+		var progress := AppState.get_plant_progress(plant)
+		copy.add_child(_progress_bar(progress))
+		detail.text = "%d%% grown · %s" % [
+			int(progress * 100.0),
+			RequirementEvaluator.describe(species.growth_requirement),
+		]
+
+	var choose := Button.new()
+	choose.text = "Choose plant" if plant != null else "Pick a plant"
+	choose.theme_type_variation = &"SubtleButton" if plant != null else &"PrimaryButton"
+	choose.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	choose.pressed.connect(_on_choose_plant_pressed)
+	row.add_child(choose)
+
+
+func _progress_bar(ratio: float) -> ProgressBar:
+	var bar := ProgressBar.new()
+	bar.min_value = 0.0
+	bar.max_value = 1.0
+	bar.value = ratio
+	bar.show_percentage = false
+	bar.custom_minimum_size.y = 8
+	return bar
+
+
+func _on_choose_plant_pressed() -> void:
+	var dialog := PlantPickerDialog.open(get_tree().root)
+	dialog.chosen.connect(func(_uid: String) -> void: _rebuild())
 
 
 func _nudge_duration(delta: float, row: ChoiceRow) -> void:
@@ -284,7 +346,12 @@ func _on_new_project_pressed() -> void:
 func _on_start_pressed() -> void:
 	if AppState.get_active_projects().is_empty():
 		return
-	TimerManager.start_focus(_selected_project_id, "", _selected_duration)
+	# The active plant is what this session feeds. Empty is allowed: a session
+	# with no plant still records fully and still earns XP, so the timer never
+	# becomes unusable just because nothing is being grown (§9).
+	TimerManager.start_focus(
+		_selected_project_id, AppState.data.profile.active_plant_uid, _selected_duration
+	)
 
 
 # --- Running (§10) ------------------------------------------------------------
@@ -317,9 +384,30 @@ func _build_running() -> void:
 	focus_mode.toggled.connect(func(on: bool) -> void: EventBus.focus_mode_changed.emit(on))
 	heading.add_child(focus_mode)
 
+	# The plant sits beside the countdown, swaying gently (§10's "subtle animated
+	# plant"). It is deliberately to one side rather than behind the timer: the
+	# countdown must stay the clearest thing on the screen.
+	var stage := HBoxContainer.new()
+	stage.alignment = BoxContainer.ALIGNMENT_CENTER
+	stage.add_theme_constant_override("separation", DesignTokens.SPACE_XXL)
+	content.add_child(stage)
+
+	var plant := AppState.get_active_plant()
+	var plant_species := ContentDB.get_species(plant.species_id) if plant != null else null
+	if plant != null and plant_species != null and not is_break:
+		var plant_view := PlantView.new()
+		plant_view.species = plant_species
+		plant_view.growth = AppState.get_plant_progress(plant)
+		plant_view.pot = ContentDB.get_pot(plant.pot_id)
+		plant_view.custom_minimum_size = Vector2(200, RING_SIZE)
+		plant_view.plant_height = RING_SIZE * 0.78
+		plant_view.animate = not AppState.get_settings().reduced_motion
+		plant_view.size_flags_vertical = Control.SIZE_SHRINK_END
+		stage.add_child(plant_view)
+
 	var ring_holder := CenterContainer.new()
-	ring_holder.custom_minimum_size.y = RING_SIZE + DesignTokens.SPACE_LG
-	content.add_child(ring_holder)
+	ring_holder.custom_minimum_size = Vector2(RING_SIZE, RING_SIZE + DesignTokens.SPACE_LG)
+	stage.add_child(ring_holder)
 
 	_ring = ProgressRing.new()
 	_ring.custom_minimum_size = Vector2(RING_SIZE, RING_SIZE)
@@ -519,7 +607,9 @@ func _build_complete() -> void:
 	if was_break:
 		next.text = "Start focusing"
 		next.pressed.connect(
-			func() -> void: TimerManager.start_focus(_selected_project_id, "", _selected_duration)
+			func() -> void: TimerManager.start_focus(
+				_selected_project_id, AppState.data.profile.active_plant_uid, _selected_duration
+			)
 		)
 	else:
 		var break_kind := TimerManager.get_next_break_kind()

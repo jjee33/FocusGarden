@@ -194,29 +194,85 @@ func _rebuild_plant_slot() -> void:
 	var plant := AppState.get_active_plant()
 	if plant == null:
 		# §54 lists "no plants currently selected" as a case that must be defined.
-		_plant_slot.add_child(
-			EmptyState.create(
-				"🌱",
-				"No plant chosen yet",
-				"When you pick a plant, its progress will live here and grow with every session you finish.",
-				"Choosing and growing plants arrives in Milestones 2 and 3."
-			)
+		var empty := EmptyState.create(
+			"🌱",
+			"No plant chosen yet",
+			"Pick something to grow and its progress will live here, filling in with every session you finish.",
+			""
 		)
+		_plant_slot.add_child(empty)
+
+		var pick := Button.new()
+		pick.text = "Choose a plant"
+		pick.theme_type_variation = &"PrimaryButton"
+		pick.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		pick.pressed.connect(_on_choose_plant_pressed)
+		_plant_slot.add_child(pick)
 		return
 
 	var species := ContentDB.get_species(plant.species_id)
-	var title := Label.new()
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", DesignTokens.SPACE_LG)
+	_plant_slot.add_child(row)
+
 	# A species can be missing if content was removed in an update (§54). The
 	# plant is still the player's, so it is shown with an honest label rather
 	# than vanishing from their garden.
+	if species != null:
+		var view := PlantView.new()
+		view.species = species
+		view.growth = AppState.get_plant_progress(plant)
+		view.pot = ContentDB.get_pot(plant.pot_id)
+		view.custom_minimum_size = Vector2(150, 170)
+		view.plant_height = 170
+		view.animate = not AppState.get_settings().reduced_motion
+		row.add_child(view)
+
+	var copy := VBoxContainer.new()
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	copy.add_theme_constant_override("separation", DesignTokens.SPACE_XS)
+	row.add_child(copy)
+
+	var title := Label.new()
 	title.text = species.display_name if species != null else "Unknown plant"
 	title.theme_type_variation = &"Heading"
-	_plant_slot.add_child(title)
+	copy.add_child(title)
 
 	var detail := Label.new()
 	detail.text = "%s of focus grown in" % TimeUtil.format_duration(plant.accumulated_focus_minutes)
 	detail.theme_type_variation = &"Muted"
-	_plant_slot.add_child(detail)
+	copy.add_child(detail)
+
+	if species != null:
+		var progress := AppState.get_plant_progress(plant)
+		var bar := ProgressBar.new()
+		bar.min_value = 0.0
+		bar.max_value = 1.0
+		bar.value = progress
+		bar.show_percentage = false
+		bar.custom_minimum_size.y = 10
+		copy.add_child(bar)
+
+		var requirement := Label.new()
+		requirement.text = "%s · %d%% grown" % [
+			RequirementEvaluator.describe(species.growth_requirement), int(progress * 100.0)
+		]
+		requirement.theme_type_variation = &"Caption"
+		requirement.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		copy.add_child(requirement)
+
+	var change := Button.new()
+	change.text = "Change"
+	change.theme_type_variation = &"SubtleButton"
+	change.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	change.pressed.connect(_on_choose_plant_pressed)
+	row.add_child(change)
+
+
+func _on_choose_plant_pressed() -> void:
+	var dialog := PlantPickerDialog.open(get_tree().root)
+	dialog.chosen.connect(func(_uid: String) -> void: refresh())
 
 
 static func _format_streak(days: int) -> String:

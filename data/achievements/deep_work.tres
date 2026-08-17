@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_y17sd"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_8xa3u"]
+
+[sub_resource type="Resource" id="Resource_1w2jp"]
+script = ExtResource("1_y17sd")
+type = 5
+params = {
+"count": 1,
+"minutes": 90.0
+}
+
+[resource]
+script = ExtResource("2_8xa3u")
+id = &"deep_work"
+title = "Deep Work"
+description = "Complete a 90-minute focus session."
+rarity = 1
+requirement = SubResource("Resource_1w2jp")

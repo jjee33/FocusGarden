@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AchievementDef" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_47xck"]
+[ext_resource type="Script" path="res://models/achievement_def.gd" id="2_qqwpw"]
+
+[sub_resource type="Resource" id="Resource_mwgrd"]
+script = ExtResource("1_47xck")
+type = 1
+params = {
+"count": 25
+}
+
+[resource]
+script = ExtResource("2_qqwpw")
+id = &"twenty_five_sessions"
+title = "Finding the Rhythm"
+description = "Complete 25 focus sessions."
+requirement = SubResource("Resource_mwgrd")

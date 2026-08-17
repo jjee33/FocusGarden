@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PotStyle" format=3]
+
+[ext_resource type="Script" path="res://models/pot_style.gd" id="1_7cube"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_6py56"]
+
+[sub_resource type="Resource" id="Resource_v6o68"]
+script = ExtResource("2_6py56")
+type = 9
+params = {
+"level": 14
+}
+
+[resource]
+script = ExtResource("1_7cube")
+id = &"speckled_bowl"
+display_name = "Speckled Bowl"
+shape = 3
+pattern = 3
+body_color = Color(0.56078434, 0.64705884, 0.70980394, 1)
+rim_color = Color(0.45882353, 0.5372549, 0.6039216, 1)
+accent_color = Color(0.9137255, 0.9372549, 0.9490196, 1)
+unlock_requirement = SubResource("Resource_v6o68")

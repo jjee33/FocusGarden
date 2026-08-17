@@ -39,6 +39,10 @@ const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Rare", "Epic", "Lege
 @export var icon_texture: Texture2D
 
 @export_group("Presentation")
+## How PlantPainter draws this species. Used whenever `stage_textures` is empty,
+## which is every species today (§73: this is the placeholder art pipeline, and
+## painted sprites can replace it later without gameplay changes).
+@export var morphology: PlantMorphology
 @export var botanical: BotanicalInfo
 @export var preferred_pot_ids: Array[StringName] = []
 ## Cosmetic mutations this species can roll (§20). Cosmetic only, never a

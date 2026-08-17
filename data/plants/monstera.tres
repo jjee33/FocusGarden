@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_nddnb"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_s7g36"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_e58nb"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_33erv"]
+
+[sub_resource type="Resource" id="Resource_ogb1h"]
+script = ExtResource("1_nddnb")
+family = "Araceae"
+native_region = "Southern Mexico to Panama"
+light_preference = "Bright indirect"
+watering_preference = "When the top two inches dry"
+care_difficulty = "Easy once established"
+interesting_fact = "The holes are called fenestrations, and are thought to let wind and light pass through to leaves below."
+
+[sub_resource type="Resource" id="Resource_xlyou"]
+script = ExtResource("2_s7g36")
+scope = 1
+params = {
+"amount": 250.0
+}
+
+[sub_resource type="Resource" id="Resource_tml7d"]
+script = ExtResource("3_e58nb")
+form = 1
+leaf_shape = 6
+leaf_color_base = Color(0.17254902, 0.37254903, 0.20784314, 1)
+leaf_color_tip = Color(0.3882353, 0.627451, 0.32941177, 1)
+stem_color = Color(0.30196077, 0.45686275, 0.24901962, 1)
+leaf_count_max = 8
+leaf_length_ratio = 0.48
+leaf_width_ratio = 0.86
+leaf_arc = 0.1
+spread_radians = 1.1
+sway_amount = 0.045
+
+[resource]
+script = ExtResource("4_33erv")
+id = &"monstera"
+display_name = "Monstera"
+scientific_name = "Monstera deliciosa"
+description = "Enormous split leaves that arrive one at a time, each bigger than the last. Worth the wait."
+rarity = 2
+biome_id = &"tropical"
+tags = Array[StringName]([&"statement", &"fenestrated"])
+growth_requirement = SubResource("Resource_xlyou")
+morphology = SubResource("Resource_tml7d")
+botanical = SubResource("Resource_ogb1h")

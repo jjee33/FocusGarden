@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="PlantSpecies" format=3]
+
+[ext_resource type="Script" path="res://models/botanical_info.gd" id="1_m2c40"]
+[ext_resource type="Script" path="res://models/requirement.gd" id="2_6wary"]
+[ext_resource type="Script" path="res://models/plant_morphology.gd" id="3_4p2dc"]
+[ext_resource type="Script" path="res://models/plant_species.gd" id="4_y7voo"]
+
+[sub_resource type="Resource" id="Resource_15uqt"]
+script = ExtResource("1_m2c40")
+family = "Asphodelaceae"
+native_region = "Arabian Peninsula"
+light_preference = "Bright, some direct sun"
+watering_preference = "Sparingly; let it dry fully"
+care_difficulty = "Easy"
+interesting_fact = "Aloe has been cultivated so long that it no longer exists reliably in the wild."
+
+[sub_resource type="Resource" id="Resource_h4npb"]
+script = ExtResource("2_6wary")
+scope = 1
+params = {
+"amount": 100.0
+}
+
+[sub_resource type="Resource" id="Resource_60nop"]
+script = ExtResource("3_4p2dc")
+leaf_shape = 1
+leaf_color_base = Color(0.36862746, 0.54901963, 0.3529412, 1)
+leaf_color_tip = Color(0.60784316, 0.7529412, 0.5411765, 1)
+stem_color = Color(0.4, 0.54509807, 0.32156864, 1)
+leaf_length_ratio = 0.62
+leaf_width_ratio = 0.2
+leaf_arc = 0.1
+spread_radians = 1.0
+sway_amount = 0.035
+
+[resource]
+script = ExtResource("4_y7voo")
+id = &"aloe_vera"
+display_name = "Aloe Vera"
+scientific_name = "Aloe barbadensis miller"
+description = "Thick, water-holding blades in a tidy rosette. Patient through neglect, unimpressed by fuss."
+biome_id = &"desert"
+tags = Array[StringName]([&"succulent", &"beginner"])
+growth_requirement = SubResource("Resource_h4npb")
+morphology = SubResource("Resource_60nop")
+botanical = SubResource("Resource_15uqt")
