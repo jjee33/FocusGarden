@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GardenExpansion" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_f1dfa"]
+[ext_resource type="Script" path="res://models/garden_expansion.gd" id="2_i77a5"]
+
+[sub_resource type="Resource" id="Resource_rkmoj"]
+script = ExtResource("1_f1dfa")
+params = {
+"amount": 0.0
+}
+
+[resource]
+script = ExtResource("2_i77a5")
+id = &"first_plot"
+display_name = "A patch of ground"
+description = "Where the garden begins. Room for a few plants and somewhere to sit."
+unlocks_decorations = Array[StringName]([&"stone_path", &"garden_bench"])
+requirement = SubResource("Resource_rkmoj")

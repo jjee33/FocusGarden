@@ -94,6 +94,7 @@ static func apply(session: FocusSession) -> Outcome:
 	# --- 5. Evaluate achievements. ---
 	var context := StatisticsManager.build_context(session.plant_uid)
 	outcome.unlocked_achievement_ids = AchievementManager.evaluate_all(context)
+	_record_journal_entries(outcome)
 
 	# --- 8. Evaluate unlocks. ---
 	ProgressionManager.reconcile_level_unlocks()
@@ -171,6 +172,38 @@ static func _apply_plant_growth(session: FocusSession, outcome: Outcome) -> Plan
 		)
 
 	return growth
+
+
+## Writes the journal entries for whatever this session earned (§31).
+##
+## Done here rather than inside each manager so the journal reads in the order
+## §11 defines, and so a manager cannot forget to record itself.
+static func _record_journal_entries(outcome: Outcome) -> void:
+	for achievement_id: String in outcome.unlocked_achievement_ids:
+		var definition := ContentDB.get_achievement(StringName(achievement_id))
+		if definition == null:
+			continue
+		AppState.add_journal_entry(
+			JournalEntry.create(
+				JournalEntry.Kind.ACHIEVEMENT_UNLOCKED,
+				definition.title,
+				definition.description,
+				achievement_id
+			)
+		)
+
+	if outcome.levels_gained > 0:
+		var level := ProgressionManager.get_level()
+		AppState.add_journal_entry(
+			JournalEntry.create(
+				JournalEntry.Kind.LEVEL_UP,
+				"Reached level %d" % level,
+				"Grown from %s of focus so far." % TimeUtil.format_duration(
+					StatisticsManager.get_summary().focus_lifetime
+				),
+				str(level)
+			)
+		)
 
 
 static func _update_streak(outcome: Outcome) -> void:

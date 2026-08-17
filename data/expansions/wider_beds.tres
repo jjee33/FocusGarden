@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="GardenExpansion" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_e5gsx"]
+[ext_resource type="Script" path="res://models/garden_expansion.gd" id="2_2j0jx"]
+
+[sub_resource type="Resource" id="Resource_hyh55"]
+script = ExtResource("1_e5gsx")
+params = {
+"amount": 600.0
+}
+
+[resource]
+script = ExtResource("2_2j0jx")
+id = &"wider_beds"
+display_name = "Wider beds"
+description = "The beds are dug out further. More room, and a lantern for the evenings."
+grid_size = Vector2i(5, 4)
+unlocks_decorations = Array[StringName]([&"lantern", &"planter_box"])
+requirement = SubResource("Resource_hyh55")

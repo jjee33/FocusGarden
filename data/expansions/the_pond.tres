@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="GardenExpansion" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_pe2bs"]
+[ext_resource type="Script" path="res://models/garden_expansion.gd" id="2_x6a21"]
+
+[sub_resource type="Resource" id="Resource_o4oa4"]
+script = ExtResource("1_pe2bs")
+params = {
+"amount": 1500.0
+}
+
+[resource]
+script = ExtResource("2_x6a21")
+id = &"the_pond"
+display_name = "A small pond"
+description = "Water at the centre of the garden, with stones set around it."
+grid_size = Vector2i(6, 4)
+unlocks_decorations = Array[StringName]([&"pond", &"stepping_stone"])
+requirement = SubResource("Resource_o4oa4")

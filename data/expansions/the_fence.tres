@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="GardenExpansion" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_j6ulw"]
+[ext_resource type="Script" path="res://models/garden_expansion.gd" id="2_jannv"]
+
+[sub_resource type="Resource" id="Resource_xhg1t"]
+script = ExtResource("1_j6ulw")
+params = {
+"amount": 3000.0
+}
+
+[resource]
+script = ExtResource("2_jannv")
+id = &"the_fence"
+display_name = "A fence and a gate"
+description = "The garden now has an edge, and a birdbath in the corner."
+grid_size = Vector2i(7, 5)
+unlocks_decorations = Array[StringName]([&"fence", &"birdbath"])
+requirement = SubResource("Resource_xhg1t")

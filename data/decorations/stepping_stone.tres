@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecorationDef" format=3]
+
+[ext_resource type="Script" path="res://models/decoration_def.gd" id="1_axglt"]
+
+[resource]
+script = ExtResource("1_axglt")
+id = &"stepping_stone"
+display_name = "Stepping stone"
+primary_color = Color(0.6627451, 0.63529414, 0.6039216, 1)
+accent_color = Color(0.5294118, 0.49803922, 0.4627451, 1)
+unlock_expansion_id = &"the_pond"

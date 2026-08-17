@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecorationDef" format=3]
+
+[ext_resource type="Script" path="res://models/decoration_def.gd" id="1_ets2f"]
+
+[resource]
+script = ExtResource("1_ets2f")
+id = &"stone_path"
+display_name = "Stone path"
+shape = 3
+primary_color = Color(0.6627451, 0.63529414, 0.6039216, 1)
+accent_color = Color(0.54509807, 0.52156866, 0.49019608, 1)

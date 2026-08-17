@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GardenExpansion" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_vwtfq"]
+[ext_resource type="Script" path="res://models/garden_expansion.gd" id="2_npwoc"]
+
+[sub_resource type="Resource" id="Resource_rq4fo"]
+script = ExtResource("1_vwtfq")
+params = {
+"amount": 30000.0
+}
+
+[resource]
+script = ExtResource("2_npwoc")
+id = &"the_grounds"
+display_name = "The grounds"
+description = "No longer a garden so much as a place. Five hundred hours made this."
+grid_size = Vector2i(10, 7)
+requirement = SubResource("Resource_rq4fo")

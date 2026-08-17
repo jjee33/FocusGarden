@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GardenExpansion" format=3]
+
+[ext_resource type="Script" path="res://models/requirement.gd" id="1_48sps"]
+[ext_resource type="Script" path="res://models/garden_expansion.gd" id="2_4b7iu"]
+
+[sub_resource type="Resource" id="Resource_klonq"]
+script = ExtResource("1_48sps")
+params = {
+"amount": 15000.0
+}
+
+[resource]
+script = ExtResource("2_4b7iu")
+id = &"the_orchard"
+display_name = "The orchard"
+description = "Ground enough for standing trees, and a path worn between them."
+grid_size = Vector2i(9, 6)
+requirement = SubResource("Resource_klonq")

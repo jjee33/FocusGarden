@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DecorationDef" format=3]
+
+[ext_resource type="Script" path="res://models/decoration_def.gd" id="1_07ujr"]
+
+[resource]
+script = ExtResource("1_07ujr")
+id = &"birdbath"
+display_name = "Birdbath"
+shape = 5
+primary_color = Color(0.7764706, 0.7529412, 0.7058824, 1)
+accent_color = Color(0.56078434, 0.64705884, 0.70980394, 1)
+unlock_expansion_id = &"the_fence"

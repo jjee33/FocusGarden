@@ -60,6 +60,8 @@ func _init() -> void:
 	_award_experience(sessions)
 	_settle_streak()
 
+	_arrange_shelf()
+
 	_statistics.invalidate()
 	var unlocked: PackedStringArray = _achievements.evaluate_all(_statistics.build_context())
 	print("Achievements unlocked: %d" % unlocked.size())
@@ -200,6 +202,66 @@ func _grow_plants(sessions: Array[FocusSession]) -> void:
 		if fresh != null:
 			growing = [fresh]
 	_app_state.data.profile.active_plant_uid = growing[0].uid if not growing.is_empty() else ""
+
+
+## Puts some of the collection on display and gives them varied pots, so the
+## shelf is exercised part-full rather than empty or completely packed. Both
+## extremes hide layout problems.
+func _arrange_shelf() -> void:
+	var pot_ids: Array[StringName] = []
+	for pot: PotStyle in _content_db.get_all_pots():
+		pot_ids.append(pot.id)
+
+	var slot := 0
+	for plant: PlantInstance in _app_state.get_mature_plants():
+		if slot >= 8:
+			break
+		plant.move_to_shelf(slot)
+		plant.pot_id = pot_ids[slot % pot_ids.size()]
+		slot += 1
+
+	_plant_the_garden()
+
+
+## Plants out part of the collection and sets some ornaments, so the garden is
+## exercised with a real arrangement rather than bare ground.
+func _plant_the_garden() -> void:
+	var layout: GardenLayout = _app_state.data.garden
+	var context: RequirementContext = _statistics.build_context()
+	GardenService.reconcile(layout, context, _content_db.get_all_expansions())
+
+	var remaining: Array[PlantInstance] = []
+	for plant: PlantInstance in _app_state.get_mature_plants():
+		if plant.location == PlantInstance.Location.INVENTORY:
+			remaining.append(plant)
+
+	var index := 0
+	for plant: PlantInstance in remaining:
+		if index >= 6:
+			break
+		# Spread across the plot rather than filling row one, so overlap and
+		# depth ordering are actually exercised.
+		plant.move_to_garden(Vector2i(index % layout.grid_size.x, (index * 2) % layout.grid_size.y))
+		index += 1
+
+	var ornaments := {
+		Vector2i(0, layout.grid_size.y - 1): "stone_path",
+		Vector2i(1, layout.grid_size.y - 1): "stone_path",
+		Vector2i(2, layout.grid_size.y - 1): "garden_bench",
+		Vector2i(layout.grid_size.x - 1, 1): "lantern",
+	}
+	for cell: Vector2i in ornaments:
+		if not layout.is_cell_in_bounds(cell):
+			continue
+		var key := GardenLayout.cell_key(cell)
+		# Never bury a plant that was just placed.
+		var occupied := false
+		for plant: PlantInstance in _app_state.data.plants:
+			if plant.location == PlantInstance.Location.GARDEN and plant.garden_cell == cell:
+				occupied = true
+				break
+		if not occupied:
+			layout.decorations[key] = ornaments[cell]
 
 
 func _award_experience(sessions: Array[FocusSession]) -> void:

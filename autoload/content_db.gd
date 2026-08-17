@@ -14,6 +14,7 @@ const ACHIEVEMENTS_DIR: String = "res://data/achievements"
 const POTS_DIR: String = "res://data/pots"
 const EXPEDITIONS_DIR: String = "res://data/expeditions"
 const DECORATIONS_DIR: String = "res://data/decorations"
+const EXPANSIONS_DIR: String = "res://data/expansions"
 
 ## The pot every plant starts in. Must exist in POTS_DIR.
 const DEFAULT_POT_ID: StringName = &"terracotta_basic"
@@ -21,6 +22,10 @@ const DEFAULT_POT_ID: StringName = &"terracotta_basic"
 var _species: Dictionary = {}      ## StringName -> PlantSpecies
 var _achievements: Dictionary = {} ## StringName -> AchievementDef
 var _pots: Dictionary = {}         ## StringName -> PotStyle
+var _decorations: Dictionary = {}  ## StringName -> DecorationDef
+## Ordered smallest first, so the largest earned expansion is simply the last one
+## whose requirement is met.
+var _expansions: Array[GardenExpansion] = []
 ## Insertion-ordered id lists, so catalogue and achievement screens have a stable
 ## default order that does not depend on filesystem enumeration order.
 var _species_order: Array[StringName] = []
@@ -36,6 +41,8 @@ func reload() -> void:
 	_species.clear()
 	_achievements.clear()
 	_pots.clear()
+	_decorations.clear()
+	_expansions.clear()
 	_species_order.clear()
 	_achievement_order.clear()
 	_pot_order.clear()
@@ -76,10 +83,32 @@ func reload() -> void:
 		_pots[pot.id] = pot
 		_pot_order.append(pot.id)
 
+	for resource: Resource in _load_dir(DECORATIONS_DIR):
+		var decoration := resource as DecorationDef
+		if decoration == null or not decoration.is_valid():
+			continue
+		_decorations[decoration.id] = decoration
+
+	for resource: Resource in _load_dir(EXPANSIONS_DIR):
+		var expansion := resource as GardenExpansion
+		if expansion == null or not expansion.is_valid():
+			continue
+		_expansions.append(expansion)
+
+	# Ordered by plot area so "the largest earned" is a simple scan. Filename
+	# order is not dependable and would make the ladder depend on the filesystem.
+	_expansions.sort_custom(
+		func(a: GardenExpansion, b: GardenExpansion) -> bool:
+			return a.grid_size.x * a.grid_size.y < b.grid_size.x * b.grid_size.y
+	)
+
 	GameLog.info(
 		GameLog.Category.DATA,
-		"Content loaded: %d species, %d achievements, %d pots."
-		% [_species.size(), _achievements.size(), _pots.size()]
+		"Content loaded: %d species, %d achievements, %d pots, %d expansions, %d decorations."
+		% [
+			_species.size(), _achievements.size(), _pots.size(),
+			_expansions.size(), _decorations.size(),
+		]
 	)
 
 
@@ -129,6 +158,21 @@ func get_all_pots() -> Array[PotStyle]:
 	for id: StringName in _pot_order:
 		out.append(_pots[id])
 	return out
+
+
+func get_decoration(id: StringName) -> DecorationDef:
+	return _decorations.get(id)
+
+
+func get_all_decorations() -> Array[DecorationDef]:
+	var out: Array[DecorationDef] = []
+	for decoration: DecorationDef in _decorations.values():
+		out.append(decoration)
+	return out
+
+
+func get_all_expansions() -> Array[GardenExpansion]:
+	return _expansions.duplicate()
 
 
 ## Loads every resource in a directory.

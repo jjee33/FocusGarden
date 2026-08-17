@@ -20,20 +20,91 @@ extends SceneTree
 const PLANTS_DIR: String = "res://data/plants"
 const POTS_DIR: String = "res://data/pots"
 const ACHIEVEMENTS_DIR: String = "res://data/achievements"
+const EXPANSIONS_DIR: String = "res://data/expansions"
+const DECORATIONS_DIR: String = "res://data/decorations"
 
 func _init() -> void:
 	_ensure_dir(PLANTS_DIR)
 	_ensure_dir(POTS_DIR)
 	_ensure_dir(ACHIEVEMENTS_DIR)
+	_ensure_dir(EXPANSIONS_DIR)
+	_ensure_dir(DECORATIONS_DIR)
 
 	var species_count := _write_species()
 	var pot_count := _write_pots()
 	var achievement_count := _write_achievements()
+	var expansion_count := _write_expansions()
+	var decoration_count := _write_decorations()
 
-	print("Generated %d species, %d pots, %d achievements." % [
-		species_count, pot_count, achievement_count
+	print("Generated %d species, %d pots, %d achievements, %d expansions, %d decorations." % [
+		species_count, pot_count, achievement_count, expansion_count, decoration_count
 	])
 	quit(0)
+
+
+## The garden milestone ladder (§23). Thresholds follow §23's suggested hours.
+## Deliberately front-loaded so the first expansion arrives while the habit is
+## still forming, then spaced out — §23 warns against granting everything early.
+func _write_expansions() -> int:
+	var expansions: Array[GardenExpansion] = [
+		GardenExpansion.make(
+			"first_plot", "A patch of ground",
+			"Where the garden begins. Room for a few plants and somewhere to sit.",
+			Vector2i(4, 3), 0.0, [&"stone_path", &"garden_bench"]
+		),
+		GardenExpansion.make(
+			"wider_beds", "Wider beds",
+			"The beds are dug out further. More room, and a lantern for the evenings.",
+			Vector2i(5, 4), 10.0, [&"lantern", &"planter_box"]
+		),
+		GardenExpansion.make(
+			"the_pond", "A small pond",
+			"Water at the centre of the garden, with stones set around it.",
+			Vector2i(6, 4), 25.0, [&"pond", &"stepping_stone"]
+		),
+		GardenExpansion.make(
+			"the_fence", "A fence and a gate",
+			"The garden now has an edge, and a birdbath in the corner.",
+			Vector2i(7, 5), 50.0, [&"fence", &"birdbath"]
+		),
+		GardenExpansion.make(
+			"the_greenhouse", "A greenhouse",
+			"Glass and timber at the far end, for the things that need shelter.",
+			Vector2i(8, 5), 100.0, [&"greenhouse_panel"]
+		),
+		GardenExpansion.make(
+			"the_orchard", "The orchard",
+			"Ground enough for standing trees, and a path worn between them.",
+			Vector2i(9, 6), 250.0, []
+		),
+		GardenExpansion.make(
+			"the_grounds", "The grounds",
+			"No longer a garden so much as a place. Five hundred hours made this.",
+			Vector2i(10, 7), 500.0, []
+		),
+	]
+
+	for expansion: GardenExpansion in expansions:
+		_save(expansion, "%s/%s.tres" % [EXPANSIONS_DIR, expansion.id])
+	return expansions.size()
+
+
+func _write_decorations() -> int:
+	var decorations: Array[DecorationDef] = [
+		DecorationDef.make("stone_path", "Stone path", DecorationDef.Shape.PATH, "#A9A29A", "#8B857D"),
+		DecorationDef.make("garden_bench", "Bench", DecorationDef.Shape.BENCH, "#C69A63", "#8B6438"),
+		DecorationDef.make("lantern", "Lantern", DecorationDef.Shape.LANTERN, "#3B3630", "#F7D08A", "wider_beds"),
+		DecorationDef.make("planter_box", "Planter box", DecorationDef.Shape.PLANTER, "#B0824B", "#8B6438", "wider_beds"),
+		DecorationDef.make("pond", "Pond", DecorationDef.Shape.POND, "#6E9C9A", "#4F7C7A", "the_pond"),
+		DecorationDef.make("stepping_stone", "Stepping stone", DecorationDef.Shape.STONE, "#A9A29A", "#877F76", "the_pond"),
+		DecorationDef.make("fence", "Fence", DecorationDef.Shape.FENCE, "#C08F55", "#96693A", "the_fence"),
+		DecorationDef.make("birdbath", "Birdbath", DecorationDef.Shape.BIRDBATH, "#C6C0B4", "#8FA5B5", "the_fence"),
+		DecorationDef.make("greenhouse_panel", "Greenhouse", DecorationDef.Shape.FENCE, "#9FB8AE", "#5E7A6E", "the_greenhouse"),
+	]
+
+	for decoration: DecorationDef in decorations:
+		_save(decoration, "%s/%s.tres" % [DECORATIONS_DIR, decoration.id])
+	return decorations.size()
 
 
 # --- Species ------------------------------------------------------------------

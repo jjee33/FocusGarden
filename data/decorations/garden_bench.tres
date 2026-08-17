@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DecorationDef" format=3]
+
+[ext_resource type="Script" path="res://models/decoration_def.gd" id="1_ldxaa"]
+
+[resource]
+script = ExtResource("1_ldxaa")
+id = &"garden_bench"
+display_name = "Bench"
+shape = 0
+accent_color = Color(0.54509807, 0.39215687, 0.21960784, 1)

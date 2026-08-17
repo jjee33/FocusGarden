@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DecorationDef" format=3]
+
+[ext_resource type="Script" path="res://models/decoration_def.gd" id="1_7lqa6"]
+
+[resource]
+script = ExtResource("1_7lqa6")
+id = &"pond"
+display_name = "Pond"
+shape = 1
+primary_color = Color(0.43137255, 0.6117647, 0.6039216, 1)
+accent_color = Color(0.30980393, 0.4862745, 0.47843137, 1)
+unlock_expansion_id = &"the_pond"

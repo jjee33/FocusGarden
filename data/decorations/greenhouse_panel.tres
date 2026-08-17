@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DecorationDef" format=3]
+
+[ext_resource type="Script" path="res://models/decoration_def.gd" id="1_0s0yv"]
+
+[resource]
+script = ExtResource("1_0s0yv")
+id = &"greenhouse_panel"
+display_name = "Greenhouse"
+shape = 4
+primary_color = Color(0.62352943, 0.72156864, 0.68235296, 1)
+accent_color = Color(0.36862746, 0.47843137, 0.43137255, 1)
+unlock_expansion_id = &"the_greenhouse"
