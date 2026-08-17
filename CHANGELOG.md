@@ -1,6 +1,56 @@
 # Changelog
 
-## [Unreleased] — Milestone 1: Core Timer
+## [0.1.0] — Milestone 10: Windows Release
+
+First packaged build. `FocusGarden.exe`, 105 MB, self-contained.
+
+### Added
+
+- Windows export preset and a `build_release.ps1` that runs every gate before
+  packaging, stopping at the first failure
+- `fetch_export_templates.ps1`, which pulls only the Windows templates out of the
+  1.2 GB archive rather than unpacking 3 GB of platforms that are not shipped
+- Application icon in the app's own palette
+- Appearance, audio and data settings: window mode, interface scale, reduced
+  motion, five volume sliders, save export and import, and a two-step reset
+- Seven synthesised audio cues and playback wired to game events
+- First-launch onboarding: five questions, all with working defaults
+- Completion particles, honouring reduced motion
+- Shelf preview on Home
+- Garden expansion and placement tests; plant placement invariant tests
+- `verify_reliability.gd`: 26 checks against real files — truncated saves,
+  orphaned temp files, garbage input, future versions, migration chains, and a
+  5000-session dataset
+
+### Fixed — performance
+
+The first build measured **799 MB and a pinned CPU core**, which is a plain §44
+failure. Three causes, all found by measuring rather than guessing:
+
+- **Forward+ renderer** on a game that is entirely 2D Controls. Switched to
+  `gl_compatibility`: 799 MB → 335 MB
+- **One draw call per triangle** in the plant painter — tens of thousands per
+  second. `canvas_item_add_triangle_array` draws the same geometry in one call:
+  100% → 50% of a core
+- **Every plant animating at once.** A shelf of twelve swaying plants is also a
+  §43 violation. Only the featured plant animates, and animation stops when the
+  window is not focused: 50% → 21% focused, 5.5% minimised
+
+Final: **213 MB, 21% of one core focused, 5.5% minimised**, against an empty
+Godot project baseline of 153 MB and 5.2%.
+
+The comparison against an empty project mattered — without it, the engine's own
+cost would have been mistaken for the application's.
+
+### Verified
+
+- 131 unit tests, 967 assertions, 0 failures
+- Timer drift 0.0004s over 10 seconds; a 2-second main-thread stall counted exactly
+- 26 reliability checks; 5000 sessions load in 184 ms and aggregate in 13 ms
+- Save survives a real process restart
+- Built executable launches, runs, and exits cleanly
+
+## Milestone 1: Core Timer
 
 The focus timer, end to end. A session can be configured, run, paused, finished
 early, discarded, recovered after a crash, and is recorded in full.

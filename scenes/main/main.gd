@@ -28,7 +28,10 @@ const DEFAULT_SCREEN: String = "home"
 
 ## Shown in the navigation footer. Bump it when a milestone lands, so the running
 ## build always states how far along it actually is rather than overstating it.
-const CURRENT_MILESTONE: String = "Milestone 1"
+const CURRENT_MILESTONE: String = "Milestone 10"
+
+## Frame cap. 60 is smooth for UI motion and leaves the machine alone (§44).
+const TARGET_FPS: int = 60
 
 var _screen_host: Control
 var _nav_rail: PanelContainer
@@ -42,12 +45,50 @@ func _ready() -> void:
 	# layout can never be squeezed below what it was designed for.
 	DisplayServer.window_set_min_size(DesignTokens.MIN_WINDOW_SIZE)
 
+	# A productivity app has no reason to render faster than the display, and an
+	# uncapped loop burns a core for nothing (§44). Asserted in code as well as
+	# in project.godot so the cap cannot be lost to an editor-side settings edit.
+	if Engine.max_fps <= 0 or Engine.max_fps > TARGET_FPS:
+		Engine.max_fps = TARGET_FPS
+	GameLog.debug(GameLog.Category.APP, "Frame cap: %d fps." % Engine.max_fps)
+
+	# Display preferences are restored before the first frame is shown, so the
+	# window does not visibly jump from default to the player's choice.
+	WindowMode.apply(AppState.get_settings().window_mode)
+	UiScale.apply_from_settings(AppState.get_settings())
+
 	_build_layout()
 	_build_overlays()
 	EventBus.navigation_requested.connect(navigate_to)
 	EventBus.focus_mode_changed.connect(_on_focus_mode_changed)
+	# Screens read the motion setting when they build their plants, so turning it
+	# on or off has to rebuild them rather than just flipping a flag somewhere.
+	EventBus.reduced_motion_changed.connect(func(_enabled: bool) -> void: _refresh_all_screens())
 	navigate_to(DEFAULT_SCREEN)
-	_offer_interrupted_session()
+
+	# Onboarding takes over the whole window on a fresh save (§45). The
+	# interrupted-session prompt waits until it is done, so a first-time player
+	# is never asked about a session they could not possibly have run.
+	if not AppState.data.profile.onboarding_completed:
+		_show_onboarding()
+	else:
+		_offer_interrupted_session()
+
+
+func _show_onboarding() -> void:
+	var onboarding := OnboardingScreen.new()
+	onboarding.completed.connect(func() -> void:
+		_refresh_all_screens()
+		_offer_interrupted_session())
+	add_child(onboarding)
+
+
+## Rebuilds cached screens after a change that alters everything they show.
+## Cheaper than clearing the cache: the screens rebuild their own content and
+## keep their scroll positions and filter state.
+func _refresh_all_screens() -> void:
+	for screen: AppScreen in _screen_cache.values():
+		screen.on_shown()
 
 
 ## Toasts and notification policy live above every screen, so they survive
@@ -287,9 +328,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+## F11. Persists the result, so the window mode the player left in is the one
+## they come back to — a shortcut that silently disagrees with the setting on the
+## Settings screen would be worse than no shortcut.
 func _toggle_fullscreen() -> void:
-	var mode := DisplayServer.window_get_mode()
-	if mode == DisplayServer.WINDOW_MODE_FULLSCREEN or mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	AppState.get_settings().window_mode = WindowMode.toggle_fullscreen()
+	AppState.save_now()

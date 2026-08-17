@@ -1,11 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
-  <!-- Focus Garden application icon. Simple paths and flat fills only: Godot
-       rasterizes SVG through ThorVG, which does not support filters, masks or
-       text. See docs/ASSET_PLACEHOLDERS.md. -->
-  <rect width="128" height="128" rx="28" fill="#F2EADA"/>
-  <path d="M64 84 C64 60 52 44 34 38 C34 62 44 78 64 84 Z" fill="#5C8A54"/>
-  <path d="M64 84 C64 56 78 40 98 34 C98 60 86 78 64 84 Z" fill="#6A9B61"/>
-  <path d="M64 88 L64 60" stroke="#426A3C" stroke-width="5" stroke-linecap="round" fill="none"/>
-  <path d="M40 88 L88 88 L82 112 L46 112 Z" fill="#C4714A"/>
-  <path d="M38 84 L90 84 L90 94 L38 94 Z" rx="3" fill="#D08258"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!--
+    Focus Garden application icon.
+
+    A single potted sprout on the sage of the navigation rail, in the app's own
+    palette. Deliberately simple: an icon is read at 16px in a taskbar, so this
+    is a handful of shapes chosen to keep a legible silhouette when tiny.
+
+    Constrained to plain paths and flat fills — Godot rasterises SVG through
+    ThorVG, whose support for filters, masks and text is limited.
+    See docs/ASSET_PLACEHOLDERS.md.
+  -->
+  <rect width="256" height="256" rx="56" fill="#41695A"/>
+
+  <!-- Terracotta pot, tapered, with a rim that oversails slightly. -->
+  <path d="M84 170 h88 l-12 56 a10 10 0 0 1 -10 8 h-44 a10 10 0 0 1 -10 -8 z" fill="#C26A45"/>
+  <rect x="76" y="152" width="104" height="22" rx="7" fill="#A9563A"/>
+
+  <!-- Soil showing in the opening. -->
+  <ellipse cx="128" cy="157" rx="42" ry="7" fill="#4A3B2A"/>
+
+  <!-- Stem. -->
+  <path d="M128 152 C126 122 126 102 128 80" stroke="#5B8C4A" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+  <!-- Two leaves, mirrored, the upper one lighter so it reads as lit from above. -->
+  <path d="M128 120 C104 118 86 102 84 78 C110 76 126 92 128 120 Z" fill="#5B8C4A"/>
+  <path d="M128 106 C152 102 170 84 172 60 C146 60 130 78 128 106 Z" fill="#7FB069"/>
+
+  <!-- A bud, in the same amber as the lantern glow in the app. -->
+  <circle cx="128" cy="68" r="13" fill="#E0A340"/>
+  <circle cx="128" cy="68" r="6" fill="#F7D08A"/>
 </svg>

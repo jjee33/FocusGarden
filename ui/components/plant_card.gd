@@ -98,7 +98,6 @@ func _build(
 	_plant_view.pot = ContentDB.get_pot(pot_id)
 	_plant_view.custom_minimum_size.y = PREVIEW_HEIGHT
 	_plant_view.plant_height = PREVIEW_HEIGHT
-	_plant_view.animate = not AppState.get_settings().reduced_motion
 	column.add_child(_plant_view)
 
 	var name_label := Label.new()

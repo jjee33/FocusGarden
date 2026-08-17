@@ -52,7 +52,6 @@ func set_plants(plants_by_slot: Dictionary) -> void:
 		view.species = species
 		view.growth = 1.0
 		view.pot = ContentDB.get_pot(plant.pot_id)
-		view.animate = not AppState.get_settings().reduced_motion
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(view)
 		_plant_views[slot] = view

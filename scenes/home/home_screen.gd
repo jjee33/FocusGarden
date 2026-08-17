@@ -20,6 +20,7 @@ var _plant_slot: VBoxContainer
 var _start_button: Button
 var _action_heading: Label
 var _action_detail: Label
+var _shelf_preview: VBoxContainer
 
 
 func build_content() -> void:
@@ -28,6 +29,10 @@ func build_content() -> void:
 	_build_stat_row()
 	_build_level_strip()
 	_build_active_plant()
+
+	_shelf_preview = VBoxContainer.new()
+	content.add_child(_shelf_preview)
+
 	refresh()
 
 	# Event-driven rather than polled: §44 asks us not to recompute analytics
@@ -74,6 +79,7 @@ func refresh() -> void:
 
 	_refresh_primary_action()
 	_rebuild_plant_slot()
+	_rebuild_shelf_preview()
 
 
 func _build_greeting() -> void:
@@ -273,6 +279,67 @@ func _rebuild_plant_slot() -> void:
 func _on_choose_plant_pressed() -> void:
 	var dialog := PlantPickerDialog.open(get_tree().root)
 	dialog.chosen.connect(func(_uid: String) -> void: refresh())
+
+
+## §7 asks for a small preview of the shelf or garden. Shown only once there is
+## something on display — an empty shelf strip on Home would be a reminder of
+## nothing rather than a glimpse of something.
+func _rebuild_shelf_preview() -> void:
+	for child in _shelf_preview.get_children():
+		child.queue_free()
+
+	var displayed: Array[PlantInstance] = []
+	for plant: PlantInstance in AppState.data.plants:
+		if plant.location == PlantInstance.Location.SHELF:
+			displayed.append(plant)
+	if displayed.is_empty():
+		_shelf_preview.visible = false
+		return
+
+	_shelf_preview.visible = true
+	displayed.sort_custom(
+		func(a: PlantInstance, b: PlantInstance) -> bool: return a.shelf_slot < b.shelf_slot
+	)
+
+	var card := PanelContainer.new()
+	card.theme_type_variation = &"Card"
+	_shelf_preview.add_child(card)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", DesignTokens.SPACE_SM)
+	card.add_child(column)
+
+	var header := HBoxContainer.new()
+	column.add_child(header)
+
+	var heading := Label.new()
+	heading.text = "On your shelf"
+	heading.theme_type_variation = &"Heading"
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(heading)
+
+	var open := Button.new()
+	open.text = "Open shelf"
+	open.theme_type_variation = &"SubtleButton"
+	open.pressed.connect(func() -> void: EventBus.navigation_requested.emit("shelf"))
+	header.add_child(open)
+
+	var strip := HBoxContainer.new()
+	strip.add_theme_constant_override("separation", DesignTokens.SPACE_MD)
+	strip.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(strip)
+
+	for plant: PlantInstance in displayed.slice(0, 6):
+		var species := ContentDB.get_species(plant.species_id)
+		if species == null:
+			continue
+		var view := PlantView.new()
+		view.species = species
+		view.growth = 1.0
+		view.pot = ContentDB.get_pot(plant.pot_id)
+		view.custom_minimum_size = Vector2(110, 130)
+		view.plant_height = 130
+		strip.add_child(view)
 
 
 static func _format_streak(days: int) -> String:

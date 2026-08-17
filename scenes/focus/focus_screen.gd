@@ -557,6 +557,17 @@ func _build_complete() -> void:
 	tiles.add_theme_constant_override("separation", DesignTokens.SPACE_MD)
 	column.add_child(tiles)
 
+	# The flourish fires once, over the summary, when the session actually earned
+	# something. A cancelled or zero-credit session gets no celebration.
+	if outcome != null and outcome.credited_minutes > 0.0:
+		card.ready.connect(
+			func() -> void: Celebration.burst(
+				self, card.global_position + card.size * Vector2(0.5, 0.35),
+				DesignTokens.AMBER if outcome.plant_matured else DesignTokens.MOSS
+			),
+			CONNECT_ONE_SHOT
+		)
+
 	var credited := outcome.credited_minutes if outcome != null else 0.0
 	tiles.add_child(
 		StatTile.create("Focused", TimeUtil.format_duration(credited), DesignTokens.MOSS)

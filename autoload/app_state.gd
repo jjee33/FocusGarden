@@ -314,6 +314,34 @@ func get_available_species() -> Array[PlantSpecies]:
 	return out
 
 
+## Wipes progress and starts a fresh garden (§35).
+##
+## Deliberately keeps the settings the player has configured: resetting progress
+## is about the garden, not about forgetting that they prefer 45-minute sessions
+## and reduced motion. §35 requires strong confirmation, which is the caller's
+## job — by the time this runs the decision has been made twice.
+func reset_to_new_game() -> void:
+	var preserved := data.settings
+
+	# Session shards are removed too. Leaving them would mean a "new" garden that
+	# silently inherits years of history the moment statistics recompute.
+	var save_dir := SaveManager.get_save_dir()
+	var sessions_dir := SessionStore.sessions_dir(save_dir)
+	if DirAccess.dir_exists_absolute(sessions_dir):
+		for file_name: String in DirAccess.get_files_at(sessions_dir):
+			DirAccess.remove_absolute(sessions_dir.path_join(file_name))
+
+	data = SaveData.create_new()
+	data.settings = preserved
+	sessions = []
+	_ensure_seed_data()
+	save_now()
+
+	StatisticsManager.invalidate()
+	EventBus.save_loaded.emit()
+	GameLog.warn(GameLog.Category.APP, "Progress was reset at the player's request.")
+
+
 func get_settings() -> GameSettings:
 	return data.settings
 

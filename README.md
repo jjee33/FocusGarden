@@ -7,11 +7,10 @@ can look at.
 Built with **Godot 4.7.1** and GDScript. Windows-first, fully offline, no
 accounts, no ads, no monetization.
 
-> **Status: Milestone 1 (core timer).** The focus timer is complete and working:
-> you can pick a project, choose a length, run a session with pause and resume,
-> and have it recorded. Plants, catalogue, shelf, garden, statistics and journal
-> are scheduled for later milestones and are marked as such in-app. See
-> [Current state](#current-state) for exactly what does and does not work today.
+> **Status: Milestone 10 — Windows build produced and verified.** All ten
+> milestones are complete: timer, plants, catalogue, shelf, garden, progression,
+> achievements, statistics, journal, audio, onboarding, and a packaged
+> `FocusGarden.exe`. See [Current state](#current-state) for the detail.
 
 ---
 
@@ -63,7 +62,7 @@ Confirm every engine API the project uses actually exists:
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/api_probe.gd
 ```
 
-Run the unit tests (116 tests, 931 assertions as of Milestone 1):
+Run the unit tests (131 tests, 967 assertions as of Milestone 10):
 
 ```bash
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/cli_test_runner.gd
@@ -93,6 +92,15 @@ After changing any design token, re-bake the theme and commit the result:
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/bake_theme.gd
 ```
 
+## Building a release
+
+```bash
+powershell -File tools/build_release.ps1
+```
+
+Runs every gate, then exports a self-contained `FocusGarden.exe` (~105 MB).
+Needs the export templates first — see [RELEASE.md](docs/RELEASE.md).
+
 ## Current state
 
 **Working and tested**
@@ -118,30 +126,59 @@ tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script r
   2-second main-thread stall is counted exactly
 - XP and level curve, streak calculation, plant growth staging
 - One requirement engine covering all thirteen condition types
-- 116 unit tests, headless test runner, engine API probe, end-to-end timer check
 
-**Not built yet** (each screen says so in the app)
+- **Plants**: 16 species with real botanical data, drawn procedurally through
+  eight growth forms and seven leaf shapes, with growth requirements covering
+  minutes, session counts, separate days, and time-of-day windows
+- **Catalogue**: discovery silhouettes, rarity and biome filters, sort, search,
+  favourites, and per-species history
+- **Shelf**: timber-and-metal shelving, twelve slots, six pot designs, and a
+  permanent per-plant record of the focus that grew it
+- **Garden**: a plot that expands at 10/25/50/100/250/500 hours, with nine
+  placeable ornaments earned along the way
+- **Progression**: XP, levels, 24 achievements with progress tracking and hidden
+  entries, streaks, and a daily goal
+- **Statistics**: period totals, per-project breakdown, and a yearly heatmap with
+  per-day detail
+- **Journal**: a dated, append-only record of everything the garden has been
+  through
+- **Audio**: seven synthesised cues on five independently controllable buses
+- **Onboarding**: five questions on first launch, answerable in about fifteen
+  seconds, every one with a working default
+- 131 unit tests, an engine API probe, end-to-end timer and reliability probes
 
-| Area | Milestone |
-|---|---|
-| Plant selection during session setup | 2 |
-| Plant species content and growth visuals | 2 |
-| Catalogue | 3 |
-| Shelf | 4 |
-| Achievement content, unlock UI | 5 |
-| Statistics, heatmap, journal | 6 |
-| Garden | 7 |
-| Audio content, particles, onboarding, appearance/audio/data settings | 8 |
-| Windows executable | 10 |
+## Performance
+
+Measured on the built executable, against an empty Godot project as the baseline
+for what the engine costs before any of this project's code runs.
+
+| | Focus Garden | Empty project |
+|---|---|---|
+| Private memory | 213 MB | 153 MB |
+| CPU, focused | 21% of one core | 5.2% |
+| CPU, minimised | 5.5% of one core | — |
+
+The first build measured 799 MB and a pinned core. See
+[RELEASE.md](docs/RELEASE.md#measured-performance) for what caused it and what
+fixed it — worth reading before optimising anything here.
 
 ## Known limitations
 
-- **Desktop notifications.** Godot 4 has no cross-platform notification API. The
-  planned approach is an in-app toast plus `DisplayServer.window_request_attention()`
-  (a taskbar flash). True OS toasts would need a GDExtension.
-- **Placeholder art.** Only the app icon exists. All plant, pot and decoration
-  artwork is outstanding — see `docs/ASSET_PLACEHOLDERS.md`.
-- **No audio files.** Buses and volume control work; there are no clips yet.
+- **No system notifications.** Godot 4 has no cross-platform desktop
+  notification API. Session completion shows an in-app message and flashes the
+  taskbar icon. True OS toasts would need a GDExtension.
+- **All artwork is procedural.** Plants, pots, shelving, ornaments and particles
+  are drawn from parameters rather than painted. Every asset is referenced
+  through a resource, so a commissioned art set could replace them without
+  touching gameplay code — see `docs/ASSET_PLACEHOLDERS.md`.
+- **Unsigned executable.** Windows SmartScreen warns on first run.
+- **Windows only.** No platform-specific code exists, so Linux and macOS presets
+  should mostly be a matter of adding and testing them — but neither has been
+  built, so neither is claimed.
+- **Expeditions are architectural only.** §32's challenge system has a data model
+  and save slot but no content or UI.
+- **Mystery seeds and mutations** are modelled in the data and persist correctly,
+  but nothing generates them yet.
 
 ## Documentation
 

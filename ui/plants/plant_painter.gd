@@ -592,15 +592,21 @@ static func _fill(canvas: CanvasItem, polygon: PackedVector2Array, color: Color)
 		# so a bad morphology shows up as a rough shape instead of an invisible plant.
 		canvas.draw_colored_polygon(polygon, color)
 		return
-	var i := 0
-	while i + 2 < indices.size():
-		canvas.draw_colored_polygon(
-			PackedVector2Array([
-				polygon[indices[i]], polygon[indices[i + 1]], polygon[indices[i + 2]]
-			]),
-			color
-		)
-		i += 3
+
+	# ONE draw call for the whole shape, via the triangle-array primitive.
+	#
+	# The obvious version issues a draw_colored_polygon per triangle. A single
+	# leaf triangulates to roughly thirty of them, a plant has a dozen leaves,
+	# and a shelf shows twelve plants — which came to tens of thousands of draw
+	# calls a second and pinned a full CPU core (§44). Handing the indices and
+	# points over in one call instead is the same geometry at a fraction of the
+	# cost, and is why `canvas_item_add_triangle_array` exists.
+	var colors := PackedColorArray()
+	colors.resize(polygon.size())
+	colors.fill(color)
+	RenderingServer.canvas_item_add_triangle_array(
+		canvas.get_canvas_item(), indices, polygon, colors
+	)
 
 
 ## The illustrated ink edge. Antialiased, unlike the fill, which is what keeps
@@ -610,7 +616,12 @@ static func _outline(canvas: CanvasItem, polygon: PackedVector2Array, color: Col
 		return
 	var closed := polygon.duplicate()
 	closed.append(polygon[0])
-	canvas.draw_polyline(closed, color.darkened(OUTLINE_DARKEN), OUTLINE_WIDTH, true)
+	# Not antialiased. Godot builds antialiased polylines by generating extra
+	# geometry on the CPU, and a plant has a dozen outlines redrawn continuously
+	# — it measured as the single most expensive thing the painter did. The
+	# project enables 2D MSAA instead, which smooths these edges on the GPU for
+	# free (see project.godot).
+	canvas.draw_polyline(closed, color.darkened(OUTLINE_DARKEN), OUTLINE_WIDTH, false)
 
 
 static func _fill_ellipse(

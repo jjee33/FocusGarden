@@ -75,7 +75,6 @@ func _build(species: PlantSpecies) -> void:
 	art.pot = ContentDB.get_pot(&"terracotta_basic")
 	art.custom_minimum_size = Vector2(260, ART_HEIGHT)
 	art.plant_height = ART_HEIGHT
-	art.animate = discovered and not AppState.get_settings().reduced_motion
 	body.add_child(art)
 
 	var details := VBoxContainer.new()

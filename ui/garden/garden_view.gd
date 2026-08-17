@@ -52,7 +52,6 @@ func set_plants(plants: Array[PlantInstance]) -> void:
 		view.growth = 1.0
 		# Garden plants are in the ground, not in pots.
 		view.show_pot = false
-		view.animate = not AppState.get_settings().reduced_motion
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(view)
 		_plant_views[GardenLayout.cell_key(plant.garden_cell)] = view

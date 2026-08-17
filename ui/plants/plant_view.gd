@@ -20,6 +20,17 @@ extends Control
 ## Full sway cycle length. Slow: this is a plant in still air, not a flag.
 const SWAY_PERIOD_SECONDS: float = 5.5
 
+## How often the plant is actually redrawn, in hertz.
+##
+## Every redraw re-runs PlantPainter: building leaf polygons, triangulating them,
+## and issuing a draw call per triangle. That is real CPU work, and doing it 60
+## times a second for every plant on screen pinned a full core — a garden or a
+## shelf can hold a dozen of them at once.
+##
+## Over a 5.5-second cycle, 12 Hz is 66 distinct positions. The motion is
+## indistinguishable from 60 Hz at this speed, and costs a fifth as much (§44).
+const REDRAW_HZ: float = 12.0
+
 var species: PlantSpecies:
 	set(value):
 		species = value
@@ -56,13 +67,24 @@ var silhouette: bool = false:
 		silhouette = value
 		queue_redraw()
 
-## Idle sway. Hosts set this from the reduced-motion setting.
-var animate: bool = true:
+## Idle sway. OFF by default, and switched on only for the one plant a screen is
+## actually featuring.
+##
+## This is a design decision before it is a performance one: §43 warns against
+## overanimating, and a shelf of twelve plants all swaying at once is visual
+## noise on a screen meant to feel calm. One plant moving reads as alive; twelve
+## reads as restless.
+##
+## It is also where the idle CPU went. Every animated plant re-runs the painter,
+## and a dozen of them together cost half a core (§44). One featured plant costs
+## almost nothing.
+var animate: bool = false:
 	set(value):
 		animate = value
 		_apply_motion_setting()
 
 var _sway_phase: float = 0.0
+var _redraw_accumulator: float = 0.0
 
 
 func _ready() -> void:
@@ -75,6 +97,20 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_sway_phase = fmod(_sway_phase + delta * TAU / SWAY_PERIOD_SECONDS, TAU)
+
+	# Nobody is looking at a window that is not focused — minimised, or behind the
+	# thing the player is actually working in, which for this app is the normal
+	# case. §44 asks for low CPU exactly then, and redrawing foliage for an
+	# audience of no one is the clearest possible waste.
+	if not get_window().has_focus():
+		return
+
+	# The phase advances every frame so the motion stays smooth in time, but the
+	# expensive redraw is throttled to REDRAW_HZ.
+	_redraw_accumulator += delta
+	if _redraw_accumulator < 1.0 / REDRAW_HZ:
+		return
+	_redraw_accumulator = 0.0
 	queue_redraw()
 
 
