@@ -1,0 +1,19 @@
+# Godot 4 editor/import cache — regenerated on open, never committed.
+.godot/
+
+# Pinned portable engine (84 MB+). Fetched by tools/fetch_godot.ps1.
+tools/godot/
+
+# Build output
+builds/
+export/
+
+# Transient save/backup artifacts if a dev points user:// at the repo
+*.tmp
+*.bak
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp

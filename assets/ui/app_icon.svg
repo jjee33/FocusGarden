@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Focus Garden application icon. Simple paths and flat fills only: Godot
+       rasterizes SVG through ThorVG, which does not support filters, masks or
+       text. See docs/ASSET_PLACEHOLDERS.md. -->
+  <rect width="128" height="128" rx="28" fill="#F2EADA"/>
+  <path d="M64 84 C64 60 52 44 34 38 C34 62 44 78 64 84 Z" fill="#5C8A54"/>
+  <path d="M64 84 C64 56 78 40 98 34 C98 60 86 78 64 84 Z" fill="#6A9B61"/>
+  <path d="M64 88 L64 60" stroke="#426A3C" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M40 88 L88 88 L82 112 L46 112 Z" fill="#C4714A"/>
+  <path d="M38 84 L90 84 L90 94 L38 94 Z" rx="3" fill="#D08258"/>
+</svg>
