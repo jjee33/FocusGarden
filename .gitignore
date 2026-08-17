@@ -17,3 +17,8 @@ Thumbs.db
 desktop.ini
 .DS_Store
 *.swp
+
+# Packaged builds are release artifacts, not source.
+FocusGarden.exe
+*.tpz
+tools/tpz_extract/
