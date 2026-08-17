@@ -17,6 +17,9 @@ var _level_tile: StatTile
 var _goal_tile: StatTile
 var _xp_bar: ProgressBar
 var _plant_slot: VBoxContainer
+var _start_button: Button
+var _action_heading: Label
+var _action_detail: Label
 
 
 func build_content() -> void:
@@ -33,6 +36,15 @@ func build_content() -> void:
 	EventBus.streak_changed.connect(_on_streak_changed)
 	EventBus.focus_time_recorded.connect(_on_focus_recorded)
 	EventBus.save_loaded.connect(refresh)
+
+	# The live countdown on the primary action needs the tick; everything else on
+	# this screen is event-driven and would be wasteful to poll.
+	EventBus.session_tick.connect(_on_session_tick)
+	EventBus.session_started.connect(_on_session_lifecycle)
+	EventBus.session_completed.connect(_on_session_lifecycle)
+	EventBus.session_cancelled.connect(_on_session_lifecycle)
+	EventBus.session_paused.connect(_on_session_lifecycle)
+	EventBus.session_resumed.connect(_on_session_lifecycle)
 
 
 func on_shown() -> void:
@@ -60,6 +72,7 @@ func refresh() -> void:
 		_xp_bar.max_value = 1
 		_xp_bar.value = 1
 
+	_refresh_primary_action()
 	_rebuild_plant_slot()
 
 
@@ -93,29 +106,40 @@ func _build_primary_action() -> void:
 	copy.add_theme_constant_override("separation", DesignTokens.SPACE_XXS)
 	row.add_child(copy)
 
-	var heading := Label.new()
-	heading.text = "Ready to focus?"
-	heading.theme_type_variation = &"Heading"
-	copy.add_child(heading)
+	_action_heading = Label.new()
+	_action_heading.theme_type_variation = &"Heading"
+	copy.add_child(_action_heading)
 
-	var detail := Label.new()
-	detail.text = "Pick what you are working on, choose a plant, and begin."
-	detail.theme_type_variation = &"Muted"
-	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	copy.add_child(detail)
+	_action_detail = Label.new()
+	_action_detail.theme_type_variation = &"Muted"
+	_action_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	copy.add_child(_action_detail)
 
-	var start_button := Button.new()
-	start_button.text = "Start Focus"
-	start_button.theme_type_variation = &"PrimaryButton"
-	start_button.custom_minimum_size = Vector2(200, 56)
-	start_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	# Disabled with an explanation rather than hidden: §74 requires disabled
-	# states to be clear, and hiding the app's primary action would make Home
-	# look broken rather than unfinished.
-	start_button.disabled = true
-	start_button.tooltip_text = "The focus timer arrives in Milestone 1."
-	start_button.pressed.connect(func() -> void: EventBus.navigation_requested.emit("focus"))
-	row.add_child(start_button)
+	_start_button = Button.new()
+	_start_button.theme_type_variation = &"PrimaryButton"
+	_start_button.custom_minimum_size = Vector2(220, 56)
+	_start_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_start_button.pressed.connect(func() -> void: EventBus.navigation_requested.emit("focus"))
+	row.add_child(_start_button)
+
+
+## Home's primary action doubles as the "a session is running" indicator, so the
+## player is never one screen away from their timer without knowing it.
+func _refresh_primary_action() -> void:
+	var session := TimerManager.current_session
+	if session == null:
+		_action_heading.text = "Ready to focus?"
+		_action_detail.text = "Pick what you are working on and begin."
+		_start_button.text = "Start Focus"
+		return
+
+	var paused := TimerManager.state == TimerManager.State.PAUSED
+	_action_heading.text = "Session paused" if paused else "Session in progress"
+	_action_detail.text = "%s left · %s" % [
+		TimeUtil.format_countdown(TimerManager.get_remaining_seconds()),
+		AppState.get_project_name(session.project_id),
+	]
+	_start_button.text = "Back to session"
 
 
 func _build_stat_row() -> void:
@@ -210,4 +234,15 @@ func _on_streak_changed(_streak: int) -> void:
 
 
 func _on_focus_recorded(_session_id: String, _minutes: float) -> void:
+	refresh()
+
+
+## Only the countdown line changes on a tick. A full refresh would re-run the
+## statistics aggregation ten times a second (§44).
+func _on_session_tick(_remaining_seconds: float) -> void:
+	if visible:
+		_refresh_primary_action()
+
+
+func _on_session_lifecycle(_session_id: String) -> void:
 	refresh()

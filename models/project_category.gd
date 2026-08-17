@@ -8,9 +8,9 @@ extends RefCounted
 
 var id: String = ""
 var display_name: String = ""
-## Token name from the theme palette (e.g. "accent_moss"), never a raw hex value.
+## Token name from the theme palette (e.g. "moss"), never a raw hex value.
 ## Keeps categories re-themeable and stops save files from pinning old colors.
-var color_token: String = "accent_moss"
+var color_token: String = "moss"
 var icon_id: String = "leaf"
 var created_at_utc: float = 0.0
 var archived: bool = false
@@ -19,7 +19,7 @@ var archived: bool = false
 var total_focus_minutes: float = 0.0
 
 
-static func create(name: String, color: String = "accent_moss", icon: String = "leaf") -> ProjectCategory:
+static func create(name: String, color: String = "moss", icon: String = "leaf") -> ProjectCategory:
 	var category := ProjectCategory.new()
 	category.id = Uid.generate("p")
 	category.display_name = name
@@ -45,7 +45,7 @@ static func from_dict(data: Dictionary) -> ProjectCategory:
 	var category := ProjectCategory.new()
 	category.id = DictUtil.get_string(data, "id")
 	category.display_name = DictUtil.get_string(data, "display_name", "Untitled")
-	category.color_token = DictUtil.get_string(data, "color_token", "accent_moss")
+	category.color_token = DictUtil.get_string(data, "color_token", "moss")
 	category.icon_id = DictUtil.get_string(data, "icon_id", "leaf")
 	category.created_at_utc = DictUtil.get_float(data, "created_at_utc")
 	category.archived = DictUtil.get_bool(data, "archived")

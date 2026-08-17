@@ -26,6 +26,10 @@ var current_streak: int = 0
 var longest_streak: int = 0
 var last_focus_date_key: String = ""
 
+## Focus sessions completed since the last long break (§8's session cycle).
+## Persisted so closing the app mid-cycle does not reset the player's place in it.
+var focus_sessions_in_cycle: int = 0
+
 var onboarding_completed: bool = false
 
 
@@ -60,6 +64,7 @@ func to_dict() -> Dictionary:
 		"current_streak": current_streak,
 		"longest_streak": longest_streak,
 		"last_focus_date_key": last_focus_date_key,
+		"focus_sessions_in_cycle": focus_sessions_in_cycle,
 		"onboarding_completed": onboarding_completed,
 	}
 
@@ -75,6 +80,7 @@ static func from_dict(data: Dictionary) -> PlayerProfile:
 	profile.current_streak = maxi(0, DictUtil.get_int(data, "current_streak"))
 	profile.longest_streak = maxi(0, DictUtil.get_int(data, "longest_streak"))
 	profile.last_focus_date_key = DictUtil.get_string(data, "last_focus_date_key")
+	profile.focus_sessions_in_cycle = maxi(0, DictUtil.get_int(data, "focus_sessions_in_cycle"))
 	profile.onboarding_completed = DictUtil.get_bool(data, "onboarding_completed")
 
 	# longest can never be below current; a save written mid-update could disagree.

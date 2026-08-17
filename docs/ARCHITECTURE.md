@@ -89,6 +89,8 @@ them.
 | XP and level | `systems/progression/xp_formula.gd` |
 | Plant growth stage and maturity | `systems/plant_growth/plant_growth_service.gd` |
 | Streaks | `systems/analytics/streak_calculator.gd` |
+| Pomodoro cycle placement | `systems/progression/session_cycle.gd` |
+| How much of a session counts | `systems/progression/session_credit.gd` |
 | Every unlock condition | `systems/requirements/requirement_evaluator.gd` |
 | Save read/write | `systems/save/atomic_file.gd` |
 | Date keys and durations | `systems/util/time_util.gd` |
@@ -144,6 +146,20 @@ reference to another system purely to be notified by it.
 Navigation is a signal too: `EventBus.navigation_requested` is emitted by anything
 that wants to move the player, and the main scene is the only listener. Routing
 lives in `scenes/main/main.gd`, not an autoload, because routing is UI logic.
+
+## Notifications
+
+`NotificationRouter` (a UI-layer node, not an autoload) decides which events the
+player hears about. Systems emit facts; this decides whether they are announced,
+which keeps a presentation decision out of the singletons.
+
+Godot 4 has **no cross-platform desktop notification API**. The workarounds are a
+GDExtension or shelling out to PowerShell, which flashes a console window and
+depends on a module that is not installed by default. Neither suits a calm
+offline app, so the implementation is an in-app toast plus
+`DisplayServer.window_request_attention()` — a real engine API that flashes the
+taskbar icon when the window is in the background. This is a documented
+limitation, not a claim that §34 is fully met.
 
 ## Content vs player data
 

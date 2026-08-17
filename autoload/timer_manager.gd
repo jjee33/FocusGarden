@@ -20,6 +20,11 @@ extends Node
 ## still exact — it is recomputed from timestamps on every tick.
 const TICK_INTERVAL_SECONDS: float = 0.1
 
+## Gap between a session finishing and an auto-started one beginning. Long enough
+## that the completion summary is read rather than flashing past, short enough
+## that it does not feel like a stall.
+const AUTO_START_DELAY_SECONDS: float = 4.0
+
 enum State { IDLE, RUNNING, PAUSED }
 
 var state: State = State.IDLE
@@ -27,6 +32,16 @@ var current_session: FocusSession = null
 
 var _clock: GameClock = GameClock.new()
 var _tick_timer: Timer = null
+var _auto_start_timer: Timer = null
+
+## Context carried between chained sessions, so an auto-started break knows which
+## project it belongs to without the UI having to re-supply it.
+var _last_project_id: String = ""
+var _last_plant_uid: String = ""
+## Set while an auto-start is counting down, so the UI can show what is coming
+## and offer to cancel it.
+var _pending_kind: FocusSession.Kind = FocusSession.Kind.FOCUS
+var _auto_start_pending: bool = false
 
 
 func _ready() -> void:
@@ -35,6 +50,11 @@ func _ready() -> void:
 	_tick_timer.one_shot = false
 	_tick_timer.timeout.connect(_on_tick)
 	add_child(_tick_timer)
+
+	_auto_start_timer = Timer.new()
+	_auto_start_timer.one_shot = true
+	_auto_start_timer.timeout.connect(_on_auto_start_elapsed)
+	add_child(_auto_start_timer)
 
 
 ## Begins a session. Returns false when one is already running, so a double-click
@@ -46,6 +66,8 @@ func start_session(
 		GameLog.warn(GameLog.Category.TIMER, "Refused to start: a session is already active.")
 		return false
 
+	# Any deliberate start supersedes a queued one, however it was reached.
+	cancel_auto_start()
 	current_session = FocusSession.create(kind, duration_minutes, project_id, plant_uid)
 	_clock.start()
 	state = State.RUNNING
@@ -54,10 +76,121 @@ func start_session(
 
 	GameLog.info(
 		GameLog.Category.TIMER,
-		"Started %.0f-minute session %s." % [duration_minutes, current_session.id]
+		"Started %s session %s." % [TimeUtil.format_duration(duration_minutes), current_session.id]
 	)
 	EventBus.session_started.emit(current_session.id)
 	return true
+
+
+# --- Presets and the pomodoro cycle (§8) -------------------------------------
+
+## Configured length for a session kind. The one place preset durations are read,
+## so changing a setting changes every entry point at once.
+func get_duration_for_kind(kind: FocusSession.Kind) -> float:
+	var settings := AppState.get_settings()
+	match kind:
+		FocusSession.Kind.SHORT_BREAK:
+			return settings.short_break_minutes
+		FocusSession.Kind.LONG_BREAK:
+			return settings.long_break_minutes
+		_:
+			return settings.focus_duration_minutes
+
+
+## Starts a focus session. A duration of -1 uses the configured default.
+func start_focus(project_id: String, plant_uid: String = "", duration_minutes: float = -1.0) -> bool:
+	cancel_auto_start()
+	_last_project_id = project_id
+	_last_plant_uid = plant_uid
+	var duration := (
+		duration_minutes if duration_minutes > 0.0
+		else get_duration_for_kind(FocusSession.Kind.FOCUS)
+	)
+	return start_session(FocusSession.Kind.FOCUS, duration, project_id, plant_uid)
+
+
+## Starts whichever break is due, short or long.
+func start_break(duration_minutes: float = -1.0) -> bool:
+	cancel_auto_start()
+	var kind := get_next_break_kind()
+	var duration := duration_minutes if duration_minutes > 0.0 else get_duration_for_kind(kind)
+	return start_session(kind, duration, _last_project_id, "")
+
+
+## Whether the next break is the long one. The cycle counter advances only on
+## COMPLETED focus sessions, so cancelling out of a session does not push the
+## player toward an unearned long break.
+func get_next_break_kind() -> FocusSession.Kind:
+	return SessionCycle.next_break_kind(
+		AppState.data.profile.focus_sessions_in_cycle,
+		AppState.get_settings().sessions_before_long_break
+	)
+
+
+## What would naturally come next: a break after focus, focus after a break.
+func get_next_session_kind() -> FocusSession.Kind:
+	if current_session != null and current_session.is_break():
+		return FocusSession.Kind.FOCUS
+	return get_next_break_kind()
+
+
+## Position within the current cycle, 1-based, for a "3 of 4" indicator.
+func get_cycle_position() -> int:
+	return SessionCycle.position(
+		AppState.data.profile.focus_sessions_in_cycle,
+		AppState.get_settings().sessions_before_long_break
+	)
+
+
+# --- Auto-start chaining (§8) ------------------------------------------------
+
+func is_auto_start_pending() -> bool:
+	return _auto_start_pending
+
+
+func get_pending_kind() -> FocusSession.Kind:
+	return _pending_kind
+
+
+## Seconds until the queued session begins, for the countdown on the completion
+## screen. Zero when nothing is queued.
+func get_auto_start_remaining() -> float:
+	return _auto_start_timer.time_left if _auto_start_pending else 0.0
+
+
+## Stops a queued auto-start. Called whenever the player takes any deliberate
+## action — §3 rules out the app starting something the player has moved on from.
+func cancel_auto_start() -> void:
+	if not _auto_start_pending:
+		return
+	_auto_start_timer.stop()
+	_auto_start_pending = false
+	EventBus.auto_start_cancelled.emit()
+
+
+func _schedule_auto_start(kind: FocusSession.Kind) -> void:
+	var settings := AppState.get_settings()
+	var wanted := (
+		settings.auto_start_breaks if kind != FocusSession.Kind.FOCUS else settings.auto_start_focus
+	)
+	if not wanted:
+		return
+
+	_pending_kind = kind
+	_auto_start_pending = true
+	_auto_start_timer.start(AUTO_START_DELAY_SECONDS)
+	EventBus.auto_start_scheduled.emit(AUTO_START_DELAY_SECONDS)
+
+
+func _on_auto_start_elapsed() -> void:
+	if not _auto_start_pending:
+		return
+	_auto_start_pending = false
+
+	if _pending_kind == FocusSession.Kind.FOCUS:
+		start_focus(_last_project_id, _last_plant_uid)
+	else:
+		start_break()
 
 
 func pause() -> bool:
@@ -83,6 +216,7 @@ func resume() -> bool:
 ## Discards the session. The record is still written with CANCELLED so the
 ## interruption appears in analytics (§12) — it simply earns no credit.
 func cancel(reason: String = "") -> void:
+	cancel_auto_start()
 	if state == State.IDLE or current_session == null:
 		return
 	var session := _finalize(FocusSession.Completion.CANCELLED)
@@ -144,9 +278,7 @@ func recover_in_flight_session() -> FocusSession:
 	session.completion = FocusSession.Completion.ABANDONED
 	session.ended_at_utc = Time.get_unix_time_from_system()
 	session.paused_minutes = sample.paused_seconds / TimeUtil.SECONDS_PER_MINUTE
-	# Capped at the intended duration: the app may have been closed for days, and
-	# a 3-day "focus session" is obviously not real time focused.
-	session.actual_focus_minutes = minf(
+	session.actual_focus_minutes = SessionCredit.settle_recovered(
 		sample.credited_seconds / TimeUtil.SECONDS_PER_MINUTE,
 		session.intended_duration_minutes
 	)
@@ -185,10 +317,21 @@ func _on_tick() -> void:
 func _complete(completion: FocusSession.Completion) -> SessionPipeline.Outcome:
 	if current_session == null:
 		return SessionPipeline.Outcome.new()
+
 	var session := _finalize(completion)
+	# Captured before _reset clears current_session, since the next kind depends
+	# on what just finished.
+	var was_focus := session.is_focus()
+
 	EventBus.session_completed.emit(session.id)
 	var outcome := SessionPipeline.apply(session)
+
+	if SessionCycle.should_advance(session.kind, completion):
+		AppState.data.profile.focus_sessions_in_cycle += 1
+		AppState.save_now()
+
 	_reset()
+	_schedule_auto_start(FocusSession.Kind.FOCUS if not was_focus else get_next_break_kind())
 	return outcome
 
 
@@ -200,13 +343,11 @@ func _finalize(completion: FocusSession.Completion) -> FocusSession:
 	session.paused_minutes = sample.paused_seconds / TimeUtil.SECONDS_PER_MINUTE
 	session.anomaly = sample.anomaly
 
-	var credited := sample.credited_seconds / TimeUtil.SECONDS_PER_MINUTE
-	if completion == FocusSession.Completion.COMPLETED:
-		# A completed session is worth its intended duration exactly. Using the
-		# raw sample would credit the fraction of a tick past the finish line and
-		# make a "25 minute" session record as 25.02.
-		credited = minf(credited, session.intended_duration_minutes)
-	session.actual_focus_minutes = maxf(0.0, credited)
+	session.actual_focus_minutes = SessionCredit.settle(
+		completion,
+		sample.credited_seconds / TimeUtil.SECONDS_PER_MINUTE,
+		session.intended_duration_minutes
+	)
 
 	_tick_timer.stop()
 	_clock.stop()

@@ -200,6 +200,34 @@ static func _build_variations(theme: Theme) -> void:
 	theme.set_color("font_pressed_color", "NavButton", DesignTokens.MOSS_DEEP)
 	theme.set_font_size("font_size", "NavButton", DesignTokens.FONT_BODY)
 
+	# Chips — mutually exclusive choices (durations, projects, colours).
+	# Pill-shaped and quiet until selected, so a row of them reads as options
+	# rather than as a row of competing buttons.
+	theme.set_type_variation("Chip", "Button")
+	var chip_normal := _chip_box(Color("#00000000"), DesignTokens.BORDER_STRONG)
+	var chip_hover := _chip_box(Color("#FFFCF4"), DesignTokens.BORDER_STRONG)
+	var chip_on := _chip_box(DesignTokens.MOSS, DesignTokens.MOSS_DEEP)
+	theme.set_stylebox("normal", "Chip", chip_normal)
+	theme.set_stylebox("hover", "Chip", chip_hover)
+	theme.set_stylebox("pressed", "Chip", chip_on)
+	theme.set_stylebox("disabled", "Chip", _chip_box(Color("#00000000"), Color("#E0D6C0")))
+	theme.set_stylebox("focus", "Chip", _focus_box())
+	theme.set_color("font_color", "Chip", DesignTokens.INK_SECONDARY)
+	theme.set_color("font_hover_color", "Chip", DesignTokens.INK_PRIMARY)
+	# A selected chip is filled with moss, so its label must flip to light.
+	theme.set_color("font_pressed_color", "Chip", DesignTokens.INK_ON_ACCENT)
+	theme.set_color("font_hover_pressed_color", "Chip", DesignTokens.INK_ON_ACCENT)
+	theme.set_color("font_disabled_color", "Chip", DesignTokens.INK_MUTED)
+	theme.set_font_size("font_size", "Chip", DesignTokens.FONT_SMALL)
+
+	# The focus countdown — the largest type in the game (§10 "large readable
+	# countdown"). Tabular figures are not available without a custom font, so
+	# the label is centred in a fixed-width container instead of relying on
+	# digit widths matching.
+	theme.set_type_variation("Countdown", "Label")
+	theme.set_font_size("font_size", "Countdown", DesignTokens.FONT_COUNTDOWN)
+	theme.set_color("font_color", "Countdown", DesignTokens.INK_PRIMARY)
+
 	# Cards (§4).
 	theme.set_type_variation("Card", "PanelContainer")
 	var card := _flat(DesignTokens.BG_RAISED, DesignTokens.RADIUS_LG)
@@ -245,6 +273,17 @@ static func _flat(color: Color, radius: int) -> StyleBoxFlat:
 	# Godot's stylebox anti-aliasing keeps rounded corners from looking ragged at
 	# fractional DPI scales, which §5 requires us to support.
 	box.anti_aliasing = true
+	return box
+
+
+static func _chip_box(fill: Color, border: Color) -> StyleBoxFlat:
+	var box := _flat(fill, DesignTokens.RADIUS_PILL)
+	box.border_color = border
+	_set_borders(box, 1)
+	box.content_margin_left = DesignTokens.SPACE_MD
+	box.content_margin_right = DesignTokens.SPACE_MD
+	box.content_margin_top = DesignTokens.SPACE_XS
+	box.content_margin_bottom = DesignTokens.SPACE_XS
 	return box
 
 

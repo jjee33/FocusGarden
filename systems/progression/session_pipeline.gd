@@ -53,8 +53,8 @@ static func apply(session: FocusSession) -> Outcome:
 	# The minutes were measured by GameClock; the only decision left is whether a
 	# very short session earns growth (§12's configurable threshold).
 	outcome.credited_minutes = session.actual_focus_minutes
-	var below_threshold := (
-		session.is_focus() and outcome.credited_minutes < settings.minimum_credit_minutes
+	var earns_growth := SessionCredit.earns_plant_growth(
+		session.kind, outcome.credited_minutes, settings.minimum_credit_minutes
 	)
 
 	# Mark before doing the work: if anything below fails, we must not leave the
@@ -75,7 +75,7 @@ static func apply(session: FocusSession) -> Outcome:
 	EventBus.focus_time_recorded.emit(session.id, outcome.credited_minutes)
 
 	# --- 3. Apply plant growth. ---
-	if session.is_focus() and not below_threshold:
+	if earns_growth:
 		outcome.growth = _apply_plant_growth(session, outcome)
 
 	# --- 4. Award XP. ---
@@ -107,7 +107,9 @@ static func apply(session: FocusSession) -> Outcome:
 
 	GameLog.info(
 		GameLog.Category.PROGRESSION,
-		"Session %s applied: %.1f min, %d XP." % [session.id, outcome.credited_minutes, xp]
+		"Session %s applied: %s, %d XP." % [
+			session.id, TimeUtil.format_duration(outcome.credited_minutes), xp
+		]
 	)
 	return outcome
 

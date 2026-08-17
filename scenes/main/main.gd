@@ -26,7 +26,12 @@ const SCREENS: Array[Dictionary] = [
 
 const DEFAULT_SCREEN: String = "home"
 
+## Shown in the navigation footer. Bump it when a milestone lands, so the running
+## build always states how far along it actually is rather than overstating it.
+const CURRENT_MILESTONE: String = "Milestone 1"
+
 var _screen_host: Control
+var _nav_rail: PanelContainer
 var _nav_buttons: Dictionary = {}   ## id -> Button
 var _screen_cache: Dictionary = {}  ## id -> AppScreen
 var _current_id: String = ""
@@ -38,8 +43,18 @@ func _ready() -> void:
 	DisplayServer.window_set_min_size(DesignTokens.MIN_WINDOW_SIZE)
 
 	_build_layout()
+	_build_overlays()
 	EventBus.navigation_requested.connect(navigate_to)
+	EventBus.focus_mode_changed.connect(_on_focus_mode_changed)
 	navigate_to(DEFAULT_SCREEN)
+	_offer_interrupted_session()
+
+
+## Toasts and notification policy live above every screen, so they survive
+## navigation and never belong to one section.
+func _build_overlays() -> void:
+	add_child(NotificationRouter.new())
+	add_child(ToastLayer.new())
 
 
 func _build_layout() -> void:
@@ -56,7 +71,8 @@ func _build_layout() -> void:
 	row.add_theme_constant_override("separation", 0)
 	add_child(row)
 
-	row.add_child(_build_nav_rail())
+	_nav_rail = _build_nav_rail()
+	row.add_child(_nav_rail)
 
 	_screen_host = Control.new()
 	_screen_host.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -65,7 +81,7 @@ func _build_layout() -> void:
 	row.add_child(_screen_host)
 
 
-func _build_nav_rail() -> Control:
+func _build_nav_rail() -> PanelContainer:
 	var rail := PanelContainer.new()
 	rail.theme_type_variation = &"NavPanel"
 	rail.custom_minimum_size.x = DesignTokens.NAV_RAIL_WIDTH
@@ -108,7 +124,10 @@ func _build_nav_rail() -> Control:
 	column.add_child(spacer)
 
 	var version := Label.new()
-	version.text = "v%s · Milestone 0" % ProjectSettings.get_setting("application/config/version", "0.0.0")
+	version.text = "v%s · %s" % [
+		ProjectSettings.get_setting("application/config/version", "0.0.0"),
+		CURRENT_MILESTONE,
+	]
 	version.theme_type_variation = &"Caption"
 	column.add_child(version)
 
@@ -194,6 +213,67 @@ func _play_enter_transition(screen: AppScreen) -> void:
 	tween.set_parallel(true)
 	tween.tween_property(screen, "modulate:a", 1.0, duration)
 	tween.tween_property(screen, "position:y", 0.0, duration)
+
+
+## Focus Mode collapses the navigation rail so a running session has the screen
+## to itself (§10). The rail is shrunk rather than hidden outright, so the
+## content reflows smoothly instead of snapping sideways.
+func _on_focus_mode_changed(enabled: bool) -> void:
+	var target_width := 0.0 if enabled else float(DesignTokens.NAV_RAIL_WIDTH)
+	var target_alpha := 0.0 if enabled else 1.0
+	var duration := Motion.duration(DesignTokens.DURATION_NORMAL)
+
+	if duration <= Motion.INSTANT_EPSILON:
+		_nav_rail.custom_minimum_size.x = target_width
+		_nav_rail.modulate.a = target_alpha
+		# Kept out of the tab order while hidden, or keyboard focus could land on
+		# an invisible button.
+		_nav_rail.visible = not enabled
+		return
+
+	_nav_rail.visible = true
+	var tween := Motion.create_tween_for(_nav_rail)
+	tween.set_parallel(true)
+	tween.tween_property(_nav_rail, "custom_minimum_size:x", target_width, duration)
+	tween.tween_property(_nav_rail, "modulate:a", target_alpha, duration)
+	tween.set_parallel(false)
+	tween.tween_callback(func() -> void: _nav_rail.visible = not enabled)
+
+
+## Offers back a session that was running when the app last closed (§54).
+##
+## The player is ASKED rather than credited automatically: only they know whether
+## they kept working after the app went away, and silently awarding an unknown
+## amount of time would corrupt the statistics the whole product rests on.
+func _offer_interrupted_session() -> void:
+	var session := TimerManager.recover_in_flight_session()
+	if session == null:
+		return
+
+	var dialog := ConfirmDialog.open(
+		self,
+		"Pick up where you left off?",
+		(
+			"Focus Garden closed during a session on %s. "
+			% AppState.get_project_name(session.project_id)
+			+ "It looks like %s of focus. Keep it?"
+			% TimeUtil.format_duration(session.actual_focus_minutes)
+		),
+		"Keep it",
+		false,
+		"Discard it"
+	)
+	dialog.confirmed.connect(
+		func() -> void:
+			SessionPipeline.apply(session)
+			TimerManager.discard_in_flight_session()
+			GameLog.info(GameLog.Category.TIMER, "Recovered session %s was kept." % session.id)
+	)
+	dialog.dismissed.connect(
+		func() -> void:
+			TimerManager.discard_in_flight_session()
+			GameLog.info(GameLog.Category.TIMER, "Recovered session %s was discarded." % session.id)
+	)
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -7,11 +7,11 @@ can look at.
 Built with **Godot 4.7.1** and GDScript. Windows-first, fully offline, no
 accounts, no ads, no monetization.
 
-> **Status: Milestone 0 (foundation).** The application runs, navigates, saves,
-> and is fully tested at the logic layer. The focus timer, plants, catalogue,
-> shelf, garden, statistics and journal are scheduled for later milestones and
-> are marked as such in-app. See [Current state](#current-state) for exactly
-> what does and does not work today.
+> **Status: Milestone 1 (core timer).** The focus timer is complete and working:
+> you can pick a project, choose a length, run a session with pause and resume,
+> and have it recorded. Plants, catalogue, shelf, garden, statistics and journal
+> are scheduled for later milestones and are marked as such in-app. See
+> [Current state](#current-state) for exactly what does and does not work today.
 
 ---
 
@@ -63,10 +63,22 @@ Confirm every engine API the project uses actually exists:
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/api_probe.gd
 ```
 
-Run the unit tests (100 tests, 896 assertions as of Milestone 0):
+Run the unit tests (116 tests, 931 assertions as of Milestone 1):
 
 ```bash
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/cli_test_runner.gd
+```
+
+Verify the timer end-to-end against the real system clock (~25 seconds):
+
+```bash
+tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/verify_timer.gd
+```
+
+Verify a save survives a real process restart (run it twice):
+
+```bash
+tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/verify_save_roundtrip.gd
 ```
 
 Render every screen to PNG for visual review (must NOT be headless):
@@ -85,28 +97,41 @@ tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script r
 
 **Working and tested**
 
+- **Focus timer**: project and duration selection, presets plus a custom length,
+  pause/resume, finish early, discard with confirmation, and a Focus Mode that
+  hides the navigation rail
+- **Pomodoro cycle**: short breaks, a long break every N sessions, and optional
+  auto-start chaining between them
+- **Session recording**: every session written to durable history with its
+  credited minutes, XP, completion state and anomaly flag
+- **Interrupted sessions**: a session running when the app closed is offered back
+  to you on next launch rather than silently lost or silently credited
+- **Projects**: five starters seeded on first launch, plus create and archive
+- **Settings**: timer lengths, cycle length, auto-start, notifications, daily
+  goal and streak threshold — all persisted immediately
 - Application shell with all nine sections and persistent navigation
 - Cozy botanical theme generated from a single design-token file
 - Save system: atomic writes, rotating backups, corruption recovery, versioned
   migrations, refusal to overwrite a save from a newer build
 - Session timing: dual-clock elapsed measurement immune to sleep, clock changes
-  and frame-rate drops
+  and frame-rate drops. Measured drift is **0.0001s over 10 seconds**, and a
+  2-second main-thread stall is counted exactly
 - XP and level curve, streak calculation, plant growth staging
 - One requirement engine covering all thirteen condition types
-- 100 unit tests, headless test runner, engine API probe
+- 116 unit tests, headless test runner, engine API probe, end-to-end timer check
 
 **Not built yet** (each screen says so in the app)
 
 | Area | Milestone |
 |---|---|
-| Focus timer UI, presets, auto-start | 1 |
+| Plant selection during session setup | 2 |
 | Plant species content and growth visuals | 2 |
 | Catalogue | 3 |
 | Shelf | 4 |
 | Achievement content, unlock UI | 5 |
 | Statistics, heatmap, journal | 6 |
 | Garden | 7 |
-| Audio content, particles, onboarding, settings UI | 8 |
+| Audio content, particles, onboarding, appearance/audio/data settings | 8 |
 | Windows executable | 10 |
 
 ## Known limitations

@@ -16,6 +16,9 @@ signal session_resumed(session_id: String)
 signal session_cancelled(session_id: String)
 signal session_completed(session_id: String)
 signal session_tick(remaining_seconds: float)
+## A follow-on session is queued and will begin after `delay_seconds` (§8).
+signal auto_start_scheduled(delay_seconds: float)
+signal auto_start_cancelled()
 
 # --- Focus accounting (owned by SessionPipeline) ---
 signal focus_time_recorded(session_id: String, credited_minutes: float)
@@ -56,6 +59,8 @@ signal journal_entry_added(entry_id: String)
 
 # --- Navigation & app shell (consumed by the main scene, not an autoload) ---
 signal navigation_requested(screen_id: String)
+## Focus Mode hides the navigation rail so a running session has the screen (§10).
+signal focus_mode_changed(enabled: bool)
 signal settings_changed(key: String)
 signal reduced_motion_changed(enabled: bool)
 signal toast_requested(title: String, body: String, icon_id: String)

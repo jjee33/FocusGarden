@@ -48,11 +48,45 @@ func load_game() -> void:
 			"Save writes are blocked to protect the existing file: %s" % SaveManager.last_error_detail
 		)
 
+	_ensure_seed_data()
+
 	GameLog.info(
 		GameLog.Category.APP,
 		"Loaded %d plants, %d sessions, %d projects."
 		% [data.plants.size(), sessions.size(), data.projects.size()]
 	)
+
+
+## Starter project categories, so a brand-new player can start a session
+## immediately instead of being made to invent a taxonomy first (§9).
+##
+## These are ordinary categories: deletable, renamable, and not special-cased
+## anywhere. They are seeded only when the player has none at all, so a player
+## who deletes every category does not get them silently pushed back.
+const SEED_PROJECTS: Array[Dictionary] = [
+	{"name": "Studying", "color": "moss", "icon": "book"},
+	{"name": "Work", "color": "sky", "icon": "briefcase"},
+	{"name": "Reading", "color": "amber", "icon": "page"},
+	{"name": "Programming", "color": "terracotta", "icon": "code"},
+	{"name": "Personal", "color": "clay", "icon": "heart"},
+]
+
+
+func _ensure_seed_data() -> void:
+	if not data.projects.is_empty():
+		return
+
+	for entry: Dictionary in SEED_PROJECTS:
+		data.projects.append(
+			ProjectCategory.create(entry["name"], entry["color"], entry["icon"])
+		)
+
+	# Selecting the first one means the Focus screen opens ready to go rather
+	# than in an error state on a fresh save.
+	if data.profile.active_project_id.is_empty():
+		data.profile.active_project_id = data.projects[0].id
+
+	GameLog.info(GameLog.Category.APP, "Seeded %d starter projects." % data.projects.size())
 
 
 ## Persists the profile. No-op when writes are blocked, so a corrupted or
@@ -102,6 +136,50 @@ func get_project(id: String) -> ProjectCategory:
 		if project.id == id:
 			return project
 	return null
+
+
+## Projects the player can currently pick, in creation order.
+## Archived categories stay in the save forever: their id is referenced by every
+## session ever recorded against them, and deleting one would orphan history.
+func get_active_projects() -> Array[ProjectCategory]:
+	var out: Array[ProjectCategory] = []
+	for project: ProjectCategory in data.projects:
+		if not project.archived:
+			out.append(project)
+	return out
+
+
+func add_project(name: String, color_token: String, icon_id: String = "leaf") -> ProjectCategory:
+	var project := ProjectCategory.create(name, color_token, icon_id)
+	data.projects.append(project)
+	save_now()
+	return project
+
+
+## Hides a category from the picker without destroying the sessions that
+## reference it. There is deliberately no hard delete.
+func archive_project(project_id: String) -> void:
+	var project := get_project(project_id)
+	if project == null:
+		return
+	project.archived = true
+
+	# The archived category cannot remain selected, or the Focus screen would
+	# open pointing at something the player can no longer see.
+	if data.profile.active_project_id == project_id:
+		var remaining := get_active_projects()
+		data.profile.active_project_id = remaining[0].id if not remaining.is_empty() else ""
+	save_now()
+
+
+## Display name for a project id, including archived ones, so session history
+## never renders a bare id. Returns a readable fallback for an unknown id (§54:
+## a category removed by a future update must not break the journal).
+func get_project_name(project_id: String) -> String:
+	var project := get_project(project_id)
+	if project != null:
+		return project.display_name
+	return "Unsorted" if project_id.is_empty() else "Removed project"
 
 
 func get_catalogue_entry(species_id: StringName) -> CatalogueEntry:

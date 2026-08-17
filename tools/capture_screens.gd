@@ -56,8 +56,38 @@ func _init() -> void:
 			else:
 				printerr("Failed to save %s" % path)
 
+	captured += await _capture_running_timer(main)
+
 	print("Captured %d screenshots to %s" % [captured, ProjectSettings.globalize_path(OUTPUT_DIR)])
 	quit(0)
+
+
+## The running timer cannot be reached by navigation alone — a session has to
+## actually be started. It is the screen the whole milestone is about, so it gets
+## captured explicitly rather than being the one view nobody looks at.
+func _capture_running_timer(main: Node) -> int:
+	var timer_manager := root.get_node("/root/TimerManager")
+	var app_state := root.get_node("/root/AppState")
+	var projects: Array = app_state.get_active_projects()
+	if projects.is_empty():
+		return 0
+
+	root.size = Vector2i(1920, 1080)
+	DisplayServer.window_set_size(Vector2i(1920, 1080))
+	main.navigate_to("focus")
+	await _settle()
+
+	timer_manager.start_focus(projects[0].id, "", 25.0)
+	await _settle()
+
+	var image := root.get_texture().get_image()
+	var saved := image.save_png(OUTPUT_DIR.path_join("1920x1080_focus_running.png")) == OK
+
+	# Discarded rather than left running, so the capture never writes a bogus
+	# session into the save it borrowed.
+	timer_manager.cancel("screenshot capture")
+	await _settle()
+	return 1 if saved else 0
 
 
 func _settle() -> void:

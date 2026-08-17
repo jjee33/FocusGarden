@@ -18,6 +18,7 @@ const MARKER_NAME: String = "SaveRoundtripProbe"
 const EXPECTED_XP: int = 4242
 const EXPECTED_MINUTES: float = 87.5
 const EXPECTED_SPECIES: StringName = &"probe_fern"
+const PROBE_PROJECT_NAME: String = "Probe Project"
 
 # Autoloads are fetched from the tree rather than referenced by name. A script
 # run via --script is COMPILED BEFORE autoloads are registered, so writing
@@ -60,7 +61,7 @@ func _write() -> void:
 	_app_state.data.plants.append(plant)
 	_app_state.data.profile.active_plant_uid = plant.uid
 
-	_app_state.data.projects.append(ProjectCategory.create("Probe Project"))
+	_app_state.data.projects.append(ProjectCategory.create(PROBE_PROJECT_NAME))
 
 	var session := FocusSession.create(FocusSession.Kind.FOCUS, 25.0, "probe_project", plant.uid)
 	session.actual_focus_minutes = EXPECTED_MINUTES
@@ -104,8 +105,16 @@ func _verify() -> void:
 		if profile.active_plant_uid != plant.uid:
 			problems.append("active plant reference was not persisted")
 
-	if _app_state.data.projects.size() != 1:
-		problems.append("projects: expected 1, got %d" % _app_state.data.projects.size())
+	# Checks that the probe's OWN project survived, rather than asserting a total.
+	# A count assertion here broke the moment starter projects were seeded on
+	# first launch — the probe should verify what it wrote, not what else exists.
+	var found_project := false
+	for project: ProjectCategory in _app_state.data.projects:
+		if project.display_name == PROBE_PROJECT_NAME:
+			found_project = true
+			break
+	if not found_project:
+		problems.append("the probe's project was not persisted")
 
 	# Sessions live in their own year-sharded file, so this also proves the
 	# session store round-trips independently of profile.json.

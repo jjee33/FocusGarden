@@ -8,7 +8,7 @@ tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script r
 
 Exits non-zero on failure, so it can gate a commit or a build.
 
-As of Milestone 0: **100 tests, 896 assertions, 0 failures.**
+As of Milestone 1: **116 tests, 931 assertions, 0 failures.**
 
 ## The API probe
 
@@ -67,6 +67,8 @@ being called. It is the only thing a failure report shows.
 | `test_atomic_file.gd` | Round trips, corruption recovery, backup rotation |
 | `test_models.gd` | Serialization, hostile input, invariants |
 | `test_plant_growth.gd` | Stage quantization, one-time maturity, no regression |
+| `test_session_cycle.gd` | Pomodoro cycle, long-break placement, what advances it |
+| `test_session_credit.gd` | Credit policy per completion state, recovery caps |
 
 ## Testing philosophy
 
@@ -95,14 +97,46 @@ shows up as `ObjectDB instances were leaked at exit`. `test_game_clock.gd` break
 its cycle in `after_each()` via `reset_time_providers()`. Treat that warning as a
 failure, not noise.
 
+## End-to-end checks
+
+Unit tests use injected clocks and therefore cannot observe drift at all. Two
+scripts cover what they structurally cannot:
+
+```bash
+tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/verify_timer.gd
+```
+
+Runs real sessions against the real system clock for about 25 seconds and checks
+§59's acceptance criteria directly: drift over a 10-second run, a deliberately
+stalled main thread, pause exclusion, and the shape of the recorded session. The
+stall test busy-waits to starve the frame loop — the same failure class as a
+minimized window, and the one a delta-accumulating timer fails outright.
+
+```bash
+tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/verify_save_roundtrip.gd
+```
+
+Run twice. Proves autoload wiring, migration and deserialization work together on
+a cold start, which is the only path a player ever takes. Both scripts clean up
+after themselves and exit non-zero on failure.
+
+> **Tool scripts and autoloads.** A script run via `--script` is compiled
+> *before* autoloads are registered, so referencing `AppState` by name is a
+> compile error. Fetch them at runtime instead:
+> `root.get_node("/root/AppState")`, after one `await process_frame`. Values read
+> off a dynamically-fetched Node have no static type, so annotate them
+> explicitly — `:=` on them is an error.
+
 ## Not covered by automation
 
-Visual layout, animation feel, and anything requiring a rendered window. Use the
-screenshot harness for those:
+Visual layout and animation feel. Use the screenshot harness:
 
 ```bash
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --path . --script res://tools/capture_screens.gd
 ```
+
+It renders all nine screens at both supported resolutions plus the running timer,
+which navigation alone cannot reach.
 
 Also unautomated: real multi-hour sessions, genuine machine sleep, and true
 system clock changes. The clock logic is unit-tested against simulated versions

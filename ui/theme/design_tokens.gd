@@ -80,7 +80,8 @@ const RADIUS_LG: int = 16
 const RADIUS_PILL: int = 999
 
 # --- Type scale ---------------------------------------------------------------
-const FONT_DISPLAY: int = 44   ## The focus countdown.
+const FONT_COUNTDOWN: int = 88 ## The focus countdown — deliberately the largest thing on screen.
+const FONT_DISPLAY: int = 44
 const FONT_TITLE: int = 28
 const FONT_HEADING: int = 20
 const FONT_BODY: int = 16
@@ -106,5 +107,30 @@ const CONTENT_MAX_WIDTH: int = 1180
 const MIN_WINDOW_SIZE := Vector2i(1280, 720)
 
 
+## Colours a project category may be tagged with, by token name.
+##
+## Categories store a TOKEN NAME, never a hex value, so the palette can be
+## retuned without rewriting save files and so a category cannot pick a colour
+## that clashes with the rest of the theme.
+const PROJECT_COLORS: Dictionary = {
+	"moss": MOSS,
+	"terracotta": TERRACOTTA,
+	"amber": AMBER,
+	"sky": SKY,
+	"clay": CLAY,
+	"ink": INK_SECONDARY,
+}
+
+## Ordered for the category colour picker, so the choices always appear the same
+## way round rather than in Dictionary iteration order.
+const PROJECT_COLOR_ORDER: Array[String] = ["moss", "terracotta", "amber", "sky", "clay", "ink"]
+
+
 static func rarity_color(rarity: PlantSpecies.Rarity) -> Color:
 	return RARITY_COLORS[clampi(int(rarity), 0, RARITY_COLORS.size() - 1)]
+
+
+## Resolves a stored token name to a colour, falling back to moss for a name
+## this build no longer recognises.
+static func project_color(token: String) -> Color:
+	return PROJECT_COLORS.get(token, MOSS)
