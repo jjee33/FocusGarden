@@ -4,9 +4,17 @@
 # Pinned portable engine (84 MB+). Fetched by tools/fetch_godot.ps1.
 tools/godot/
 
+# Packaging tool, downloaded on demand by tools/build_appimage.sh.
+tools/appimagetool-*.AppImage
+
 # Build output
 builds/
 export/
+
+# Raw rasters that tools/render_icons.gd feeds to tools/pack_ico.py. The .ico and
+# the .png they produce ARE committed; these are the intermediate step, and
+# regenerating the icon rewrites them anyway.
+packaging/windows/icons/
 
 # Transient save/backup artifacts if a dev points user:// at the repo
 *.tmp

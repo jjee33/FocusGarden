@@ -44,6 +44,13 @@ var daily_goal_minutes: float = 50.0
 var streak_threshold_minutes: float = 25.0
 var confirm_before_cancel_session: bool = true
 
+# --- Updates ---
+## Check GitHub for a newer release on launch. This is the only network request
+## the app ever makes — see docs/UPDATES.md. On by default, because a tool people
+## rely on daily should not quietly rot on an old version, but one toggle turns it
+## off for good and nothing else re-enables it.
+var check_for_updates: bool = true
+
 # --- Data (§35) ---
 ## Empty means the default user:// location.
 var custom_save_directory: String = ""
@@ -77,6 +84,7 @@ func to_dict() -> Dictionary:
 		"daily_goal_minutes": daily_goal_minutes,
 		"streak_threshold_minutes": streak_threshold_minutes,
 		"confirm_before_cancel_session": confirm_before_cancel_session,
+		"check_for_updates": check_for_updates,
 		"custom_save_directory": custom_save_directory,
 	}
 
@@ -134,5 +142,7 @@ static func from_dict(data: Dictionary) -> GameSettings:
 	settings.confirm_before_cancel_session = DictUtil.get_bool(
 		data, "confirm_before_cancel_session", true
 	)
+	settings.check_for_updates = DictUtil.get_bool(data, "check_for_updates", true)
+
 	settings.custom_save_directory = DictUtil.get_string(data, "custom_save_directory")
 	return settings

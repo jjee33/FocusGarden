@@ -28,6 +28,7 @@ ProgressionManager="*res://autoload/progression_manager.gd"
 AchievementManager="*res://autoload/achievement_manager.gd"
 StatisticsManager="*res://autoload/statistics_manager.gd"
 AudioManager="*res://autoload/audio_manager.gd"
+UpdateManager="*res://autoload/update_manager.gd"
 
 [display]
 

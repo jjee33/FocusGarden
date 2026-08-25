@@ -1,0 +1,106 @@
+name: CI
+
+# Every gate from docs/RELEASE.md, plus the Linux package, on every push to every
+# branch. The release workflow runs all of this again before it builds anything,
+# so a green CI run is a strong signal but never the thing that decides whether a
+# release ships.
+#
+# The AppImage is built here rather than only at release time because this is the
+# only place the Linux export is exercised at all — the project is developed on
+# Windows, and an export nobody builds until the day they need it is an export
+# that breaks on that day. Every push leaves a downloadable Linux build behind.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GODOT_RELEASE: 4.7.1-stable
+
+jobs:
+  gates:
+    name: Gates and Linux package
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install runtime libraries
+        # Godot's Linux build links these even with --headless. The package name
+        # for ALSA changed in Ubuntu 24.04, so try the new one and fall back
+        # rather than pinning the runner image to a version.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libxcursor1 libxinerama1 libxrandr2 libxi6 libgl1 libfontconfig1 \
+            desktop-file-utils
+          sudo apt-get install -y --no-install-recommends libasound2t64 \
+            || sudo apt-get install -y --no-install-recommends libasound2
+
+      - name: Cache the pinned engine
+        uses: actions/cache@v4
+        with:
+          path: tools/godot
+          key: godot-linux-${{ env.GODOT_RELEASE }}
+
+      - name: Cache the export templates
+        # 1.2 GB to download. Cached, or every run spends ten minutes fetching a
+        # file that never changes.
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: godot-templates-linux-${{ env.GODOT_RELEASE }}
+
+      - name: Fetch the pinned engine
+        # Invoked through bash rather than directly: the repo is developed on
+        # Windows, where git does not record the executable bit.
+        run: bash tools/fetch_godot.sh
+
+      - name: Version consistency
+        shell: pwsh
+        run: ./tools/verify_version.ps1
+
+      - name: Clean boot
+        # No errors and no warnings. A warning that is tolerated once is a
+        # warning nobody reads again.
+        run: |
+          set -o pipefail
+          output="$(./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --quit 2>&1)"
+          echo "$output"
+          if echo "$output" | grep -qE 'SCRIPT ERROR|Parse Error|ERROR|WARNING'; then
+            echo "::error::Boot produced errors or warnings."
+            exit 1
+          fi
+
+      - name: Engine API probe
+        run: ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tests/api_probe.gd
+
+      - name: Unit tests
+        run: ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tests/cli_test_runner.gd
+
+      - name: Timer accuracy
+        run: ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_timer.gd
+
+      - name: Reliability
+        run: ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_reliability.gd
+
+      - name: Save persistence
+        # Inherently two runs: the first writes, the second verifies it survived
+        # a real process restart.
+        run: |
+          ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_save_roundtrip.gd > /dev/null
+          ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_save_roundtrip.gd
+
+      - name: Fetch the export templates
+        run: bash tools/fetch_export_templates.sh
+
+      - name: Build the AppImage
+        run: bash tools/build_appimage.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-appimage
+          path: builds/installer/FocusGarden-*.AppImage
+          if-no-files-found: error

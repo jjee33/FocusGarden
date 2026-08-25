@@ -12,6 +12,11 @@ extends HBoxContainer
 
 const CONTROL_WIDTH: int = 200
 
+## The row's interactive control, for the few callers that need to change it
+## after the fact — an action button that has to disable itself while the thing
+## it started is running.
+var control: Control = null
+
 
 static func stepper(
 	label: String,
@@ -89,6 +94,35 @@ static func toggle(
 	button.toggled.connect(func(pressed: bool) -> void:
 		button.text = "On" if pressed else "Off"
 		on_change.call(pressed))
+
+	var holder := HBoxContainer.new()
+	holder.custom_minimum_size.x = CONTROL_WIDTH
+	holder.alignment = BoxContainer.ALIGNMENT_END
+	holder.add_child(button)
+	row.add_child(holder)
+
+	return row
+
+
+## A row whose control is a button that does something, rather than one that
+## holds a value: "Check now", "Install". Returned so the caller can keep the
+## button and re-label or disable it as its state changes.
+static func action(
+	label: String,
+	description: String,
+	button_text: String,
+	on_press: Callable,
+	variation: StringName = &"SecondaryButton"
+) -> SettingRow:
+	var row := SettingRow.new()
+	row._build_label(label, description)
+
+	var button := Button.new()
+	button.text = button_text
+	button.theme_type_variation = variation
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	button.pressed.connect(on_press)
+	row.control = button
 
 	var holder := HBoxContainer.new()
 	holder.custom_minimum_size.x = CONTROL_WIDTH

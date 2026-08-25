@@ -1,0 +1,8 @@
+#!/bin/sh
+# AppImage entry point.
+#
+# $APPDIR is not set when an extracted AppDir is run directly, so resolve it from
+# this script's own location instead of trusting the environment.
+HERE="$(dirname "$(readlink -f "$0")")"
+export APPDIR="${APPDIR:-$HERE}"
+exec "$HERE/usr/bin/FocusGarden" "$@"

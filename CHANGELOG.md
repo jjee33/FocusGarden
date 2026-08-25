@@ -2,8 +2,61 @@
 
 ## [Unreleased]
 
-Interface refresh, a rebuilt garden, staged plant maturity, and backups a player
-can find.
+Installers for Windows and Linux, a release pipeline that runs on a pushed tag,
+and updates the app can install itself. Plus an interface refresh, a rebuilt
+garden, staged plant maturity, and backups a player can find.
+
+### Added — installers
+
+- **Windows installer.** `FocusGarden-Setup-<version>.exe`, built with Inno
+  Setup. Installs per-user into `%LOCALAPPDATA%\Programs`, so there is no admin
+  prompt, and adds a Start Menu shortcut, an optional desktop icon, and a real
+  uninstaller. Installing over an older version upgrades it rather than leaving
+  two entries in Add/Remove Programs. Saves live outside the install directory
+  and are never touched by an install, an update or an uninstall.
+- **Linux AppImage.** `FocusGarden-<version>-x86_64.AppImage` — one file, no
+  install step, any distribution. The `Linux/X11` export preset had existed
+  since Milestone 10 but had never been built or run; it has now been both.
+- The app icon is rendered from `assets/ui/app_icon.svg` into the `.ico` and
+  `.png` the two packagers need, by `tools/render_icons.gd` and
+  `tools/pack_ico.py`, rather than kept as hand-exported files that drift.
+
+### Added — updates
+
+- Focus Garden now notices when a newer version exists, downloads it, verifies
+  its SHA-256 against a signed-over-TLS manifest, and installs it on one click.
+  On Windows it runs the new installer silently and reopens itself; on Linux it
+  replaces the running AppImage in place. See `docs/UPDATES.md`.
+- **It never interrupts a focus session.** A check that finds something during a
+  session holds the notice until the session ends (§3).
+- **One toggle turns it off completely** — Settings → Updates. Off means no
+  request is ever made. This is the first and only network call in the codebase:
+  one HTTPS GET to GitHub, sending nothing about the player.
+- Nothing runs from the editor. Development runs and every headless gate stay
+  offline, so the test suite has no dependency on GitHub being up.
+- `VersionUtil` compares versions numerically rather than as strings, so 0.10.0
+  is correctly newer than 0.9.0, and treats anything unparseable as 0.0.0 so a
+  malformed manifest can never trigger a download.
+
+### Added — releasing
+
+- `tools/release.ps1 <version>` is now the whole of shipping: it bumps the
+  version everywhere it is recorded, runs the fast gates, commits, tags and
+  pushes. `.github/workflows/release.yml` does the rest — every gate on both
+  platforms, both packages, checksums, and a GitHub Release.
+- `.github/workflows/ci.yml` runs the full gate suite on every push.
+- The version had lived in three places that "must agree" with nothing enforcing
+  it. `tools/set_version.ps1` now owns all three and `tools/verify_version.ps1`
+  checks them; the release fails before anything is built if they disagree with
+  the tag.
+- Release notes are published from the CHANGELOG rather than retyped into the
+  GitHub form, which is how the two used to end up disagreeing.
+
+### Changed — build layout
+
+- Exports write to `builds/` inside the repo rather than `../builds/` beside it.
+  The old path put build output in a sibling directory that no `.gitignore`
+  covered and that CI had no reason to expect.
 
 ### Added — appearance
 

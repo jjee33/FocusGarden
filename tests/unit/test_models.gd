@@ -127,11 +127,29 @@ func test_settings_round_trip() -> void:
 	settings.focus_duration_minutes = 50.0
 	settings.reduced_motion = true
 	settings.daily_goal_minutes = 120.0
+	settings.check_for_updates = false
 
 	var restored := GameSettings.from_dict(settings.to_dict())
 	assert_almost_eq(restored.focus_duration_minutes, 50.0, "duration survived")
 	assert_true(restored.reduced_motion, "reduced motion survived")
 	assert_almost_eq(restored.daily_goal_minutes, 120.0, "daily goal survived")
+	assert_false(restored.check_for_updates, "the update preference survived")
+
+
+func test_update_checking_defaults_on_but_stays_off_once_refused() -> void:
+	# The one setting that decides whether the app talks to the network at all.
+	# A default that silently reasserted itself on the next launch — because the
+	# key was missing, or because `false` fell back to the default — would make
+	# the toggle a lie.
+	assert_true(GameSettings.new().check_for_updates, "on by default")
+	assert_true(
+		GameSettings.from_dict({}).check_for_updates,
+		"an older save with no such key keeps the default"
+	)
+	assert_false(
+		GameSettings.from_dict({"check_for_updates": false}).check_for_updates,
+		"off stays off"
+	)
 
 
 func test_profile_unlocks_are_granted_once() -> void:

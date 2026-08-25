@@ -67,3 +67,18 @@ signal reduced_motion_changed(enabled: bool)
 ## custom `_draw`; nothing else needs a reference to the main scene to do it.
 signal theme_mode_changed(mode: String)
 signal toast_requested(title: String, body: String, icon_id: String)
+
+# --- Updates (owned by UpdateManager) ---
+## A release newer than this build exists. Emitted at most once per launch, and
+## never while a focus session is running — an update notice is not worth
+## interrupting the thing the app exists to protect (§3).
+signal update_available(version: String, notes: String)
+signal update_download_started(version: String)
+signal update_download_progress(received_bytes: int, total_bytes: int)
+## Downloaded and its checksum verified. `path` is a globalised absolute path,
+## because what happens next is handing it to the OS, not to Godot.
+signal update_ready_to_install(version: String, path: String)
+signal update_failed(reason: String)
+## The check ran and found nothing newer. Only the Settings screen listens; a
+## background check stays silent.
+signal update_check_completed(up_to_date: bool)

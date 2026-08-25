@@ -4,25 +4,46 @@ A cozy desktop productivity game. Every plant you grow represents real time you
 spent focusing — hundreds of hours of study or work, turned into something you
 can look at.
 
-Built with **Godot 4.7.1** and GDScript. Windows-first, fully offline, no
-accounts, no ads, no monetization.
+Built with **Godot 4.7.1** and GDScript. Windows and Linux, offline, no accounts,
+no ads, no monetization.
 
-> **Status: Milestone 10 — Windows build produced and verified**, plus an
-> unreleased interface refresh: dark mode, a rebuilt garden with drag-and-drop
-> and rotation, staged plant maturity, and visible backups. See
-> [Current state](#current-state) for the detail and
+> **Status: 0.1.0 released for Windows**, with the next version unreleased on
+> `master`: installers for Windows and Linux, in-app updates, dark mode, a
+> rebuilt garden with drag-and-drop and rotation, staged plant maturity, and
+> visible backups. See [Current state](#current-state) for the detail and
 > [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 ---
 
-## Requirements
+## Installing
 
-- Windows 11 (Windows 10 should work; not yet tested)
+Grab the newest build from
+[Releases](https://github.com/jjee33/FocusGarden/releases/latest).
+
+**Windows** — run `FocusGarden-Setup-<version>.exe`. It installs for your user
+only, so there is no admin prompt, and it adds a Start Menu shortcut and an
+uninstaller. The executable is not code-signed, so SmartScreen will warn on first
+run: choose *More info* → *Run anyway*.
+
+**Linux** — download `FocusGarden-<version>-x86_64.AppImage`, then:
+
+```bash
+chmod +x FocusGarden-*-x86_64.AppImage
+./FocusGarden-*-x86_64.AppImage
+```
+
+x86-64 only on both platforms. Nothing else is needed — each build is one
+self-contained file, and Godot does not have to be installed.
+
+Focus Garden checks GitHub once a few seconds after launch to see whether a newer
+version exists, and can download and install it for you. That is the only time it
+uses the network, and it sends nothing about you. Turn it off in
+Settings → Updates; see [UPDATES.md](docs/UPDATES.md) for exactly what it does.
+
+## Building it yourself
+
+- Windows 11 or Linux, x86-64 (Windows 10 should work; not yet tested)
 - Godot 4.7.1 — the repo expects a portable copy at `tools/godot/`
-
-No installer, no runtime dependencies, no network access required.
-
-## Getting the engine
 
 The pinned engine is gitignored because of its size. Fetch it once:
 
@@ -30,7 +51,13 @@ The pinned engine is gitignored because of its size. Fetch it once:
 pwsh -File tools/fetch_godot.ps1
 ```
 
-That downloads the official Godot 4.7.1 win64 build into `tools/godot/`.
+On Linux:
+
+```bash
+bash tools/fetch_godot.sh
+```
+
+Either downloads the official Godot 4.7.1 build into `tools/godot/`.
 
 ## Running
 
@@ -95,12 +122,26 @@ tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script r
 
 ## Building a release
 
+Shipping a new version is one command:
+
 ```bash
-powershell -File tools/build_release.ps1
+powershell -File tools/release.ps1 0.2.0 -PromoteUnreleased
 ```
 
-Runs every gate, then exports a self-contained `FocusGarden.exe` (~105 MB).
-Needs the export templates first — see [RELEASE.md](docs/RELEASE.md).
+That bumps the version everywhere it is recorded, commits, tags, and pushes.
+Pushing the tag runs every gate on Windows and Linux, builds the installer and
+the AppImage, and publishes a GitHub Release that existing copies of the app can
+update themselves from.
+
+To build without releasing:
+
+```bash
+powershell -File tools/build_release.ps1     # gates, then the Windows export
+powershell -File tools/build_installer.ps1   # the installer around it
+bash tools/build_appimage.sh                 # Linux, on Linux
+```
+
+Both paths need the export templates first — see [RELEASE.md](docs/RELEASE.md).
 
 ## Current state
 
@@ -180,10 +221,11 @@ fixed it — worth reading before optimising anything here.
 - **No bundled typeface.** The interface asks the OS for a modern UI face and
   falls back through a chain ending at something every system has, rather than
   shipping a licensed font.
-- **Unsigned executable.** Windows SmartScreen warns on first run.
-- **Windows only.** No platform-specific code exists, so Linux and macOS presets
-  should mostly be a matter of adding and testing them — but neither has been
-  built, so neither is claimed.
+- **Unsigned executables.** Windows SmartScreen warns on first run, for both the
+  installer and the app. Signing needs a certificate.
+- **x86-64 only, and no macOS build.** No platform-specific code exists, so a
+  macOS preset should mostly be a matter of adding it — but nobody has built,
+  signed and notarised one, so it is not claimed.
 - **Expeditions are architectural only.** §32's challenge system has a data model
   and save slot but no content or UI.
 - **Mystery seeds and mutations** are modelled in the data and persist correctly,
@@ -201,7 +243,8 @@ fixed it — worth reading before optimising anything here.
 | [TESTING.md](docs/TESTING.md) | How to run and write tests |
 | [CODING_CONVENTIONS.md](docs/CODING_CONVENTIONS.md) | GDScript style and rules |
 | [ASSET_PLACEHOLDERS.md](docs/ASSET_PLACEHOLDERS.md) | What art is missing |
-| [RELEASE.md](docs/RELEASE.md) | Windows export process |
+| [RELEASE.md](docs/RELEASE.md) | Building, packaging and publishing a release |
+| [UPDATES.md](docs/UPDATES.md) | How the app updates itself, and what it sends |
 
 ## Licence
 

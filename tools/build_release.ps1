@@ -8,7 +8,7 @@
 $ErrorActionPreference = "Stop"
 $root = Split-Path $PSScriptRoot -Parent
 $godot = Join-Path $root "tools\godot\Godot_v4.7.1-stable_win64_console.exe"
-$output = Join-Path (Split-Path $root -Parent) "builds\windows\FocusGarden.exe"
+$output = Join-Path $root "builds\windows\FocusGarden.exe"
 
 if (-not (Test-Path $godot)) {
     Write-Error "Engine not found. Run tools/fetch_godot.ps1 first."

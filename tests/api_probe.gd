@@ -30,6 +30,7 @@ func _init() -> void:
 	_probe_resources()
 	_probe_theme()
 	_probe_backups()
+	_probe_updates()
 	_probe_globals()
 
 	print("\n--------------------------------------------")
@@ -218,6 +219,45 @@ func _probe_backups() -> void:
 	_class_method("DirAccess", "copy_absolute")
 	_class_method("DirAccess", "make_dir_recursive_absolute")
 	_singleton("Time", Time, "get_unix_time_from_datetime_dict")
+
+
+## The update path (docs/UPDATES.md). Worth probing precisely because it is the
+## one part of the app that hands a downloaded file to the operating system: if
+## the checksum call or the process call went missing in an engine upgrade, the
+## failure would be a build that either cannot update or updates unverified.
+func _probe_updates() -> void:
+	_class_method("HTTPRequest", "request")
+	_class_method("HTTPRequest", "get_downloaded_bytes")
+	_class_method("HTTPRequest", "get_body_size")
+	_class_method("FileAccess", "get_sha256")
+	_singleton("OS", OS, "create_process")
+	_singleton("OS", OS, "execute")
+	_singleton("OS", OS, "get_environment")
+	_singleton("OS", OS, "shell_open")
+	_singleton("OS", OS, "has_feature")
+
+	# Behavioural: "template" is how the updater tells an exported build from the
+	# editor, and it is the single guard keeping development runs and every
+	# headless gate off the network. A probe running under --script is not a
+	# template, so this must be false right here.
+	_checked += 1
+	if OS.has_feature("template"):
+		_missing.append("OS.has_feature(\"template\") is true outside an exported build")
+
+	# Behavioural: a checksum that does not match the known digest of a known
+	# string would silently disable verification rather than fail loudly.
+	_checked += 1
+	var probe_path := "user://api_probe_sha256.tmp"
+	var file := FileAccess.open(probe_path, FileAccess.WRITE)
+	if file == null:
+		_missing.append("Could not write %s to check FileAccess.get_sha256()" % probe_path)
+	else:
+		file.store_string("abc")
+		file.close()
+		var expected := "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+		if FileAccess.get_sha256(probe_path) != expected:
+			_missing.append("FileAccess.get_sha256() does not match the known digest of \"abc\"")
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(probe_path))
 
 
 func _probe_globals() -> void:

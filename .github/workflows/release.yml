@@ -1,0 +1,219 @@
+name: Release
+
+# Pushing a v* tag is the whole release. tools/release.ps1 creates and pushes it;
+# everything below is automatic.
+#
+#   verify   version agrees with the tag, release notes exist
+#   windows  gates, export, Inno Setup installer
+#   linux    gates, export, AppImage
+#   publish  checksums, latest.json, GitHub Release
+#
+# workflow_dispatch runs everything except publish, so the packaging can be
+# exercised without creating a release.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  GODOT_RELEASE: 4.7.1-stable
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version agrees with the tag
+        id: version
+        shell: pwsh
+        run: |
+          $expected = ""
+          if ("${{ github.ref_type }}" -eq "tag") { $expected = "${{ github.ref_name }}" }
+          ./tools/verify_version.ps1 -Expected $expected
+          $version = (./tools/verify_version.ps1 -Quiet).Trim()
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Write-Host "Releasing $version"
+
+      - name: Release notes exist
+        # Checked here, before two multi-minute builds run, rather than at the
+        # end when the only thing left is to publish them.
+        shell: pwsh
+        run: ./tools/release_notes.ps1 -Version "${{ steps.version.outputs.version }}" -OutFile notes.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: notes
+          path: notes.md
+
+  windows:
+    name: Windows installer
+    needs: verify
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache the pinned engine
+        uses: actions/cache@v4
+        with:
+          path: tools/godot
+          key: godot-windows-${{ env.GODOT_RELEASE }}
+
+      - name: Cache the export templates
+        # 1.2 GB to download, ~600 MB extracted. Cached, or every release spends
+        # ten minutes fetching a file that never changes.
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Roaming\Godot\export_templates
+          key: godot-templates-windows-${{ env.GODOT_RELEASE }}
+
+      - name: Fetch the engine
+        run: powershell -File tools/fetch_godot.ps1
+
+      - name: Fetch the export templates
+        run: powershell -File tools/fetch_export_templates.ps1
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build and run every gate
+        # build_release.ps1 runs the whole gate suite and stops at the first
+        # failure, then exports. Nothing here re-implements it.
+        run: powershell -File tools/build_release.ps1
+
+      - name: Build the installer
+        run: powershell -File tools/build_installer.ps1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: builds/installer/FocusGarden-Setup-*.exe
+          if-no-files-found: error
+
+  linux:
+    name: Linux AppImage
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install runtime libraries
+        # Godot's Linux build links these even with --headless. The ALSA package
+        # name changed in Ubuntu 24.04, so try the new one and fall back rather
+        # than pinning the runner image.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libxcursor1 libxinerama1 libxrandr2 libxi6 libgl1 libfontconfig1 \
+            desktop-file-utils zsync
+          sudo apt-get install -y --no-install-recommends libasound2t64 \
+            || sudo apt-get install -y --no-install-recommends libasound2
+
+      - name: Cache the pinned engine
+        uses: actions/cache@v4
+        with:
+          path: tools/godot
+          key: godot-linux-${{ env.GODOT_RELEASE }}
+
+      - name: Cache the export templates
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: godot-templates-linux-${{ env.GODOT_RELEASE }}
+
+      - name: Fetch the engine
+        # Invoked through bash rather than directly: the repo is developed on
+        # Windows, where git does not record the executable bit.
+        run: bash tools/fetch_godot.sh
+
+      - name: Fetch the export templates
+        run: bash tools/fetch_export_templates.sh
+
+      - name: Gates
+        # The Windows job runs the full suite through build_release.ps1. Running
+        # it here too is what makes "it builds on Linux" mean something, since
+        # this is the only place the Linux export is exercised at all.
+        run: |
+          set -o pipefail
+          godot="./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64"
+          output="$("$godot" --headless --path . --quit 2>&1)"
+          echo "$output"
+          if echo "$output" | grep -qE 'SCRIPT ERROR|Parse Error|ERROR|WARNING'; then
+            echo "::error::Boot produced errors or warnings."
+            exit 1
+          fi
+          "$godot" --headless --path . --script res://tests/api_probe.gd
+          "$godot" --headless --path . --script res://tests/cli_test_runner.gd
+          "$godot" --headless --path . --script res://tools/verify_timer.gd
+          "$godot" --headless --path . --script res://tools/verify_reliability.gd
+          "$godot" --headless --path . --script res://tools/verify_save_roundtrip.gd > /dev/null
+          "$godot" --headless --path . --script res://tools/verify_save_roundtrip.gd
+
+      - name: Build the AppImage
+        run: bash tools/build_appimage.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-appimage
+          path: builds/installer/FocusGarden-*.AppImage
+          if-no-files-found: error
+
+  publish:
+    name: Publish the release
+    needs: [verify, windows, linux]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: incoming
+
+      - name: Collect the assets
+        run: |
+          mkdir -p dist
+          find incoming -type f \( -name '*.exe' -o -name '*.AppImage' \) -exec mv {} dist/ \;
+          mv incoming/notes/notes.md .
+          ls -la dist
+
+      - name: Checksums
+        run: |
+          cd dist
+          sha256sum * > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Build latest.json
+        # The manifest the app reads. Generated from the files that are actually
+        # being published, so its checksums cannot describe a different build.
+        run: |
+          version="${{ needs.verify.outputs.version }}"
+          python3 tools/make_manifest.py \
+            --version "$version" \
+            --repo "${{ github.repository }}" \
+            --windows "$(ls dist/FocusGarden-Setup-*.exe)" \
+            --linux "$(ls dist/FocusGarden-*.AppImage)" \
+            --notes-file notes.md \
+            --output dist/latest.json
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --title "Focus Garden ${{ needs.verify.outputs.version }}" \
+            --notes-file notes.md \
+            dist/*

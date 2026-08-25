@@ -23,4 +23,7 @@
 *.ttf     binary
 *.otf     binary
 *.exe     binary
+*.ico     binary
+*.rgba    binary
+*.AppImage binary
 *.zip     binary

@@ -49,11 +49,20 @@ Registered in `project.godot`, in dependency order.
 | `AchievementManager` | Achievement evaluation | Do XP math |
 | `StatisticsManager` | Aggregation over session records | Mutate sessions |
 | `AudioManager` | Buses, volumes, playback | Anything else |
+| `UpdateManager` | Update checks, downloads, checksum verification, install | Touch player data |
 
 `ContentDB` is an addition to the originally specified autoload list. Loading the
 content that ships with the game is genuinely a different responsibility from
 holding one player's data, and merging them is how a narrow manager becomes a
 god-object.
+
+`UpdateManager` is the **only** networked code in the project. It is an autoload
+rather than something the shell owns because it has to outlive every screen: a
+download continues while the player navigates, and the install has to be able to
+flush the save and quit from wherever they happen to be. It is last in the list
+because it depends on `AppState` for the opt-out setting and on `TimerManager` to
+know whether a session is running — it will not interrupt one (§3). See
+[UPDATES.md](UPDATES.md).
 
 > **Naming note:** the logger is `GameLog`, not `Logger`. Godot 4.7 has a
 > built-in `Logger` class, and an autoload of that name silently resolves to the

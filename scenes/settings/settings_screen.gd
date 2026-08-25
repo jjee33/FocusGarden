@@ -10,6 +10,14 @@ extends AppScreen
 ## Every change writes through immediately. A settings screen with a Save button
 ## is a screen that loses your changes when you navigate away.
 
+## Rebuilt on every _rebuild(), so the update section keeps references rather
+## than looking its controls up again: the state it displays changes while the
+## screen is open, driven by signals rather than by anything the player did.
+var _update_status: Label = null
+var _update_action: Button = null
+var _update_notes: Button = null
+
+
 func build_content() -> void:
 	content.add_child(
 		SectionHeader.create("Settings", "Changes are saved as you make them.")
@@ -19,6 +27,7 @@ func build_content() -> void:
 	_build_notifications_section()
 	_build_gameplay_section()
 	_build_pending_section()
+	_build_updates_section()
 
 
 func _build_timer_section() -> void:
@@ -574,6 +583,193 @@ func _perform_reset() -> void:
 	AppState.reset_to_new_game()
 	_rebuild()
 	EventBus.navigation_requested.emit("home")
+
+
+## Updates (docs/UPDATES.md). Deliberately the last section on the screen: it is
+## the one part of Focus Garden that touches the network, and a player who wants
+## to know that should find it stated rather than have to infer it.
+func _build_updates_section() -> void:
+	var column := _section("Updates")
+
+	var current := Label.new()
+	current.text = "You are running version %s." % VersionUtil.current()
+	current.theme_type_variation = &"Caption"
+	column.add_child(current)
+
+	column.add_child(SettingRow.toggle(
+		"Check for updates",
+		(
+			"Asks GitHub once, a few seconds after launch, whether a newer version "
+			+ "exists. It is the only time Focus Garden uses the network, and it sends "
+			+ "nothing about you."
+		),
+		AppState.get_settings().check_for_updates,
+		func(value: bool) -> void:
+			_apply(func() -> void: AppState.get_settings().check_for_updates = value)
+			_refresh_update_controls()
+	))
+
+	_update_status = Label.new()
+	_update_status.theme_type_variation = &"Muted"
+	_update_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(_update_status)
+
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", DesignTokens.SPACE_XS)
+	column.add_child(buttons)
+
+	_update_action = Button.new()
+	_update_action.theme_type_variation = &"SecondaryButton"
+	_update_action.pressed.connect(_on_update_action_pressed)
+	buttons.add_child(_update_action)
+
+	_update_notes = Button.new()
+	_update_notes.text = "What's new"
+	_update_notes.theme_type_variation = &"SubtleButton"
+	_update_notes.pressed.connect(func() -> void: UpdateManager.open_release_page())
+	buttons.add_child(_update_notes)
+
+	_connect_update_signals()
+	_refresh_update_controls()
+
+
+## Connected once per screen instance. build_content() runs again on every
+## _rebuild(), and a second connection would show every message twice.
+func _connect_update_signals() -> void:
+	if EventBus.update_available.is_connected(_on_update_available):
+		return
+	EventBus.update_available.connect(_on_update_available)
+	EventBus.update_check_completed.connect(_on_update_check_completed)
+	EventBus.update_download_progress.connect(_on_update_download_progress)
+	EventBus.update_ready_to_install.connect(_on_update_ready)
+	EventBus.update_failed.connect(_on_update_failed)
+
+
+func _on_update_available(_version: String, _notes: String) -> void:
+	_refresh_update_controls()
+
+
+func _on_update_check_completed(up_to_date: bool) -> void:
+	_refresh_update_controls()
+	if up_to_date and is_instance_valid(_update_status):
+		_update_status.text = "Focus Garden is up to date."
+
+
+func _on_update_download_progress(received: int, total: int) -> void:
+	if not is_instance_valid(_update_status):
+		return
+	if total <= 0:
+		_update_status.text = "Downloading… %s so far." % _format_bytes(received)
+		return
+	_update_status.text = "Downloading… %s of %s." % [
+		_format_bytes(received), _format_bytes(total)
+	]
+
+
+func _on_update_ready(version: String, _path: String) -> void:
+	_refresh_update_controls()
+	if is_instance_valid(_update_status):
+		_update_status.text = "Version %s is ready to install." % version
+
+
+func _on_update_failed(reason: String) -> void:
+	_refresh_update_controls()
+	if is_instance_valid(_update_status):
+		_update_status.text = reason
+
+
+## One place decides what the button says and whether it can be pressed, so the
+## six states this section can be in cannot drift apart.
+func _refresh_update_controls() -> void:
+	if not is_instance_valid(_update_status) or not is_instance_valid(_update_action):
+		return
+
+	var has_update := not UpdateManager.available_version.is_empty()
+	_update_notes.visible = has_update
+	_update_action.disabled = false
+	_update_action.tooltip_text = ""
+
+	if not UpdateManager.is_available():
+		# A development build has no installer to replace, and checking from one
+		# would be the only network call the editor ever made.
+		_update_status.text = "Update checking is part of a released build, not this one."
+		_update_action.text = "Check now"
+		_update_action.disabled = true
+		_update_notes.visible = false
+		return
+
+	match UpdateManager.state:
+		UpdateManager.State.CHECKING:
+			_update_status.text = "Checking…"
+			_update_action.text = "Check now"
+			_update_action.disabled = true
+		UpdateManager.State.DOWNLOADING:
+			_update_action.text = "Downloading…"
+			_update_action.disabled = true
+		UpdateManager.State.READY:
+			_update_status.text = "Version %s is ready to install." % UpdateManager.available_version
+			_update_action.text = "Install and restart"
+		UpdateManager.State.INSTALLING:
+			_update_status.text = "Installing…"
+			_update_action.text = "Installing…"
+			_update_action.disabled = true
+		UpdateManager.State.AVAILABLE:
+			_update_status.text = "Version %s is available." % UpdateManager.available_version
+			if UpdateManager.can_self_install() and UpdateManager.has_asset():
+				_update_action.text = "Download and install"
+			else:
+				# A build we cannot replace — an extracted AppDir, a distribution
+				# package, a platform with no asset in this release. Offering an
+				# install we cannot perform would be worse than saying so.
+				_update_status.text += " This build updates from the release page."
+				_update_action.text = "Open the release page"
+		_:
+			if not AppState.get_settings().check_for_updates:
+				_update_status.text = "Automatic checking is off. You can still check by hand."
+			elif _update_status.text.is_empty():
+				_update_status.text = "No newer version found yet."
+			_update_action.text = "Check now"
+
+
+func _on_update_action_pressed() -> void:
+	match UpdateManager.state:
+		UpdateManager.State.READY:
+			_confirm_install()
+		UpdateManager.State.AVAILABLE:
+			if UpdateManager.can_self_install() and UpdateManager.has_asset():
+				UpdateManager.download()
+			else:
+				UpdateManager.open_release_page()
+		_:
+			_update_status.text = "Checking…"
+			UpdateManager.check_now(true)
+	_refresh_update_controls()
+
+
+## The install closes the app, so it asks first and says so plainly. A player
+## mid-thought should not have the window vanish because they pressed a button
+## whose consequence was not stated.
+func _confirm_install() -> void:
+	var dialog := ConfirmDialog.open(
+		get_tree().root,
+		"Install version %s?" % UpdateManager.available_version,
+		(
+			"Focus Garden will close, update, and open again. Your garden, sessions "
+			+ "and settings are stored separately and are not touched."
+		),
+		"Install",
+		false,
+		"Not now"
+	)
+	dialog.confirmed.connect(func() -> void:
+		if not UpdateManager.install():
+			_refresh_update_controls())
+
+
+func _format_bytes(bytes: int) -> String:
+	if bytes < 1024 * 1024:
+		return "%d KB" % int(round(float(bytes) / 1024.0))
+	return "%.1f MB" % (float(bytes) / 1048576.0)
 
 
 func _show_error(title: String, detail: String) -> void:
