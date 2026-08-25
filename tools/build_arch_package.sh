@@ -27,6 +27,11 @@ if ! command -v makepkg >/dev/null 2>&1; then
     exit 1
 fi
 
+echo "==> Importing resources"
+# A fresh clone has no .godot/ cache, so no global class_name is registered yet
+# and every script that references one fails to parse.
+"$GODOT_BIN" --headless --path . --import >/dev/null 2>&1 || true
+
 echo "==> Running unit tests"
 if ! "$GODOT_BIN" --headless --path . --script res://tests/cli_test_runner.gd; then
     echo "error: unit tests failed; aborting package build." >&2

@@ -42,6 +42,12 @@ if [[ -z "$GODOT_BIN" ]]; then
 fi
 echo "    using: $GODOT_BIN"
 
+echo "==> Importing resources"
+# A fresh clone has no .godot/ cache, so no global class_name is registered yet
+# and every script that references one fails to parse. Cheap when it is already
+# warm, and the difference between working and not on a clean checkout.
+"$GODOT_BIN" --headless --path . --import >/dev/null 2>&1 || true
+
 echo "==> Running unit tests"
 if ! "$GODOT_BIN" --headless --path . --script res://tests/cli_test_runner.gd; then
     echo "error: unit tests failed; aborting package build." >&2
