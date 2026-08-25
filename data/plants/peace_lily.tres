@@ -18,7 +18,7 @@ interesting_fact = "The white 'flower' is a modified leaf; the true flowers are 
 script = ExtResource("2_yrdwh")
 scope = 1
 params = {
-"amount": 200.0
+"amount": 270.0
 }
 
 [sub_resource type="Resource" id="Resource_vtg6u"]

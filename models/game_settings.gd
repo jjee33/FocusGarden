@@ -18,6 +18,10 @@ var minimum_credit_minutes: float = 1.0
 
 # --- Appearance (§35, §50) ---
 var window_mode: String = "windowed"  ## windowed | fullscreen | borderless
+## Appearance mode. Stored as a plain string rather than a Palette enum so this
+## model stays free of any dependency on the UI layer (§40) and so the value in
+## the save file is readable rather than an integer nobody can interpret.
+var theme_mode: String = "light"  ## light | dark
 var ui_scale: float = 1.0
 var reduced_motion: bool = false
 var animation_intensity: float = 1.0
@@ -45,6 +49,7 @@ var confirm_before_cancel_session: bool = true
 var custom_save_directory: String = ""
 
 const WINDOW_MODES: Array[String] = ["windowed", "fullscreen", "borderless"]
+const THEME_MODES: Array[String] = ["light", "dark"]
 
 
 func to_dict() -> Dictionary:
@@ -57,6 +62,7 @@ func to_dict() -> Dictionary:
 		"auto_start_focus": auto_start_focus,
 		"minimum_credit_minutes": minimum_credit_minutes,
 		"window_mode": window_mode,
+		"theme_mode": theme_mode,
 		"ui_scale": ui_scale,
 		"reduced_motion": reduced_motion,
 		"animation_intensity": animation_intensity,
@@ -100,6 +106,9 @@ static func from_dict(data: Dictionary) -> GameSettings:
 	settings.window_mode = DictUtil.get_string(data, "window_mode", "windowed")
 	if not WINDOW_MODES.has(settings.window_mode):
 		settings.window_mode = "windowed"
+	settings.theme_mode = DictUtil.get_string(data, "theme_mode", "light")
+	if not THEME_MODES.has(settings.theme_mode):
+		settings.theme_mode = "light"
 	settings.ui_scale = DictUtil.get_clamped_float(data, "ui_scale", 0.75, 2.0, 1.0)
 	settings.reduced_motion = DictUtil.get_bool(data, "reduced_motion")
 	settings.animation_intensity = DictUtil.get_clamped_float(

@@ -19,7 +19,12 @@ func _ready() -> void:
 
 	var scroll := ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# AUTO rather than DISABLED. With horizontal scrolling disabled, a screen
+	# whose content is wider than the viewport is not squeezed — it is cut, with
+	# no way to reach the missing part. That is invisible at 100% interface scale
+	# and unmissable at 200%, where the logical viewport is half as wide. A
+	# horizontal bar appears only when something genuinely does not fit.
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	scroll.follow_focus = true
 	add_child(scroll)
 

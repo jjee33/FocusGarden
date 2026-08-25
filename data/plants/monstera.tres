@@ -18,7 +18,7 @@ interesting_fact = "The holes are called fenestrations, and are thought to let w
 script = ExtResource("2_s7g36")
 scope = 1
 params = {
-"amount": 250.0
+"amount": 360.0
 }
 
 [sub_resource type="Resource" id="Resource_tml7d"]

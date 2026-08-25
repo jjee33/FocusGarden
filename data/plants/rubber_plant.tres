@@ -18,7 +18,7 @@ interesting_fact = "Its milky sap was once a commercial rubber source, before th
 script = ExtResource("2_qvad8")
 scope = 1
 params = {
-"amount": 260.0
+"amount": 270.0
 }
 
 [sub_resource type="Resource" id="Resource_smrmu"]

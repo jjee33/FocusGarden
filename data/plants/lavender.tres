@@ -16,10 +16,9 @@ interesting_fact = "The scent comes from oil glands on the leaves, which is why 
 
 [sub_resource type="Resource" id="Resource_cnnli"]
 script = ExtResource("2_sggua")
-type = 2
 scope = 1
 params = {
-"count": 7
+"amount": 360.0
 }
 
 [sub_resource type="Resource" id="Resource_vpybf"]

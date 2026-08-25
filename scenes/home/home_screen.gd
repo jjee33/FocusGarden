@@ -153,10 +153,10 @@ func _build_stat_row() -> void:
 	row.add_theme_constant_override("separation", DesignTokens.SPACE_MD)
 	content.add_child(row)
 
-	_today_tile = StatTile.create("Focused today", "0m", DesignTokens.MOSS)
-	_streak_tile = StatTile.create("Current streak", "No streak yet", DesignTokens.AMBER)
-	_level_tile = StatTile.create("Gardener level", "Level 1", DesignTokens.TERRACOTTA)
-	_goal_tile = StatTile.create("Daily goal", "0%", DesignTokens.SKY)
+	_today_tile = StatTile.create("Focused today", "0m", Palette.moss())
+	_streak_tile = StatTile.create("Current streak", "No streak yet", Palette.amber())
+	_level_tile = StatTile.create("Gardener level", "Level 1", Palette.terracotta())
+	_goal_tile = StatTile.create("Daily goal", "0%", Palette.sky())
 	row.add_child(_today_tile)
 	row.add_child(_streak_tile)
 	row.add_child(_level_tile)
@@ -245,9 +245,15 @@ func _rebuild_plant_slot() -> void:
 	title.theme_type_variation = &"Heading"
 	copy.add_child(title)
 
+	# "grown in" wants an object. The project name is the whole point of the
+	# sentence — it is what turns a number into a thing the player recognises.
 	var detail := Label.new()
-	detail.text = "%s of focus grown in" % TimeUtil.format_duration(plant.accumulated_focus_minutes)
+	detail.text = "%s of focus, grown while working on %s." % [
+		TimeUtil.format_duration(plant.accumulated_focus_minutes),
+		AppState.get_project_name(plant.primary_project_id),
+	]
 	detail.theme_type_variation = &"Muted"
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	copy.add_child(detail)
 
 	if species != null:
@@ -261,8 +267,9 @@ func _rebuild_plant_slot() -> void:
 		copy.add_child(bar)
 
 		var requirement := Label.new()
-		requirement.text = "%s · %d%% grown" % [
-			RequirementEvaluator.describe(species.growth_requirement), int(progress * 100.0)
+		requirement.text = "%s · %s" % [
+			PlantStageText.describe(plant),
+			RequirementEvaluator.describe(species.growth_requirement),
 		]
 		requirement.theme_type_variation = &"Caption"
 		requirement.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

@@ -134,7 +134,7 @@ func _new_canvas(size: Vector2i) -> Control:
 	canvas.theme = load("res://ui/theme/focus_garden.tres")
 
 	var background := ColorRect.new()
-	background.color = DesignTokens.BG_BASE
+	background.color = Palette.bg_base()
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(background)
 

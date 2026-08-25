@@ -31,7 +31,7 @@ raster resolution.
 | Asset | Path | Status |
 |---|---|---|
 | Application icon | `assets/ui/app_icon.svg` | Original, final for now |
-| Theme | `ui/theme/focus_garden.tres` | Generated from tokens; re-bake, never hand-edit |
+| Theme | `ui/theme/focus_garden_light.tres`, `focus_garden_dark.tres` | Generated from tokens; re-bake both, never hand-edit |
 
 Navigation and empty-state glyphs are **emoji**, deliberately. They are a
 placeholder for authored icons and are never the sole carrier of meaning — every

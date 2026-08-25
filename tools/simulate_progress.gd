@@ -6,6 +6,17 @@ extends SceneTree
 ## DESTRUCTIVE: overwrites the save in user://. It is a development tool, never
 ## shipped, and the export preset excludes tools/.
 ##
+## IT WILL REFUSE to overwrite a save it did not itself write. Every save this
+## tool produces is stamped with SIMULATED_MARKER as the player name; anything
+## else is treated as somebody's real garden and the run stops. Pass `-- --force`
+## to override:
+##
+##     ... --script res://tools/simulate_progress.gd -- --force
+##
+## That guard exists because the docstring above did not save the one real save
+## this tool has destroyed. The line had been read days before it mattered, and
+## at the moment it mattered the tool said nothing at all.
+##
 ## Why this exists: every screen after the timer — catalogue, shelf, statistics,
 ## heatmap, journal, garden — is meaningless on an empty save. Judging their
 ## layout, density and empty-versus-full behaviour needs months of plausible
@@ -50,7 +61,12 @@ func _init() -> void:
 	_progression = root.get_node("/root/ProgressionManager")
 	_achievements = root.get_node("/root/AchievementManager")
 
+	if not _may_overwrite_save():
+		quit(1)
+		return
+
 	seed(20260816)
+	_clear_previous_run()
 
 	var sessions := _build_sessions()
 	_app_state.sessions = sessions
@@ -69,6 +85,71 @@ func _init() -> void:
 	_report()
 	_persist(sessions)
 	quit(0)
+
+
+## Name stamped on every save this tool writes, and the thing the guard looks for.
+const SIMULATED_MARKER: String = "Simulated Gardener"
+
+
+## Refuses to run over a save this tool did not write.
+##
+## A fresh save is fine, and so is one of ours. Anything else belongs to a person
+## and gets a message naming what is in it rather than a silent overwrite.
+func _may_overwrite_save() -> bool:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument == "--force":
+			print("--force given; overwriting whatever is there.")
+			return true
+
+	var save_manager: Node = root.get_node("/root/SaveManager")
+	if not save_manager.has_existing_save():
+		return true
+
+	var profile: PlayerProfile = _app_state.data.profile
+	if profile.display_name == SIMULATED_MARKER:
+		return true
+
+	printerr(
+		"REFUSING: the save in %s was not written by this tool." % save_manager.get_save_dir()
+	)
+	printerr(
+		"  It holds %d plants, %d sessions and %d projects."
+		% [
+			_app_state.data.plants.size(),
+			_app_state.sessions.size(),
+			_app_state.data.projects.size(),
+		]
+	)
+	printerr("  Back it up, or pass `-- --force` if you are certain it is disposable.")
+	return false
+
+
+## Wipes what a previous run left behind.
+##
+## The header has always said DESTRUCTIVE, and it was only half true: sessions
+## were replaced wholesale but plants, catalogue entries and journal rows were
+## APPENDED. Two runs left two of every plant, stacked on the same garden squares,
+## and a "plants matured: 32" line for a sixteen-species game. Anyone comparing
+## screenshots between runs was comparing against a save that had quietly doubled.
+##
+## Projects and settings are deliberately kept: the starter projects are what the
+## fabricated sessions are attributed to, and re-seeding them would change the
+## history from run to run and defeat the fixed random seed above.
+func _clear_previous_run() -> void:
+	var data: SaveData = _app_state.data
+	data.plants.clear()
+	data.catalogue.clear()
+	data.journal.clear()
+	data.achievements.clear()
+	data.shelf = ShelfLayout.create()
+	data.garden = GardenLayout.create()
+	data.profile.display_name = SIMULATED_MARKER
+	data.profile.active_plant_uid = ""
+	data.profile.total_xp = 0
+	data.profile.current_streak = 0
+	data.profile.longest_streak = 0
+	data.profile.unlocked_ids = PackedStringArray()
+	_app_state.sessions = []
 
 
 func _build_sessions() -> Array[FocusSession]:
@@ -214,11 +295,20 @@ func _arrange_shelf() -> void:
 
 	var slot := 0
 	for plant: PlantInstance in _app_state.get_mature_plants():
-		if slot >= 8:
+		if slot >= 7:
 			break
 		plant.move_to_shelf(slot)
 		plant.pot_id = pot_ids[slot % pot_ids.size()]
 		slot += 1
+
+	# One unfinished plant on the shelf as well. Displaying a plant from its first
+	# stage is the whole point of the staged-maturity change, and a shelf of
+	# nothing but finished specimens would never exercise it.
+	for plant: PlantInstance in _app_state.get_growing_plants():
+		if plant.can_be_displayed() and plant.location == PlantInstance.Location.INVENTORY:
+			plant.move_to_shelf(slot)
+			plant.pot_id = pot_ids[slot % pot_ids.size()]
+			break
 
 	_plant_the_garden()
 
@@ -241,19 +331,26 @@ func _plant_the_garden() -> void:
 			break
 		# Spread across the plot rather than filling row one, so overlap and
 		# depth ordering are actually exercised.
-		plant.move_to_garden(Vector2i(index % layout.grid_size.x, (index * 2) % layout.grid_size.y))
+		# Varied facings as well as varied cells: a row of one species all facing
+		# the same way is exactly the thing facings exist to break up, and a
+		# capture that never turns one would not show whether they work.
+		plant.move_to_garden(
+			Vector2i(index % layout.grid_size.x, (index * 2) % layout.grid_size.y),
+			index % PlantInstance.GARDEN_ROTATIONS
+		)
 		index += 1
 
+	# Cell -> [ornament id, quarter turns]. Turned ornaments are included on
+	# purpose, so a capture shows whether rotation actually draws.
 	var ornaments := {
-		Vector2i(0, layout.grid_size.y - 1): "stone_path",
-		Vector2i(1, layout.grid_size.y - 1): "stone_path",
-		Vector2i(2, layout.grid_size.y - 1): "garden_bench",
-		Vector2i(layout.grid_size.x - 1, 1): "lantern",
+		Vector2i(0, layout.grid_size.y - 1): ["stone_path", 0],
+		Vector2i(1, layout.grid_size.y - 1): ["stone_path", 1],
+		Vector2i(2, layout.grid_size.y - 1): ["garden_bench", 0],
+		Vector2i(layout.grid_size.x - 1, 1): ["lantern", 2],
 	}
 	for cell: Vector2i in ornaments:
 		if not layout.is_cell_in_bounds(cell):
 			continue
-		var key := GardenLayout.cell_key(cell)
 		# Never bury a plant that was just placed.
 		var occupied := false
 		for plant: PlantInstance in _app_state.data.plants:
@@ -261,7 +358,8 @@ func _plant_the_garden() -> void:
 				occupied = true
 				break
 		if not occupied:
-			layout.decorations[key] = ornaments[cell]
+			var entry: Array = ornaments[cell]
+			layout.set_decoration(cell, String(entry[0]), int(entry[1]))
 
 
 func _award_experience(sessions: Array[FocusSession]) -> void:

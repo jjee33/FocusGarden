@@ -14,6 +14,9 @@ enum Location { INVENTORY, SHELF, GARDEN }
 
 enum Maturity { GROWING, MATURE }
 
+## Quarter turns a planted specimen can take.
+const GARDEN_ROTATIONS: int = 4
+
 var uid: String = ""
 var species_id: StringName = &""
 var nickname: String = ""
@@ -41,6 +44,9 @@ var location: Location = Location.INVENTORY
 var shelf_slot: int = -1
 ## Garden cell when location == GARDEN, else (-1, -1).
 var garden_cell: Vector2i = Vector2i(-1, -1)
+## Quarter turns, 0-3. Cosmetic only, like the pot — it changes which way the
+## plant faces in its bed and nothing else.
+var garden_rotation: int = 0
 
 ## Mystery seed support (§19). While unrevealed the UI must not show species_id.
 var is_mystery: bool = false
@@ -65,6 +71,16 @@ func is_mature() -> bool:
 	return maturity == Maturity.MATURE
 
 
+## True once the plant is far enough along to go on the shelf or into the garden.
+##
+## Waiting for full maturity meant a plant spent hours as a row in a list with
+## nowhere to be seen, which is the opposite of what a game about watching things
+## grow should do. A displayed plant keeps growing exactly as it did in the
+## collection — placement has never had anything to do with growth.
+func can_be_displayed() -> bool:
+	return is_mature() or growth_stage >= PlantGrowthService.DISPLAY_STAGE
+
+
 ## Moves the plant, clearing whatever placement it previously had. The only
 ## supported way to change location — assigning the fields directly is what
 ## would reintroduce the duplicate-placement bug.
@@ -72,6 +88,7 @@ func move_to_inventory() -> void:
 	location = Location.INVENTORY
 	shelf_slot = -1
 	garden_cell = Vector2i(-1, -1)
+	garden_rotation = 0
 
 
 func move_to_shelf(slot: int) -> void:
@@ -80,10 +97,17 @@ func move_to_shelf(slot: int) -> void:
 	garden_cell = Vector2i(-1, -1)
 
 
-func move_to_garden(cell: Vector2i) -> void:
+func move_to_garden(cell: Vector2i, rotation: int = -1) -> void:
 	location = Location.GARDEN
 	garden_cell = cell
 	shelf_slot = -1
+	if rotation >= 0:
+		garden_rotation = posmod(rotation, GARDEN_ROTATIONS)
+
+
+## Turns the plant a quarter turn where it stands.
+func rotate_in_garden(steps: int = 1) -> void:
+	garden_rotation = posmod(garden_rotation + steps, GARDEN_ROTATIONS)
 
 
 func to_dict() -> Dictionary:
@@ -105,6 +129,7 @@ func to_dict() -> Dictionary:
 		"shelf_slot": shelf_slot,
 		"garden_cell_x": garden_cell.x,
 		"garden_cell_y": garden_cell.y,
+		"garden_rotation": garden_rotation,
 		"is_mystery": is_mystery,
 		"mystery_revealed": mystery_revealed,
 	}
@@ -144,6 +169,7 @@ static func from_dict(data: Dictionary) -> PlantInstance:
 	plant.garden_cell = Vector2i(
 		DictUtil.get_int(data, "garden_cell_x", -1), DictUtil.get_int(data, "garden_cell_y", -1)
 	)
+	plant.garden_rotation = posmod(DictUtil.get_int(data, "garden_rotation"), GARDEN_ROTATIONS)
 	plant.is_mystery = DictUtil.get_bool(data, "is_mystery")
 	plant.mystery_revealed = DictUtil.get_bool(data, "mystery_revealed")
 
@@ -153,8 +179,10 @@ static func from_dict(data: Dictionary) -> PlantInstance:
 		Location.INVENTORY:
 			plant.shelf_slot = -1
 			plant.garden_cell = Vector2i(-1, -1)
+			plant.garden_rotation = 0
 		Location.SHELF:
 			plant.garden_cell = Vector2i(-1, -1)
+			plant.garden_rotation = 0
 		Location.GARDEN:
 			plant.shelf_slot = -1
 	return plant

@@ -16,10 +16,9 @@ interesting_fact = "In the wild it grows on tree bark, not soil — its roots ar
 
 [sub_resource type="Resource" id="Resource_nca8x"]
 script = ExtResource("2_tdj0f")
-type = 2
 scope = 1
 params = {
-"count": 5
+"amount": 480.0
 }
 
 [sub_resource type="Resource" id="Resource_j31yg"]

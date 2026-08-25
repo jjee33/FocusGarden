@@ -16,10 +16,9 @@ interesting_fact = "Bonsai is a cultivation practice, not a species — the tree
 
 [sub_resource type="Resource" id="Resource_d7g3k"]
 script = ExtResource("2_mbobk")
-type = 2
 scope = 1
 params = {
-"count": 14
+"amount": 600.0
 }
 
 [sub_resource type="Resource" id="Resource_vquvm"]

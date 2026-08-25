@@ -142,7 +142,7 @@ func _build_project_picker() -> void:
 			# The category colour is decoration; the name carries the meaning
 			# (§50 forbids colour-only encoding).
 			chip.add_theme_color_override(
-				"font_hover_color", DesignTokens.project_color(project.color_token)
+				"font_hover_color", Palette.project_color(project.color_token)
 			)
 		row.selected.connect(_on_project_selected)
 		if not projects.any(func(p: ProjectCategory) -> bool: return p.id == _selected_project_id):
@@ -271,8 +271,8 @@ func _build_plant_picker() -> void:
 		name_label.text = species.display_name
 		var progress := AppState.get_plant_progress(plant)
 		copy.add_child(_progress_bar(progress))
-		detail.text = "%d%% grown · %s" % [
-			int(progress * 100.0),
+		detail.text = "%s · %s" % [
+			PlantStageText.describe(plant),
 			RequirementEvaluator.describe(species.growth_requirement),
 		]
 
@@ -363,7 +363,7 @@ func _build_running() -> void:
 		return
 
 	var is_break := session.is_break()
-	var accent := DesignTokens.SKY if is_break else DesignTokens.MOSS
+	var accent := Palette.sky() if is_break else Palette.moss()
 
 	var heading := HBoxContainer.new()
 	heading.add_theme_constant_override("separation", DesignTokens.SPACE_SM)
@@ -376,9 +376,13 @@ func _build_running() -> void:
 	_state_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_child(_state_label)
 
+	# A Chip, not a SubtleButton. SubtleButton is fully transparent at rest, so a
+	# toggle in its off state read as a line of plain text — no hint that it could
+	# be pressed, and none that it had two states. The chip is the shape this app
+	# already uses everywhere else for exactly this.
 	var focus_mode := Button.new()
 	focus_mode.text = "Focus Mode"
-	focus_mode.theme_type_variation = &"SubtleButton"
+	focus_mode.theme_type_variation = &"Chip"
 	focus_mode.toggle_mode = true
 	focus_mode.tooltip_text = "Hide the navigation rail while you work"
 	focus_mode.toggled.connect(func(on: bool) -> void: EventBus.focus_mode_changed.emit(on))
@@ -468,7 +472,7 @@ func _build_running() -> void:
 	# Tinted so the destructive control is distinguishable from the two benign
 	# ones beside it. The tint is a hint, not the message — the label already
 	# says "Discard" and the confirmation spells out the consequence (§50).
-	discard.add_theme_color_override("font_color", DesignTokens.CLAY)
+	discard.add_theme_color_override("font_color", Palette.clay())
 	discard.tooltip_text = "End without keeping this session's time"
 	discard.pressed.connect(_on_discard_pressed)
 	controls.add_child(discard)
@@ -563,25 +567,25 @@ func _build_complete() -> void:
 		card.ready.connect(
 			func() -> void: Celebration.burst(
 				self, card.global_position + card.size * Vector2(0.5, 0.35),
-				DesignTokens.AMBER if outcome.plant_matured else DesignTokens.MOSS
+				Palette.amber() if outcome.plant_matured else Palette.moss()
 			),
 			CONNECT_ONE_SHOT
 		)
 
 	var credited := outcome.credited_minutes if outcome != null else 0.0
 	tiles.add_child(
-		StatTile.create("Focused", TimeUtil.format_duration(credited), DesignTokens.MOSS)
+		StatTile.create("Focused", TimeUtil.format_duration(credited), Palette.moss())
 	)
 	tiles.add_child(
 		StatTile.create(
 			"Experience", "+%d XP" % (outcome.xp_awarded if outcome != null else 0),
-			DesignTokens.AMBER
+			Palette.amber()
 		)
 	)
 	var summary := StatisticsManager.get_summary()
 	tiles.add_child(
 		StatTile.create(
-			"Today", TimeUtil.format_duration(summary.focus_today), DesignTokens.TERRACOTTA
+			"Today", TimeUtil.format_duration(summary.focus_today), Palette.terracotta()
 		)
 	)
 
@@ -589,7 +593,7 @@ func _build_complete() -> void:
 		var level_up := Label.new()
 		level_up.text = "Level %d reached." % ProgressionManager.get_level()
 		level_up.theme_type_variation = &"Heading"
-		level_up.add_theme_color_override("font_color", DesignTokens.AMBER)
+		level_up.add_theme_color_override("font_color", Palette.amber())
 		column.add_child(level_up)
 
 	# An anomalous session is reported plainly rather than hidden. §55 requires we

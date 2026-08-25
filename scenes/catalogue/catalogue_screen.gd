@@ -181,9 +181,13 @@ func _refresh() -> void:
 	for species: PlantSpecies in shown:
 		var entry := AppState.get_catalogue_entry(species.id)
 		var discovered := entry != null and entry.discovered
-		var subtitle := ""
+		# The cost is shown for every species, discovered or not. It is derived
+		# from rarity, which the silhouette card already states, so it gives
+		# nothing away about a plant that has not been grown yet — and knowing
+		# what a legendary asks of you is most of the reason to want one.
+		var subtitle := "%s to grow" % TimeUtil.format_duration(species.get_maturity_minutes())
 		if discovered and entry.times_grown > 0:
-			subtitle = "Grown %d×" % entry.times_grown
+			subtitle += " · grown %d×" % entry.times_grown
 		var card := PlantCard.for_species(species, discovered, subtitle)
 		var chosen := species
 		card.pressed.connect(func() -> void: PlantDetailDialog.open(get_tree().root, chosen))

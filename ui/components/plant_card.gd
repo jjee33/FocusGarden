@@ -47,7 +47,7 @@ static func for_plant(plant: PlantInstance, progress: float, subtitle: String = 
 	card._build(
 		species,
 		plant.nickname if not plant.nickname.is_empty() else species.display_name,
-		subtitle if not subtitle.is_empty() else "%d%% grown" % int(progress * 100.0),
+		subtitle if not subtitle.is_empty() else PlantStageText.describe(plant),
 		progress,
 		false,
 		true
@@ -84,6 +84,12 @@ func _build(
 	_button.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_button.focus_mode = Control.FOCUS_ALL
 	_button.pressed.connect(func() -> void: pressed.emit())
+	# The card lifts under the cursor rather than only tinting. A grid of cards
+	# with no elevation change reads as a table; one that rises reads as pickable.
+	_button.mouse_entered.connect(func() -> void: _set_hovered(true))
+	_button.mouse_exited.connect(func() -> void: _set_hovered(false))
+	_button.focus_entered.connect(func() -> void: _set_hovered(true))
+	_button.focus_exited.connect(func() -> void: _set_hovered(false))
 	add_child(_button)
 
 	var column := VBoxContainer.new()
@@ -148,12 +154,30 @@ func _build_missing(plant: PlantInstance) -> void:
 	column.add_child(note)
 
 
+## Raises the card by swapping its panel for a copy at a higher elevation. The
+## copy is made from whatever the active theme supplies, so the hover state
+## follows the appearance mode without a second stylebox being authored.
+func _set_hovered(hovered: bool) -> void:
+	if not hovered:
+		remove_theme_stylebox_override("panel")
+		return
+	var base := get_theme_stylebox("panel", "Card") as StyleBoxFlat
+	if base == null:
+		return
+	var lifted := base.duplicate() as StyleBoxFlat
+	lifted.border_color = Palette.moss()
+	lifted.shadow_color = Palette.shadow_key()
+	lifted.shadow_size = DesignTokens.ELEVATION_AMBIENT_SIZE[2]
+	lifted.shadow_offset = Vector2(0, DesignTokens.ELEVATION_KEY_OFFSET[2])
+	add_theme_stylebox_override("panel", lifted)
+
+
 ## Rarity as a named pill. The colour supports the word; it never replaces it.
 static func _rarity_badge(rarity: PlantSpecies.Rarity) -> Control:
 	var badge := PanelContainer.new()
 	badge.theme_type_variation = &"Badge"
 	var style := StyleBoxFlat.new()
-	style.bg_color = DesignTokens.rarity_color(rarity)
+	style.bg_color = Palette.rarity_color(rarity)
 	style.set_corner_radius_all(DesignTokens.RADIUS_PILL)
 	style.content_margin_left = DesignTokens.SPACE_XS
 	style.content_margin_right = DesignTokens.SPACE_XS
@@ -164,6 +188,6 @@ static func _rarity_badge(rarity: PlantSpecies.Rarity) -> Control:
 	var label := Label.new()
 	label.text = PlantSpecies.RARITY_NAMES[clampi(int(rarity), 0, 4)]
 	label.add_theme_font_size_override("font_size", DesignTokens.FONT_CAPTION)
-	label.add_theme_color_override("font_color", DesignTokens.INK_ON_ACCENT)
+	label.add_theme_color_override("font_color", Palette.ink_on_accent())
 	badge.add_child(label)
 	return badge

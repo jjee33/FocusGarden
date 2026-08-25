@@ -78,9 +78,24 @@ investment without becoming unreachable. Level 2 at 75 XP (~40 minutes), level 1
 at 2,475 XP (~20 hours), level 20 at 9,975 XP (~83 hours).
 
 **Growth stages:** derived, never a threshold table. A plant's stage is its
-maturity requirement's 0..1 ratio quantized to the species' stage count. The
-final stage is reached only at a full ratio, so a plant never *looks* mature
-while still growing.
+maturity requirement's 0..1 ratio quantized into equal bands — three stages means
+exactly thirds. Reaching the last band is not maturity: that is still a full
+ratio only, so the final third is the plant filling out and coming into flower.
+Flowers are the reward for finishing rather than for getting close.
+
+**Maturity cost:** derived from rarity, never authored per species. Three hours
+of focus for a common houseplant, 4h30 uncommon, 6h rare, 8h epic, 10h for the
+legendary bonsai. The figures used to be tuned per entry and had drifted into
+eleven arbitrary numbers between 100 and 420 minutes — a plant whose cost you
+cannot guess from its badge is a plant you cannot plan around.
+
+**Display gate:** a plant can go on the shelf or into the garden once it reaches
+stage 1, a third of the way, and finishes growing where it can be seen. Waiting
+for full maturity meant a plant spent hours as a row in a list with nowhere to
+be, which is the opposite of what a game about watching things grow should do.
+Placement has never had anything to do with growth: a displayed plant stays
+selectable as the growth target and advances exactly as it would have in the
+collection.
 
 **Streaks:** a day counts when its total focus meets the configurable threshold
 (default 25 minutes). Breaks do not build a focus streak.

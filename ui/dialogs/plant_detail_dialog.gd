@@ -27,7 +27,7 @@ func _build(species: PlantSpecies) -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var scrim := ColorRect.new()
-	scrim.color = DesignTokens.BG_OVERLAY
+	scrim.color = Palette.bg_overlay()
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(scrim)
 
@@ -211,7 +211,7 @@ static func _section_label(text: String) -> Label:
 
 static func _divider() -> Control:
 	var line := ColorRect.new()
-	line.color = DesignTokens.BORDER_SOFT
+	line.color = Palette.border_soft()
 	line.custom_minimum_size.y = 1
 	return line
 

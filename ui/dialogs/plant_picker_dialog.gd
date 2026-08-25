@@ -29,7 +29,7 @@ func _build() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var scrim := ColorRect.new()
-	scrim.color = DesignTokens.BG_OVERLAY
+	scrim.color = Palette.bg_overlay()
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(scrim)
 
@@ -91,7 +91,17 @@ func _build_growing_section(parent: VBoxContainer) -> void:
 	for plant: PlantInstance in growing:
 		var species := ContentDB.get_species(plant.species_id)
 		var progress := AppState.get_plant_progress(plant)
-		var subtitle := "%d%% grown" % int(progress * 100.0)
+		var subtitle := PlantStageText.describe(plant)
+		# A plant already on display can still be the growth target, and saying
+		# where it stands stops the shelf and the picker reading as two separate
+		# collections.
+		match plant.location:
+			PlantInstance.Location.SHELF:
+				subtitle += " · on the shelf"
+			PlantInstance.Location.GARDEN:
+				subtitle += " · in the garden"
+			_:
+				pass
 		if species != null and species.growth_requirement != null:
 			subtitle += "\n%s" % RequirementEvaluator.describe(species.growth_requirement)
 		var card := PlantCard.for_plant(plant, progress, subtitle)

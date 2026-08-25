@@ -1,5 +1,147 @@
 # Changelog
 
+## [Unreleased]
+
+Interface refresh, a rebuilt garden, staged plant maturity, and backups a player
+can find.
+
+### Added — appearance
+
+- **Dark mode**, with a light/dark toggle in Settings. Colour tokens moved out of
+  `DesignTokens` into a new `Palette` with a getter per token, so both modes are
+  the same structure with a different palette bound and a variation cannot exist
+  in one and not the other. `tools/bake_theme.gd` now writes both themes.
+- Real typography. The interface resolves a system UI face through a fallback
+  chain instead of using Godot's default, headings carry a semibold weight, and
+  the countdown and stat figures use tabular digits so a running timer stops
+  jittering as it counts.
+- A two-layer elevation scale, hairline card borders, a tonal `SecondaryButton`
+  between the filled primary and the ghost, `Eyebrow` and `Badge` text roles, and
+  themed separators.
+- Navigation rail: the selected section is a filled pill with an accent bar down
+  its leading edge, the brand block is aligned to the same optical edge as the
+  entries, and dividers separate it from the list and the version footer.
+
+### Added — garden
+
+- **Drag and drop.** Pick a plant or an ornament up and put it down; drop onto an
+  occupied square to swap; drag off the plot to lift something out, and a plant
+  goes back to the collection with everything it has grown intact.
+- **Rotation.** Ornaments turn in quarter turns; plants take one of four facings,
+  which mirror and lean them rather than tipping them over, so a row of one
+  species stops looking like the same plant stamped four times. `R` while
+  hovering, or right-click.
+- Redrawn ground, beds and all eight ornament shapes: mown bands rather than a
+  chequerboard, a stone lip around the plot, dug beds with contact shadows, and
+  ornaments built in a unit-square space so a rotation is one transform rather
+  than eight special cases.
+
+### Added — backups
+
+- Dated, self-contained snapshots in `Documents/Focus Garden/Backups`, written on
+  launch, hourly during play, and on close, keeping the newest 20. Files are
+  copied rather than re-serialised, so a snapshot preserves what was on disk.
+- Settings → Your data gains **Back up now**, **Open folder** and **Restore a
+  backup**. Restoring snapshots the current save first, so picking the wrong date
+  is not how someone loses a garden.
+
+### Changed — growth
+
+- **Three growth stages, in equal thirds**, and maturity is now purely
+  time-based, scaled by rarity: 3h common, 4h30 uncommon, 6h rare, 8h epic, 10h
+  legendary. The per-species figures had drifted into eleven arbitrary numbers
+  between 100 and 420 minutes that no player could predict from a plant's badge.
+  Five species lose their "8 morning sessions" and "focus on 5 separate days"
+  growth rules; those requirement types remain in use by achievements, expansions
+  and unlocks.
+- **A plant can go on the shelf or into the garden from its first stage** — about
+  a third of the way — and finishes growing where it can be seen. It stays
+  selectable as the growth target, and the shelf and the plot repaint as it
+  advances rather than only when it finishes.
+- Flowers are now the reward for finishing rather than for getting close, so the
+  final third of a plant's life has something to look forward to.
+- Save format **2**: ornaments and planted specimens gained a facing, and the
+  appearance mode became a setting.
+
+### Added — reach and clarity
+
+- **A keyboard cursor on the shelf and the garden.** Tab reaches either one, the
+  arrow keys walk it square by square, Enter acts exactly as a click would, and R
+  turns whatever is under it. Everything a drag can do is now reachable without a
+  pointer: placing goes through the side panel, and returning a plant to the
+  collection is a button in the story dialog. A focus ring shows which of the two
+  the arrow keys currently belong to.
+- **A Turn action in the plant story dialog**, so a facing can be changed by
+  plain clicking rather than only by right-click or R over the right square.
+- **Catalogue cards state what a species costs** — "3h to grow", "10h to grow".
+  Maturity is derived from rarity now, so the figure is predictable and worth
+  showing before you commit three hours to it rather than after.
+- Reset and import both write a dated backup before replacing anything, and say
+  so. Reset's copy no longer claims there is no undo, because there now is one.
+- Focus Mode is a chip rather than a ghost button. As a fully transparent toggle
+  it read as a line of plain text, with no hint that it could be pressed and none
+  that it had two states.
+
+### Changed — backup retention
+
+- **Retention is two rules now, not one.** "Keep the newest 20" is a volume cap,
+  not a policy about history, and it fails the moment something writes quickly:
+  twenty automated runs inside six minutes evicted the snapshot holding a real
+  save. Snapshots now survive if they are among the newest 20 OR if they are the
+  oldest taken on a given day, for the last 60 days. A day's first snapshot is
+  written before that day's play has changed anything, which makes it the copy of
+  that day worth keeping.
+- **`tools/simulate_progress.gd` refuses to overwrite a save it did not write.**
+  Every save it produces is stamped with its own player name; anything else is
+  treated as somebody's real garden and the run stops, naming what is in the save
+  it declined to destroy. `-- --force` overrides. The file has always said
+  DESTRUCTIVE in capitals at the top, and that was worth nothing at the moment it
+  mattered — the line had been read days earlier, and the tool said nothing at
+  all as it ran.
+
+### Fixed
+
+- **The interface scale no longer pushes the top-left of the app off screen.**
+  `content_scale_factor` shrinks the logical viewport rather than resizing the
+  window, so at 200% a 1280×720 window is a 640×360 layout — half the supported
+  minimum. Controls wider than that were repositioned to make room, and
+  `GROW_DIRECTION_BOTH` on the shell split the overflow evenly, half of it past
+  the origin where no scrollbar could reach it. The enforced minimum window size
+  now scales with the factor, the shell grows toward the end, and `AppScreen`
+  scrolls horizontally when something genuinely does not fit.
+- A finished plant reads as finished whatever the requirement says today, so
+  retuning a species upward cannot re-open every specimen already grown — or
+  visibly shrink them on a shelf the player had already arranged.
+- The garden and the shelf letterbox their scene instead of stretching to fill
+  their card, which had been turning square garden cells into strips.
+- Growing plants on the shelf and in the garden were drawn at full size
+  regardless of their actual progress.
+- Two plants on one garden square left an orphaned view parented and drawing
+  forever. The screen cannot produce that, but a tool or a hand-edited save can.
+- **The test runner reported a crashed test as a pass.** A test whose body errors
+  part-way records no assertions and appended no failure, so it printed green;
+  eight genuinely broken tests once passed this way. A test that asserts nothing
+  now fails.
+- Home's active plant said "8h 20m of focus grown in" — a sentence that was never
+  finished. It now names the project the time went into, which is the whole point
+  of it.
+- Every "how far along is this plant" string goes through `PlantStageText`. The
+  shelf, the garden, the picker, the focus screen, the plant card and the story
+  dialog had drifted into five different phrasings of the same number.
+- A whole number of hours formats as "3h" rather than "3h 00m". The padded
+  minutes keep a column aligned when there are minutes; they had nothing to say
+  in a catalogue of costs that are all whole hours. `TimeUtil`'s display
+  formatting had no test at all, and now has ten.
+- A plant whose species this build cannot find still occupies its garden square
+  (§54). It could not be dragged and the square could not be reused, because the
+  plot only counted a cell occupied if it had managed to draw something there.
+- Dragging an ornament off the plot now says what happened, as dragging a plant
+  off already did.
+- `tools/simulate_progress.gd` is finally as destructive as its own header
+  claimed. Sessions were replaced but plants, catalogue entries and journal rows
+  were appended, so a second run left two of every plant stacked on the same
+  squares and reported "plants matured: 32" for a sixteen-species game.
+
 ## [0.1.0] — Milestone 10: Windows Release
 
 First packaged build. `FocusGarden.exe`, 105 MB, self-contained.

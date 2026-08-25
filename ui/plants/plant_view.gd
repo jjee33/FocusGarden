@@ -31,6 +31,11 @@ const SWAY_PERIOD_SECONDS: float = 5.5
 ## indistinguishable from 60 Hz at this speed, and costs a fifth as much (§44).
 const REDRAW_HZ: float = 12.0
 
+## Quarter turns available to `facing`.
+const FACINGS: int = 4
+## How far each facing leans the plant, as a fraction of its width.
+const FACING_LEAN: float = 0.045
+
 var species: PlantSpecies:
 	set(value):
 		species = value
@@ -61,6 +66,28 @@ var show_pot: bool = true:
 		show_pot = value
 		queue_redraw()
 
+## Whether the plant has actually reached maturity. Separate from `growth`, which
+## only says how far along it is: the final third of growth is the plant filling
+## out, and coming into flower is what marks the end of it.
+var mature: bool = true:
+	set(value):
+		if mature == value:
+			return
+		mature = value
+		queue_redraw()
+
+## 0-3, a quarter turn each. A side-on plant cannot be tipped onto its side and
+## still look like a plant, so a facing mirrors it and leans it instead. The
+## point is that a row of one species stops looking like the same plant stamped
+## four times.
+var facing: int = 0:
+	set(value):
+		var wrapped := posmod(value, FACINGS)
+		if facing == wrapped:
+			return
+		facing = wrapped
+		queue_redraw()
+
 ## Renders as a flat silhouette, for undiscovered catalogue entries (§16).
 var silhouette: bool = false:
 	set(value):
@@ -89,6 +116,11 @@ var _redraw_accumulator: float = 0.0
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Content colours are authored once, in daylight, and seated into the scene's
+	# light here so foliage does not glow out of a dark garden. Set once rather
+	# than per-frame: assigning modulate inside _draw would re-enter the redraw it
+	# is part of, and screens are rebuilt when the appearance mode changes anyway.
+	modulate = Palette.foliage_ambient()
 	# Each plant starts at a different point in the cycle, so a shelf of them does
 	# not sway in unison like a chorus line.
 	_sway_phase = randf() * TAU
@@ -123,6 +155,8 @@ func _draw() -> void:
 	# along a shelf line rather than floating at different depths.
 	var origin := Vector2(size.x * 0.5, size.y)
 
+	_apply_facing(origin)
+
 	if silhouette:
 		_draw_silhouette(origin, height)
 		return
@@ -135,8 +169,25 @@ func _draw() -> void:
 
 	PlantPainter.draw_plant(
 		self, species.morphology, origin, height, growth, _sway_phase,
-		pot if show_pot else null
+		pot if show_pot else null, mature
 	)
+
+
+## Mirrors and leans the plant for its facing. Applied as a draw transform rather
+## than by rebuilding geometry, so a facing costs nothing and the painter never
+## has to know about it.
+func _apply_facing(origin: Vector2) -> void:
+	if facing == 0:
+		return
+	var mirrored := facing % 2 == 1
+	# The odd facings mirror, the upper pair also nudge sideways, so four turns
+	# give four distinguishable silhouettes rather than two.
+	var offset := 0.0 if facing < 2 else size.x * FACING_LEAN
+	if mirrored:
+		# Reflecting about the plant's own centre line: x -> 2*origin.x - x.
+		draw_set_transform(Vector2(origin.x * 2.0 + offset, 0.0), 0.0, Vector2(-1.0, 1.0))
+	else:
+		draw_set_transform(Vector2(offset, 0.0), 0.0, Vector2.ONE)
 
 
 ## An undiscovered species shows as a shape without detail (§16). Drawn from the
@@ -146,7 +197,7 @@ func _draw_silhouette(origin: Vector2, height: float) -> void:
 	if species.morphology == null:
 		return
 	var shadow := species.morphology.duplicate() as PlantMorphology
-	var veil := DesignTokens.INK_MUTED
+	var veil := Palette.ink_muted()
 	shadow.leaf_color_base = veil
 	shadow.leaf_color_tip = veil
 	shadow.stem_color = veil

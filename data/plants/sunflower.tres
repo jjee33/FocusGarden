@@ -16,12 +16,9 @@ interesting_fact = "Young sunflowers track the sun across the sky, but mature he
 
 [sub_resource type="Resource" id="Resource_7443i"]
 script = ExtResource("2_kuhyd")
-type = 4
 scope = 1
 params = {
-"count": 8,
-"end_hour": 11,
-"start_hour": 5
+"amount": 360.0
 }
 
 [sub_resource type="Resource" id="Resource_iuj3u"]

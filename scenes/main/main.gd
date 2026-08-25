@@ -26,6 +26,15 @@ const SCREENS: Array[Dictionary] = [
 
 const DEFAULT_SCREEN: String = "home"
 
+## The two baked themes (see tools/bake_theme.gd). Applied to the root WINDOW
+## rather than to this Control, because dialogs and toasts are parented to the
+## root as siblings of the shell — theming only the shell would leave every
+## popup in the other mode.
+const THEME_PATHS: Dictionary = {
+	Palette.Mode.LIGHT: "res://ui/theme/focus_garden_light.tres",
+	Palette.Mode.DARK: "res://ui/theme/focus_garden_dark.tres",
+}
+
 ## Shown in the navigation footer. Bump it when a milestone lands, so the running
 ## build always states how far along it actually is rather than overstating it.
 const CURRENT_MILESTONE: String = "Milestone 10"
@@ -34,6 +43,7 @@ const CURRENT_MILESTONE: String = "Milestone 10"
 const TARGET_FPS: int = 60
 
 var _screen_host: Control
+var _background: ColorRect
 var _nav_rail: PanelContainer
 var _nav_buttons: Dictionary = {}   ## id -> Button
 var _screen_cache: Dictionary = {}  ## id -> AppScreen
@@ -41,9 +51,9 @@ var _current_id: String = ""
 
 
 func _ready() -> void:
-	# §5's minimum supported resolution, enforced by the OS window manager so the
-	# layout can never be squeezed below what it was designed for.
-	DisplayServer.window_set_min_size(DesignTokens.MIN_WINDOW_SIZE)
+	# Appearance is bound before anything is built, so no control is ever
+	# constructed reading the wrong palette and then left stale.
+	apply_theme_mode(AppState.get_settings().theme_mode)
 
 	# A productivity app has no reason to render faster than the display, and an
 	# uncapped loop burns a core for nothing (§44). Asserted in code as well as
@@ -55,6 +65,8 @@ func _ready() -> void:
 	# Display preferences are restored before the first frame is shown, so the
 	# window does not visibly jump from default to the player's choice.
 	WindowMode.apply(AppState.get_settings().window_mode)
+	# UiScale also owns §5's minimum window size, because the minimum has to grow
+	# with the interface scale — a 1280x720 window at 200% is a 640x360 layout.
 	UiScale.apply_from_settings(AppState.get_settings())
 
 	_build_layout()
@@ -64,6 +76,7 @@ func _ready() -> void:
 	# Screens read the motion setting when they build their plants, so turning it
 	# on or off has to rebuild them rather than just flipping a flag somewhere.
 	EventBus.reduced_motion_changed.connect(func(_enabled: bool) -> void: _refresh_all_screens())
+	EventBus.theme_mode_changed.connect(_on_theme_mode_changed)
 	navigate_to(DEFAULT_SCREEN)
 
 	# Onboarding takes over the whole window on a fresh save (§45). The
@@ -83,6 +96,44 @@ func _show_onboarding() -> void:
 	add_child(onboarding)
 
 
+## Binds the palette and swaps the baked Theme on the root window.
+##
+## Both halves are required: the Theme covers everything styled by a stylebox or
+## a type variation, and the Palette covers every custom `_draw` — plants, the
+## shelf, the garden, the heatmap — which Godot knows nothing about.
+func apply_theme_mode(setting: String) -> void:
+	var mode := Palette.mode_from_setting(setting)
+	Palette.set_mode(mode)
+
+	var theme_resource: Theme = load(THEME_PATHS[mode])
+	if theme_resource == null:
+		GameLog.error(GameLog.Category.UI, "Theme for '%s' is missing; keeping the current one." % setting)
+		return
+	get_tree().root.theme = theme_resource
+	if _background != null:
+		_background.color = Palette.bg_base()
+
+
+func _on_theme_mode_changed(setting: String) -> void:
+	apply_theme_mode(setting)
+	# Screens are rebuilt rather than refreshed. A screen that called
+	# `add_theme_color_override` with a palette colour while it was building holds
+	# a copy of the old value that no Theme swap can reach, so the only honest way
+	# to repaint is to build them again.
+	_rebuild_all_screens()
+
+
+## Discards every cached screen and rebuilds the current one. Used only for a
+## change that invalidates what screens captured at build time.
+func _rebuild_all_screens() -> void:
+	var current := _current_id
+	for screen: AppScreen in _screen_cache.values():
+		screen.queue_free()
+	_screen_cache.clear()
+	_current_id = ""
+	navigate_to(current if not current.is_empty() else DEFAULT_SCREEN)
+
+
 ## Rebuilds cached screens after a change that alters everything they show.
 ## Cheaper than clearing the cache: the screens rebuild their own content and
 ## keep their scroll positions and filter state.
@@ -100,12 +151,21 @@ func _build_overlays() -> void:
 
 func _build_layout() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	# THE TOP-LEFT BUG. A Control whose minimum size exceeds its anchored size is
+	# repositioned to make room, and GROW_DIRECTION_BOTH splits that overflow
+	# evenly — half of it off the top-left corner, where there is no scrollbar and
+	# no way to reach it. At a high interface scale the logical viewport shrinks
+	# below what the widest screens ask for, which is exactly that case. Growing
+	# toward the end instead keeps the origin pinned and pushes overflow somewhere
+	# the player can actually scroll to.
+	grow_horizontal = Control.GROW_DIRECTION_END
+	grow_vertical = Control.GROW_DIRECTION_END
 
-	var background := ColorRect.new()
-	background.color = DesignTokens.BG_BASE
-	background.set_anchors_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
+	_background = ColorRect.new()
+	_background.color = Palette.bg_base()
+	_background.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_background)
 
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -132,19 +192,9 @@ func _build_nav_rail() -> PanelContainer:
 	column.add_theme_constant_override("separation", DesignTokens.SPACE_XXS)
 	rail.add_child(column)
 
-	var brand := Label.new()
-	brand.text = "Focus Garden"
-	brand.theme_type_variation = &"NavBrand"
-	column.add_child(brand)
-
-	var tagline := Label.new()
-	tagline.text = "grow what you give time to"
-	tagline.theme_type_variation = &"NavCaption"
-	column.add_child(tagline)
-
-	var gap := Control.new()
-	gap.custom_minimum_size.y = DesignTokens.SPACE_LG
-	column.add_child(gap)
+	column.add_child(_build_brand())
+	column.add_child(_rail_divider())
+	column.add_child(_rail_gap(DesignTokens.SPACE_XS))
 
 	for entry: Dictionary in SCREENS:
 		var button := Button.new()
@@ -164,6 +214,9 @@ func _build_nav_rail() -> PanelContainer:
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(spacer)
 
+	column.add_child(_rail_divider())
+	column.add_child(_rail_gap(DesignTokens.SPACE_XS))
+
 	var version := Label.new()
 	version.text = "v%s · %s" % [
 		ProjectSettings.get_setting("application/config/version", "0.0.0"),
@@ -173,6 +226,51 @@ func _build_nav_rail() -> PanelContainer:
 	column.add_child(version)
 
 	return rail
+
+
+## The rail header. Indented to the same left margin as a nav entry so the brand
+## and the section list share one optical edge — the old version sat flush left
+## while every button below it was inset, which is what made the corner look
+## unfinished.
+func _build_brand() -> Control:
+	var holder := MarginContainer.new()
+	holder.add_theme_constant_override("margin_left", DesignTokens.SPACE_SM)
+	holder.add_theme_constant_override("margin_right", DesignTokens.SPACE_SM)
+	holder.add_theme_constant_override("margin_top", DesignTokens.SPACE_XS)
+	holder.add_theme_constant_override("margin_bottom", DesignTokens.SPACE_MD)
+
+	var stack := VBoxContainer.new()
+	stack.add_theme_constant_override("separation", 2)
+	holder.add_child(stack)
+
+	var brand := Label.new()
+	brand.text = "Focus Garden"
+	brand.theme_type_variation = &"NavBrand"
+	stack.add_child(brand)
+
+	var tagline := Label.new()
+	tagline.text = "grow what you give time to"
+	tagline.theme_type_variation = &"NavCaption"
+	stack.add_child(tagline)
+
+	return holder
+
+
+func _rail_divider() -> Control:
+	var line := HSeparator.new()
+	line.add_theme_constant_override("separation", 1)
+	var style := StyleBoxLine.new()
+	style.color = Palette.ink_on_nav_muted()
+	style.color.a = 0.22
+	style.thickness = 1
+	line.add_theme_stylebox_override("separator", style)
+	return line
+
+
+func _rail_gap(height: int) -> Control:
+	var gap := Control.new()
+	gap.custom_minimum_size.y = height
+	return gap
 
 
 ## Switches to a screen, creating it on first visit.

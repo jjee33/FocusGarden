@@ -19,6 +19,9 @@ const EXPECTED_XP: int = 4242
 const EXPECTED_MINUTES: float = 87.5
 const EXPECTED_SPECIES: StringName = &"probe_fern"
 const PROBE_PROJECT_NAME: String = "Probe Project"
+const EXPECTED_CELL := Vector2i(2, 1)
+const EXPECTED_ROTATION: int = 3
+const EXPECTED_ORNAMENT: String = "stone_bench"
 
 # Autoloads are fetched from the tree rather than referenced by name. A script
 # run via --script is COMPILED BEFORE autoloads are registered, so writing
@@ -61,6 +64,18 @@ func _write() -> void:
 	_app_state.data.plants.append(plant)
 	_app_state.data.profile.active_plant_uid = plant.uid
 
+	# A second plant, in the ground and turned. Save format 2 added the facing;
+	# this is what proves it makes it back off disk rather than defaulting to 0
+	# on every launch, which would silently un-arrange a garden.
+	var planted := PlantInstance.create(EXPECTED_SPECIES, "probe_project")
+	planted.move_to_garden(EXPECTED_CELL, EXPECTED_ROTATION)
+	_app_state.data.plants.append(planted)
+
+	# The same for an ornament's facing, which lives on the layout rather than on
+	# a plant and so travels through a completely different path.
+	_app_state.data.garden.set_decoration(EXPECTED_CELL + Vector2i(1, 0), EXPECTED_ORNAMENT, 3)
+	_app_state.get_settings().theme_mode = "dark"
+
 	_app_state.data.projects.append(ProjectCategory.create(PROBE_PROJECT_NAME))
 
 	var session := FocusSession.create(FocusSession.Kind.FOCUS, 25.0, "probe_project", plant.uid)
@@ -90,8 +105,8 @@ func _verify() -> void:
 	if not profile.has_unlock("probe_unlock"):
 		problems.append("unlock 'probe_unlock' was not persisted")
 
-	if _app_state.data.plants.size() != 1:
-		problems.append("plants: expected 1, got %d" % _app_state.data.plants.size())
+	if _app_state.data.plants.size() != 2:
+		problems.append("plants: expected 2, got %d" % _app_state.data.plants.size())
 	else:
 		var plant: PlantInstance = _app_state.data.plants[0]
 		if plant.species_id != EXPECTED_SPECIES:
@@ -104,6 +119,26 @@ func _verify() -> void:
 			problems.append("shelf placement was not persisted")
 		if profile.active_plant_uid != plant.uid:
 			problems.append("active plant reference was not persisted")
+
+		var planted: PlantInstance = _app_state.data.plants[1]
+		if planted.location != PlantInstance.Location.GARDEN or planted.garden_cell != EXPECTED_CELL:
+			problems.append("garden placement was not persisted")
+		if planted.garden_rotation != EXPECTED_ROTATION:
+			problems.append(
+				"garden facing: expected %d, got %d" % [EXPECTED_ROTATION, planted.garden_rotation]
+			)
+
+	# Format 2 additions that do not live on a plant.
+	var garden: GardenLayout = _app_state.data.garden
+	var ornament_cell := EXPECTED_CELL + Vector2i(1, 0)
+	if garden.get_decoration_id(ornament_cell) != EXPECTED_ORNAMENT:
+		problems.append("the ornament was not persisted")
+	elif garden.get_decoration_rotation(ornament_cell) != 3:
+		problems.append(
+			"ornament facing: expected 3, got %d" % garden.get_decoration_rotation(ornament_cell)
+		)
+	if _app_state.get_settings().theme_mode != "dark":
+		problems.append("the appearance setting was not persisted")
 
 	# Checks that the probe's OWN project survived, rather than asserting a total.
 	# A count assertion here broke the moment starter projects were seeded on

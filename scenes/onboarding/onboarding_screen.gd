@@ -31,7 +31,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 
 	var background := ColorRect.new()
-	background.color = DesignTokens.BG_BASE
+	background.color = Palette.bg_base()
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(background)
 

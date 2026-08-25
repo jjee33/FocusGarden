@@ -44,7 +44,7 @@ window/stretch/aspect="expand"
 
 [gui]
 
-theme/custom="res://ui/theme/focus_garden.tres"
+theme/custom="res://ui/theme/focus_garden_light.tres"
 theme/default_font_antialiasing=1
 
 [input]

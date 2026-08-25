@@ -29,6 +29,7 @@ func _init() -> void:
 	_probe_audio()
 	_probe_resources()
 	_probe_theme()
+	_probe_backups()
 	_probe_globals()
 
 	print("\n--------------------------------------------")
@@ -152,6 +153,7 @@ func _probe_theme() -> void:
 	_class_method("Theme", "set_constant")
 	_class_method("Theme", "set_font_size")
 	_class_method("Theme", "set_type_variation")
+	_class_method("Theme", "set_font")
 	_class_method("Tween", "tween_property")
 	_class_method("Tween", "set_parallel")
 	_class_method("Tween", "set_ease")
@@ -169,6 +171,53 @@ func _probe_theme() -> void:
 	]:
 		if not (property in box):
 			_missing.append("StyleBoxFlat.%s" % property)
+
+	# StyleBoxLine backs the dividers in the rail and the settings sections.
+	_checked += 1
+	var line := StyleBoxLine.new()
+	for property: String in ["color", "thickness", "vertical"]:
+		if not (property in line):
+			_missing.append("StyleBoxLine.%s" % property)
+
+	_probe_fonts()
+
+
+## The interface font is resolved from the OS at runtime rather than bundled
+## (ui/theme/design_tokens.gd), so the whole app's typography rests on these
+## three classes existing and keeping their property names.
+func _probe_fonts() -> void:
+	_checked += 1
+	var system := SystemFont.new()
+	for property: String in ["font_names", "subpixel_positioning"]:
+		if not (property in system):
+			_missing.append("SystemFont.%s" % property)
+
+	_checked += 1
+	var variation := FontVariation.new()
+	for property: String in ["base_font", "variation_embolden", "opentype_features"]:
+		if not (property in variation):
+			_missing.append("FontVariation.%s" % property)
+
+	# A font chain that resolves to nothing would leave every label blank, and
+	# that is a platform question rather than an API one — so it is checked here
+	# rather than assumed.
+	_checked += 1
+	system.font_names = PackedStringArray(DesignTokens.FONT_FAMILIES)
+	if system.get_height(DesignTokens.FONT_BODY) <= 0.0:
+		_missing.append("SystemFont resolved no usable face from DesignTokens.FONT_FAMILIES")
+
+
+## Where the player's backups go (systems/save/save_backup.gd). A missing or
+## empty Documents path is handled at runtime, but the API itself must exist.
+func _probe_backups() -> void:
+	_singleton("OS", OS, "get_system_dir")
+	_singleton("OS", OS, "shell_open")
+	# Static, not singleton methods — checked through ClassDB for that reason.
+	_class_method("DirAccess", "get_directories_at")
+	_class_method("DirAccess", "get_files_at")
+	_class_method("DirAccess", "copy_absolute")
+	_class_method("DirAccess", "make_dir_recursive_absolute")
+	_singleton("Time", Time, "get_unix_time_from_datetime_dict")
 
 
 func _probe_globals() -> void:

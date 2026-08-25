@@ -11,7 +11,7 @@ var _value_label: Label
 var _caption_label: Label
 
 
-static func create(caption: String, value: String, accent: Color = DesignTokens.INK_PRIMARY) -> StatTile:
+static func create(caption: String, value: String, accent: Color = Palette.ink_primary()) -> StatTile:
 	var tile := StatTile.new()
 	tile._configure(caption, value, accent)
 	return tile
@@ -28,13 +28,19 @@ func _configure(caption: String, value: String, accent: Color) -> void:
 	# Caption first in the tree so screen readers and tab order encounter the
 	# label before the number it describes.
 	_caption_label = Label.new()
-	_caption_label.text = caption
-	_caption_label.theme_type_variation = &"Caption"
+	# Upper-cased and tracked: it reads as a field label rather than as a second,
+	# competing sentence next to the number.
+	_caption_label.text = caption.to_upper()
+	_caption_label.theme_type_variation = &"Eyebrow"
 	column.add_child(_caption_label)
 
 	_value_label = Label.new()
 	_value_label.text = value
-	_value_label.theme_type_variation = &"Title"
+	_value_label.theme_type_variation = &"Display"
+	_value_label.add_theme_font_override(
+		"font", DesignTokens.font(DesignTokens.WEIGHT_SEMIBOLD, true)
+	)
+	_value_label.add_theme_font_size_override("font_size", DesignTokens.FONT_TITLE)
 	_value_label.add_theme_color_override("font_color", accent)
 	column.add_child(_value_label)
 
@@ -46,4 +52,4 @@ func set_value(value: String) -> void:
 
 
 func set_caption(caption: String) -> void:
-	_caption_label.text = caption
+	_caption_label.text = caption.to_upper()

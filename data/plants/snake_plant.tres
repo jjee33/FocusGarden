@@ -18,7 +18,7 @@ interesting_fact = "It keeps its pores shut by day and opens them at night, losi
 script = ExtResource("2_foh2m")
 scope = 1
 params = {
-"amount": 120.0
+"amount": 180.0
 }
 
 [sub_resource type="Resource" id="Resource_naa8m"]

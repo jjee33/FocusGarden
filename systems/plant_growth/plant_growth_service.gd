@@ -30,21 +30,54 @@ static func progress_ratio(
 ) -> float:
 	if plant == null or species == null:
 		return 0.0
+	if plant.is_mature():
+		# A plant that already finished is finished, whatever the requirement says
+		# today. §60 requires maturity to be permanent, and a content update that
+		# retunes a species upward would otherwise re-open every specimen the
+		# player already grew — and visibly shrink them back down on the shelf.
+		return 1.0
 	if species.growth_requirement == null:
 		# A species with no authored requirement would otherwise be instantly
-		# mature. Treat it as un-growable and log loudly rather than silently
-		# handing the player a free plant.
+		# mature. Treat it as un-growable rather than silently handing the player
+		# a free plant.
 		return 0.0
 	return RequirementEvaluator.evaluate(species.growth_requirement, context)
 
 
-## Stage index for a progress ratio. The final stage is reached only at a full
-## 1.0 ratio, so a plant cannot appear mature while still growing.
+## Names for the three default stages, in order. Used wherever a stage is shown
+## to the player, so "Young" never becomes "stage 2" on one screen and
+## "half-grown" on another.
+const STAGE_NAMES: Array[String] = ["Seedling", "Young", "Mature"]
+
+## The stage at which a plant may be put on the shelf or planted out.
+##
+## One, not zero: a seed in a pot is not a thing to display, and the point of the
+## gate is that reaching it means something. With three equal stages that is a
+## third of the way — one hour for a common species.
+const DISPLAY_STAGE: int = 1
+
+
+## Stage index for a progress ratio, in equal bands.
+##
+## Each stage occupies the same share of the requirement, so three stages really
+## are thirds. An earlier version reserved the last stage for a full 1.0 ratio,
+## which was fine at five stages and degenerate at three: the only boundary
+## landed at 50% and the plant jumped straight from seedling to finished.
+##
+## Reaching the last band is NOT maturity — `apply_growth` still sets that only at
+## a full ratio. The final third is the plant filling out and coming into flower,
+## which is the difference the player watches for.
 static func stage_for_ratio(ratio: float, stage_count: int) -> int:
 	var stages := maxi(2, stage_count)
-	if ratio >= 1.0:
-		return stages - 1
-	return clampi(int(floor(clampf(ratio, 0.0, 1.0) * float(stages - 1))), 0, stages - 2)
+	return clampi(int(floor(clampf(ratio, 0.0, 1.0) * float(stages))), 0, stages - 1)
+
+
+## Human-readable name for a stage index. Falls back to a numbered form for a
+## species with authored art and more stages than the default three.
+static func stage_name(stage: int, stage_count: int) -> String:
+	if stage_count == STAGE_NAMES.size():
+		return STAGE_NAMES[clampi(stage, 0, STAGE_NAMES.size() - 1)]
+	return "Stage %d" % (clampi(stage, 0, maxi(1, stage_count) - 1) + 1)
 
 
 ## Recomputes a plant's stage and maturity from its contributing sessions and

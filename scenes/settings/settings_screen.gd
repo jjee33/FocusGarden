@@ -112,7 +112,7 @@ func _build_project_row(project: ProjectCategory) -> HBoxContainer:
 	# A small colour swatch beside the name — decoration, since the name is
 	# already the identifier (§50).
 	var swatch := ColorRect.new()
-	swatch.color = DesignTokens.project_color(project.color_token)
+	swatch.color = Palette.project_color(project.color_token)
 	swatch.custom_minimum_size = Vector2(12, 12)
 	swatch.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(swatch)
@@ -242,6 +242,26 @@ func _build_appearance_section() -> void:
 	mode_choices.select_value(settings.window_mode)
 	modes.add_child(mode_choices)
 
+	var theme_label := VBoxContainer.new()
+	theme_label.add_theme_constant_override("separation", 2)
+	var theme_title := Label.new()
+	theme_title.text = "Appearance"
+	theme_label.add_child(theme_title)
+	var theme_hint := Label.new()
+	theme_hint.text = "Dark keeps the same garden, after closing time."
+	theme_hint.theme_type_variation = &"Caption"
+	theme_label.add_child(theme_hint)
+	column.add_child(theme_label)
+
+	var theme_choices := ChoiceRow.new()
+	theme_choices.add_choice("Light", "light")
+	theme_choices.add_choice("Dark", "dark")
+	theme_choices.selected.connect(func(value: Variant) -> void:
+		_apply(func() -> void: AppState.get_settings().theme_mode = String(value))
+		EventBus.theme_mode_changed.emit(String(value)))
+	theme_choices.select_value(settings.theme_mode)
+	column.add_child(theme_choices)
+
 	column.add_child(SettingRow.stepper(
 		"Interface scale", "Makes everything larger or smaller.",
 		settings.ui_scale, 0.75, 2.0, 0.05,
@@ -324,18 +344,122 @@ func _build_data_section() -> void:
 	var reset := Button.new()
 	reset.text = "Reset everything"
 	reset.theme_type_variation = &"SubtleButton"
-	reset.add_theme_color_override("font_color", DesignTokens.CLAY)
+	reset.add_theme_color_override("font_color", Palette.clay())
 	reset.pressed.connect(_on_reset_pressed)
 	buttons.add_child(reset)
 
 	var warning := Label.new()
 	warning.text = (
-		"Resetting deletes every plant, session and achievement. There is no undo, "
-		+ "so export a copy first if there is any doubt."
+		"Resetting deletes every plant, session and achievement. A backup is written "
+		+ "first, so it can be undone below — but export a copy too if there is any doubt."
 	)
 	warning.theme_type_variation = &"Caption"
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(warning)
+
+	column.add_child(HSeparator.new())
+	_build_backup_section(column)
+
+
+## Automatic backups (§36). Kept visible rather than silent: a backup nobody
+## knows about is one nobody reaches for when they need it.
+func _build_backup_section(column: VBoxContainer) -> void:
+	var heading := Label.new()
+	heading.text = "Backups"
+	heading.theme_type_variation = &"Heading"
+	column.add_child(heading)
+
+	var snapshots := SaveManager.list_snapshots()
+	var location := Label.new()
+	location.text = "Kept in %s" % SaveManager.get_snapshot_dir()
+	location.theme_type_variation = &"Caption"
+	location.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(location)
+
+	var summary := Label.new()
+	summary.theme_type_variation = &"Caption"
+	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if snapshots.is_empty():
+		summary.text = (
+			"A dated copy of your whole garden is written when the app starts, "
+			+ "hourly while you play, and when you close it. None yet."
+		)
+	else:
+		summary.text = "%d kept, newest %s. Written on launch, hourly, and on close." % [
+			snapshots.size(), snapshots[0].describe()
+		]
+	column.add_child(summary)
+
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", DesignTokens.SPACE_XS)
+	column.add_child(buttons)
+
+	var back_up := Button.new()
+	back_up.text = "Back up now"
+	back_up.theme_type_variation = &"SecondaryButton"
+	back_up.pressed.connect(_on_back_up_now_pressed)
+	buttons.add_child(back_up)
+
+	var open := Button.new()
+	open.text = "Open folder"
+	open.theme_type_variation = &"SubtleButton"
+	open.pressed.connect(func() -> void: OS.shell_open(SaveManager.get_snapshot_dir()))
+	buttons.add_child(open)
+
+	var restore := Button.new()
+	restore.text = "Restore a backup"
+	restore.theme_type_variation = &"SubtleButton"
+	restore.disabled = snapshots.is_empty()
+	if restore.disabled:
+		restore.tooltip_text = "There is nothing to restore from yet."
+	else:
+		restore.pressed.connect(_on_restore_pressed)
+	buttons.add_child(restore)
+
+
+func _on_back_up_now_pressed() -> void:
+	# Forced: pressing the button and getting nothing because a snapshot happened
+	# four minutes ago would read as a broken button.
+	if SaveManager.snapshot_now(true):
+		EventBus.toast_requested.emit("Backed up", SaveManager.get_snapshot_dir(), "💾")
+		_rebuild()
+	else:
+		_show_error(
+			"Could not back up",
+			"Focus Garden could not write to %s." % SaveManager.get_snapshot_dir()
+		)
+
+
+## Restoring replaces the live save, so it asks first and says exactly which copy
+## it would bring back. The current garden is snapshotted before the swap, so
+## even choosing the wrong date is recoverable.
+func _on_restore_pressed() -> void:
+	var snapshots := SaveManager.list_snapshots()
+	if snapshots.is_empty():
+		return
+	var newest := snapshots[0]
+
+	var dialog := ConfirmDialog.open(
+		get_tree().root,
+		"Restore the backup from %s?" % newest.describe(),
+		(
+			"Everything currently in Focus Garden is replaced by that copy. Your "
+			+ "garden as it stands right now is backed up first, so this can be undone."
+		),
+		"Restore",
+		true,
+		"Cancel"
+	)
+	dialog.confirmed.connect(func() -> void:
+		if SaveManager.restore_snapshot(newest.path) == null:
+			_show_error("Could not restore", SaveManager.last_error_detail)
+			return
+		# The files on disk ARE the restored save now, so the live state is
+		# re-read from them rather than assigned — that way sessions, projects and
+		# the migration path all come back through the one loading route.
+		AppState.load_game()
+		_rebuild()
+		EventBus.toast_requested.emit("Restored", newest.describe(), "💾"))
 
 
 func _on_export_pressed() -> void:
@@ -385,6 +509,10 @@ func _on_import_selected(path: String) -> void:
 		"Keep mine"
 	)
 	dialog.confirmed.connect(func() -> void:
+		# The garden being replaced is backed up first, for the same reason reset
+		# does it: an import that turns out to be the wrong file must not be how
+		# someone loses the one they had.
+		SaveManager.snapshot_now(true)
 		AppState.data = imported
 		AppState.save_now()
 		AppState.load_game()
@@ -407,8 +535,9 @@ func _on_reset_pressed() -> void:
 		get_tree().root,
 		"Reset everything?",
 		(
-			"This deletes %s of recorded focus, %d plants and %d achievements, permanently. "
-			+ "Export a copy first if you are not certain."
+			"This deletes %s of recorded focus, %d plants and %d achievements. A backup "
+			+ "is written first, so it can be restored — but export a copy too if you "
+			+ "are not certain."
 		) % [
 			TimeUtil.format_duration(summary.focus_lifetime),
 			AppState.data.plants.size(),
@@ -422,7 +551,10 @@ func _on_reset_pressed() -> void:
 		var second := ConfirmDialog.open(
 			get_tree().root,
 			"Last check",
-			"There is no undo. Delete everything and start a new garden?",
+			(
+				"Delete everything and start a new garden? A dated backup is written "
+				+ "first, so this can be undone from Restore a backup."
+			),
 			"Delete everything",
 			true,
 			"Cancel"
@@ -431,6 +563,14 @@ func _on_reset_pressed() -> void:
 
 
 func _perform_reset() -> void:
+	# Forced, and before anything is touched. A player who resets by accident has
+	# minutes to realise it and hundreds of hours riding on the answer, so the
+	# backup has to happen even if one was written four minutes ago.
+	if not SaveManager.snapshot_now(true):
+		GameLog.warn(
+			GameLog.Category.SAVE,
+			"Reset could not write a backup first; continuing at the player's request."
+		)
 	AppState.reset_to_new_game()
 	_rebuild()
 	EventBus.navigation_requested.emit("home")

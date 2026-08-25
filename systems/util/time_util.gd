@@ -58,6 +58,13 @@ static func days_between(from_key: String, to_key: String) -> int:
 	return int(round(float(to_unix - from_unix) / float(SECONDS_PER_DAY)))
 
 
+## Month names for display. Short forms, so a date never pushes a card wider than
+## its neighbours.
+const MONTH_ABBREVIATIONS: Array[String] = [
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+]
+
+
 ## Date key `offset` days away from `key`.
 static func shift_date_key(key: String, offset: int) -> String:
 	var base := _date_key_to_unix(key)
@@ -89,7 +96,30 @@ static func format_duration(total_minutes: float) -> String:
 	var minutes := whole % 60
 	if hours <= 0:
 		return "%dm" % minutes
+	# A whole number of hours says so. The zero-padded minutes are there to keep
+	# "1h 05m" aligned with "1h 25m" in a column; "3h 00m" is just noise, and the
+	# rarity-derived maturity costs are all whole hours.
+	if minutes == 0:
+		return "%dh" % hours
 	return "%dh %02dm" % [hours, minutes]
+
+
+## "14 Aug 2026, 09:42" — a moment, written the way a person reads one.
+##
+## Local time, deliberately: everything stored is UTC so that arithmetic is safe
+## across timezone changes, but a timestamp shown to the player has to match the
+## clock on their wall or it is worse than useless.
+static func format_datetime(unix_seconds: float) -> String:
+	if unix_seconds <= 0.0:
+		return ""
+	var t := Time.get_datetime_dict_from_unix_time(int(unix_seconds))
+	return "%d %s %d, %02d:%02d" % [
+		DictUtil.get_int(t, "day"),
+		MONTH_ABBREVIATIONS[clampi(DictUtil.get_int(t, "month", 1) - 1, 0, 11)],
+		DictUtil.get_int(t, "year"),
+		DictUtil.get_int(t, "hour"),
+		DictUtil.get_int(t, "minute"),
+	]
 
 
 ## Countdown clock: "25:00", or "1:05:00" once past an hour.

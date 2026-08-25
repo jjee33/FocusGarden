@@ -1,0 +1,33 @@
+# Maintainer: Focus Garden project
+# Local package build — expects a prebuilt Linux export at builds/linux/FocusGarden
+# relative to the repo root. Build the export first (see tools/build_arch_package.sh),
+# then run `makepkg` from this directory, or use the wrapper script.
+
+pkgname=focus-garden
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="A cozy garden grown from the time you invest in yourself."
+arch=('x86_64')
+url="https://github.com/focus-garden/focus-garden"
+license=('custom')
+depends=('glibc' 'libx11' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'mesa' 'alsa-lib' 'fontconfig' 'zlib')
+options=('!strip')
+
+# Populated by tools/build_arch_package.sh, which copies the built binary and
+# packaging assets into this directory before invoking makepkg.
+source=("FocusGarden" "focus-garden.desktop" "app_icon.svg" "focus-garden.install")
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+install=focus-garden.install
+
+package() {
+    install -Dm755 "${srcdir}/FocusGarden" "${pkgdir}/opt/focus-garden/FocusGarden"
+
+    install -d "${pkgdir}/usr/bin"
+    ln -s /opt/focus-garden/FocusGarden "${pkgdir}/usr/bin/focus-garden"
+
+    install -Dm644 "${srcdir}/focus-garden.desktop" \
+        "${pkgdir}/usr/share/applications/focus-garden.desktop"
+
+    install -Dm644 "${srcdir}/app_icon.svg" \
+        "${pkgdir}/usr/share/icons/hicolor/scalable/apps/focus-garden.svg"
+}

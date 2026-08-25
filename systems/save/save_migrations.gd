@@ -39,14 +39,36 @@ class Result extends RefCounted:
 ## supply their own chain.
 static func get_chain() -> Array[Dictionary]:
 	var chain: Array[Dictionary] = []
-	# Example of the shape a future step takes:
-	# chain.append({
-	#     "from": 1, "to": 2,
-	#     "apply": func(data: Dictionary) -> Dictionary:
-	#         data["settings"] = DictUtil.get_dict(data, "settings")
-	#         data["settings"]["new_option"] = true
-	#         return data,
-	# })
+
+	# 1 -> 2: ornaments and planted specimens gained a facing, and the appearance
+	# mode became a setting.
+	#
+	# Format 1 stored a garden cell as a bare decoration id string. Format 2
+	# stores {"id", "rotation"} so an ornament can be turned. Rotation defaults to
+	# 0, which is exactly how every existing garden already looks, so this step
+	# cannot change what a player sees — it only makes the shape writable.
+	chain.append({
+		"from": 1, "to": 2,
+		"apply": func(data: Dictionary) -> Dictionary:
+			var garden := DictUtil.get_dict(data, "garden")
+			var decorations := DictUtil.get_dict(garden, "decorations")
+			var upgraded := {}
+			for key: String in decorations:
+				var entry: Variant = decorations[key]
+				if entry is Dictionary:
+					upgraded[key] = entry
+				elif entry is String and not (entry as String).is_empty():
+					upgraded[key] = {"id": entry, "rotation": 0}
+			garden["decorations"] = upgraded
+			data["garden"] = garden
+
+			var settings := DictUtil.get_dict(data, "settings")
+			if not settings.has("theme_mode"):
+				settings["theme_mode"] = "light"
+			data["settings"] = settings
+			return data,
+	})
+
 	return chain
 
 

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Focus Garden
+Comment=A cozy garden grown from the time you invest in yourself.
+Exec=/opt/focus-garden/FocusGarden
+Icon=focus-garden
+Terminal=false
+Categories=Game;
+StartupWMClass=FocusGarden

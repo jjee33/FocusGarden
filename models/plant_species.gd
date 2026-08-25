@@ -57,14 +57,40 @@ const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Rare", "Epic", "Lege
 ## Empty means available year-round.
 @export var seasonal_months: Array[int] = []
 
-## Fallback used when a species has no authored art yet, so the catalogue renders
-## a deliberate placeholder instead of an empty rect (§73).
-const FALLBACK_STAGE_COUNT: int = 5
+## Growth stages a species has when no art has been authored for it (§73).
+##
+## Three, in equal thirds of the requirement: seedling, young, mature. Three is
+## few enough that each one is a visibly different plant and that the first is
+## reached in a sitting or two, which is what makes a growing plant worth putting
+## on the shelf rather than hiding until it is finished.
+const DEFAULT_STAGE_COUNT: int = 3
+
+## Focus minutes to maturity, indexed by Rarity — three hours for a common
+## houseplant up to ten for the bonsai.
+##
+## Rarity is the only input. Per-species tuning drifted into eleven arbitrary
+## numbers between 100 and 420 that no player could predict and no designer could
+## remember, and a plant whose cost you cannot guess from its badge is a plant
+## you cannot plan around.
+const MATURITY_MINUTES_BY_RARITY: Array[float] = [
+	180.0,  # Common     — 3h
+	270.0,  # Uncommon   — 4h 30m
+	360.0,  # Rare       — 6h
+	480.0,  # Epic       — 8h
+	600.0,  # Legendary  — 10h
+]
 
 
 ## Number of visual growth stages, minimum 2 (a seed and a mature form).
 func get_stage_count() -> int:
-	return maxi(2, stage_textures.size()) if not stage_textures.is_empty() else FALLBACK_STAGE_COUNT
+	return maxi(2, stage_textures.size()) if not stage_textures.is_empty() else DEFAULT_STAGE_COUNT
+
+
+## The authored cost of this species, from its rarity. Content generation reads
+## this to build the growth requirement, so the table above is the only place the
+## number is decided (§14).
+func get_maturity_minutes() -> float:
+	return MATURITY_MINUTES_BY_RARITY[clampi(int(rarity), 0, MATURITY_MINUTES_BY_RARITY.size() - 1)]
 
 
 func get_rarity_name() -> String:

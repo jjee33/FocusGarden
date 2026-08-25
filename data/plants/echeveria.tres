@@ -18,7 +18,7 @@ interesting_fact = "The pale bloom on the leaves is a wax coating; wiping it off
 script = ExtResource("2_ju6m6")
 scope = 1
 params = {
-"amount": 180.0
+"amount": 270.0
 }
 
 [sub_resource type="Resource" id="Resource_ymmkg"]

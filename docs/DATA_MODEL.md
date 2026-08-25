@@ -30,13 +30,28 @@ classification (`rarity`, `biome_id`, `tags`), growth (`growth_requirement`,
 Two deliberate derivations rather than stored fields:
 
 - **No `required_focus_minutes`.** The maturity rule lives in
-  `growth_requirement`, so varied patterns all work through one mechanism — 100
-  minutes, 4 sessions, 5 separate days, morning sessions. A plain minute count is
-  just the commonest shape of that. `get_display_focus_minutes()` derives it for
-  the UI and returns `-1` when the requirement is not minute-shaped, so the
-  interface shows the requirement's own wording instead of a fabricated number.
-- **No `growth_stage_count`.** Derived from `stage_textures.size()`, so a species
-  can never claim more stages than it has art for.
+  `growth_requirement`, so any pattern works through one mechanism —
+  minutes, session counts, separate days, time-of-day windows.
+  `get_display_focus_minutes()` derives the figure for the UI and returns `-1`
+  when the requirement is not minute-shaped, so the interface shows the
+  requirement's own wording instead of a fabricated number.
+
+  Every shipped species uses the minute-shaped form, and the figure is derived
+  from RARITY through `MATURITY_MINUTES_BY_RARITY` (3h common → 10h legendary)
+  rather than authored per entry. `tools/generate_content.gd` builds the
+  requirement from that table and offers nowhere to put a bespoke number — a
+  hand-tuned figure would immediately be a second source of truth for a threshold
+  the whole game is balanced around, which is how the previous eleven arbitrary
+  values between 100 and 420 minutes came about.
+- **No `growth_stage_count`.** Derived from `stage_textures.size()`, falling back
+  to three when a species has no painted art, so a species can never claim more
+  stages than it has art for. Stages are equal bands of the requirement — with
+  three, exactly thirds.
+
+  Reaching the last band is NOT maturity. `apply_growth` sets that only at a full
+  ratio, so the final third is the plant filling out and coming into flower.
+  `PlantInstance.can_be_displayed()` gates the shelf and the garden on reaching
+  stage 1, a third of the way.
 
 ### `BotanicalInfo` — `models/botanical_info.gd`
 
@@ -117,7 +132,7 @@ Anomalies: `NONE`, `SUSPEND`, `CLOCK_JUMP`, `NEGATIVE_DURATION`.
 | `CatalogueEntry` | Per-species collection record. `discover()` returns true once. |
 | `AchievementState` | Per-achievement progress. `unlock()` returns true once. |
 | `JournalEntry` | Append-only. Stores composed `body` text rather than a template, so future wording changes cannot retroactively alter the player's history. |
-| `ShelfLayout` / `GardenLayout` | Styling and decorations only — plant placement lives on `PlantInstance`, so the two can never disagree. |
+| `ShelfLayout` / `GardenLayout` | Styling and decorations only — plant placement lives on `PlantInstance`, so the two can never disagree. A garden cell holds `{"id", "rotation"}`; a planted specimen's own facing lives on the plant, beside the cell it stands in. |
 | `SaveData` | The container. Drops duplicate ids and skips malformed entries on load. |
 
 ## Date and time conventions

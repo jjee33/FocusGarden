@@ -7,10 +7,11 @@ can look at.
 Built with **Godot 4.7.1** and GDScript. Windows-first, fully offline, no
 accounts, no ads, no monetization.
 
-> **Status: Milestone 10 — Windows build produced and verified.** All ten
-> milestones are complete: timer, plants, catalogue, shelf, garden, progression,
-> achievements, statistics, journal, audio, onboarding, and a packaged
-> `FocusGarden.exe`. See [Current state](#current-state) for the detail.
+> **Status: Milestone 10 — Windows build produced and verified**, plus an
+> unreleased interface refresh: dark mode, a rebuilt garden with drag-and-drop
+> and rotation, staged plant maturity, and visible backups. See
+> [Current state](#current-state) for the detail and
+> [CHANGELOG.md](CHANGELOG.md) for what changed.
 
 ---
 
@@ -62,7 +63,7 @@ Confirm every engine API the project uses actually exists:
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/api_probe.gd
 ```
 
-Run the unit tests (131 tests, 967 assertions as of Milestone 10):
+Run the unit tests (168 tests, 1084 assertions):
 
 ```bash
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/cli_test_runner.gd
@@ -86,7 +87,7 @@ Render every screen to PNG for visual review (must NOT be headless):
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --path . --script res://tools/capture_screens.gd
 ```
 
-After changing any design token, re-bake the theme and commit the result:
+After changing any design token, re-bake both themes and commit the results:
 
 ```bash
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/bake_theme.gd
@@ -118,9 +119,12 @@ Needs the export templates first — see [RELEASE.md](docs/RELEASE.md).
 - **Settings**: timer lengths, cycle length, auto-start, notifications, daily
   goal and streak threshold — all persisted immediately
 - Application shell with all nine sections and persistent navigation
-- Cozy botanical theme generated from a single design-token file
+- Cozy botanical theme in light and dark, generated from a single token file
 - Save system: atomic writes, rotating backups, corruption recovery, versioned
   migrations, refusal to overwrite a save from a newer build
+- **Backups**: dated snapshots of the whole save in `Documents/Focus Garden/
+  Backups`, written on launch, hourly, and on close, with restore from inside the
+  app
 - Session timing: dual-clock elapsed measurement immune to sleep, clock changes
   and frame-rate drops. Measured drift is **0.0001s over 10 seconds**, and a
   2-second main-thread stall is counted exactly
@@ -128,14 +132,16 @@ Needs the export templates first — see [RELEASE.md](docs/RELEASE.md).
 - One requirement engine covering all thirteen condition types
 
 - **Plants**: 16 species with real botanical data, drawn procedurally through
-  eight growth forms and seven leaf shapes, with growth requirements covering
-  minutes, session counts, separate days, and time-of-day windows
+  eight growth forms and seven leaf shapes. Three growth stages in equal thirds,
+  and maturity scaled by rarity from three hours to ten. A plant can go on the
+  shelf or into the ground from its first stage and finish growing there
 - **Catalogue**: discovery silhouettes, rarity and biome filters, sort, search,
   favourites, and per-species history
 - **Shelf**: timber-and-metal shelving, twelve slots, six pot designs, and a
   permanent per-plant record of the focus that grew it
 - **Garden**: a plot that expands at 10/25/50/100/250/500 hours, with nine
-  placeable ornaments earned along the way
+  placeable ornaments earned along the way. Arrange it by dragging or by clicking;
+  turn anything in quarter turns with `R` or a right-click
 - **Progression**: XP, levels, 24 achievements with progress tracking and hidden
   entries, streaks, and a daily goal
 - **Statistics**: period totals, per-project breakdown, and a yearly heatmap with
@@ -171,6 +177,9 @@ fixed it — worth reading before optimising anything here.
   are drawn from parameters rather than painted. Every asset is referenced
   through a resource, so a commissioned art set could replace them without
   touching gameplay code — see `docs/ASSET_PLACEHOLDERS.md`.
+- **No bundled typeface.** The interface asks the OS for a modern UI face and
+  falls back through a chain ending at something every system has, rather than
+  shipping a licensed font.
 - **Unsigned executable.** Windows SmartScreen warns on first run.
 - **Windows only.** No platform-specific code exists, so Linux and macOS presets
   should mostly be a matter of adding and testing them — but neither has been

@@ -42,7 +42,7 @@ func _build(
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var scrim := ColorRect.new()
-	scrim.color = DesignTokens.BG_OVERLAY
+	scrim.color = Palette.bg_overlay()
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(scrim)
 

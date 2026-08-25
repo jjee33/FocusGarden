@@ -75,10 +75,19 @@ func _run_file(path: String) -> void:
 
 		_total_tests += 1
 		var before := suite.failures.size()
+		var assertions_before := suite.assertion_count
 
 		suite.before_each()
 		suite.call(method_name)
 		suite.after_each()
+
+		# A test that asserted NOTHING did not pass — it either crashed part-way
+		# (GDScript reports a runtime error and returns, which this harness cannot
+		# catch) or it never checked anything. Both were previously printed as a
+		# pass, which is the worst failure mode a test harness has: eight broken
+		# tests once reported green this way.
+		if suite.assertion_count == assertions_before:
+			suite.failures.append("made no assertions — did it crash?")
 
 		var new_failures := suite.failures.size() - before
 		if new_failures > 0:

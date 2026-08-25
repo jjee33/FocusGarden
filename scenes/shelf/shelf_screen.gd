@@ -38,12 +38,16 @@ func build_content() -> void:
 	content.add_child(row)
 
 	var shelf_frame := PanelContainer.new()
-	shelf_frame.theme_type_variation = &"Card"
+	shelf_frame.theme_type_variation = &"CardFlush"
 	shelf_frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(shelf_frame)
 
 	_shelf_view = ShelfView.new()
-	_shelf_view.custom_minimum_size = Vector2(680, 520)
+	# See the note in GardenScreen: a fixed minimum here is what pushed the
+	# layout past the logical viewport at high interface scales.
+	_shelf_view.custom_minimum_size = Vector2(320, 320)
+	_shelf_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_shelf_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_shelf_view.slot_pressed.connect(_on_slot_pressed)
 	shelf_frame.add_child(_shelf_view)
 
@@ -51,6 +55,9 @@ func build_content() -> void:
 
 	EventBus.save_loaded.connect(_refresh)
 	EventBus.plant_matured.connect(_on_plant_matured)
+	# A shelved plant keeps growing, so the shelf has to repaint when it advances
+	# a stage — not only when it finishes.
+	EventBus.plant_stage_changed.connect(_on_plant_stage_changed)
 	_refresh()
 
 
@@ -61,7 +68,7 @@ func on_shown() -> void:
 func _build_inventory_panel() -> PanelContainer:
 	var panel := PanelContainer.new()
 	panel.theme_type_variation = &"CardSunken"
-	panel.custom_minimum_size.x = 420
+	panel.custom_minimum_size.x = 300
 
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", DesignTokens.SPACE_SM)
@@ -101,10 +108,12 @@ func _refresh() -> void:
 	# Slots are read from the plants themselves, which is what makes the shelf
 	# and the plants incapable of disagreeing about placement.
 	var placed := {}
+	var growth := {}
 	for plant: PlantInstance in AppState.data.plants:
 		if plant.location == PlantInstance.Location.SHELF and plant.shelf_slot >= 0:
 			placed[plant.shelf_slot] = plant
-	_shelf_view.set_plants(placed)
+			growth[plant.shelf_slot] = AppState.get_plant_progress(plant)
+	_shelf_view.set_plants(placed, growth)
 
 	_rebuild_inventory()
 	_update_hint(placed.size())
@@ -116,20 +125,27 @@ func _rebuild_inventory() -> void:
 	for child in _inventory_empty.get_children():
 		child.queue_free()
 
+	# Displayable, not mature: a plant earns a place on the shelf a third of the
+	# way through and finishes growing where it can be seen.
 	var available: Array[PlantInstance] = []
+	var anything_displayable := false
 	for plant: PlantInstance in AppState.data.plants:
-		if plant.location == PlantInstance.Location.INVENTORY and plant.is_mature():
+		if not plant.can_be_displayed():
+			continue
+		anything_displayable = true
+		if plant.location == PlantInstance.Location.INVENTORY:
 			available.append(plant)
 
 	if available.is_empty():
 		_inventory_empty.add_child(
 			EmptyState.create(
 				"🌿",
-				"Nothing to display yet" if AppState.get_mature_plants().is_empty() else "Everything is placed",
+				"Nothing to display yet" if not anything_displayable else "Everything is placed",
 				(
-					"Plants appear here once they reach maturity. Keep focusing and the first one will arrive."
-					if AppState.get_mature_plants().is_empty()
-					else "Every plant you have grown is already on the shelf or in the garden."
+					"A plant can go on the shelf once it reaches its first stage, about a "
+					+ "third of the way. Keep focusing and the first one will arrive."
+					if not anything_displayable
+					else "Every plant far enough along is already on the shelf or in the garden."
 				),
 				""
 			)
@@ -137,7 +153,9 @@ func _rebuild_inventory() -> void:
 		return
 
 	for plant: PlantInstance in available:
-		var card := PlantCard.for_plant(plant, 1.0, _plant_subtitle(plant))
+		var card := PlantCard.for_plant(
+			plant, AppState.get_plant_progress(plant), _plant_subtitle(plant)
+		)
 		var chosen := plant
 		card.pressed.connect(func() -> void: _select_for_placement(chosen))
 		if _pending_plant != null and _pending_plant.uid == plant.uid:
@@ -146,10 +164,9 @@ func _rebuild_inventory() -> void:
 
 
 func _plant_subtitle(plant: PlantInstance) -> String:
-	return "%s · %s" % [
-		TimeUtil.format_duration(plant.accumulated_focus_minutes),
-		AppState.get_project_name(plant.primary_project_id),
-	]
+	return "%s · %s" % [PlantStageText.describe(plant), TimeUtil.format_duration(
+		plant.accumulated_focus_minutes
+	)]
 
 
 func _update_hint(placed_count: int) -> void:
@@ -200,4 +217,8 @@ func _plant_in_slot(slot: int) -> PlantInstance:
 
 
 func _on_plant_matured(_plant_uid: String) -> void:
+	_refresh()
+
+
+func _on_plant_stage_changed(_plant_uid: String, _stage: int) -> void:
 	_refresh()

@@ -1,0 +1,11 @@
+post_install() {
+    echo "Focus Garden installed. Launch it with 'focus-garden' or from your application menu."
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    echo "Focus Garden removed. Save data under ~/.local/share/godot/app_userdata/Focus Garden is left in place."
+}

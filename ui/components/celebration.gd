@@ -29,7 +29,7 @@ var _elapsed: float = 0.0
 ## Emits at `centre` within `parent`. Does nothing when reduced motion is on —
 ## §43 requires that setting to be honoured, and a burst of particles is exactly
 ## what it exists to prevent.
-static func burst(parent: Node, centre: Vector2, tint: Color = DesignTokens.MOSS) -> void:
+static func burst(parent: Node, centre: Vector2, tint: Color = Palette.moss()) -> void:
 	if AppState.get_settings().reduced_motion:
 		return
 	var celebration := Celebration.new()
@@ -38,7 +38,7 @@ static func burst(parent: Node, centre: Vector2, tint: Color = DesignTokens.MOSS
 	parent.add_child(celebration)
 
 
-var _tint: Color = DesignTokens.MOSS
+var _tint: Color = Palette.moss()
 
 
 func _ready() -> void:
@@ -57,7 +57,7 @@ func _ready() -> void:
 		mote.spin = randf_range(-2.0, 2.0)
 		mote.delay = randf() * 0.25
 		# Two greens and an amber, drawn from the palette rather than invented.
-		var palette := [_tint, _tint.lightened(0.22), DesignTokens.AMBER_GLOW]
+		var palette := [_tint, _tint.lightened(0.22), Palette.amber_glow()]
 		mote.color = palette[randi() % palette.size()]
 		_motes.append(mote)
 

@@ -144,7 +144,7 @@ func _build_card(definition: AchievementDef, is_unlocked: bool) -> PanelContaine
 			state.unlocked_at_utc if state != null else 0.0
 		)
 		earned.theme_type_variation = &"Caption"
-		earned.add_theme_color_override("font_color", DesignTokens.MOSS)
+		earned.add_theme_color_override("font_color", Palette.moss())
 		column.add_child(earned)
 	elif definition.track_progress and not concealed:
 		# §26 asks for progress tracking. Showing how close you are is the

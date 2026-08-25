@@ -18,7 +18,7 @@ interesting_fact = "Aloe has been cultivated so long that it no longer exists re
 script = ExtResource("2_6wary")
 scope = 1
 params = {
-"amount": 100.0
+"amount": 180.0
 }
 
 [sub_resource type="Resource" id="Resource_60nop"]

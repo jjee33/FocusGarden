@@ -21,12 +21,12 @@ var progress: float = 0.0:
 		progress = clamped
 		queue_redraw()
 
-var arc_color: Color = DesignTokens.MOSS:
+var arc_color: Color = Palette.moss():
 	set(value):
 		arc_color = value
 		queue_redraw()
 
-var track_color: Color = DesignTokens.TRACK:
+var track_color: Color = Palette.track():
 	set(value):
 		track_color = value
 		queue_redraw()

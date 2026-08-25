@@ -16,10 +16,9 @@ interesting_fact = "Pothos rarely flowers in cultivation — most plants grown i
 
 [sub_resource type="Resource" id="Resource_r4311"]
 script = ExtResource("2_gi7ms")
-type = 1
 scope = 1
 params = {
-"count": 4
+"amount": 180.0
 }
 
 [sub_resource type="Resource" id="Resource_bysaa"]

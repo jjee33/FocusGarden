@@ -63,4 +63,7 @@ signal navigation_requested(screen_id: String)
 signal focus_mode_changed(enabled: bool)
 signal settings_changed(key: String)
 signal reduced_motion_changed(enabled: bool)
+## Light or dark. The shell owns swapping the baked Theme and repainting every
+## custom `_draw`; nothing else needs a reference to the main scene to do it.
+signal theme_mode_changed(mode: String)
 signal toast_requested(title: String, body: String, icon_id: String)

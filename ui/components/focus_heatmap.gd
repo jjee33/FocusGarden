@@ -56,17 +56,17 @@ func _draw() -> void:
 		draw_rect(rect, _color_for(minutes), true)
 
 		if date_key == _hovered_key:
-			draw_rect(rect, DesignTokens.INK_PRIMARY, false, 1.5)
+			draw_rect(rect, Palette.ink_primary(), false, 1.5)
 
 
 func _color_for(minutes: float) -> Color:
 	if minutes <= 0.0:
-		return DesignTokens.BG_SUNKEN
+		return Palette.bg_sunken()
 	# Four discrete steps rather than a continuous ramp: distinct bands are far
 	# easier to compare at a glance than a smooth gradient.
 	var intensity := clampf(minutes / SATURATION_MINUTES, 0.0, 1.0)
 	var step := ceili(intensity * 4.0)
-	return DesignTokens.MOSS_SOFT.lerp(DesignTokens.MOSS_DEEP, (float(step) - 1.0) / 3.0)
+	return Palette.moss_soft().lerp(Palette.moss_deep(), (float(step) - 1.0) / 3.0)
 
 
 func _cell_size() -> float:

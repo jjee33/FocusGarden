@@ -27,7 +27,7 @@ func _build() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var scrim := ColorRect.new()
-	scrim.color = DesignTokens.BG_OVERLAY
+	scrim.color = Palette.bg_overlay()
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(scrim)
 
@@ -63,11 +63,11 @@ func _build() -> void:
 
 	var colours := ChoiceRow.new()
 	column.add_child(colours)
-	for token: String in DesignTokens.PROJECT_COLOR_ORDER:
+	for token: String in Palette.PROJECT_COLOR_ORDER:
 		# The swatch is labelled with its name, not shown as a bare colour square:
 		# §50 forbids relying on colour alone to distinguish options.
 		var chip := colours.add_choice(token.capitalize(), token)
-		chip.add_theme_color_override("font_color", DesignTokens.project_color(token))
+		chip.add_theme_color_override("font_color", Palette.project_color(token))
 	colours.selected.connect(func(value: Variant) -> void: _color_token = String(value))
 	colours.select_value(_color_token)
 

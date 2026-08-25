@@ -2,7 +2,7 @@ class_name PlantPainter
 extends RefCounted
 ## Draws plants and pots procedurally, in the illustrated style of the reference art.
 ##
-## WHY PROCEDURAL RATHER THAN SPRITES: sixteen species across five growth stages
+## WHY PROCEDURAL RATHER THAN SPRITES: sixteen species across three growth stages
 ## is eighty pieces of artwork, and every later species multiplies it again. Hand
 ## authoring that volume at a consistent quality is not achievable here, and §42
 ## forbids shipping ugly programmer art. Drawing from a compact morphology
@@ -53,7 +53,8 @@ static func draw_plant(
 	scale_px: float,
 	growth: float,
 	sway: float,
-	pot: PotStyle = null
+	pot: PotStyle = null,
+	bloom: bool = true
 ) -> void:
 	if morphology == null:
 		return
@@ -88,9 +89,9 @@ static func draw_plant(
 		PlantMorphology.Form.SUCCULENT:
 			_draw_succulent(canvas, morphology, soil, scale_px, eased, sway)
 		PlantMorphology.Form.CACTUS:
-			_draw_cactus(canvas, morphology, soil, scale_px, eased, sway)
+			_draw_cactus(canvas, morphology, soil, scale_px, eased, sway, bloom)
 		PlantMorphology.Form.FLOWERING:
-			_draw_flowering(canvas, morphology, soil, scale_px, eased, sway)
+			_draw_flowering(canvas, morphology, soil, scale_px, eased, sway, bloom)
 
 
 ## A pot on its own, for the pot picker.
@@ -342,7 +343,8 @@ static func _draw_succulent(
 
 ## Columnar body with areoles: moon cactus and friends.
 static func _draw_cactus(
-	canvas: CanvasItem, m: PlantMorphology, base: Vector2, scale_px: float, growth: float, sway: float
+	canvas: CanvasItem, m: PlantMorphology, base: Vector2, scale_px: float, growth: float,
+	sway: float, bloom: bool = true
 ) -> void:
 	var height := scale_px * 0.5 * _size_curve(growth)
 	var width := height * 0.52
@@ -369,13 +371,17 @@ static func _draw_cactus(
 			line.append(base + Vector2(offset * sin(PI * t) + lean * t * height * 0.1, -height * t))
 		canvas.draw_polyline(line, m.leaf_color_tip, maxf(1.0, scale_px * 0.008), true)
 
-	if m.has_flowers and growth > 0.75:
+	# Flowers are the reward for finishing, not for getting close. Gating them on
+	# maturity rather than on a growth threshold is what gives the last third of a
+	# plant's life something to look forward to.
+	if m.has_flowers and bloom and growth > 0.75:
 		_draw_bloom(canvas, m, base + Vector2(lean * height * 0.1, -height), scale_px * 0.10, sway)
 
 
 ## Stems carrying blooms: peace lily, lavender, sunflower, orchid.
 static func _draw_flowering(
-	canvas: CanvasItem, m: PlantMorphology, base: Vector2, scale_px: float, growth: float, sway: float
+	canvas: CanvasItem, m: PlantMorphology, base: Vector2, scale_px: float, growth: float,
+	sway: float, bloom: bool = true
 ) -> void:
 	# The foliage clump first, so blooms sit in front of their own leaves.
 	var leaf_count := maxi(2, _leaf_count(m, growth) - 2)
@@ -387,9 +393,10 @@ static func _draw_flowering(
 		angle += sin(sway + float(i) * 0.7) * m.sway_amount * 0.7
 		_draw_leaf(canvas, m, base, leaf_len * lerpf(1.0, 0.7, rank), angle, rank, growth)
 
-	# Blooms only once the plant is established — a seedling with flowers on it
-	# would undercut the whole point of watching something grow.
-	if growth < 0.55:
+	# Blooms only once the plant is established, and only once it has actually
+	# finished — a seedling with flowers on it would undercut the whole point of
+	# watching something grow, and so would a plant that peaked before maturity.
+	if growth < 0.55 or not bloom:
 		return
 	var bloom_progress := inverse_lerp(0.55, 1.0, growth)
 	var stalks := clampi(1 + int(bloom_progress * float(m.flower_count)), 1, m.flower_count)
@@ -573,7 +580,7 @@ static func _draw_seed(canvas: CanvasItem, soil: Vector2, scale_px: float) -> vo
 		soil + Vector2(scale_px * 0.006, -scale_px * 0.05),
 		soil + Vector2(scale_px * 0.012, 0.0),
 	])
-	_fill(canvas, shoot, DesignTokens.MOSS)
+	_fill(canvas, shoot, Palette.moss())
 
 
 # --- Drawing helpers ----------------------------------------------------------

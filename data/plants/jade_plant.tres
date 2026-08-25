@@ -18,7 +18,7 @@ interesting_fact = "Given enough decades a jade plant becomes genuinely tree-lik
 script = ExtResource("2_hxya4")
 scope = 1
 params = {
-"amount": 150.0
+"amount": 180.0
 }
 
 [sub_resource type="Resource" id="Resource_m76af"]

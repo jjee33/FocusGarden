@@ -33,7 +33,7 @@ func _build() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var scrim := ColorRect.new()
-	scrim.color = DesignTokens.BG_OVERLAY
+	scrim.color = Palette.bg_overlay()
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(scrim)
 
@@ -131,8 +131,9 @@ func _build_summary(parent: VBoxContainer, species: PlantSpecies) -> void:
 		copy.add_child(bar)
 
 		var requirement := Label.new()
-		requirement.text = "%s · %d%% grown" % [
-			RequirementEvaluator.describe(species.growth_requirement), int(progress * 100.0)
+		requirement.text = "%s · %s" % [
+			PlantStageText.describe(_plant),
+			RequirementEvaluator.describe(species.growth_requirement),
 		]
 		requirement.theme_type_variation = &"Caption"
 		requirement.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -146,7 +147,7 @@ func _build_facts(parent: VBoxContainer, species: PlantSpecies) -> void:
 	parent.add_child(PlantDetailDialog._fact_row(
 		"Matured",
 		PlantDetailDialog._format_date(_plant.matured_at_utc)
-		if _plant.is_mature() else "Still growing"
+		if _plant.is_mature() else PlantStageText.describe(_plant)
 	))
 	parent.add_child(PlantDetailDialog._fact_row(
 		"Focus time", TimeUtil.format_duration(_plant.accumulated_focus_minutes)
@@ -203,6 +204,20 @@ func _build_actions(parent: VBoxContainer) -> void:
 		AppState.save_now()
 		changed.emit())
 	buttons.add_child(favourite)
+
+	# Turning is on the plot as R and as a right-click, but both of those need a
+	# pointer over the right square. This is the same action as a plain button,
+	# which is what makes a facing reachable by keyboard at all.
+	if _plant.location == PlantInstance.Location.GARDEN:
+		var turn := Button.new()
+		turn.text = "Turn"
+		turn.tooltip_text = "Face it a quarter turn round. R or right-click does the same on the plot."
+		turn.theme_type_variation = &"SubtleButton"
+		turn.pressed.connect(func() -> void:
+			_plant.rotate_in_garden()
+			AppState.save_now()
+			changed.emit())
+		buttons.add_child(turn)
 
 	if _plant.location != PlantInstance.Location.INVENTORY:
 		var remove := Button.new()

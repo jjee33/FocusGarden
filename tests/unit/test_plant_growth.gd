@@ -18,20 +18,79 @@ func before_each() -> void:
 
 
 func test_stage_quantization() -> void:
-	# Five stages means four growth steps: 0.00-0.24 -> 0, 0.25-0.49 -> 1, etc.
-	assert_eq(PlantGrowthService.stage_for_ratio(0.0, 5), 0, "no progress is the seed stage")
-	assert_eq(PlantGrowthService.stage_for_ratio(0.3, 5), 1, "a third of the way")
-	assert_eq(PlantGrowthService.stage_for_ratio(0.99, 5), 3, "almost there is not mature")
-	assert_eq(PlantGrowthService.stage_for_ratio(1.0, 5), 4, "full progress is the final stage")
+	# Stages are equal bands of the requirement. Three stages means thirds.
+	assert_eq(PlantGrowthService.stage_for_ratio(0.0, 3), 0, "no progress is the seedling stage")
+	assert_eq(PlantGrowthService.stage_for_ratio(0.32, 3), 0, "just short of a third is still stage 0")
+	assert_eq(PlantGrowthService.stage_for_ratio(0.34, 3), 1, "a third of the way is stage 1")
+	assert_eq(PlantGrowthService.stage_for_ratio(0.67, 3), 2, "two thirds is the final stage")
+	assert_eq(PlantGrowthService.stage_for_ratio(1.0, 3), 2, "full progress is the final stage")
 
 
-func test_final_stage_requires_full_progress() -> void:
-	# A plant must never LOOK mature while still growing.
+func test_stage_bands_are_equal_at_any_stage_count() -> void:
+	# The band a ratio falls in is ratio * stages, whatever the count. Asserted
+	# across counts because a species with authored art may have more than three.
 	for stage_count in range(2, 8):
-		assert_true(
-			PlantGrowthService.stage_for_ratio(0.999, stage_count) < stage_count - 1,
-			"99.9%% is not the final stage with %d stages" % stage_count
-		)
+		for band in stage_count:
+			var ratio := (float(band) + 0.5) / float(stage_count)
+			assert_eq(
+				PlantGrowthService.stage_for_ratio(ratio, stage_count), band,
+				"the middle of band %d of %d resolves to that band" % [band, stage_count]
+			)
+
+
+func test_reaching_the_final_stage_is_not_maturity() -> void:
+	# The last band is the plant filling out; maturity is still a full ratio only.
+	# Conflating the two is what would let a plant be recorded as finished early.
+	var plant := PlantInstance.create(&"test_fern")
+	var result := PlantGrowthService.apply_growth(plant, _species, _context_with_minutes(80.0))
+	assert_eq(result.new_stage, 2, "80 of 100 minutes is inside the last band of three")
+	assert_false(plant.is_mature(), "the last band is not maturity")
+	assert_false(result.just_matured, "nothing matured")
+
+
+func test_a_finished_plant_reads_as_finished_after_a_retune() -> void:
+	# The species table was retuned once already, and every plant grown before it
+	# would otherwise have reported 83% and been redrawn as a smaller plant on a
+	# shelf the player had already filled.
+	var plant := PlantInstance.create(&"test_fern")
+	PlantGrowthService.apply_growth(plant, _species, _context_with_minutes(100.0))
+	assert_true(plant.is_mature(), "the plant finished under the old requirement")
+
+	_species.growth_requirement = Requirement.make(
+		Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 400.0}, Requirement.Scope.ACTIVE_PLANT
+	)
+	assert_almost_eq(
+		PlantGrowthService.progress_ratio(plant, _species, _context_with_minutes(100.0)), 1.0,
+		"a matured plant still reads as fully grown"
+	)
+
+
+func test_a_plant_can_be_displayed_from_its_first_stage() -> void:
+	var plant := PlantInstance.create(&"test_fern")
+	assert_false(plant.can_be_displayed(), "a seed has nothing to show")
+
+	PlantGrowthService.apply_growth(plant, _species, _context_with_minutes(20.0))
+	assert_false(plant.can_be_displayed(), "a fifth of the way is still stage 0")
+
+	PlantGrowthService.apply_growth(plant, _species, _context_with_minutes(40.0))
+	assert_true(plant.can_be_displayed(), "past the first third it can go on the shelf")
+
+
+func test_maturity_minutes_rise_with_rarity() -> void:
+	# Three hours for a common houseplant up to ten for the bonsai, and never a
+	# rarer species that costs less than a commoner one.
+	var previous := 0.0
+	for rarity in PlantSpecies.Rarity.values():
+		var species := PlantSpecies.new()
+		species.rarity = rarity
+		var minutes := species.get_maturity_minutes()
+		assert_true(minutes > previous, "%d costs more than the rarity below it" % rarity)
+		previous = minutes
+	assert_eq(PlantSpecies.MATURITY_MINUTES_BY_RARITY[0], 180.0, "a common species is three hours")
+	assert_eq(
+		PlantSpecies.MATURITY_MINUTES_BY_RARITY[PlantSpecies.Rarity.LEGENDARY], 600.0,
+		"a legendary species is ten hours"
+	)
 
 
 func test_growth_applies_and_matures() -> void:
@@ -133,6 +192,8 @@ func test_stage_count_has_a_floor() -> void:
 	# A species with no authored art still needs a sane stage count, or the
 	# quantizer would divide by zero.
 	assert_true(_species.get_stage_count() >= 2, "there are always at least two stages")
+	assert_eq(_species.get_stage_count(), 3, "unpainted species use the three default stages")
+
 
 
 func _context_with_minutes(minutes: float) -> RequirementContext:

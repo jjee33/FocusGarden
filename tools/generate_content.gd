@@ -121,8 +121,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.COMMON,
 		"biome": "houseplant",
 		"description": "Forgiving and eager. Trails happily from any shelf it is given, and asks for very little in return.",
-		# §47: "Complete 4 Pomodoro-equivalent sessions."
-		"requirement": Requirement.make(Requirement.Type.COMPLETED_SESSIONS, {"count": 4}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.TRAILING, PlantMorphology.LeafShape.HEART, "#3F7A3A", "#8CC06A", 10, 0.62, 0.80, {
 			"variegation": 0.5, "variegation_color": "#E4DC9A", "arc": 0.18, "spread": 1.1,
 		}),
@@ -142,8 +140,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.COMMON,
 		"biome": "desert",
 		"description": "Thick, water-holding blades in a tidy rosette. Patient through neglect, unimpressed by fuss.",
-		# §47: "Accumulate 100 valid focus minutes."
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 100.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.ROSETTE, PlantMorphology.LeafShape.LANCE, "#5E8C5A", "#9BC08A", 9, 0.62, 0.20, {
 			"arc": 0.10, "spread": 1.0, "sway": 0.035,
 		}),
@@ -163,7 +159,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.COMMON,
 		"biome": "desert",
 		"description": "Upright banded blades that seem to grow while you are not looking. Nearly impossible to discourage.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 120.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.SPIKE, PlantMorphology.LeafShape.STRAP, "#3D6B44", "#7FA556", 7, 0.80, 0.11, {
 			"variegation": 0.35, "variegation_color": "#D8CE7E", "arc": 0.04, "spread": 0.85,
 			"sway": 0.02,
@@ -184,7 +179,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.COMMON,
 		"biome": "houseplant",
 		"description": "Arching striped leaves that throw out little copies of themselves on long stems.",
-		"requirement": Requirement.make(Requirement.Type.COMPLETED_SESSIONS, {"count": 6}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.ROSETTE, PlantMorphology.LeafShape.STRAP, "#4C8446", "#93C271", 14, 0.60, 0.13, {
 			"variegation": 0.6, "variegation_color": "#F0EEC4", "arc": 0.30, "spread": 1.35,
 			"sway": 0.07,
@@ -205,7 +199,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.COMMON,
 		"biome": "desert",
 		"description": "A small tree of glossy coin-shaped leaves. Grows slowly, and lives a very long time.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 150.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.UPRIGHT, PlantMorphology.LeafShape.ROUND, "#4B7D46", "#8FBB74", 7, 0.26, 0.78, {
 			"arc": 0.05, "spread": 1.30, "sway": 0.03,
 		}),
@@ -227,7 +220,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.UNCOMMON,
 		"biome": "desert",
 		"description": "A geometric rosette of pale blue-green leaves, arranged with improbable precision.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 180.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.SUCCULENT, PlantMorphology.LeafShape.OVAL, "#7D9E85", "#C3D6BE", 12, 0.40, 0.5, {
 			"sway": 0.02,
 		}),
@@ -247,7 +239,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.UNCOMMON,
 		"biome": "woodland",
 		"description": "Soft arching fronds that fill a corner. Wants humidity, and will tell you when it is not getting it.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 220.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.FROND, PlantMorphology.LeafShape.LANCE, "#3E7A42", "#84B564", 9, 0.52, 0.16, {
 			"arc": 0.22, "spread": 0.95, "sway": 0.075,
 		}),
@@ -267,7 +258,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.UNCOMMON,
 		"biome": "tropical",
 		"description": "Broad lacquered leaves on a confident upright stem. Grows toward whatever light it can find.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 260.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.UPRIGHT, PlantMorphology.LeafShape.OVAL, "#2F5F3B", "#5E8F4E", 8, 0.42, 0.50, {
 			"arc": 0.08, "spread": 1.0, "sway": 0.035,
 		}),
@@ -287,7 +277,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.UNCOMMON,
 		"biome": "tropical",
 		"description": "Deep green leaves and a single white bract that unfurls like a held breath.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 200.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.FLOWERING, PlantMorphology.LeafShape.LANCE, "#2E6138", "#5C9150", 9, 0.52, 0.30, {
 			"arc": 0.16, "spread": 1.0, "sway": 0.05,
 			"flowers": true, "flower_shape": PlantMorphology.FlowerShape.SPATHE,
@@ -311,8 +300,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.RARE,
 		"biome": "tropical",
 		"description": "Enormous split leaves that arrive one at a time, each bigger than the last. Worth the wait.",
-		# §47: "Accumulate 250 valid focus minutes."
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 250.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.UPRIGHT, PlantMorphology.LeafShape.SPLIT, "#2C5F35", "#63A054", 8, 0.48, 0.86, {
 			"arc": 0.10, "spread": 1.1, "sway": 0.045,
 		}),
@@ -332,7 +319,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.RARE,
 		"biome": "mediterranean",
 		"description": "Silver-grey foliage under a haze of purple spires. Smells like a warm afternoon.",
-		"requirement": Requirement.make(Requirement.Type.UNIQUE_FOCUS_DAYS, {"count": 7}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.FLOWERING, PlantMorphology.LeafShape.NEEDLE, "#6E8168", "#A8B79A", 16, 0.50, 0.16, {
 			"arc": 0.06, "spread": 1.05, "sway": 0.08,
 			"flowers": true, "flower_shape": PlantMorphology.FlowerShape.SPIRE,
@@ -354,12 +340,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.RARE,
 		"biome": "temperate",
 		"description": "Grows fast, grows tall, and faces the morning. Best raised alongside early starts.",
-		# §47: "Complete several morning sessions."
-		"requirement": Requirement.make(
-			Requirement.Type.SESSIONS_IN_TIME_WINDOW,
-			{"count": 8, "start_hour": 5, "end_hour": 11},
-			Requirement.Scope.ACTIVE_PLANT
-		),
 		"morphology": _morph(PlantMorphology.Form.FLOWERING, PlantMorphology.LeafShape.HEART, "#4C7A32", "#84AC52", 7, 0.54, 0.74, {
 			"arc": 0.10, "spread": 0.9, "sway": 0.06,
 			"flowers": true, "flower_shape": PlantMorphology.FlowerShape.DAISY,
@@ -383,8 +363,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.EPIC,
 		"biome": "tropical",
 		"description": "Blooms that last for months on a single arching spike. Rewards steadiness over intensity.",
-		# §47: "Focus on 5 separate days."
-		"requirement": Requirement.make(Requirement.Type.UNIQUE_FOCUS_DAYS, {"count": 5}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.FLOWERING, PlantMorphology.LeafShape.OVAL, "#37663D", "#6D9B5C", 6, 0.52, 0.52, {
 			"arc": 0.20, "spread": 1.25, "sway": 0.04,
 			"flowers": true, "flower_shape": PlantMorphology.FlowerShape.CLUSTER,
@@ -407,12 +385,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.EPIC,
 		"biome": "desert",
 		"description": "A small, oddly cheerful cactus. Keeps company through late sessions.",
-		# §47: "Complete several evening sessions."
-		"requirement": Requirement.make(
-			Requirement.Type.SESSIONS_IN_TIME_WINDOW,
-			{"count": 8, "start_hour": 20, "end_hour": 3},
-			Requirement.Scope.ACTIVE_PLANT
-		),
 		"morphology": _morph(PlantMorphology.Form.CACTUS, PlantMorphology.LeafShape.NEEDLE, "#5D8A54", "#A6C08C", 6, 0.35, 0.3, {
 			"sway": 0.015,
 			"flowers": true, "flower_shape": PlantMorphology.FlowerShape.DAISY,
@@ -435,7 +407,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.EPIC,
 		"biome": "tropical",
 		"description": "Broad silver-striped leaves that lift at dusk and lower again by morning.",
-		"requirement": Requirement.make(Requirement.Type.TOTAL_FOCUS_MINUTES, {"amount": 420.0}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.ROSETTE, PlantMorphology.LeafShape.OVAL, "#2F6140", "#6FA05F", 8, 0.50, 0.68, {
 			"variegation": 0.7, "variegation_color": "#CFE0C0", "arc": 0.14, "spread": 1.05,
 			"sway": 0.05,
@@ -459,8 +430,6 @@ func _write_species() -> int:
 		"rarity": PlantSpecies.Rarity.LEGENDARY,
 		"biome": "temperate",
 		"description": "A tree kept small on purpose, shaped over years. The only plant here that measures time in seasons.",
-		# §47: "Focus on 14 separate days."
-		"requirement": Requirement.make(Requirement.Type.UNIQUE_FOCUS_DAYS, {"count": 14}, Requirement.Scope.ACTIVE_PLANT),
 		"morphology": _morph(PlantMorphology.Form.UPRIGHT, PlantMorphology.LeafShape.ROUND, "#39603A", "#7A9B57", 13, 0.22, 0.95, {
 			"arc": 0.18, "spread": 1.45, "sway": 0.03,
 		}),
@@ -630,7 +599,14 @@ func _species(entry: Dictionary) -> int:
 	species.description = entry["description"]
 	species.rarity = entry["rarity"]
 	species.biome_id = StringName(entry["biome"])
-	species.growth_requirement = entry["requirement"]
+	# Derived from rarity, never authored per species. A bespoke number in an
+	# entry would immediately be a second source of truth for a threshold the
+	# whole game is balanced around (§14, §38), so there is nowhere to put one.
+	species.growth_requirement = Requirement.make(
+		Requirement.Type.TOTAL_FOCUS_MINUTES,
+		{"amount": species.get_maturity_minutes()},
+		Requirement.Scope.ACTIVE_PLANT
+	)
 	species.morphology = entry["morphology"]
 	species.hidden_until_discovered = entry.get("hidden", false)
 	species.unlock_requirement = entry.get("unlock", null)

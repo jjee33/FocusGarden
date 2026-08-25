@@ -16,12 +16,9 @@ interesting_fact = "The brightly coloured tops sold in shops are mutants with no
 
 [sub_resource type="Resource" id="Resource_qulr6"]
 script = ExtResource("2_5krq1")
-type = 4
 scope = 1
 params = {
-"count": 8,
-"end_hour": 3,
-"start_hour": 20
+"amount": 480.0
 }
 
 [sub_resource type="Resource" id="Resource_dm7hc"]

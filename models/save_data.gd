@@ -10,7 +10,7 @@ extends RefCounted
 
 ## Bump this whenever the on-disk shape changes, and add a matching step to
 ## SaveMigrations. Never reuse a version number.
-const CURRENT_VERSION: int = 1
+const CURRENT_VERSION: int = 2
 
 var save_version: int = CURRENT_VERSION
 var profile: PlayerProfile = PlayerProfile.new()

@@ -137,22 +137,22 @@ func _refresh() -> void:
 	var summary := StatisticsManager.get_summary()
 
 	_fill(_period_tiles, [
-		StatTile.create("Today", TimeUtil.format_duration(summary.focus_today), DesignTokens.MOSS),
-		StatTile.create("This week", TimeUtil.format_duration(summary.focus_week), DesignTokens.MOSS),
-		StatTile.create("This month", TimeUtil.format_duration(summary.focus_month), DesignTokens.SKY),
-		StatTile.create("This year", TimeUtil.format_duration(summary.focus_year), DesignTokens.SKY),
-		StatTile.create("Lifetime", TimeUtil.format_duration(summary.focus_lifetime), DesignTokens.TERRACOTTA),
+		StatTile.create("Today", TimeUtil.format_duration(summary.focus_today), Palette.moss()),
+		StatTile.create("This week", TimeUtil.format_duration(summary.focus_week), Palette.moss()),
+		StatTile.create("This month", TimeUtil.format_duration(summary.focus_month), Palette.sky()),
+		StatTile.create("This year", TimeUtil.format_duration(summary.focus_year), Palette.sky()),
+		StatTile.create("Lifetime", TimeUtil.format_duration(summary.focus_lifetime), Palette.terracotta()),
 	])
 
 	_fill(_tiles, [
-		StatTile.create("Sessions", str(summary.session_count), DesignTokens.MOSS),
-		StatTile.create("Average", TimeUtil.format_duration(summary.average_session_minutes), DesignTokens.MOSS),
-		StatTile.create("Longest", TimeUtil.format_duration(summary.longest_session_minutes), DesignTokens.AMBER),
-		StatTile.create("Days focused", str(summary.days_focused), DesignTokens.SKY),
+		StatTile.create("Sessions", str(summary.session_count), Palette.moss()),
+		StatTile.create("Average", TimeUtil.format_duration(summary.average_session_minutes), Palette.moss()),
+		StatTile.create("Longest", TimeUtil.format_duration(summary.longest_session_minutes), Palette.amber()),
+		StatTile.create("Days focused", str(summary.days_focused), Palette.sky()),
 		StatTile.create("Current streak", "%d day%s" % [
 			summary.current_streak, "" if summary.current_streak == 1 else "s"
-		], DesignTokens.AMBER),
-		StatTile.create("Longest streak", "%d days" % summary.longest_streak, DesignTokens.TERRACOTTA),
+		], Palette.amber()),
+		StatTile.create("Longest streak", "%d days" % summary.longest_streak, Palette.terracotta()),
 	])
 
 	_refresh_projects()
@@ -205,7 +205,7 @@ func _refresh_projects() -> void:
 		track.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		track.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		var track_style := StyleBoxFlat.new()
-		track_style.bg_color = DesignTokens.TRACK
+		track_style.bg_color = Palette.track()
 		track_style.set_corner_radius_all(DesignTokens.RADIUS_PILL)
 		track.add_theme_stylebox_override("panel", track_style)
 		track.custom_minimum_size.y = 16
@@ -214,8 +214,8 @@ func _refresh_projects() -> void:
 		var fill := PanelContainer.new()
 		var fill_style := StyleBoxFlat.new()
 		fill_style.bg_color = (
-			DesignTokens.project_color(project.color_token) if project != null
-			else DesignTokens.INK_MUTED
+			Palette.project_color(project.color_token) if project != null
+			else Palette.ink_muted()
 		)
 		fill_style.set_corner_radius_all(DesignTokens.RADIUS_PILL)
 		fill.add_theme_stylebox_override("panel", fill_style)
