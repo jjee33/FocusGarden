@@ -45,14 +45,14 @@ afterEach(() => {
 
 describe("useFocusTimer", () => {
   it("starts idle and reports nothing", () => {
-    const { result } = renderHook(() => useFocusTimer(() => {}));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: () => {} }));
     expect(result.current.snapshot.state).toBe("idle");
     expect(result.current.snapshot.remainingSeconds).toBe(0);
   });
 
   it("counts down from the intended duration", () => {
     const clocks = useFakeClocks();
-    const { result } = renderHook(() => useFocusTimer(() => {}));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: () => {} }));
 
     act(() => result.current.start(Kind.FOCUS, 25));
     expect(result.current.snapshot.state).toBe("running");
@@ -66,7 +66,7 @@ describe("useFocusTimer", () => {
 
   it("holds while paused and resumes without crediting the gap", () => {
     const clocks = useFakeClocks();
-    const { result } = renderHook(() => useFocusTimer(() => {}));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: () => {} }));
 
     act(() => result.current.start(Kind.FOCUS, 25));
     act(() => clocks.advance(120));
@@ -85,15 +85,18 @@ describe("useFocusTimer", () => {
   it("completes itself at the intended duration and reports COMPLETED", () => {
     const clocks = useFakeClocks();
     const finished = vi.fn();
-    const { result } = renderHook(() => useFocusTimer(finished));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: finished }));
 
     act(() => result.current.start(Kind.FOCUS, 1));
     act(() => clocks.advance(61));
 
     expect(finished).toHaveBeenCalledTimes(1);
     expect(finished.mock.calls[0]![0]).toMatchObject({
-      kind: Kind.FOCUS, intendedMinutes: 1, completion: Completion.COMPLETED,
+      kind: Kind.FOCUS, intendedDurationMinutes: 1, completion: Completion.COMPLETED,
     });
+    // Already settled by the time it leaves the timer: a completed session is
+    // worth its intended duration exactly, never the tick it overshot by.
+    expect(finished.mock.calls[0]![0].actualFocusMinutes).toBe(1);
     expect(result.current.snapshot.state).toBe("idle");
   });
 
@@ -103,7 +106,7 @@ describe("useFocusTimer", () => {
     // finished session, must not settle it twice.
     const clocks = useFakeClocks();
     const finished = vi.fn();
-    const { result } = renderHook(() => useFocusTimer(finished));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: finished }));
 
     act(() => result.current.start(Kind.FOCUS, 1));
     act(() => clocks.advance(90));
@@ -116,7 +119,7 @@ describe("useFocusTimer", () => {
   it("credits the time actually focused when ended early", () => {
     const clocks = useFakeClocks();
     const finished = vi.fn();
-    const { result } = renderHook(() => useFocusTimer(finished));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: finished }));
 
     act(() => result.current.start(Kind.FOCUS, 25));
     act(() => clocks.advance(600));
@@ -125,16 +128,13 @@ describe("useFocusTimer", () => {
     expect(finished).toHaveBeenCalledTimes(1);
     const call = finished.mock.calls[0]![0];
     expect(call.completion).toBe(Completion.ENDED_EARLY);
-    expect(call.rawMinutes).toBeCloseTo(10, 6);
+    expect(call.actualFocusMinutes).toBeCloseTo(10, 6);
   });
 
-  it("still reports the measured time when discarded, and lets credit decide", () => {
-    // The timer does not zero a cancelled session. It reports what it measured;
-    // SessionCredit.settle is the one place that decides a CANCELLED session
-    // earns nothing, and keeping that decision in one place is the point.
+  it("settles a discarded session to nothing, via SessionCredit", () => {
     const clocks = useFakeClocks();
     const finished = vi.fn();
-    const { result } = renderHook(() => useFocusTimer(finished));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: finished }));
 
     act(() => result.current.start(Kind.FOCUS, 25));
     act(() => clocks.advance(300));
@@ -142,13 +142,15 @@ describe("useFocusTimer", () => {
 
     const call = finished.mock.calls[0]![0];
     expect(call.completion).toBe(Completion.CANCELLED);
-    expect(call.rawMinutes).toBeCloseTo(5, 6);
+    // Settled to zero: SessionCredit is the one place that decides a discarded
+    // session earns nothing, and the timer defers to it rather than duplicating it.
+    expect(call.actualFocusMinutes).toBe(0);
   });
 
   it("ignores a second finish after the clock has stopped", () => {
     const clocks = useFakeClocks();
     const finished = vi.fn();
-    const { result } = renderHook(() => useFocusTimer(finished));
+    const { result } = renderHook(() => useFocusTimer({ onFinished: finished }));
 
     act(() => result.current.start(Kind.FOCUS, 25));
     act(() => clocks.advance(60));
@@ -164,7 +166,7 @@ describe("useFocusTimer", () => {
     // tick in ten minutes and one that got 2,400 must agree on the remainder.
     const rare = (() => {
       const clocks = useFakeClocks();
-      const { result } = renderHook(() => useFocusTimer(() => {}));
+      const { result } = renderHook(() => useFocusTimer({ onFinished: () => {} }));
       act(() => result.current.start(Kind.FOCUS, 25));
       act(() => clocks.advance(600));
       return result.current.snapshot.remainingSeconds;
@@ -173,7 +175,7 @@ describe("useFocusTimer", () => {
 
     const often = (() => {
       const clocks = useFakeClocks();
-      const { result } = renderHook(() => useFocusTimer(() => {}));
+      const { result } = renderHook(() => useFocusTimer({ onFinished: () => {} }));
       act(() => result.current.start(Kind.FOCUS, 25));
       for (let i = 0; i < 600; i++) act(() => clocks.advance(1));
       return result.current.snapshot.remainingSeconds;

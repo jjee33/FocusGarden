@@ -11,7 +11,7 @@
  * lives where it belongs, on `session.awardsApplied`.
  */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   ALL_ACHIEVEMENTS, ALL_EXPANSIONS, getPot, getSpecies, speciesCount,
@@ -45,6 +45,14 @@ import { nextExpansion, nextExpansionProgress } from "../domain/garden-service.j
 import { applySession } from "../domain/session-pipeline.js";
 import type { PipelineContent, PipelineState, SessionOutcome } from "../domain/session-pipeline.js";
 import { shiftDateKey, todayKey } from "../domain/time-util.js";
+import { buildInFlight, recoverInFlight } from "../domain/in-flight.js";
+import type { GameClock } from "../domain/game-clock.js";
+import {
+  loadGarden, openDatabase, putSessions, replaceAll, saveGarden,
+} from "../storage/save-store.js";
+import { buildBundle, readBundle } from "../domain/save-bundle.js";
+import { migrate, MigrationStatus } from "../domain/migrations.js";
+import type { Json } from "../domain/dict-util.js";
 
 export interface GardenState {
   save: SaveData;
@@ -60,8 +68,16 @@ const PIPELINE_CONTENT: PipelineContent = {
   speciesTotal: speciesCount(),
 };
 
-/** A plausible history, so the screens are designed against realistic numbers. */
-function seedState(): GardenState {
+/**
+ * A plausible history, so the screens are designed against realistic numbers.
+ *
+ * THIS IS DEMO DATA and it is written on a genuine first run, which is not what
+ * a real first run should do. Onboarding replaces it in 4c: a new player names
+ * themselves, picks a first species and a first project, and starts with an
+ * empty garden. Seeding here in the meantime is the difference between screens
+ * that can be judged and screens that look broken.
+ */
+function seedDemoGarden(): GardenState {
   const today = todayKey();
   const sessions: FocusSession[] = [];
   // Twelve days with one gap, so the streak is interesting rather than round.
@@ -184,10 +200,95 @@ function cloneForPipeline(state: GardenState): PipelineState {
   };
 }
 
+export interface StorageStatus {
+  /** False until the first load finishes. Screens wait rather than flash empty. */
+  ready: boolean;
+  /** True when the stored garden must not be overwritten. */
+  blocked: boolean;
+  blockedReason: string;
+  /** True when storage itself is unavailable - a private window, or blocked. */
+  ephemeral: boolean;
+}
+
 export function useGarden() {
-  const [state, setState] = useState<GardenState>(seedState);
+  const [state, setState] = useState<GardenState>(seedDemoGarden);
   const [lastOutcome, setLastOutcome] = useState<SessionOutcome | null>(null);
+  const [storage, setStorage] = useState<StorageStatus>({
+    ready: false, blocked: false, blockedReason: "", ephemeral: false,
+  });
+  /** A session interrupted by the tab closing, offered back but not applied. */
+  const [recovered, setRecovered] = useState<FocusSession | null>(null);
+  const db = useRef<IDBDatabase | null>(null);
+  /** Session ids already written, so a re-render does not rewrite the history. */
+  const persistedSessions = useRef(new Set<string>());
   const { save, sessions } = state;
+
+  // --- hydrate ---------------------------------------------------------------
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const opened = await openDatabase();
+        if (cancelled) return;
+        db.current = opened;
+        const result = await loadGarden(opened);
+        if (cancelled) return;
+
+        if (result.existed) {
+          setState({ save: result.save, sessions: result.sessions });
+          for (const s of result.sessions) persistedSessions.current.add(s.id);
+          // Offered, never applied: only the player knows whether they were
+          // actually focusing while the tab was shut.
+          const interrupted = recoverInFlight(result.save.inFlightSession);
+          if (interrupted !== null) setRecovered(interrupted);
+        } else {
+          const seeded = seedDemoGarden();
+          setState(seeded);
+          if (!result.blocked) {
+            await saveGarden(opened, seeded.save);
+            await putSessions(opened, seeded.sessions);
+            for (const s of seeded.sessions) persistedSessions.current.add(s.id);
+          }
+        }
+        setStorage({
+          ready: true,
+          blocked: result.blocked,
+          blockedReason: result.blockedReason,
+          ephemeral: false,
+        });
+      } catch {
+        // A private window, cleared site data, or a browser set to block storage.
+        // The app still runs; it simply cannot remember. Saying so is better than
+        // pretending to save.
+        if (cancelled) return;
+        setStorage({
+          ready: true, blocked: false, ephemeral: true,
+          blockedReason: "This browser is not letting Focus Garden store anything, "
+            + "so this session will not be remembered.",
+        });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const canWrite = storage.ready && !storage.blocked && !storage.ephemeral;
+
+  // --- persist ---------------------------------------------------------------
+  // The container on every change; sessions only when new. That split is the
+  // whole reason they live in separate stores - finishing a pomodoro must not
+  // rewrite a decade of history.
+  useEffect(() => {
+    if (!canWrite || db.current === null) return;
+    void saveGarden(db.current, save, storage.blocked);
+  }, [save, canWrite, storage.blocked]);
+
+  useEffect(() => {
+    if (!canWrite || db.current === null) return;
+    const unwritten = sessions.filter((s) => !persistedSessions.current.has(s.id));
+    if (unwritten.length === 0) return;
+    for (const s of unwritten) persistedSessions.current.add(s.id);
+    void putSessions(db.current, unwritten, storage.blocked);
+  }, [sessions, canWrite, storage.blocked]);
 
   const summaries = useMemo<PlantSummary[]>(() => {
     const out: PlantSummary[] = [];
@@ -234,28 +335,16 @@ export function useGarden() {
   }, [sessions, save.plants, save.catalogue, save.profile, save.settings]);
 
   /**
-   * Settles a finished session and runs the completion chain.
+   * Runs the completion chain over an already-settled session record.
    *
-   * Everything after the record is built belongs to SessionPipeline, in the order
-   * it defines, gated on the record itself.
+   * The timer owns the record and settles it; everything from here belongs to
+   * SessionPipeline, in the order it defines, gated on the record itself.
    */
-  const completeSession = useCallback((
-    kind: Kind, intendedMinutes: number, rawMinutes: number,
-    completion: Completion, projectId: string, plantUid: string,
-  ) => {
+  const applyFinished = useCallback((record: FocusSession) => {
     setState((prev) => {
-      const now = Date.now() / 1000;
-      const record = createFocusSession(
-        kind, intendedMinutes, projectId, plantUid, generate("s", now), now,
-      );
-      record.actualFocusMinutes = settle(completion, rawMinutes, intendedMinutes);
-      record.completion = completion;
-      record.endedAtUtc = now;
-
       const pipeline = cloneForPipeline(prev);
-      const outcome = applySession(pipeline, record, PIPELINE_CONTENT, now);
+      const outcome = applySession(pipeline, record, PIPELINE_CONTENT, Date.now() / 1000);
       setLastOutcome(outcome);
-
       return {
         save: {
           ...prev.save,
@@ -265,11 +354,125 @@ export function useGarden() {
           achievements: pipeline.achievements,
           journal: pipeline.journal,
           garden: pipeline.garden,
+          // The session is settled, so nothing is in flight any more.
+          inFlightSession: {},
         },
         sessions: pipeline.sessions,
       };
     });
   }, []);
+
+  /**
+   * Builds and applies a session in one step, for callers that never had a timer
+   * running - the tests, and later the manual "log some focus" path.
+   */
+  const completeSession = useCallback((
+    kind: Kind, intendedMinutes: number, rawMinutes: number,
+    completion: Completion, projectId: string, plantUid: string,
+  ) => {
+    const now = Date.now() / 1000;
+    const record = createFocusSession(
+      kind, intendedMinutes, projectId, plantUid, generate("s", now), now,
+    );
+    record.actualFocusMinutes = settle(completion, rawMinutes, intendedMinutes);
+    record.completion = completion;
+    record.endedAtUtc = now;
+    applyFinished(record);
+  }, [applyFinished]);
+
+  // --- in-flight session ------------------------------------------------------
+
+  /**
+   * Writes the running session so it survives the tab closing.
+   *
+   * Called on every STATE CHANGE, not every tick: a tick-rate write would hammer
+   * storage for hours. The browser also gets a `pagehide` write, which is the
+   * last reliable moment before a tab goes away - `beforeunload` is not fired on
+   * mobile when the OS reclaims a backgrounded page.
+   */
+  const persistInFlight = useCallback((session: FocusSession, clock: GameClock) => {
+    setState((prev) => ({
+      ...prev,
+      save: { ...prev.save, inFlightSession: buildInFlight(session, clock) },
+    }));
+  }, []);
+
+  const clearInFlight = useCallback(() => {
+    setState((prev) => (
+      Object.keys(prev.save.inFlightSession).length === 0
+        ? prev
+        : { ...prev, save: { ...prev.save, inFlightSession: {} } }
+    ));
+  }, []);
+
+  /** Credits a recovered session. The player has said yes. */
+  const acceptRecovered = useCallback(() => {
+    const session = recovered;
+    if (session === null) return;
+    setRecovered(null);
+    setState((prev) => {
+      const pipeline = cloneForPipeline(prev);
+      const outcome = applySession(pipeline, session, PIPELINE_CONTENT, Date.now() / 1000);
+      setLastOutcome(outcome);
+      return {
+        save: {
+          ...prev.save,
+          profile: pipeline.profile,
+          plants: pipeline.plants,
+          catalogue: pipeline.catalogue,
+          achievements: pipeline.achievements,
+          journal: pipeline.journal,
+          garden: pipeline.garden,
+          inFlightSession: {},
+        },
+        sessions: pipeline.sessions,
+      };
+    });
+  }, [recovered]);
+
+  /** Throws a recovered session away. The record goes too; nothing was credited. */
+  const discardRecovered = useCallback(() => {
+    setRecovered(null);
+    clearInFlight();
+  }, [clearInFlight]);
+
+  // --- transfer ---------------------------------------------------------------
+
+  /**
+   * The whole garden as one bundle: the same format the desktop reads and the
+   * same payload sync will push. Building it here rather than in a screen keeps
+   * one definition of what "a copy of my garden" means.
+   */
+  const exportBundle = useCallback((appVersion = "0.1.0"): Json =>
+    buildBundle(save, sessions, appVersion), [save, sessions]);
+
+  /**
+   * Reads a bundle and REPLACES everything with it.
+   *
+   * Validates completely before destroying anything: the file is migrated, read
+   * and summarised while the existing garden is still untouched, so a caller can
+   * show what it contains and let the player refuse. Only then is anything
+   * written.
+   */
+  const importBundle = useCallback(async (raw: Json) => {
+    const migration = migrate(raw);
+    if (migration.status !== MigrationStatus.OK) {
+      return {
+        ok: false as const,
+        reason: migration.status === MigrationStatus.FUTURE_VERSION
+          ? "That file was written by a newer version of Focus Garden."
+          : "That file's save format cannot be read by this version.",
+      };
+    }
+    const imported = readBundle(migration.data);
+    if (db.current !== null && !storage.blocked && !storage.ephemeral) {
+      await replaceAll(db.current, imported.save, imported.sessions);
+    }
+    persistedSessions.current = new Set(imported.sessions.map((s) => s.id));
+    setState({ save: imported.save, sessions: imported.sessions });
+    setRecovered(null);
+    return { ok: true as const, summary: imported.summary };
+  }, [storage.blocked, storage.ephemeral]);
 
   const mutateSave = useCallback((change: (draft: SaveData) => SaveData) => {
     setState((prev) => ({ ...prev, save: change(prev.save) }));
@@ -321,8 +524,10 @@ export function useGarden() {
 
   return {
     state, save, sessions, summaries, stats, activePlant, activeProject,
-    expansion, lastOutcome,
-    completeSession, setActivePlant, setActiveProject, placeInGarden, rotatePlant,
+    expansion, lastOutcome, storage, recovered,
+    completeSession, applyFinished, setActivePlant, setActiveProject, placeInGarden, rotatePlant,
+    persistInFlight, clearInFlight, acceptRecovered, discardRecovered,
+    exportBundle, importBundle,
     getPot,
     /** Sessions that count, for anything wanting the filtered view. */
     countedSessions: sessions.filter(countsTowardProgress),

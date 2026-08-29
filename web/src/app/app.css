@@ -651,3 +651,48 @@
   font-size: var(--t-title);
   font-weight: 600;
 }
+
+/* --------------------------------------------------------------- notices --- */
+
+/* A recovered session, and the two storage states worth telling someone about.
+   Deliberately a card rather than a toast: a toast that vanishes is the wrong
+   shape for "we found twenty minutes of your focus, do you want it". */
+.notice {
+  display: grid;
+  gap: var(--sp-sm);
+  padding: var(--sp-md);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-soft);
+  background: var(--bg-raised);
+  box-shadow: var(--elev-1);
+}
+.notice--amber {
+  border-color: color-mix(in oklab, var(--amber) 45%, transparent);
+  background:
+    radial-gradient(
+      120% 100% at 0% 0%,
+      color-mix(in oklab, var(--amber-glow) 22%, transparent),
+      transparent 60%
+    ),
+    var(--bg-raised);
+}
+.notice--clay {
+  border-color: color-mix(in oklab, var(--clay) 45%, transparent);
+}
+.notice h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-heading);
+  font-weight: 600;
+}
+.notice p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--t-small);
+  max-width: 62ch;
+}
+.notice__actions {
+  display: flex;
+  gap: var(--sp-xs);
+  flex-wrap: wrap;
+}

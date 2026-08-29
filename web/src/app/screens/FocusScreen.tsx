@@ -29,15 +29,14 @@ interface Props {
 }
 
 export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
-  const { stats, activePlant, activeProject, completeSession, save } = garden;
+  const { stats, activePlant, activeProject, save } = garden;
   const { foliageAmbient } = useTheme();
   const reducedMotion = useReducedMotion();
 
-  const timer = useFocusTimer((finished) => {
-    completeSession(
-      finished.kind, finished.intendedMinutes, finished.rawMinutes,
-      finished.completion, save.profile.activeProjectId, save.profile.activePlantUid,
-    );
+  const timer = useFocusTimer({
+    onFinished: garden.applyFinished,
+    onPersist: garden.persistInFlight,
+    onCleared: garden.clearInFlight,
   });
 
   const running = timer.snapshot.state !== "idle";
@@ -72,6 +71,32 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
             : "Every plant here grew out of time you spent focusing."}
         </p>
       </div>
+
+      {garden.recovered !== null && (
+        <section className="notice notice--amber" aria-labelledby="recovered-heading">
+          <h2 id="recovered-heading">You left a session running</h2>
+          <p>
+            Focus Garden found {formatDuration(garden.recovered.actualFocusMinutes)}{" "}
+            from a session that was interrupted when the tab closed. Only you know
+            whether you were actually focusing for it, so nothing has been counted yet.
+          </p>
+          <div className="notice__actions">
+            <button className="btn" type="button" onClick={garden.acceptRecovered}>
+              Keep {formatDuration(garden.recovered.actualFocusMinutes)}
+            </button>
+            <button className="btn btn--ghost" type="button" onClick={garden.discardRecovered}>
+              Discard it
+            </button>
+          </div>
+        </section>
+      )}
+
+      {(garden.storage.blocked || garden.storage.ephemeral) && (
+        <section className="notice notice--clay" aria-live="polite">
+          <h2>{garden.storage.blocked ? "This garden is read-only" : "Nothing is being saved"}</h2>
+          <p>{garden.storage.blockedReason}</p>
+        </section>
+      )}
 
       <section className="focus-hero fg-grain" aria-labelledby="focus-heading">
         <div className="dial">
@@ -141,7 +166,10 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
                 <button
                   className="btn"
                   type="button"
-                  onClick={() => timer.start(Kind.FOCUS, presetMinutes)}
+                  onClick={() => timer.start(
+                    Kind.FOCUS, presetMinutes,
+                    save.profile.activeProjectId, save.profile.activePlantUid,
+                  )}
                 >
                   Start focusing
                 </button>
