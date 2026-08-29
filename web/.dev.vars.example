@@ -1,0 +1,23 @@
+# Copy to `.dev.vars` and fill in. That file is gitignored and must stay that way.
+#
+# In production these are NOT set here - each one goes in with:
+#   npx wrangler secret put NAME
+# APP_URL is the exception: it is public, so it lives in wrangler.jsonc.
+
+APP_URL="http://localhost:8787"
+
+# Any long random string. `openssl rand -base64 32` will do.
+# Rotating it signs everyone out, which is the point.
+BETTER_AUTH_SECRET=""
+
+# Google Cloud console -> Credentials -> OAuth client ID (Web application).
+# Authorised redirect URIs must include, exactly:
+#   http://localhost:5173/api/auth/callback/google
+#   https://thefocusgarden.com/api/auth/callback/google
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+
+# Resend -> API Keys. Sending permission is enough.
+RESEND_API_KEY=""
+# Must be an address on the VERIFIED sending domain.
+MAIL_FROM="Focus Garden <hello@account.thefocusgarden.com>"

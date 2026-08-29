@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "focus-garden",
+  "main": "src/server/index.ts",
+  "compatibility_date": "2026-08-01",
+
+  // better-auth uses AsyncLocalStorage. Without this flag the very first
+  // request throws with an error that says nothing about the cause.
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Static assets are served by the platform, not by the Worker, which is why
+  // they are unmetered. SPA routing sends unmatched paths to index.html, and
+  // `run_worker_first` keeps /api/* from ever being answered by a file.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "observability": { "enabled": true },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "focus-garden",
+      // Filled in by `wrangler d1 create focus-garden`.
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "drizzle"
+    }
+  ],
+
+  "vars": {
+    // Public, so it lives here. Every secret goes through `wrangler secret put`
+    // and must never appear in this file.
+    "APP_URL": "https://thefocusgarden.com"
+  }
+}

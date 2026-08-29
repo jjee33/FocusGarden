@@ -36,3 +36,10 @@ tools/tpz_extract/
 web/node_modules/
 web/dist/
 web/.vite/
+# Local Miniflare/D1 state. The migrations in web/drizzle/ ARE committed - they
+# are the reviewable record of every schema change - but the local database this
+# builds from them is not.
+web/.wrangler/
+
+# Worker secrets. Never committed.
+web/.dev.vars
