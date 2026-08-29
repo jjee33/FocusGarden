@@ -243,7 +243,11 @@ export function renderPlantSvg(options: PlantRenderOptions): string {
   // The pot base sits on the floor of the box; the plant grows up from there.
   const originX = width / 2;
   const originY = height * 0.955;
-  const scalePx = height * 0.74 * jitterScale;
+  // With a pot, roughly a third of the box is container and the foliage sits on
+  // top of it. Planted straight into the ground there is no container to leave
+  // room for, so the foliage gets the whole box - otherwise a garden bed shows a
+  // plant a third the size it should be.
+  const scalePx = height * (pot === null ? 0.98 : 0.74) * jitterScale;
   const potHeight = scalePx * POT_HEIGHT_RATIO;
 
   const uid = `p${(hashSeed(`${seed}|${m.form}|${width}x${height}`) % 0xffffff).toString(36)}`;
@@ -417,7 +421,10 @@ export function renderPlantSvg(options: PlantRenderOptions): string {
   foliage.push(...body.splice(foliageStart));
 
   const swayClass = animate && m.swayAmount > 0.001 ? ' class="fg-sway"' : "";
-  return `<svg viewBox="0 0 ${n(width)} ${n(height)}" xmlns="http://www.w3.org/2000/svg" role="img">`
+  // width/height as well as viewBox: an SVG with only a viewBox has no intrinsic
+  // size, so inside a grid `auto` track or a flex item it collapses to nothing.
+  return `<svg width="${n(width)}" height="${n(height)}" viewBox="0 0 ${n(width)} ${n(height)}"`
+    + ` xmlns="http://www.w3.org/2000/svg" role="img">`
     + `<defs>${defs.join("")}</defs>`
     + body.join("")
     + `<g${swayClass} style="transform-origin:${n(soil[0])}px ${n(soil[1])}px"`
