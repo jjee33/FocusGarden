@@ -63,3 +63,16 @@ export function getStringArray(data: Json, key: string): string[] {
 function isPlainObject(value: unknown): value is Json {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
+
+/**
+ * Clamps a deserialised number into a legal range. Used for values where an
+ * out-of-range figure would corrupt downstream maths - levels, stages, ratios,
+ * and every duration in the settings, because a corrupted 0-minute focus length
+ * makes the timer unusable with no way to fix it from inside the app.
+ */
+export function getClampedFloat(
+  data: Json, key: string, minimum: number, maximum: number, fallback = 0,
+): number {
+  const value = getFloat(data, key, fallback);
+  return value < minimum ? minimum : value > maximum ? maximum : value;
+}

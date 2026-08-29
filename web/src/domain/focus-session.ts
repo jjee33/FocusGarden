@@ -16,6 +16,9 @@ import type { Json } from "./dict-util.js";
 import { getBool, getFloat, getInt, getString } from "./dict-util.js";
 import { isValidDateKey, localDateKey, localHour } from "./time-util.js";
 
+// Re-exported so existing call sites keep working; uid.ts is the single owner.
+export { generate as generateUid, isValid as isValidUid } from "./uid.js";
+
 export const Kind = { FOCUS: 0, SHORT_BREAK: 1, LONG_BREAK: 2 } as const;
 export type Kind = (typeof Kind)[keyof typeof Kind];
 
@@ -171,12 +174,4 @@ function safeAnomaly(value: number): Anomaly {
   return value >= 0 && value <= Anomaly.NEGATIVE_DURATION
     ? (toInt(value) as Anomaly)
     : Anomaly.NONE;
-}
-
-/** Ids are time-prefixed so they sort chronologically. Port of systems/util/uid.gd. */
-export function generateUid(prefix: string, nowUnixUtc = Date.now() / 1000): string {
-  const stamp = Math.trunc(nowUnixUtc * 1000).toString(36);
-  let random = "";
-  for (let i = 0; i < 8; i++) random += "0123456789abcdef"[Math.floor(Math.random() * 16)];
-  return `${prefix}_${stamp}-${random}`;
 }

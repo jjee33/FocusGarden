@@ -1,0 +1,2447 @@
+{
+  "constants": {
+    "SAVE_CURRENT_VERSION": 2
+  },
+  "game_settings_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "focus_duration_minutes": 0.0,
+        "short_break_minutes": 0.0,
+        "long_break_minutes": 0.0
+      },
+      "out": {
+        "focus_duration_minutes": 1.0,
+        "short_break_minutes": 1.0,
+        "long_break_minutes": 1.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "focus_duration_minutes": 99999.0,
+        "short_break_minutes": 9999.0
+      },
+      "out": {
+        "focus_duration_minutes": 480.0,
+        "short_break_minutes": 120.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "focus_duration_minutes": -25.0,
+        "minimum_credit_minutes": -5.0
+      },
+      "out": {
+        "focus_duration_minutes": 1.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 0.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "sessions_before_long_break": 0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 1,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "sessions_before_long_break": 99
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 12,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "ui_scale": 0.1
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 0.75,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "ui_scale": 12.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 2.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "animation_intensity": -1.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 0.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "animation_intensity": 5.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "volume_master": -0.5,
+        "volume_music": 2.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.0,
+        "volume_music": 1.0,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "window_mode": "nonsense"
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "window_mode": "borderless"
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "borderless",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "theme_mode": "chartreuse"
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "theme_mode": "dark"
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "dark",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "daily_goal_minutes": 0.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 5.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "daily_goal_minutes": 100000.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 960.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "streak_threshold_minutes": 0.0
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 1.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "notify_focus_complete": false,
+        "check_for_updates": false
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": false,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": false,
+        "custom_save_directory": ""
+      }
+    },
+    {
+      "in": {
+        "focus_duration_minutes": "not a number",
+        "reduced_motion": "yes"
+      },
+      "out": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      }
+    }
+  ],
+  "catalogue_entry_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "species_id": "",
+        "discovered": false,
+        "first_discovered_at_utc": 0.0,
+        "times_grown": 0,
+        "total_focus_minutes": 0.0,
+        "fastest_growth_minutes": -1.0,
+        "favorite": false
+      }
+    },
+    {
+      "in": {
+        "species_id": "aloe_vera",
+        "discovered": true,
+        "times_grown": -4
+      },
+      "out": {
+        "species_id": "aloe_vera",
+        "discovered": true,
+        "first_discovered_at_utc": 0.0,
+        "times_grown": 0,
+        "total_focus_minutes": 0.0,
+        "fastest_growth_minutes": -1.0,
+        "favorite": false
+      }
+    },
+    {
+      "in": {
+        "species_id": "monstera",
+        "total_focus_minutes": -100.0
+      },
+      "out": {
+        "species_id": "monstera",
+        "discovered": false,
+        "first_discovered_at_utc": 0.0,
+        "times_grown": 0,
+        "total_focus_minutes": 0.0,
+        "fastest_growth_minutes": -1.0,
+        "favorite": false
+      }
+    },
+    {
+      "in": {
+        "species_id": "fern",
+        "fastest_growth_minutes": -1.0
+      },
+      "out": {
+        "species_id": "fern",
+        "discovered": false,
+        "first_discovered_at_utc": 0.0,
+        "times_grown": 0,
+        "total_focus_minutes": 0.0,
+        "fastest_growth_minutes": -1.0,
+        "favorite": false
+      }
+    },
+    {
+      "in": {
+        "species_id": "fern",
+        "fastest_growth_minutes": 88.5,
+        "favorite": true
+      },
+      "out": {
+        "species_id": "fern",
+        "discovered": false,
+        "first_discovered_at_utc": 0.0,
+        "times_grown": 0,
+        "total_focus_minutes": 0.0,
+        "fastest_growth_minutes": 88.5,
+        "favorite": true
+      }
+    }
+  ],
+  "achievement_state_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "achievement_id": "",
+        "unlocked": false,
+        "unlocked_at_utc": 0.0,
+        "progress_ratio": 0.0
+      }
+    },
+    {
+      "in": {
+        "achievement_id": "first_sprout",
+        "unlocked": true,
+        "progress_ratio": 0.4
+      },
+      "out": {
+        "achievement_id": "first_sprout",
+        "unlocked": true,
+        "unlocked_at_utc": 0.0,
+        "progress_ratio": 1.0
+      }
+    },
+    {
+      "in": {
+        "achievement_id": "night_owl",
+        "unlocked": false,
+        "progress_ratio": 7.0
+      },
+      "out": {
+        "achievement_id": "night_owl",
+        "unlocked": false,
+        "unlocked_at_utc": 0.0,
+        "progress_ratio": 1.0
+      }
+    },
+    {
+      "in": {
+        "achievement_id": "night_owl",
+        "unlocked": false,
+        "progress_ratio": -3.0
+      },
+      "out": {
+        "achievement_id": "night_owl",
+        "unlocked": false,
+        "unlocked_at_utc": 0.0,
+        "progress_ratio": 0.0
+      }
+    }
+  ],
+  "journal_entry_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "id": "",
+        "kind": 6,
+        "created_at_utc": 0.0,
+        "date_key": "",
+        "title": "",
+        "body": "",
+        "subject_id": ""
+      }
+    },
+    {
+      "in": {
+        "id": "j1",
+        "kind": 99
+      },
+      "out": {
+        "id": "j1",
+        "kind": 6,
+        "created_at_utc": 0.0,
+        "date_key": "",
+        "title": "",
+        "body": "",
+        "subject_id": ""
+      }
+    },
+    {
+      "in": {
+        "id": "j2",
+        "kind": -1
+      },
+      "out": {
+        "id": "j2",
+        "kind": 6,
+        "created_at_utc": 0.0,
+        "date_key": "",
+        "title": "",
+        "body": "",
+        "subject_id": ""
+      }
+    },
+    {
+      "in": {
+        "id": "j3",
+        "kind": 7,
+        "title": "Reached level 13",
+        "body": "Grown from 12h."
+      },
+      "out": {
+        "id": "j3",
+        "kind": 7,
+        "created_at_utc": 0.0,
+        "date_key": "",
+        "title": "Reached level 13",
+        "body": "Grown from 12h.",
+        "subject_id": ""
+      }
+    }
+  ],
+  "project_category_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "id": "",
+        "display_name": "Untitled",
+        "color_token": "moss",
+        "icon_id": "leaf",
+        "created_at_utc": 0.0,
+        "archived": false,
+        "total_focus_minutes": 0.0
+      }
+    },
+    {
+      "in": {
+        "id": "p1",
+        "total_focus_minutes": -20.0
+      },
+      "out": {
+        "id": "p1",
+        "display_name": "Untitled",
+        "color_token": "moss",
+        "icon_id": "leaf",
+        "created_at_utc": 0.0,
+        "archived": false,
+        "total_focus_minutes": 0.0
+      }
+    },
+    {
+      "in": {
+        "id": "p2",
+        "display_name": "Network+",
+        "color_token": "sky",
+        "archived": true
+      },
+      "out": {
+        "id": "p2",
+        "display_name": "Network+",
+        "color_token": "sky",
+        "icon_id": "leaf",
+        "created_at_utc": 0.0,
+        "archived": true,
+        "total_focus_minutes": 0.0
+      }
+    }
+  ],
+  "shelf_layout_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "layout_id": "",
+        "display_name": "My Shelf",
+        "style_id": "warm_oak",
+        "background_id": "cozy_wall",
+        "lighting_id": "soft_afternoon",
+        "slot_count": 8,
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "slot_count": 0
+      },
+      "out": {
+        "layout_id": "",
+        "display_name": "My Shelf",
+        "style_id": "warm_oak",
+        "background_id": "cozy_wall",
+        "lighting_id": "soft_afternoon",
+        "slot_count": 1,
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "slot_count": 9999
+      },
+      "out": {
+        "layout_id": "",
+        "display_name": "My Shelf",
+        "style_id": "warm_oak",
+        "background_id": "cozy_wall",
+        "lighting_id": "soft_afternoon",
+        "slot_count": 64,
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "layout_id": "sh1",
+        "display_name": "Window ledge",
+        "style_id": "pale_ash"
+      },
+      "out": {
+        "layout_id": "sh1",
+        "display_name": "Window ledge",
+        "style_id": "pale_ash",
+        "background_id": "cozy_wall",
+        "lighting_id": "soft_afternoon",
+        "slot_count": 8,
+        "decorations": {}
+      }
+    }
+  ],
+  "garden_layout_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "grid_size_x": 0,
+        "grid_size_y": 0
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 1,
+        "grid_size_y": 1,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "grid_size_x": 9999,
+        "grid_size_y": 9999
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 64,
+        "grid_size_y": 64,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "decorations": {
+          "1,1": "stone_bench"
+        }
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {
+          "1,1": {
+            "id": "stone_bench",
+            "rotation": 0
+          }
+        }
+      }
+    },
+    {
+      "in": {
+        "decorations": {
+          "1,1": {
+            "id": "stone_bench",
+            "rotation": 2
+          }
+        }
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {
+          "1,1": {
+            "id": "stone_bench",
+            "rotation": 2
+          }
+        }
+      }
+    },
+    {
+      "in": {
+        "decorations": {
+          "1,1": {
+            "id": "stone_bench",
+            "rotation": -1
+          }
+        }
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {
+          "1,1": {
+            "id": "stone_bench",
+            "rotation": 3
+          }
+        }
+      }
+    },
+    {
+      "in": {
+        "decorations": {
+          "1,1": {
+            "id": "",
+            "rotation": 1
+          }
+        }
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "decorations": {
+          "1,1": {
+            "rotation": 1
+          }
+        }
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "decorations": {
+          "1,1": ""
+        }
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      }
+    },
+    {
+      "in": {
+        "unlocked_expansion_ids": [
+          "a",
+          "b",
+          "a"
+        ]
+      },
+      "out": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [
+          "a",
+          "b",
+          "a"
+        ],
+        "decorations": {}
+      }
+    }
+  ],
+  "save_data_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [],
+        "catalogue": [],
+        "achievements": [],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "save_version": 2,
+        "plants": [
+          {
+            "uid": "a"
+          },
+          {
+            "uid": "a"
+          },
+          {
+            "uid": ""
+          },
+          "not a dict",
+          {
+            "uid": "b"
+          }
+        ]
+      },
+      "out": {
+        "save_version": 2,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [
+          {
+            "uid": "a",
+            "species_id": "",
+            "nickname": "",
+            "planted_at_utc": 0.0,
+            "matured_at_utc": 0.0,
+            "accumulated_focus_minutes": 0.0,
+            "growth_stage": 0,
+            "maturity": 0,
+            "contributing_session_ids": [],
+            "primary_project_id": "",
+            "mutation_ids": [],
+            "pot_id": "terracotta_basic",
+            "favorite": false,
+            "location": 0,
+            "shelf_slot": -1,
+            "garden_cell_x": -1,
+            "garden_cell_y": -1,
+            "garden_rotation": 0,
+            "is_mystery": false,
+            "mystery_revealed": false
+          },
+          {
+            "uid": "b",
+            "species_id": "",
+            "nickname": "",
+            "planted_at_utc": 0.0,
+            "matured_at_utc": 0.0,
+            "accumulated_focus_minutes": 0.0,
+            "growth_stage": 0,
+            "maturity": 0,
+            "contributing_session_ids": [],
+            "primary_project_id": "",
+            "mutation_ids": [],
+            "pot_id": "terracotta_basic",
+            "favorite": false,
+            "location": 0,
+            "shelf_slot": -1,
+            "garden_cell_x": -1,
+            "garden_cell_y": -1,
+            "garden_rotation": 0,
+            "is_mystery": false,
+            "mystery_revealed": false
+          }
+        ],
+        "projects": [],
+        "catalogue": [],
+        "achievements": [],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "projects": [
+          {
+            "id": "p"
+          },
+          {
+            "id": "p"
+          },
+          {
+            "id": ""
+          }
+        ]
+      },
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [
+          {
+            "id": "p",
+            "display_name": "Untitled",
+            "color_token": "moss",
+            "icon_id": "leaf",
+            "created_at_utc": 0.0,
+            "archived": false,
+            "total_focus_minutes": 0.0
+          }
+        ],
+        "catalogue": [],
+        "achievements": [],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "catalogue": [
+          {
+            "species_id": "s"
+          },
+          {
+            "species_id": "s"
+          },
+          {
+            "species_id": ""
+          }
+        ]
+      },
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [],
+        "catalogue": [
+          {
+            "species_id": "s",
+            "discovered": false,
+            "first_discovered_at_utc": 0.0,
+            "times_grown": 0,
+            "total_focus_minutes": 0.0,
+            "fastest_growth_minutes": -1.0,
+            "favorite": false
+          }
+        ],
+        "achievements": [],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "achievements": [
+          {
+            "achievement_id": "x"
+          },
+          {
+            "achievement_id": "x"
+          }
+        ]
+      },
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [],
+        "catalogue": [],
+        "achievements": [
+          {
+            "achievement_id": "x",
+            "unlocked": false,
+            "unlocked_at_utc": 0.0,
+            "progress_ratio": 0.0
+          }
+        ],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "journal": [
+          {
+            "id": "j"
+          },
+          {
+            "id": "j"
+          },
+          {
+            "id": ""
+          }
+        ]
+      },
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [],
+        "catalogue": [],
+        "achievements": [],
+        "journal": [
+          {
+            "id": "j",
+            "kind": 6,
+            "created_at_utc": 0.0,
+            "date_key": "",
+            "title": "",
+            "body": "",
+            "subject_id": ""
+          }
+        ],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "save_version": 1
+      },
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [],
+        "catalogue": [],
+        "achievements": [],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {}
+      }
+    },
+    {
+      "in": {
+        "in_flight_session": {
+          "wall_start": 123.0,
+          "state": 1
+        }
+      },
+      "out": {
+        "save_version": 1,
+        "player": {
+          "display_name": "Gardener",
+          "created_at_utc": 0.0,
+          "total_xp": 0,
+          "active_plant_uid": "",
+          "active_project_id": "",
+          "unlocked_ids": [],
+          "current_streak": 0,
+          "longest_streak": 0,
+          "last_focus_date_key": "",
+          "focus_sessions_in_cycle": 0,
+          "onboarding_completed": false
+        },
+        "settings": {
+          "focus_duration_minutes": 25.0,
+          "short_break_minutes": 5.0,
+          "long_break_minutes": 15.0,
+          "sessions_before_long_break": 4,
+          "auto_start_breaks": false,
+          "auto_start_focus": false,
+          "minimum_credit_minutes": 1.0,
+          "window_mode": "windowed",
+          "theme_mode": "light",
+          "ui_scale": 1.0,
+          "reduced_motion": false,
+          "animation_intensity": 1.0,
+          "volume_master": 0.7,
+          "volume_music": 0.4,
+          "volume_ambient": 0.5,
+          "volume_ui": 0.6,
+          "volume_timer": 0.8,
+          "ambient_track_id": "none",
+          "notify_focus_complete": true,
+          "notify_break_complete": true,
+          "daily_goal_minutes": 50.0,
+          "streak_threshold_minutes": 25.0,
+          "confirm_before_cancel_session": true,
+          "check_for_updates": true,
+          "custom_save_directory": ""
+        },
+        "plants": [],
+        "projects": [],
+        "catalogue": [],
+        "achievements": [],
+        "journal": [],
+        "shelf": {
+          "layout_id": "",
+          "display_name": "My Shelf",
+          "style_id": "warm_oak",
+          "background_id": "cozy_wall",
+          "lighting_id": "soft_afternoon",
+          "slot_count": 8,
+          "decorations": {}
+        },
+        "garden": {
+          "environment_id": "cottage_garden",
+          "grid_size_x": 4,
+          "grid_size_y": 3,
+          "unlocked_expansion_ids": [],
+          "decorations": {}
+        },
+        "expeditions": {},
+        "in_flight_session": {
+          "wall_start": 123.0,
+          "state": 1
+        }
+      }
+    }
+  ],
+  "migrate": [
+    {
+      "label": "v1 bare-string decoration upgrades",
+      "in": {
+        "save_version": 1,
+        "garden": {
+          "decorations": {
+            "0,0": "stone_bench",
+            "1,2": "pond"
+          }
+        },
+        "settings": {}
+      },
+      "target": 2,
+      "status": 0,
+      "from_version": 1,
+      "to_version": 2,
+      "applied_steps": [
+        "1->2"
+      ],
+      "data": {
+        "save_version": 2,
+        "garden": {
+          "decorations": {
+            "0,0": {
+              "id": "stone_bench",
+              "rotation": 0
+            },
+            "1,2": {
+              "id": "pond",
+              "rotation": 0
+            }
+          }
+        },
+        "settings": {
+          "theme_mode": "light"
+        }
+      }
+    },
+    {
+      "label": "v1 already-dict decoration left alone",
+      "in": {
+        "save_version": 1,
+        "garden": {
+          "decorations": {
+            "0,0": {
+              "id": "pond",
+              "rotation": 3
+            }
+          }
+        },
+        "settings": {
+          "theme_mode": "dark"
+        }
+      },
+      "target": 2,
+      "status": 0,
+      "from_version": 1,
+      "to_version": 2,
+      "applied_steps": [
+        "1->2"
+      ],
+      "data": {
+        "save_version": 2,
+        "garden": {
+          "decorations": {
+            "0,0": {
+              "id": "pond",
+              "rotation": 3
+            }
+          }
+        },
+        "settings": {
+          "theme_mode": "dark"
+        }
+      }
+    },
+    {
+      "label": "v1 empty decoration dropped",
+      "in": {
+        "save_version": 1,
+        "garden": {
+          "decorations": {
+            "0,0": ""
+          }
+        },
+        "settings": {}
+      },
+      "target": 2,
+      "status": 0,
+      "from_version": 1,
+      "to_version": 2,
+      "applied_steps": [
+        "1->2"
+      ],
+      "data": {
+        "save_version": 2,
+        "garden": {
+          "decorations": {}
+        },
+        "settings": {
+          "theme_mode": "light"
+        }
+      }
+    },
+    {
+      "label": "already current is a no-op",
+      "in": {
+        "save_version": 2
+      },
+      "target": 2,
+      "status": 0,
+      "from_version": 2,
+      "to_version": 2,
+      "applied_steps": [],
+      "data": {
+        "save_version": 2
+      }
+    },
+    {
+      "label": "future version refused",
+      "in": {
+        "save_version": 99
+      },
+      "target": 2,
+      "status": 1,
+      "from_version": 99,
+      "to_version": 99,
+      "applied_steps": [],
+      "data": {
+        "save_version": 99
+      }
+    },
+    {
+      "label": "missing version reads as 1",
+      "in": {},
+      "target": 2,
+      "status": 0,
+      "from_version": 1,
+      "to_version": 2,
+      "applied_steps": [
+        "1->2"
+      ],
+      "data": {
+        "garden": {
+          "decorations": {}
+        },
+        "settings": {
+          "theme_mode": "light"
+        },
+        "save_version": 2
+      }
+    },
+    {
+      "label": "gap in the chain",
+      "in": {
+        "save_version": 1
+      },
+      "target": 4,
+      "status": 2,
+      "from_version": 1,
+      "to_version": 2,
+      "applied_steps": [
+        "1->2"
+      ],
+      "data": {
+        "save_version": 2
+      }
+    }
+  ],
+  "version_util": [
+    {
+      "version": "1.0.0",
+      "parse": [
+        1,
+        0,
+        0
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 0,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "0.9.0",
+      "parse": [
+        0,
+        9,
+        0
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "0.10.0",
+      "parse": [
+        0,
+        10,
+        0
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "1.2.3",
+      "parse": [
+        1,
+        2,
+        3
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "v1.2.3",
+      "parse": [
+        1,
+        2,
+        3
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "V1.2.3",
+      "parse": [
+        1,
+        2,
+        3
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "1.2.3-beta.1",
+      "parse": [
+        1,
+        2,
+        3
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "1.2.3+build9",
+      "parse": [
+        1,
+        2,
+        3
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "1.2",
+      "parse": [
+        1,
+        2,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "1",
+      "parse": [
+        1,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": 0,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "x.y.z",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "1.-2.0",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "1..2",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "1.",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "1.2.3.4",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": false,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "01.02.03",
+      "parse": [
+        1,
+        2,
+        3
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "0.0.0",
+      "parse": [
+        0,
+        0,
+        0
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": -1,
+      "is_newer_than_1_0_0": false
+    },
+    {
+      "version": "10.0.0",
+      "parse": [
+        10,
+        0,
+        0
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    },
+    {
+      "version": "2.0.0-rc1",
+      "parse": [
+        2,
+        0,
+        0
+      ],
+      "is_valid": true,
+      "compare_to_1_0_0": 1,
+      "is_newer_than_1_0_0": true
+    }
+  ],
+  "save_bundle": {
+    "built": {
+      "save_version": 2,
+      "player": {
+        "display_name": "Fixture",
+        "created_at_utc": 1780000000.0,
+        "total_xp": 4200,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [],
+        "current_streak": 0,
+        "longest_streak": 0,
+        "last_focus_date_key": "",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": false
+      },
+      "settings": {
+        "focus_duration_minutes": 25.0,
+        "short_break_minutes": 5.0,
+        "long_break_minutes": 15.0,
+        "sessions_before_long_break": 4,
+        "auto_start_breaks": false,
+        "auto_start_focus": false,
+        "minimum_credit_minutes": 1.0,
+        "window_mode": "windowed",
+        "theme_mode": "light",
+        "ui_scale": 1.0,
+        "reduced_motion": false,
+        "animation_intensity": 1.0,
+        "volume_master": 0.7,
+        "volume_music": 0.4,
+        "volume_ambient": 0.5,
+        "volume_ui": 0.6,
+        "volume_timer": 0.8,
+        "ambient_track_id": "none",
+        "notify_focus_complete": true,
+        "notify_break_complete": true,
+        "daily_goal_minutes": 50.0,
+        "streak_threshold_minutes": 25.0,
+        "confirm_before_cancel_session": true,
+        "check_for_updates": true,
+        "custom_save_directory": ""
+      },
+      "plants": [
+        {
+          "uid": "pl_fixture",
+          "species_id": "aloe_vera",
+          "nickname": "",
+          "planted_at_utc": 0.0,
+          "matured_at_utc": 0.0,
+          "accumulated_focus_minutes": 90.0,
+          "growth_stage": 0,
+          "maturity": 0,
+          "contributing_session_ids": [],
+          "primary_project_id": "",
+          "mutation_ids": [],
+          "pot_id": "terracotta_basic",
+          "favorite": false,
+          "location": 0,
+          "shelf_slot": -1,
+          "garden_cell_x": -1,
+          "garden_cell_y": -1,
+          "garden_rotation": 0,
+          "is_mystery": false,
+          "mystery_revealed": false
+        }
+      ],
+      "projects": [],
+      "catalogue": [],
+      "achievements": [],
+      "journal": [],
+      "shelf": {
+        "layout_id": "sh_mtdyf01a-d8488345",
+        "display_name": "My Shelf",
+        "style_id": "warm_oak",
+        "background_id": "cozy_wall",
+        "lighting_id": "soft_afternoon",
+        "slot_count": 8,
+        "decorations": {}
+      },
+      "garden": {
+        "environment_id": "cottage_garden",
+        "grid_size_x": 4,
+        "grid_size_y": 3,
+        "unlocked_expansion_ids": [],
+        "decorations": {}
+      },
+      "expeditions": {},
+      "in_flight_session": {},
+      "sessions": [
+        {
+          "id": "s_0",
+          "kind": 0,
+          "started_at_utc": 0.0,
+          "ended_at_utc": 0.0,
+          "date_key": "2026-08-21",
+          "start_hour": 0,
+          "intended_duration_minutes": 0.0,
+          "actual_focus_minutes": 25.0,
+          "paused_minutes": 0.0,
+          "completion": 0,
+          "anomaly": 0,
+          "interruption_reason": "",
+          "project_id": "",
+          "plant_uid": "",
+          "xp_earned": 0,
+          "awards_applied": false
+        },
+        {
+          "id": "s_1",
+          "kind": 0,
+          "started_at_utc": 0.0,
+          "ended_at_utc": 0.0,
+          "date_key": "2026-08-22",
+          "start_hour": 0,
+          "intended_duration_minutes": 0.0,
+          "actual_focus_minutes": 25.0,
+          "paused_minutes": 0.0,
+          "completion": 0,
+          "anomaly": 0,
+          "interruption_reason": "",
+          "project_id": "",
+          "plant_uid": "",
+          "xp_earned": 0,
+          "awards_applied": false
+        },
+        {
+          "id": "s_2",
+          "kind": 0,
+          "started_at_utc": 0.0,
+          "ended_at_utc": 0.0,
+          "date_key": "2026-08-23",
+          "start_hour": 0,
+          "intended_duration_minutes": 0.0,
+          "actual_focus_minutes": 25.0,
+          "paused_minutes": 0.0,
+          "completion": 0,
+          "anomaly": 0,
+          "interruption_reason": "",
+          "project_id": "",
+          "plant_uid": "",
+          "xp_earned": 0,
+          "awards_applied": false
+        },
+        {
+          "id": "s_3",
+          "kind": 1,
+          "started_at_utc": 0.0,
+          "ended_at_utc": 0.0,
+          "date_key": "2026-08-24",
+          "start_hour": 0,
+          "intended_duration_minutes": 0.0,
+          "actual_focus_minutes": 25.0,
+          "paused_minutes": 0.0,
+          "completion": 0,
+          "anomaly": 0,
+          "interruption_reason": "",
+          "project_id": "",
+          "plant_uid": "",
+          "xp_earned": 0,
+          "awards_applied": false
+        }
+      ],
+      "export": {
+        "app_version": "0.1.0",
+        "exported_at_utc": 1787000000.0,
+        "session_count": 4
+      }
+    },
+    "read": [
+      {
+        "label": "clean",
+        "summary": {
+          "plant_count": 1,
+          "session_count": 3,
+          "break_count": 1,
+          "focus_minutes": 75.0,
+          "days_focused": 3,
+          "first_date_key": "2026-08-21",
+          "last_date_key": "2026-08-23",
+          "app_version": "0.1.0",
+          "has_sessions": true,
+          "skipped_count": 0,
+          "duplicate_count": 0
+        },
+        "describe_range": "21 Aug 2026 – 23 Aug 2026",
+        "session_ids": [
+          "s_0",
+          "s_1",
+          "s_2",
+          "s_3"
+        ]
+      },
+      {
+        "label": "damaged",
+        "summary": {
+          "plant_count": 1,
+          "session_count": 3,
+          "break_count": 1,
+          "focus_minutes": 75.0,
+          "days_focused": 3,
+          "first_date_key": "2026-08-21",
+          "last_date_key": "2026-08-23",
+          "app_version": "0.1.0",
+          "has_sessions": true,
+          "skipped_count": 2,
+          "duplicate_count": 1
+        },
+        "describe_range": "21 Aug 2026 – 23 Aug 2026",
+        "session_ids": [
+          "s_0",
+          "s_1",
+          "s_2",
+          "s_3"
+        ]
+      },
+      {
+        "label": "no_sessions_key",
+        "summary": {
+          "plant_count": 1,
+          "session_count": 0,
+          "break_count": 0,
+          "focus_minutes": 0.0,
+          "days_focused": 0,
+          "first_date_key": "",
+          "last_date_key": "",
+          "app_version": "0.1.0",
+          "has_sessions": false,
+          "skipped_count": 0,
+          "duplicate_count": 0
+        },
+        "describe_range": "",
+        "session_ids": []
+      }
+    ]
+  }
+}
