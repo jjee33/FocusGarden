@@ -29,14 +29,14 @@ interface Props {
 }
 
 export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
-  const { stats, activePlant, activeProject, completeSession, state } = garden;
+  const { stats, activePlant, activeProject, completeSession, save } = garden;
   const { foliageAmbient } = useTheme();
   const reducedMotion = useReducedMotion();
 
   const timer = useFocusTimer((finished) => {
     completeSession(
       finished.kind, finished.intendedMinutes, finished.rawMinutes,
-      finished.completion, state.profile.activeProjectId, state.profile.activePlantUid,
+      finished.completion, save.profile.activeProjectId, save.profile.activePlantUid,
     );
   });
 
@@ -65,7 +65,7 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
   return (
     <>
       <div className="greet">
-        <h1>{running ? greetingForKind(timer.snapshot.kind) : `Good evening, ${state.profile.displayName}`}</h1>
+        <h1>{running ? greetingForKind(timer.snapshot.kind) : `Good evening, ${save.profile.displayName}`}</h1>
         <p>
           {running
             ? `Session ${stats.cyclePosition} of 4 · ${stats.nextBreak === Kind.LONG_BREAK ? "long break" : "short break"} next`
@@ -98,7 +98,7 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
         </div>
 
         <div className="focus-body">
-          <h2 id="focus-heading">{activeProject?.name ?? "No project"}</h2>
+          <h2 id="focus-heading">{activeProject?.displayName ?? "No project"}</h2>
           {running ? (
             <>
               <p>
@@ -183,21 +183,21 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
       )}
 
       <div className="tiles">
-        <Tile label="Focused today" value={formatDuration(stats.focusedToday)}>
-          <Sparkline days={stats.qualifyingDays.length} accent="var(--moss)" />
+        <Tile label="Focused today" value={formatDuration(stats.focusToday)}>
+          <Sparkline days={stats.daysFocused} accent="var(--moss)" />
         </Tile>
         <Tile
           label="Current streak"
-          value={stats.streak === 0 ? "No streak yet" : `${stats.streak} days`}
+          value={stats.currentStreak === 0 ? "No streak yet" : `${stats.currentStreak} days`}
         >
-          <Sparkline days={stats.streak} accent="var(--amber)" />
+          <Sparkline days={stats.currentStreak} accent="var(--amber)" />
         </Tile>
         <Tile label="Gardener level" value={String(stats.level)}>
           <div className="bar" style={{ marginTop: 6 }}>
             <i style={{ width: `${Math.round(stats.levelRatio * 100)}%` }} />
           </div>
         </Tile>
-        <Tile label="Lifetime focus" value={formatDuration(stats.lifetime)} />
+        <Tile label="Lifetime focus" value={formatDuration(stats.focusLifetime)} />
       </div>
     </>
   );

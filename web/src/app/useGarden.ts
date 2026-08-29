@@ -1,57 +1,70 @@
 /**
- * The spike's state: a real profile, real plants, real sessions, held in memory.
+ * The app's state: a real SaveData plus the session history, held in memory.
  *
- * Deliberately NOT the persistence layer - IndexedDB and sync are Phase 4/5. What
- * matters here is that every number on screen comes out of the ported domain
- * logic rather than being hardcoded, so the screens are being designed against
- * the real thing. Completing a session runs the same settle -> XP -> growth chain
- * the desktop's SessionPipeline runs, in the same order, with the same
- * idempotency guard.
+ * The shape deliberately matches the save format's own split - the container in
+ * one field, sessions in another - because that is exactly what a SaveBundle is,
+ * and it is what IndexedDB will store in Phase 4b. Matching it now means
+ * persistence becomes a serialisation step rather than a reshaping one.
+ *
+ * Session completion goes through the real SessionPipeline. An earlier version
+ * ran the chain inline here behind a guard that could never fire; the gate now
+ * lives where it belongs, on `session.awardsApplied`.
  */
 
 import { useCallback, useMemo, useState } from "react";
 
-import { ALL_SPECIES, getPot, getSpecies } from "../content/content.js";
-import type { FocusSession, Kind } from "../domain/focus-session.js";
 import {
-  Anomaly, Completion, Kind as K, countsTowardProgress, createFocusSession, generateUid,
+  ALL_ACHIEVEMENTS, ALL_EXPANSIONS, getPot, getSpecies, speciesCount,
+} from "../content/content.js";
+import type { Completion, FocusSession, Kind } from "../domain/focus-session.js";
+import {
+  Anomaly, Completion as C, Kind as K, countsTowardProgress, createFocusSession,
 } from "../domain/focus-session.js";
+import { generate } from "../domain/uid.js";
 import type { PlantInstance } from "../domain/plant-instance.js";
 import {
   GARDEN_ROTATIONS, Location, makePlantInstance, moveToGarden,
 } from "../domain/plant-instance.js";
 import { posmod } from "../domain/gd.js";
-import type { PlayerProfile } from "../domain/player-profile.js";
 import { makePlayerProfile } from "../domain/player-profile.js";
-import { applyGrowth, progressRatio, stageName } from "../domain/plant-growth.js";
+import { makeGameSettings } from "../domain/game-settings.js";
+import { makeGardenLayout } from "../domain/garden-layout.js";
+import { makeShelfLayout } from "../domain/shelf-layout.js";
+import { createProjectCategory } from "../domain/project-category.js";
+import type { SaveData } from "../domain/save-data.js";
+import { makeSaveData } from "../domain/save-data.js";
+import { progressRatio, stageName } from "../domain/plant-growth.js";
 import { getStageCount } from "../domain/species.js";
-import { earnsPlantGrowth, settle } from "../domain/session-credit.js";
-import { nextBreakKind, position, shouldAdvance } from "../domain/session-cycle.js";
-import { levelForXp, levelProgressRatio, xpForSession } from "../domain/xp-formula.js";
-import { calculate as calculateStreak } from "../domain/streak-calculator.js";
-import { ingestPlantSessions, makeRequirementContext } from "../domain/requirement-context.js";
+import { settle } from "../domain/session-credit.js";
+import { nextBreakKind, position } from "../domain/session-cycle.js";
+import { levelForXp, levelProgressRatio } from "../domain/xp-formula.js";
+import {
+  buildPlantContext, buildSummary, dailyTotals, totalsByProject,
+} from "../domain/statistics.js";
+import { nextExpansion, nextExpansionProgress } from "../domain/garden-service.js";
+import { applySession } from "../domain/session-pipeline.js";
+import type { PipelineContent, PipelineState, SessionOutcome } from "../domain/session-pipeline.js";
 import { shiftDateKey, todayKey } from "../domain/time-util.js";
 
-export interface Project {
-  id: string;
-  name: string;
-  /** A theme token NAME, never a hex value, so categories stay re-themeable. */
-  colorToken: "moss" | "terracotta" | "amber" | "sky" | "clay";
+export interface GardenState {
+  save: SaveData;
+  /** Kept beside the save, exactly as the on-disk format keeps them apart. */
+  sessions: FocusSession[];
 }
 
-export interface GardenState {
-  profile: PlayerProfile;
-  plants: PlantInstance[];
-  sessions: FocusSession[];
-  projects: Project[];
-}
+/** Content the pipeline reads. Stable, so it is built once. */
+const PIPELINE_CONTENT: PipelineContent = {
+  getSpecies,
+  achievements: ALL_ACHIEVEMENTS,
+  expansions: ALL_EXPANSIONS,
+  speciesTotal: speciesCount(),
+};
 
 /** A plausible history, so the screens are designed against realistic numbers. */
 function seedState(): GardenState {
   const today = todayKey();
   const sessions: FocusSession[] = [];
-  // Twelve days of history with one gap, so the streak is interesting rather
-  // than a round number.
+  // Twelve days with one gap, so the streak is interesting rather than round.
   const pattern = [50, 75, 0, 25, 100, 50, 75, 25, 50, 90, 45, 165];
   pattern.forEach((minutes, index) => {
     if (minutes === 0) return;
@@ -67,10 +80,13 @@ function seedState(): GardenState {
         startedAtUtc: 0, endedAtUtc: 0,
         dateKey, startHour: 9 + (n % 8),
         intendedDurationMinutes: 25, actualFocusMinutes: chunk, pausedMinutes: 0,
-        completion: Completion.COMPLETED, anomaly: Anomaly.NONE, interruptionReason: "",
+        completion: C.COMPLETED, anomaly: Anomaly.NONE, interruptionReason: "",
         projectId: index % 3 === 0 ? "p_networkplus" : "p_reading",
         plantUid: index > 6 ? "pl_monstera" : "pl_aloe",
-        xpEarned: Math.floor(chunk * 2), awardsApplied: true,
+        xpEarned: Math.floor(chunk * 2),
+        // Seeded history is already settled, and the gate has to say so or a
+        // replay would award every minute of it again.
+        awardsApplied: true,
       });
     }
   });
@@ -79,7 +95,7 @@ function seedState(): GardenState {
     makePlantInstance({
       uid: "pl_aloe", speciesId: "aloe_vera", accumulatedFocusMinutes: 180,
       growthStage: 2, maturity: 1, maturedAtUtc: 1, location: Location.GARDEN,
-      gardenCellX: 1, gardenCellY: 0, gardenRotation: 0, primaryProjectId: "p_reading",
+      gardenCellX: 1, gardenCellY: 0, primaryProjectId: "p_reading",
     }),
     makePlantInstance({
       uid: "pl_monstera", speciesId: "monstera", accumulatedFocusMinutes: 148,
@@ -107,23 +123,25 @@ function seedState(): GardenState {
   ];
 
   const totalXp = sessions.reduce((sum, s) => sum + s.xpEarned, 0);
-  const streak = calculateStreak(sessions, 20, today);
 
   return {
-    profile: makePlayerProfile({
-      displayName: "Joshua", totalXp,
-      activePlantUid: "pl_monstera", activeProjectId: "p_networkplus",
-      currentStreak: streak.current, longestStreak: streak.longest,
-      lastFocusDateKey: streak.lastQualifyingDay, focusSessionsInCycle: 2,
-      onboardingCompleted: true,
+    save: makeSaveData({
+      profile: makePlayerProfile({
+        displayName: "Joshua", totalXp,
+        activePlantUid: "pl_monstera", activeProjectId: "p_networkplus",
+        focusSessionsInCycle: 2, onboardingCompleted: true,
+      }),
+      settings: makeGameSettings(),
+      plants,
+      projects: [
+        { ...createProjectCategory("Network+ revision", "sky"), id: "p_networkplus" },
+        { ...createProjectCategory("Reading", "terracotta"), id: "p_reading" },
+        { ...createProjectCategory("Side project", "amber"), id: "p_sideproject" },
+      ],
+      shelf: makeShelfLayout(),
+      garden: makeGardenLayout(),
     }),
-    plants,
     sessions,
-    projects: [
-      { id: "p_networkplus", name: "Network+ revision", colorToken: "sky" },
-      { id: "p_reading", name: "Reading", colorToken: "terracotta" },
-      { id: "p_sideproject", name: "Side project", colorToken: "amber" },
-    ],
   };
 }
 
@@ -136,161 +154,177 @@ export interface PlantSummary {
   stageLabel: string;
 }
 
+/**
+ * A deep-enough clone for the pipeline to mutate.
+ *
+ * The pipeline mutates in place, which is right for a domain function and wrong
+ * for React state. The boundary between the two conventions lives here, in one
+ * function, rather than smeared through either side.
+ */
+function cloneForPipeline(state: GardenState): PipelineState {
+  const { save } = state;
+  return {
+    profile: { ...save.profile, unlockedIds: [...save.profile.unlockedIds] },
+    settings: save.settings,
+    plants: save.plants.map((p) => ({
+      ...p,
+      contributingSessionIds: [...p.contributingSessionIds],
+      mutationIds: [...p.mutationIds],
+    })),
+    sessions: [...state.sessions],
+    catalogue: save.catalogue.map((c) => ({ ...c })),
+    achievements: save.achievements.map((a) => ({ ...a })),
+    journal: [...save.journal],
+    garden: {
+      ...save.garden,
+      unlockedExpansionIds: [...save.garden.unlockedExpansionIds],
+      decorations: { ...save.garden.decorations },
+    },
+    expeditions: save.expeditions,
+  };
+}
+
 export function useGarden() {
   const [state, setState] = useState<GardenState>(seedState);
+  const [lastOutcome, setLastOutcome] = useState<SessionOutcome | null>(null);
+  const { save, sessions } = state;
 
-  const describePlant = useCallback((plant: PlantInstance): PlantSummary | null => {
-    const species = getSpecies(plant.speciesId);
-    if (species === null) return null;
-    // Plant-scoped only: a growth requirement never reads global figures, and the
-    // full context would re-aggregate the whole session history per plant.
-    const context = makeRequirementContext();
-    ingestPlantSessions(
-      context,
-      state.sessions.filter((s) => s.plantUid === plant.uid),
-    );
-    // The stored total is authoritative for a plant's own progress; the seeded
-    // history is only a sample of it.
-    context.plantFocusMinutes = plant.accumulatedFocusMinutes;
-    const ratio = progressRatio(plant, species, context);
-    const stageCount = getStageCount(species);
-    return {
-      plant,
-      speciesName: species.displayName,
-      scientificName: species.scientificName,
-      ratio,
-      stage: plant.growthStage,
-      stageLabel: stageName(plant.growthStage, stageCount),
-    };
-  }, [state.sessions]);
-
-  const summaries = useMemo(
-    () => state.plants.map(describePlant).filter((s): s is PlantSummary => s !== null),
-    [state.plants, describePlant],
-  );
+  const summaries = useMemo<PlantSummary[]>(() => {
+    const out: PlantSummary[] = [];
+    for (const plant of save.plants) {
+      const species = getSpecies(plant.speciesId);
+      if (species === null) continue;
+      const context = buildPlantContext(sessions.filter((s) => s.plantUid === plant.uid));
+      // The stored total is authoritative for a plant's own progress; the seeded
+      // history is only a sample of it.
+      context.plantFocusMinutes = plant.accumulatedFocusMinutes;
+      out.push({
+        plant,
+        speciesName: species.displayName,
+        scientificName: species.scientificName,
+        ratio: progressRatio(plant, species, context),
+        stage: plant.growthStage,
+        stageLabel: stageName(plant.growthStage, getStageCount(species)),
+      });
+    }
+    return out;
+  }, [save.plants, sessions]);
 
   const stats = useMemo(() => {
-    const today = todayKey();
-    const streak = calculateStreak(state.sessions, 20, today);
-    const focusedToday = state.sessions
-      .filter((s) => s.dateKey === today && countsTowardProgress(s) && s.kind === K.FOCUS)
-      .reduce((sum, s) => sum + s.actualFocusMinutes, 0);
-    const lifetime = state.sessions
-      .filter((s) => countsTowardProgress(s) && s.kind === K.FOCUS)
-      .reduce((sum, s) => sum + s.actualFocusMinutes, 0);
+    const summary = buildSummary({
+      sessions,
+      plants: save.plants,
+      catalogue: save.catalogue,
+      totalXp: save.profile.totalXp,
+      streakThresholdMinutes: save.settings.streakThresholdMinutes,
+    });
     return {
-      focusedToday,
-      lifetime,
-      streak: streak.current,
-      longestStreak: streak.longest,
-      qualifyingDays: streak.qualifyingDays,
-      level: levelForXp(state.profile.totalXp),
-      levelRatio: levelProgressRatio(state.profile.totalXp),
-      cyclePosition: position(state.profile.focusSessionsInCycle, 4),
-      nextBreak: nextBreakKind(state.profile.focusSessionsInCycle, 4),
+      ...summary,
+      level: levelForXp(save.profile.totalXp),
+      levelRatio: levelProgressRatio(save.profile.totalXp),
+      cyclePosition: position(
+        save.profile.focusSessionsInCycle, save.settings.sessionsBeforeLongBreak,
+      ),
+      nextBreak: nextBreakKind(
+        save.profile.focusSessionsInCycle, save.settings.sessionsBeforeLongBreak,
+      ),
+      dailyTotals: dailyTotals(sessions),
+      byProject: totalsByProject(sessions),
     };
-  }, [state.sessions, state.profile]);
+  }, [sessions, save.plants, save.catalogue, save.profile, save.settings]);
 
   /**
-   * The completion chain, in the order SessionPipeline defines it: settle credit,
-   * record, apply growth, award XP, update the cycle.
+   * Settles a finished session and runs the completion chain.
    *
-   * NO IDEMPOTENCY GATE LIVES HERE YET, and an earlier version of this comment
-   * claimed otherwise. It generated a fresh uid and then checked whether that
-   * fresh uid was already in an applied set - which it never can be, so the guard
-   * could not fire. What actually prevents a double award today is one layer up:
-   * useFocusTimer.finish returns early once the clock is IDLE, so a second call
-   * for the same finish is a no-op.
-   *
-   * The structural gate is `session.awardsApplied` on the record itself, and it
-   * arrives with the real SessionPipeline port. Until then this is a convention,
-   * not a guarantee - which is exactly the distinction the desktop's pipeline
-   * exists to remove.
+   * Everything after the record is built belongs to SessionPipeline, in the order
+   * it defines, gated on the record itself.
    */
   const completeSession = useCallback((
     kind: Kind, intendedMinutes: number, rawMinutes: number,
     completion: Completion, projectId: string, plantUid: string,
   ) => {
-    const id = generateUid("s");
-    const credited = settle(completion, rawMinutes, intendedMinutes);
-    const session = createFocusSession(
-      kind, intendedMinutes, projectId, plantUid, id, Date.now() / 1000,
-    );
-    session.actualFocusMinutes = credited;
-    session.completion = completion;
-    session.endedAtUtc = Date.now() / 1000;
-    session.xpEarned = xpForSession(session);
-    session.awardsApplied = true;
-
     setState((prev) => {
-      const sessions = [...prev.sessions, session];
-      let plants = prev.plants;
+      const now = Date.now() / 1000;
+      const record = createFocusSession(
+        kind, intendedMinutes, projectId, plantUid, generate("s", now), now,
+      );
+      record.actualFocusMinutes = settle(completion, rawMinutes, intendedMinutes);
+      record.completion = completion;
+      record.endedAtUtc = now;
 
-      if (earnsPlantGrowth(kind, credited, 1) && plantUid !== "") {
-        plants = prev.plants.map((p) => {
-          if (p.uid !== plantUid) return p;
-          const species = getSpecies(p.speciesId);
-          if (species === null) return p;
-          const next = { ...p, contributingSessionIds: [...p.contributingSessionIds] };
-          next.accumulatedFocusMinutes += credited;
-          if (!next.contributingSessionIds.includes(session.id)) {
-            next.contributingSessionIds.push(session.id);
-          }
-          const context = makeRequirementContext({
-            plantFocusMinutes: next.accumulatedFocusMinutes,
-          });
-          applyGrowth(next, species, context);
-          return next;
-        });
-      }
+      const pipeline = cloneForPipeline(prev);
+      const outcome = applySession(pipeline, record, PIPELINE_CONTENT, now);
+      setLastOutcome(outcome);
 
-      const profile = { ...prev.profile, totalXp: prev.profile.totalXp + session.xpEarned };
-      if (shouldAdvance(kind, completion)) profile.focusSessionsInCycle += 1;
-      const streak = calculateStreak(sessions, 20, todayKey());
-      profile.currentStreak = streak.current;
-      profile.longestStreak = Math.max(profile.longestStreak, streak.longest);
-      profile.lastFocusDateKey = streak.lastQualifyingDay;
-
-      return { ...prev, sessions, plants, profile };
+      return {
+        save: {
+          ...prev.save,
+          profile: pipeline.profile,
+          plants: pipeline.plants,
+          catalogue: pipeline.catalogue,
+          achievements: pipeline.achievements,
+          journal: pipeline.journal,
+          garden: pipeline.garden,
+        },
+        sessions: pipeline.sessions,
+      };
     });
   }, []);
 
-  const setActivePlant = useCallback((uid: string) => {
-    setState((prev) => ({ ...prev, profile: { ...prev.profile, activePlantUid: uid } }));
+  const mutateSave = useCallback((change: (draft: SaveData) => SaveData) => {
+    setState((prev) => ({ ...prev, save: change(prev.save) }));
   }, []);
+
+  const setActivePlant = useCallback((uid: string) => {
+    mutateSave((s) => ({ ...s, profile: { ...s.profile, activePlantUid: uid } }));
+  }, [mutateSave]);
 
   const setActiveProject = useCallback((id: string) => {
-    setState((prev) => ({ ...prev, profile: { ...prev.profile, activeProjectId: id } }));
-  }, []);
+    mutateSave((s) => ({ ...s, profile: { ...s.profile, activeProjectId: id } }));
+  }, [mutateSave]);
 
   const placeInGarden = useCallback((uid: string, x: number, y: number) => {
-    setState((prev) => ({
-      ...prev,
-      plants: prev.plants.map((p) => {
+    mutateSave((s) => ({
+      ...s,
+      plants: s.plants.map((p) => {
         if (p.uid !== uid) return p;
         const next = { ...p };
         moveToGarden(next, x, y, next.gardenRotation);
         return next;
       }),
     }));
-  }, []);
+  }, [mutateSave]);
 
   const rotatePlant = useCallback((uid: string) => {
-    setState((prev) => ({
-      ...prev,
-      plants: prev.plants.map((p) =>
+    mutateSave((s) => ({
+      ...s,
+      plants: s.plants.map((p) =>
         p.uid === uid
           ? { ...p, gardenRotation: posmod(p.gardenRotation + 1, GARDEN_ROTATIONS) }
           : p),
     }));
-  }, []);
+  }, [mutateSave]);
 
-  const activePlant = summaries.find((s) => s.plant.uid === state.profile.activePlantUid) ?? null;
-  const activeProject = state.projects.find((p) => p.id === state.profile.activeProjectId) ?? null;
+  const activePlant = summaries.find((s) => s.plant.uid === save.profile.activePlantUid) ?? null;
+  const activeProject = save.projects.find((p) => p.id === save.profile.activeProjectId) ?? null;
+
+  const expansion = useMemo(() => {
+    // Only the global measure matters for the expansion ladder, so the context is
+    // built cheaply rather than by re-aggregating the whole history.
+    const context = buildPlantContext([]);
+    context.totalFocusMinutes = stats.focusLifetime;
+    return {
+      next: nextExpansion(save.garden, context, ALL_EXPANSIONS),
+      progress: nextExpansionProgress(save.garden, context, ALL_EXPANSIONS),
+    };
+  }, [save.garden, stats.focusLifetime]);
 
   return {
-    state, summaries, stats, activePlant, activeProject,
+    state, save, sessions, summaries, stats, activePlant, activeProject,
+    expansion, lastOutcome,
     completeSession, setActivePlant, setActiveProject, placeInGarden, rotatePlant,
-    getPot, allSpecies: ALL_SPECIES,
+    getPot,
+    /** Sessions that count, for anything wanting the filtered view. */
+    countedSessions: sessions.filter(countsTowardProgress),
   };
 }

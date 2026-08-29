@@ -16,23 +16,23 @@ import { Completion, Kind } from "../../domain/focus-session.js";
 import { levelForXp } from "../../domain/xp-formula.js";
 
 function plantOf(result: { current: ReturnType<typeof useGarden> }, uid: string) {
-  return result.current.state.plants.find((p) => p.uid === uid)!;
+  return result.current.save.plants.find((p) => p.uid === uid)!;
 }
 
 describe("useGarden", () => {
   it("seeds a plausible garden from the real content set", () => {
     const { result } = renderHook(() => useGarden());
-    expect(result.current.state.plants.length).toBeGreaterThan(0);
+    expect(result.current.save.plants.length).toBeGreaterThan(0);
     // Every seeded plant must name a species that actually exists, or it silently
     // vanishes from every screen - the bug that hid the Monstera on the focus card.
-    expect(result.current.summaries).toHaveLength(result.current.state.plants.length);
+    expect(result.current.summaries).toHaveLength(result.current.save.plants.length);
     expect(result.current.activePlant).not.toBeNull();
   });
 
   it("credits a completed session and grows the active plant", () => {
     const { result } = renderHook(() => useGarden());
     const before = plantOf(result, "pl_monstera");
-    const xpBefore = result.current.state.profile.totalXp;
+    const xpBefore = result.current.save.profile.totalXp;
 
     act(() => {
       result.current.completeSession(
@@ -43,7 +43,7 @@ describe("useGarden", () => {
     const after = plantOf(result, "pl_monstera");
     expect(after.accumulatedFocusMinutes).toBe(before.accumulatedFocusMinutes + 25);
     // 2 XP per focus minute, flat. No multipliers, ever.
-    expect(result.current.state.profile.totalXp).toBe(xpBefore + 50);
+    expect(result.current.save.profile.totalXp).toBe(xpBefore + 50);
     expect(after.contributingSessionIds.length).toBe(
       before.contributingSessionIds.length + 1,
     );
@@ -52,8 +52,8 @@ describe("useGarden", () => {
   it("gives a cancelled session no credit but still keeps the record", () => {
     const { result } = renderHook(() => useGarden());
     const before = plantOf(result, "pl_monstera");
-    const xpBefore = result.current.state.profile.totalXp;
-    const sessionsBefore = result.current.state.sessions.length;
+    const xpBefore = result.current.save.profile.totalXp;
+    const sessionsBefore = result.current.sessions.length;
 
     act(() => {
       result.current.completeSession(
@@ -63,9 +63,9 @@ describe("useGarden", () => {
 
     expect(plantOf(result, "pl_monstera").accumulatedFocusMinutes)
       .toBe(before.accumulatedFocusMinutes);
-    expect(result.current.state.profile.totalXp).toBe(xpBefore);
+    expect(result.current.save.profile.totalXp).toBe(xpBefore);
     // Never silently lose a record: the row is kept for analytics either way.
-    expect(result.current.state.sessions.length).toBe(sessionsBefore + 1);
+    expect(result.current.sessions.length).toBe(sessionsBefore + 1);
   });
 
   it("caps a completed session at its intended duration", () => {
@@ -87,7 +87,7 @@ describe("useGarden", () => {
   it("grows no plant from a break, but still awards its token XP", () => {
     const { result } = renderHook(() => useGarden());
     const before = plantOf(result, "pl_monstera");
-    const xpBefore = result.current.state.profile.totalXp;
+    const xpBefore = result.current.save.profile.totalXp;
 
     act(() => {
       result.current.completeSession(
@@ -99,32 +99,32 @@ describe("useGarden", () => {
       .toBe(before.accumulatedFocusMinutes);
     // 0.25 XP per break minute: resting is rewarded, but must not compete with
     // focusing as an XP source.
-    expect(result.current.state.profile.totalXp).toBe(xpBefore + 1);
+    expect(result.current.save.profile.totalXp).toBe(xpBefore + 1);
   });
 
   it("advances the cycle only on a completed focus session", () => {
     const { result } = renderHook(() => useGarden());
-    const before = result.current.state.profile.focusSessionsInCycle;
+    const before = result.current.save.profile.focusSessionsInCycle;
 
     act(() => {
       result.current.completeSession(
         Kind.FOCUS, 25, 25, Completion.ENDED_EARLY, "p", "pl_monstera",
       );
     });
-    expect(result.current.state.profile.focusSessionsInCycle).toBe(before);
+    expect(result.current.save.profile.focusSessionsInCycle).toBe(before);
 
     act(() => {
       result.current.completeSession(
         Kind.FOCUS, 25, 25, Completion.COMPLETED, "p", "pl_monstera",
       );
     });
-    expect(result.current.state.profile.focusSessionsInCycle).toBe(before + 1);
+    expect(result.current.save.profile.focusSessionsInCycle).toBe(before + 1);
   });
 
   it("keeps the derived level in step with total XP", () => {
     const { result } = renderHook(() => useGarden());
     expect(result.current.stats.level)
-      .toBe(levelForXp(result.current.state.profile.totalXp));
+      .toBe(levelForXp(result.current.save.profile.totalXp));
 
     act(() => {
       result.current.completeSession(
@@ -132,18 +132,20 @@ describe("useGarden", () => {
       );
     });
     expect(result.current.stats.level)
-      .toBe(levelForXp(result.current.state.profile.totalXp));
+      .toBe(levelForXp(result.current.save.profile.totalXp));
   });
 
-  it("is NOT yet idempotent, and this test says so on purpose", () => {
-    // An earlier version claimed a guard here that could never fire. Rather than
-    // assert a property that does not hold, this pins the property that DOES:
-    // two completions apply twice. What prevents that in the running app is
-    // useFocusTimer refusing to finish a stopped clock. The structural gate,
-    // session.awardsApplied, arrives with the real SessionPipeline port - and
-    // this test should be inverted the day it does.
+  it("treats two completions as two sessions, because that is what they are", () => {
+    // The note this replaces said the app was not idempotent yet, and promised to
+    // invert when the real gate landed. It has, so here is the honest position.
+    //
+    // Two calls to completeSession are two DIFFERENT sessions and must award
+    // twice - anything else would lose someone's second pomodoro. The gate the
+    // pipeline adds protects against re-applying THE SAME record, which is the
+    // replay and recovery case, and is tested directly in session-pipeline.test.ts.
     const { result } = renderHook(() => useGarden());
-    const xpBefore = result.current.state.profile.totalXp;
+    const xpBefore = result.current.save.profile.totalXp;
+    const sessionsBefore = result.current.sessions.length;
 
     act(() => {
       result.current.completeSession(Kind.FOCUS, 25, 25, Completion.COMPLETED, "p", "pl_monstera");
@@ -152,7 +154,23 @@ describe("useGarden", () => {
       result.current.completeSession(Kind.FOCUS, 25, 25, Completion.COMPLETED, "p", "pl_monstera");
     });
 
-    expect(result.current.state.profile.totalXp).toBe(xpBefore + 100);
+    expect(result.current.save.profile.totalXp).toBe(xpBefore + 100);
+    expect(result.current.sessions.length).toBe(sessionsBefore + 2);
+    // Every recorded session carries the gate, so a later replay of either one
+    // cannot award it again.
+    expect(result.current.sessions.every((s) => s.awardsApplied)).toBe(true);
+  });
+
+  it("runs the real pipeline, not an inline chain", () => {
+    // Reaching a level threshold must grant its unlock, which only the pipeline
+    // does. If this passes, useGarden is genuinely delegating rather than
+    // reimplementing the parts it happens to need.
+    const { result } = renderHook(() => useGarden());
+    act(() => {
+      result.current.completeSession(Kind.FOCUS, 90, 90, Completion.COMPLETED, "p", "pl_monstera");
+    });
+    expect(result.current.save.profile.unlockedIds.length).toBeGreaterThan(0);
+    expect(result.current.lastOutcome?.applied).toBe(true);
   });
 
   it("places a plant in the garden and turns it without tipping it over", () => {
