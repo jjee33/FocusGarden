@@ -23,16 +23,17 @@ import {
 import { generate } from "../domain/uid.js";
 import type { PlantInstance } from "../domain/plant-instance.js";
 import {
-  GARDEN_ROTATIONS, Location, makePlantInstance, moveToGarden,
+  GARDEN_ROTATIONS, Location, makePlantInstance, moveToGarden, moveToInventory, moveToShelf,
 } from "../domain/plant-instance.js";
 import { posmod } from "../domain/gd.js";
 import { makePlayerProfile } from "../domain/player-profile.js";
+import type { GameSettings } from "../domain/game-settings.js";
 import { makeGameSettings } from "../domain/game-settings.js";
 import { makeGardenLayout } from "../domain/garden-layout.js";
 import { makeShelfLayout } from "../domain/shelf-layout.js";
 import { createProjectCategory } from "../domain/project-category.js";
 import type { SaveData } from "../domain/save-data.js";
-import { makeSaveData } from "../domain/save-data.js";
+import { createNewSave, makeSaveData } from "../domain/save-data.js";
 import { progressRatio, stageName } from "../domain/plant-growth.js";
 import { getStageCount } from "../domain/species.js";
 import { settle } from "../domain/session-credit.js";
@@ -59,6 +60,20 @@ export interface GardenState {
   /** Kept beside the save, exactly as the on-disk format keeps them apart. */
   sessions: FocusSession[];
 }
+
+/**
+ * Starter project categories, so a brand-new player can start a session
+ * immediately instead of being made to invent a taxonomy first.
+ *
+ * Ordinary categories: deletable, renamable, and not special-cased anywhere.
+ */
+const SEED_PROJECTS = [
+  { name: "Studying", color: "moss", icon: "book" },
+  { name: "Work", color: "sky", icon: "briefcase" },
+  { name: "Reading", color: "amber", icon: "page" },
+  { name: "Programming", color: "terracotta", icon: "code" },
+  { name: "Personal", color: "clay", icon: "heart" },
+] as const;
 
 /** Content the pipeline reads. Stable, so it is built once. */
 const PIPELINE_CONTENT: PipelineContent = {
@@ -218,6 +233,8 @@ export function useGarden() {
   });
   /** A session interrupted by the tab closing, offered back but not applied. */
   const [recovered, setRecovered] = useState<FocusSession | null>(null);
+  /** Result of the last import or export, shown once then dismissed. */
+  const [transferMessage, setTransferMessage] = useState("");
   const db = useRef<IDBDatabase | null>(null);
   /** Session ids already written, so a re-render does not rewrite the history. */
   const persistedSessions = useRef(new Set<string>());
@@ -242,12 +259,18 @@ export function useGarden() {
           const interrupted = recoverInFlight(result.save.inFlightSession);
           if (interrupted !== null) setRecovered(interrupted);
         } else {
-          const seeded = seedDemoGarden();
-          setState(seeded);
+          // A genuine first run gets an EMPTY garden and the onboarding screen,
+          // not a demo someone else's plants are already growing in. The demo is
+          // still reachable with ?demo=1, because judging a design against three
+          // empty screens is not judging it at all.
+          const wantsDemo = typeof location !== "undefined"
+            && new URLSearchParams(location.search).get("demo") === "1";
+          const fresh = wantsDemo ? seedDemoGarden() : { save: createNewSave(), sessions: [] };
+          setState(fresh);
           if (!result.blocked) {
-            await saveGarden(opened, seeded.save);
-            await putSessions(opened, seeded.sessions);
-            for (const s of seeded.sessions) persistedSessions.current.add(s.id);
+            await saveGarden(opened, fresh.save);
+            await putSessions(opened, fresh.sessions);
+            for (const s of fresh.sessions) persistedSessions.current.add(s.id);
           }
         }
         setStorage({
@@ -474,9 +497,107 @@ export function useGarden() {
     return { ok: true as const, summary: imported.summary };
   }, [storage.blocked, storage.ephemeral]);
 
+
+  /**
+   * Finishes first-run setup: a name, a first project, a first plant.
+   *
+   * The starter projects are seeded alongside the one they typed, exactly as the
+   * desktop seeds them - ordinary categories, deletable and renamable, not
+   * special-cased anywhere - so nobody has to invent a taxonomy before their
+   * first session.
+   */
+  const completeOnboarding = useCallback((result: {
+    displayName: string; projectName: string; speciesId: string;
+  }) => {
+    const now = Date.now() / 1000;
+    const chosen = createProjectCategory(result.projectName, "moss", "leaf", now);
+    const starters = SEED_PROJECTS
+      .filter((p) => p.name.toLowerCase() !== result.projectName.trim().toLowerCase())
+      .map((p) => createProjectCategory(p.name, p.color, p.icon, now));
+    const plant = makePlantInstance({
+      uid: generate("pl", now),
+      speciesId: result.speciesId,
+      plantedAtUtc: now,
+      primaryProjectId: chosen.id,
+    });
+
+    setState((prev) => ({
+      ...prev,
+      save: {
+        ...prev.save,
+        profile: {
+          ...prev.save.profile,
+          displayName: result.displayName,
+          createdAtUtc: now,
+          activeProjectId: chosen.id,
+          activePlantUid: plant.uid,
+          onboardingCompleted: true,
+        },
+        projects: [chosen, ...starters],
+        plants: [plant],
+      },
+    }));
+  }, []);
+
   const mutateSave = useCallback((change: (draft: SaveData) => SaveData) => {
     setState((prev) => ({ ...prev, save: change(prev.save) }));
   }, []);
+
+
+  const updateSettings = useCallback((patch: Partial<GameSettings>) => {
+    mutateSave((s) => ({ ...s, settings: { ...s.settings, ...patch } }));
+  }, [mutateSave]);
+
+  /** Offers the bundle as a file. The browser decides where it lands. */
+  const downloadBundle = useCallback(() => {
+    const json = JSON.stringify(buildBundle(save, sessions, "0.1.0"), null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `focus-garden-${todayKey()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }, [save, sessions]);
+
+  /**
+   * Reads a file the player picks and imports it.
+   *
+   * The whole file is parsed, migrated and summarised BEFORE anything is
+   * replaced, so a bad file changes nothing and a good one can be described
+   * before it is accepted.
+   */
+  const pickBundleToImport = useCallback(() => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json,.json";
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (file === undefined) return;
+      void file.text().then(async (text) => {
+        let parsed: unknown;
+        try {
+          parsed = JSON.parse(text);
+        } catch {
+          setTransferMessage("That file is not readable as a Focus Garden export.");
+          return;
+        }
+        if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+          setTransferMessage("That file is not readable as a Focus Garden export.");
+          return;
+        }
+        const outcome = await importBundle(parsed as Json);
+        setTransferMessage(outcome.ok
+          ? `Imported ${outcome.summary.plantCount} plants and `
+            + `${outcome.summary.sessionCount} sessions.`
+            + (outcome.summary.skippedCount > 0
+              ? ` ${outcome.summary.skippedCount} rows could not be read.`
+              : "")
+          : outcome.reason);
+      });
+    };
+    input.click();
+  }, [importBundle]);
 
   const setActivePlant = useCallback((uid: string) => {
     mutateSave((s) => ({ ...s, profile: { ...s.profile, activePlantUid: uid } }));
@@ -484,6 +605,31 @@ export function useGarden() {
 
   const setActiveProject = useCallback((id: string) => {
     mutateSave((s) => ({ ...s, profile: { ...s.profile, activeProjectId: id } }));
+  }, [mutateSave]);
+
+
+  const placeOnShelf = useCallback((uid: string, slot: number) => {
+    mutateSave((s) => ({
+      ...s,
+      plants: s.plants.map((p) => {
+        if (p.uid !== uid) return p;
+        const next = { ...p };
+        moveToShelf(next, slot);
+        return next;
+      }),
+    }));
+  }, [mutateSave]);
+
+  const returnToInventory = useCallback((uid: string) => {
+    mutateSave((s) => ({
+      ...s,
+      plants: s.plants.map((p) => {
+        if (p.uid !== uid) return p;
+        const next = { ...p };
+        moveToInventory(next);
+        return next;
+      }),
+    }));
   }, [mutateSave]);
 
   const placeInGarden = useCallback((uid: string, x: number, y: number) => {
@@ -524,9 +670,12 @@ export function useGarden() {
 
   return {
     state, save, sessions, summaries, stats, activePlant, activeProject,
-    expansion, lastOutcome, storage, recovered,
-    completeSession, applyFinished, setActivePlant, setActiveProject, placeInGarden, rotatePlant,
+    expansion, lastOutcome, storage, recovered, transferMessage, setTransferMessage,
+    completeSession, applyFinished, completeOnboarding,
+    setActivePlant, setActiveProject, placeInGarden, rotatePlant,
+    placeOnShelf, returnToInventory,
     persistInFlight, clearInFlight, acceptRecovered, discardRecovered,
+    updateSettings, downloadBundle, pickBundleToImport,
     exportBundle, importBundle,
     getPot,
     /** Sessions that count, for anything wanting the filtered view. */

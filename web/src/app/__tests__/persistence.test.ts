@@ -34,15 +34,40 @@ async function mounted() {
 }
 
 describe("hydration", () => {
-  it("seeds and persists on a genuine first run", async () => {
+  it("gives a genuine first run an EMPTY garden, not someone else's plants", async () => {
     const { result } = await mounted();
     expect(result.current.storage.ephemeral).toBe(false);
-    expect(result.current.save.plants.length).toBeGreaterThan(0);
+    // The demo seed used to be written here, which meant a real signup inherited
+    // a stranger's history. A first run is empty and shows onboarding.
+    expect(result.current.save.plants).toHaveLength(0);
+    expect(result.current.sessions).toHaveLength(0);
+    expect(result.current.save.profile.onboardingCompleted).toBe(false);
 
     const db = await openDatabase();
     const stored = await transact(db, [SAVE_STORE], "readonly",
       (tx) => get<Json>(tx, SAVE_STORE, SAVE_KEY));
     expect(stored).toBeDefined();
+  });
+
+  it("completes onboarding into a usable garden", async () => {
+    const { result } = await mounted();
+    act(() => {
+      result.current.completeOnboarding({
+        displayName: "Joshua", projectName: "Network+", speciesId: "aloe_vera",
+      });
+    });
+
+    expect(result.current.save.profile.onboardingCompleted).toBe(true);
+    expect(result.current.save.profile.displayName).toBe("Joshua");
+    expect(result.current.save.plants).toHaveLength(1);
+    expect(result.current.save.plants[0]!.speciesId).toBe("aloe_vera");
+    // The chosen project is active, and the starters come along so nobody has to
+    // invent a taxonomy before their first session.
+    expect(result.current.activeProject?.displayName).toBe("Network+");
+    expect(result.current.save.projects.length).toBeGreaterThan(1);
+    // The chosen name is not duplicated by a starter of the same name.
+    const names = result.current.save.projects.map((p) => p.displayName);
+    expect(new Set(names).size).toBe(names.length);
   });
 
   it("restores what was stored instead of re-seeding over it", async () => {

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Focus Garden">
+  <rect width="512" height="512" rx="112" fill="#365A4D"/>
+  <defs>
+    <linearGradient id="leaf" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#3E6B34"/>
+      <stop offset="0.5" stop-color="#5E8C5A"/>
+      <stop offset="1" stop-color="#9BC08A"/>
+    </linearGradient>
+    <linearGradient id="pot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#D98A63"/>
+      <stop offset="0.4" stop-color="#C26A45"/>
+      <stop offset="1" stop-color="#9B4F31"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.3" cy="0.1" r="0.8">
+      <stop offset="0" stop-color="#F6CC80" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#F6CC80" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#glow)"/>
+  <g>
+    <path d="M256 300 C 236 250 214 214 196 196 C 226 208 248 240 256 276 Z" fill="url(#leaf)"/>
+    <path d="M256 300 C 276 250 298 214 316 196 C 286 208 264 240 256 276 Z" fill="url(#leaf)"/>
+    <path d="M256 300 C 250 236 252 176 256 140 C 262 178 266 238 258 300 Z" fill="url(#leaf)"/>
+    <path d="M256 306 L 256 262" stroke="#4A7A3C" stroke-width="9" stroke-linecap="round"/>
+  </g>
+  <path d="M176 306 L 336 306 L 314 404 Q 256 418 198 404 Z" fill="url(#pot)"/>
+  <rect x="166" y="288" width="180" height="30" rx="12" fill="#A9563A"/>
+  <ellipse cx="256" cy="440" rx="118" ry="16" fill="#000" opacity="0.18"/>
+</svg>
