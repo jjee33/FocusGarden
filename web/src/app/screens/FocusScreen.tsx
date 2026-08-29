@@ -14,6 +14,7 @@ import type { useGarden } from "../useGarden.js";
 import { useFocusTimer } from "../useFocusTimer.js";
 import { Kind } from "../../domain/focus-session.js";
 import { getSpecies } from "../../content/content.js";
+import { getDisplayFocusMinutes } from "../../domain/species.js";
 import { formatCountdown, formatDuration } from "../../domain/time-util.js";
 import { useReducedMotion, useTheme } from "../usePlatform.js";
 
@@ -47,9 +48,11 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
   // the floor; credited minutes push it up.
   const liveRatio = useMemo(() => {
     if (activePlant === null || species === null) return 0;
-    const required = species.growthRequirement === null
-      ? 0
-      : Number((species.growthRequirement.params as { amount?: number }).amount ?? 0);
+    // Through getDisplayFocusMinutes, never by reaching into the requirement's
+    // params. That helper is the single place a minute-shaped requirement is
+    // turned into a number, and it returns -1 when the rule is not minute-shaped
+    // ("focus on 5 separate days") so no fake figure is ever implied.
+    const required = getDisplayFocusMinutes(species);
     if (required <= 0) return activePlant.ratio;
     const withSession =
       (activePlant.plant.accumulatedFocusMinutes + timer.snapshot.elapsedMinutes) / required;

@@ -13,6 +13,8 @@
 
 import { memo, useMemo } from "react";
 
+import { posmod } from "../../domain/gd.js";
+import { GARDEN_ROTATIONS } from "../../domain/plant-instance.js";
 import type { PlantMorphology } from "../../domain/species.js";
 import type { PotStyle } from "../../domain/pot.js";
 import type { Materials } from "../../render/plant-svg.js";
@@ -60,7 +62,7 @@ function PlantViewImpl({
 
   // The odd facings mirror; the upper pair also nudge sideways, so four turns
   // give four distinguishable silhouettes rather than two. FACING_LEAN = 0.045.
-  const turn = ((facing % 4) + 4) % 4;
+  const turn = posmod(facing, GARDEN_ROTATIONS);
   const offset = turn < 2 ? 0 : width * 0.045;
   const transform = turn % 2 === 1
     ? `translateX(${offset}px) scaleX(-1)`

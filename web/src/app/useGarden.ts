@@ -9,15 +9,18 @@
  * idempotency guard.
  */
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { ALL_SPECIES, getPot, getSpecies } from "../content/content.js";
 import type { FocusSession, Kind } from "../domain/focus-session.js";
 import {
-  Completion, Kind as K, countsTowardProgress, createFocusSession, generateUid,
+  Anomaly, Completion, Kind as K, countsTowardProgress, createFocusSession, generateUid,
 } from "../domain/focus-session.js";
 import type { PlantInstance } from "../domain/plant-instance.js";
-import { Location, makePlantInstance, moveToGarden } from "../domain/plant-instance.js";
+import {
+  GARDEN_ROTATIONS, Location, makePlantInstance, moveToGarden,
+} from "../domain/plant-instance.js";
+import { posmod } from "../domain/gd.js";
 import type { PlayerProfile } from "../domain/player-profile.js";
 import { makePlayerProfile } from "../domain/player-profile.js";
 import { applyGrowth, progressRatio, stageName } from "../domain/plant-growth.js";
@@ -64,7 +67,7 @@ function seedState(): GardenState {
         startedAtUtc: 0, endedAtUtc: 0,
         dateKey, startHour: 9 + (n % 8),
         intendedDurationMinutes: 25, actualFocusMinutes: chunk, pausedMinutes: 0,
-        completion: Completion.COMPLETED, anomaly: 0, interruptionReason: "",
+        completion: Completion.COMPLETED, anomaly: Anomaly.NONE, interruptionReason: "",
         projectId: index % 3 === 0 ? "p_networkplus" : "p_reading",
         plantUid: index > 6 ? "pl_monstera" : "pl_aloe",
         xpEarned: Math.floor(chunk * 2), awardsApplied: true,
@@ -135,8 +138,6 @@ export interface PlantSummary {
 
 export function useGarden() {
   const [state, setState] = useState<GardenState>(seedState);
-  /** Sessions already put through the pipeline, mirroring `awards_applied`. */
-  const applied = useRef(new Set<string>());
 
   const describePlant = useCallback((plant: PlantInstance): PlantSummary | null => {
     const species = getSpecies(plant.speciesId);
@@ -192,18 +193,25 @@ export function useGarden() {
 
   /**
    * The completion chain, in the order SessionPipeline defines it: settle credit,
-   * record, apply growth, award XP, update the cycle. The `applied` guard is the
-   * same structural protection as `awards_applied` - re-running for a session
-   * that already went through is a no-op, whatever the reason it was re-run.
+   * record, apply growth, award XP, update the cycle.
+   *
+   * NO IDEMPOTENCY GATE LIVES HERE YET, and an earlier version of this comment
+   * claimed otherwise. It generated a fresh uid and then checked whether that
+   * fresh uid was already in an applied set - which it never can be, so the guard
+   * could not fire. What actually prevents a double award today is one layer up:
+   * useFocusTimer.finish returns early once the clock is IDLE, so a second call
+   * for the same finish is a no-op.
+   *
+   * The structural gate is `session.awardsApplied` on the record itself, and it
+   * arrives with the real SessionPipeline port. Until then this is a convention,
+   * not a guarantee - which is exactly the distinction the desktop's pipeline
+   * exists to remove.
    */
   const completeSession = useCallback((
     kind: Kind, intendedMinutes: number, rawMinutes: number,
     completion: Completion, projectId: string, plantUid: string,
   ) => {
     const id = generateUid("s");
-    if (applied.current.has(id)) return;
-    applied.current.add(id);
-
     const credited = settle(completion, rawMinutes, intendedMinutes);
     const session = createFocusSession(
       kind, intendedMinutes, projectId, plantUid, id, Date.now() / 1000,
@@ -271,7 +279,9 @@ export function useGarden() {
     setState((prev) => ({
       ...prev,
       plants: prev.plants.map((p) =>
-        p.uid === uid ? { ...p, gardenRotation: (p.gardenRotation + 1) % 4 } : p),
+        p.uid === uid
+          ? { ...p, gardenRotation: posmod(p.gardenRotation + 1, GARDEN_ROTATIONS) }
+          : p),
     }));
   }, []);
 

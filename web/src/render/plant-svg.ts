@@ -25,7 +25,9 @@
  * uniformly and `angle` is a rigid rotation.
  *
  * GRAIN IS NOT DRAWN HERE. It belongs to the scene, as one static overlay behind
- * everything, not one filter per plant. See `grainOverlayCss`.
+ * everything, not one filter per plant - see the `.fg-grain` rule in app/theme.css,
+ * which is its single definition. Measured at 8.3 ms median frame time with the
+ * overlay on and off, identical, so it is free where it sits.
  */
 
 import { TAU, bezier, clampf, lerpf } from "./math.js";
@@ -990,25 +992,3 @@ export function renderPlantSvg(options: PlantRenderOptions): string {
     }
   }
 }
-
-/**
- * The grain wash, as one scene-level overlay.
- *
- * Deliberately not part of the plant: a filter per plant would define the same
- * turbulence dozens of times over. Measured at 8.3 ms median frame time with the
- * overlay on and off - identical - so it is free where it sits.
- */
-export const grainOverlayCss = `
-.fg-grain::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  opacity: var(--fg-grain-opacity, 0.055); mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@media (prefers-reduced-motion: no-preference) {
-  .fg-sway { animation: fg-sway 7s ease-in-out infinite; }
-}
-@keyframes fg-sway {
-  0%, 100% { transform: rotate(-0.5deg); }
-  50%      { transform: rotate(0.5deg); }
-}
-`.trim();
