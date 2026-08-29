@@ -1,0 +1,2008 @@
+{
+  "constants": {
+    "DISPLAY_STAGE": 1,
+    "STAGE_NAMES": [
+      "Seedling",
+      "Young",
+      "Mature"
+    ]
+  },
+  "stage_for_ratio": [
+    {
+      "ratio": -1.0,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 4,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 5,
+      "out": 0
+    },
+    {
+      "ratio": -1.0,
+      "stage_count": 10,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 4,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 5,
+      "out": 0
+    },
+    {
+      "ratio": -0.001,
+      "stage_count": 10,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 4,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 5,
+      "out": 0
+    },
+    {
+      "ratio": 0.0,
+      "stage_count": 10,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 4,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 5,
+      "out": 0
+    },
+    {
+      "ratio": 0.0001,
+      "stage_count": 10,
+      "out": 0
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 4,
+      "out": 1
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 5,
+      "out": 1
+    },
+    {
+      "ratio": 0.32,
+      "stage_count": 10,
+      "out": 3
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 4,
+      "out": 1
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 5,
+      "out": 1
+    },
+    {
+      "ratio": 0.333,
+      "stage_count": 10,
+      "out": 3
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 3,
+      "out": 0
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 4,
+      "out": 1
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 5,
+      "out": 1
+    },
+    {
+      "ratio": 0.3333333,
+      "stage_count": 10,
+      "out": 3
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": -3,
+      "out": 0
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 0,
+      "out": 0
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 1,
+      "out": 0
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 2,
+      "out": 0
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 3,
+      "out": 1
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 4,
+      "out": 1
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 5,
+      "out": 1
+    },
+    {
+      "ratio": 0.334,
+      "stage_count": 10,
+      "out": 3
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 3,
+      "out": 1
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 4,
+      "out": 2
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 5,
+      "out": 2
+    },
+    {
+      "ratio": 0.5,
+      "stage_count": 10,
+      "out": 5
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 3,
+      "out": 1
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 4,
+      "out": 2
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 5,
+      "out": 3
+    },
+    {
+      "ratio": 0.66,
+      "stage_count": 10,
+      "out": 6
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 3,
+      "out": 1
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 4,
+      "out": 2
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 5,
+      "out": 3
+    },
+    {
+      "ratio": 0.6666666,
+      "stage_count": 10,
+      "out": 6
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 4,
+      "out": 2
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 5,
+      "out": 3
+    },
+    {
+      "ratio": 0.667,
+      "stage_count": 10,
+      "out": 6
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 4,
+      "out": 3
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 5,
+      "out": 4
+    },
+    {
+      "ratio": 0.9,
+      "stage_count": 10,
+      "out": 9
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 4,
+      "out": 3
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 5,
+      "out": 4
+    },
+    {
+      "ratio": 0.999,
+      "stage_count": 10,
+      "out": 9
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 4,
+      "out": 3
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 5,
+      "out": 4
+    },
+    {
+      "ratio": 0.9999999,
+      "stage_count": 10,
+      "out": 9
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 4,
+      "out": 3
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 5,
+      "out": 4
+    },
+    {
+      "ratio": 1.0,
+      "stage_count": 10,
+      "out": 9
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 4,
+      "out": 3
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 5,
+      "out": 4
+    },
+    {
+      "ratio": 1.0001,
+      "stage_count": 10,
+      "out": 9
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": -3,
+      "out": 1
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 0,
+      "out": 1
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 1,
+      "out": 1
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 2,
+      "out": 1
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 3,
+      "out": 2
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 4,
+      "out": 3
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 5,
+      "out": 4
+    },
+    {
+      "ratio": 2.0,
+      "stage_count": 10,
+      "out": 9
+    }
+  ],
+  "stage_name": [
+    {
+      "stage": -2,
+      "stage_count": 2,
+      "out": "Stage 1"
+    },
+    {
+      "stage": -2,
+      "stage_count": 3,
+      "out": "Seedling"
+    },
+    {
+      "stage": -2,
+      "stage_count": 4,
+      "out": "Stage 1"
+    },
+    {
+      "stage": -2,
+      "stage_count": 5,
+      "out": "Stage 1"
+    },
+    {
+      "stage": -1,
+      "stage_count": 2,
+      "out": "Stage 1"
+    },
+    {
+      "stage": -1,
+      "stage_count": 3,
+      "out": "Seedling"
+    },
+    {
+      "stage": -1,
+      "stage_count": 4,
+      "out": "Stage 1"
+    },
+    {
+      "stage": -1,
+      "stage_count": 5,
+      "out": "Stage 1"
+    },
+    {
+      "stage": 0,
+      "stage_count": 2,
+      "out": "Stage 1"
+    },
+    {
+      "stage": 0,
+      "stage_count": 3,
+      "out": "Seedling"
+    },
+    {
+      "stage": 0,
+      "stage_count": 4,
+      "out": "Stage 1"
+    },
+    {
+      "stage": 0,
+      "stage_count": 5,
+      "out": "Stage 1"
+    },
+    {
+      "stage": 1,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 1,
+      "stage_count": 3,
+      "out": "Young"
+    },
+    {
+      "stage": 1,
+      "stage_count": 4,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 1,
+      "stage_count": 5,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 2,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 2,
+      "stage_count": 3,
+      "out": "Mature"
+    },
+    {
+      "stage": 2,
+      "stage_count": 4,
+      "out": "Stage 3"
+    },
+    {
+      "stage": 2,
+      "stage_count": 5,
+      "out": "Stage 3"
+    },
+    {
+      "stage": 3,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 3,
+      "stage_count": 3,
+      "out": "Mature"
+    },
+    {
+      "stage": 3,
+      "stage_count": 4,
+      "out": "Stage 4"
+    },
+    {
+      "stage": 3,
+      "stage_count": 5,
+      "out": "Stage 4"
+    },
+    {
+      "stage": 4,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 4,
+      "stage_count": 3,
+      "out": "Mature"
+    },
+    {
+      "stage": 4,
+      "stage_count": 4,
+      "out": "Stage 4"
+    },
+    {
+      "stage": 4,
+      "stage_count": 5,
+      "out": "Stage 5"
+    },
+    {
+      "stage": 5,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 5,
+      "stage_count": 3,
+      "out": "Mature"
+    },
+    {
+      "stage": 5,
+      "stage_count": 4,
+      "out": "Stage 4"
+    },
+    {
+      "stage": 5,
+      "stage_count": 5,
+      "out": "Stage 5"
+    },
+    {
+      "stage": 6,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 6,
+      "stage_count": 3,
+      "out": "Mature"
+    },
+    {
+      "stage": 6,
+      "stage_count": 4,
+      "out": "Stage 4"
+    },
+    {
+      "stage": 6,
+      "stage_count": 5,
+      "out": "Stage 5"
+    },
+    {
+      "stage": 7,
+      "stage_count": 2,
+      "out": "Stage 2"
+    },
+    {
+      "stage": 7,
+      "stage_count": 3,
+      "out": "Mature"
+    },
+    {
+      "stage": 7,
+      "stage_count": 4,
+      "out": "Stage 4"
+    },
+    {
+      "stage": 7,
+      "stage_count": 5,
+      "out": "Stage 5"
+    }
+  ],
+  "progress_ratio": [
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.166666666666667
+    },
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.333333333333333
+    },
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.5
+    },
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.994444444444444
+    },
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": false,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 0,
+      "mature": true,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.333333333333333
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.333333333333333
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.333333333333333
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.5
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.994444444444444
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": false,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 1,
+      "mature": true,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.994444444444444
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": false,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 2,
+      "mature": true,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.994444444444444
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": false,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 3,
+      "mature": true,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.666666666666667
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.994444444444444
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": false,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": 99,
+      "mature": true,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.166666666666667
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.333333333333333
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.5
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 0.994444444444444
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": false,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 0.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 30.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 60.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 90.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 179.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 180.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    },
+    {
+      "stored_stage": -5,
+      "mature": true,
+      "plant_focus_minutes": 400.0,
+      "species_maturity_minutes": 180.0,
+      "species_stage_count": 3,
+      "out": 1.0
+    }
+  ],
+  "estimated_sessions_remaining": [
+    {
+      "accumulated_focus_minutes": 0.0,
+      "typical_session_minutes": -5.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 0.0,
+      "typical_session_minutes": 0.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 0.0,
+      "typical_session_minutes": 1.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 180
+    },
+    {
+      "accumulated_focus_minutes": 0.0,
+      "typical_session_minutes": 25.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 8
+    },
+    {
+      "accumulated_focus_minutes": 0.0,
+      "typical_session_minutes": 50.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 4
+    },
+    {
+      "accumulated_focus_minutes": 0.0,
+      "typical_session_minutes": 200.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 1
+    },
+    {
+      "accumulated_focus_minutes": 60.0,
+      "typical_session_minutes": -5.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 60.0,
+      "typical_session_minutes": 0.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 60.0,
+      "typical_session_minutes": 1.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 120
+    },
+    {
+      "accumulated_focus_minutes": 60.0,
+      "typical_session_minutes": 25.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 5
+    },
+    {
+      "accumulated_focus_minutes": 60.0,
+      "typical_session_minutes": 50.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 3
+    },
+    {
+      "accumulated_focus_minutes": 60.0,
+      "typical_session_minutes": 200.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 1
+    },
+    {
+      "accumulated_focus_minutes": 179.0,
+      "typical_session_minutes": -5.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 179.0,
+      "typical_session_minutes": 0.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 179.0,
+      "typical_session_minutes": 1.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 1
+    },
+    {
+      "accumulated_focus_minutes": 179.0,
+      "typical_session_minutes": 25.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 1
+    },
+    {
+      "accumulated_focus_minutes": 179.0,
+      "typical_session_minutes": 50.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 1
+    },
+    {
+      "accumulated_focus_minutes": 179.0,
+      "typical_session_minutes": 200.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 1
+    },
+    {
+      "accumulated_focus_minutes": 180.0,
+      "typical_session_minutes": -5.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 180.0,
+      "typical_session_minutes": 0.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 180.0,
+      "typical_session_minutes": 1.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 180.0,
+      "typical_session_minutes": 25.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 180.0,
+      "typical_session_minutes": 50.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 180.0,
+      "typical_session_minutes": 200.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 400.0,
+      "typical_session_minutes": -5.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 400.0,
+      "typical_session_minutes": 0.0,
+      "species_display_focus_minutes": 180.0,
+      "out": -1
+    },
+    {
+      "accumulated_focus_minutes": 400.0,
+      "typical_session_minutes": 1.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 400.0,
+      "typical_session_minutes": 25.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 400.0,
+      "typical_session_minutes": 50.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    },
+    {
+      "accumulated_focus_minutes": 400.0,
+      "typical_session_minutes": 200.0,
+      "species_display_focus_minutes": 180.0,
+      "out": 0
+    }
+  ],
+  "apply_growth_twice": [
+    {
+      "stored_stage": 0,
+      "plant_focus_minutes": 0.0,
+      "first": {
+        "previous_stage": 0,
+        "new_stage": 0,
+        "progress_ratio": 0.0,
+        "stage_changed": false,
+        "just_matured": false
+      },
+      "second": {
+        "previous_stage": 0,
+        "new_stage": 0,
+        "progress_ratio": 0.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 0,
+      "plant_focus_minutes": 90.0,
+      "first": {
+        "previous_stage": 0,
+        "new_stage": 1,
+        "progress_ratio": 0.5,
+        "stage_changed": true,
+        "just_matured": false
+      },
+      "second": {
+        "previous_stage": 1,
+        "new_stage": 1,
+        "progress_ratio": 0.5,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 0,
+      "plant_focus_minutes": 180.0,
+      "first": {
+        "previous_stage": 0,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": true,
+        "just_matured": true
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 0,
+      "plant_focus_minutes": 500.0,
+      "first": {
+        "previous_stage": 0,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": true,
+        "just_matured": true
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 1,
+      "plant_focus_minutes": 0.0,
+      "first": {
+        "previous_stage": 1,
+        "new_stage": 1,
+        "progress_ratio": 0.333333333333333,
+        "stage_changed": false,
+        "just_matured": false
+      },
+      "second": {
+        "previous_stage": 1,
+        "new_stage": 1,
+        "progress_ratio": 0.333333333333333,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 1,
+      "plant_focus_minutes": 90.0,
+      "first": {
+        "previous_stage": 1,
+        "new_stage": 1,
+        "progress_ratio": 0.5,
+        "stage_changed": false,
+        "just_matured": false
+      },
+      "second": {
+        "previous_stage": 1,
+        "new_stage": 1,
+        "progress_ratio": 0.5,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 1,
+      "plant_focus_minutes": 180.0,
+      "first": {
+        "previous_stage": 1,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": true,
+        "just_matured": true
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 1,
+      "plant_focus_minutes": 500.0,
+      "first": {
+        "previous_stage": 1,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": true,
+        "just_matured": true
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 2,
+      "plant_focus_minutes": 0.0,
+      "first": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 0.666666666666667,
+        "stage_changed": false,
+        "just_matured": false
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 0.666666666666667,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 2,
+      "plant_focus_minutes": 90.0,
+      "first": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 0.666666666666667,
+        "stage_changed": false,
+        "just_matured": false
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 0.666666666666667,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 2,
+      "plant_focus_minutes": 180.0,
+      "first": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": true
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    },
+    {
+      "stored_stage": 2,
+      "plant_focus_minutes": 500.0,
+      "first": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": true
+      },
+      "second": {
+        "previous_stage": 2,
+        "new_stage": 2,
+        "progress_ratio": 1.0,
+        "stage_changed": false,
+        "just_matured": false
+      }
+    }
+  ]
+}

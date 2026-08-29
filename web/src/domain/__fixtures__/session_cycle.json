@@ -1,0 +1,2308 @@
+{
+  "next_break_kind": [
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 8,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 8,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 8,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": -1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 0,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 1,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 8,
+      "out": 1
+    }
+  ],
+  "position": [
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -2,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": -1,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 0,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 1,
+      "sessions_before_long": 8,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 4,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 5,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 2,
+      "sessions_before_long": 8,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 4,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 5,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 3,
+      "sessions_before_long": 8,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 5,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 4,
+      "sessions_before_long": 8,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 5,
+      "sessions_before_long": 8,
+      "out": 6
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 4,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 6,
+      "sessions_before_long": 8,
+      "out": 7
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 4,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 5,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 7,
+      "sessions_before_long": 8,
+      "out": 8
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 5,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 8,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 5,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 9,
+      "sessions_before_long": 8,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 4,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 10,
+      "sessions_before_long": 8,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 4,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 11,
+      "sessions_before_long": 8,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 5,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 12,
+      "sessions_before_long": 8,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 5,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 13,
+      "sessions_before_long": 8,
+      "out": 6
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 4,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 5,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 14,
+      "sessions_before_long": 8,
+      "out": 7
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 4,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 15,
+      "sessions_before_long": 8,
+      "out": 8
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 16,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 5,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 17,
+      "sessions_before_long": 8,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 4,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 5,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 18,
+      "sessions_before_long": 8,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 4,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 5,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 19,
+      "sessions_before_long": 8,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 20,
+      "sessions_before_long": 8,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 5,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 21,
+      "sessions_before_long": 8,
+      "out": 6
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 4,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 5,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 22,
+      "sessions_before_long": 8,
+      "out": 7
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 3,
+      "out": 3
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 4,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 5,
+      "out": 4
+    },
+    {
+      "completed_in_cycle": 23,
+      "sessions_before_long": 8,
+      "out": 8
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 2,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 3,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 4,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 5,
+      "out": 5
+    },
+    {
+      "completed_in_cycle": 24,
+      "sessions_before_long": 8,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": -1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 0,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 1,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 2,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 3,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 4,
+      "out": 2
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 5,
+      "out": 1
+    },
+    {
+      "completed_in_cycle": 25,
+      "sessions_before_long": 8,
+      "out": 2
+    }
+  ],
+  "should_advance": [
+    {
+      "kind": 0,
+      "completion": 0,
+      "out": true
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "out": false
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "out": false
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "out": false
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "out": false
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "out": false
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "out": false
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "out": false
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "out": false
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "out": false
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "out": false
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "out": false
+    }
+  ]
+}

@@ -30,3 +30,9 @@ desktop.ini
 FocusGarden.exe
 *.tpz
 tools/tpz_extract/
+
+# Web client dependencies and build output. The generated content and domain
+# fixtures under web/src ARE committed, so `npm test` never needs Godot present.
+web/node_modules/
+web/dist/
+web/.vite/

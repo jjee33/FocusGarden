@@ -1,0 +1,1318 @@
+{
+  "context": {
+    "total_focus_minutes": 250.0,
+    "completed_focus_sessions": 11,
+    "completed_break_sessions": 6,
+    "unique_focus_days": [
+      "2026-08-24",
+      "2026-08-25",
+      "2026-08-26",
+      "2026-08-28"
+    ],
+    "sessions_by_start_hour": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1
+    ],
+    "focus_session_lengths": [
+      15.0,
+      25.0,
+      25.0,
+      50.0,
+      90.0,
+      120.0
+    ],
+    "player_level": 13,
+    "plants_matured": 4,
+    "species_discovered": 5,
+    "species_total": 16,
+    "unlocked_achievement_ids": [
+      "first_sprout",
+      "night_owl"
+    ],
+    "completed_expedition_ids": [
+      "north_ridge"
+    ],
+    "plant_focus_minutes": 95.0,
+    "plant_session_count": 4,
+    "plant_unique_days": [
+      "2026-08-25",
+      "2026-08-26"
+    ],
+    "plant_sessions_by_start_hour": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "plant_session_lengths": [
+      20.0,
+      25.0,
+      50.0
+    ]
+  },
+  "evaluate": [
+    {
+      "type": 0,
+      "scope": 0,
+      "params": {
+        "amount": 0.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 0,
+      "scope": 1,
+      "params": {
+        "amount": 0.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 0,
+      "scope": 0,
+      "params": {
+        "amount": -10.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 0,
+      "scope": 1,
+      "params": {
+        "amount": -10.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 0,
+      "scope": 0,
+      "params": {
+        "amount": 100.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 0,
+      "scope": 1,
+      "params": {
+        "amount": 100.0
+      },
+      "out": 0.95,
+      "is_met": false
+    },
+    {
+      "type": 0,
+      "scope": 0,
+      "params": {
+        "amount": 500.0
+      },
+      "out": 0.5,
+      "is_met": false
+    },
+    {
+      "type": 0,
+      "scope": 1,
+      "params": {
+        "amount": 500.0
+      },
+      "out": 0.19,
+      "is_met": false
+    },
+    {
+      "type": 0,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 0,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 1,
+      "scope": 0,
+      "params": {
+        "count": 0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 1,
+      "scope": 1,
+      "params": {
+        "count": 0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 1,
+      "scope": 0,
+      "params": {
+        "count": 3
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 1,
+      "scope": 1,
+      "params": {
+        "count": 3
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 1,
+      "scope": 0,
+      "params": {
+        "count": 40
+      },
+      "out": 0.275,
+      "is_met": false
+    },
+    {
+      "type": 1,
+      "scope": 1,
+      "params": {
+        "count": 40
+      },
+      "out": 0.1,
+      "is_met": false
+    },
+    {
+      "type": 1,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 1,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 2,
+      "scope": 0,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 2,
+      "scope": 1,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 2,
+      "scope": 0,
+      "params": {
+        "count": 4
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 2,
+      "scope": 1,
+      "params": {
+        "count": 4
+      },
+      "out": 0.5,
+      "is_met": false
+    },
+    {
+      "type": 2,
+      "scope": 0,
+      "params": {
+        "count": 90
+      },
+      "out": 0.0444444444444444,
+      "is_met": false
+    },
+    {
+      "type": 2,
+      "scope": 1,
+      "params": {
+        "count": 90
+      },
+      "out": 0.0222222222222222,
+      "is_met": false
+    },
+    {
+      "type": 2,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 2,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 3,
+      "scope": 0,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 3,
+      "scope": 1,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 3,
+      "scope": 0,
+      "params": {
+        "count": 3
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 3,
+      "scope": 1,
+      "params": {
+        "count": 3
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 3,
+      "scope": 0,
+      "params": {
+        "count": 30
+      },
+      "out": 0.1,
+      "is_met": false
+    },
+    {
+      "type": 3,
+      "scope": 1,
+      "params": {
+        "count": 30
+      },
+      "out": 0.1,
+      "is_met": false
+    },
+    {
+      "type": 3,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 3,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 0,
+      "params": {
+        "count": 1,
+        "start_hour": 5,
+        "end_hour": 9
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 1,
+      "params": {
+        "count": 1,
+        "start_hour": 5,
+        "end_hour": 9
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 0,
+      "params": {
+        "count": 2,
+        "start_hour": 20,
+        "end_hour": 2
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 1,
+      "params": {
+        "count": 2,
+        "start_hour": 20,
+        "end_hour": 2
+      },
+      "out": 0.5,
+      "is_met": false
+    },
+    {
+      "type": 4,
+      "scope": 0,
+      "params": {
+        "count": 3,
+        "start_hour": 0,
+        "end_hour": 23
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 1,
+      "params": {
+        "count": 3,
+        "start_hour": 0,
+        "end_hour": 23
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 0,
+      "params": {
+        "count": 1,
+        "start_hour": -4,
+        "end_hour": 99
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 1,
+      "params": {
+        "count": 1,
+        "start_hour": -4,
+        "end_hour": 99
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 0,
+      "params": {
+        "count": 1,
+        "start_hour": 13,
+        "end_hour": 13
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 1,
+      "params": {
+        "count": 1,
+        "start_hour": 13,
+        "end_hour": 13
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 4,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 0,
+      "params": {
+        "minutes": 25.0,
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 1,
+      "params": {
+        "minutes": 25.0,
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 0,
+      "params": {
+        "minutes": 90.0,
+        "count": 2
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 1,
+      "params": {
+        "minutes": 90.0,
+        "count": 2
+      },
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 5,
+      "scope": 0,
+      "params": {
+        "minutes": 0.0,
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 1,
+      "params": {
+        "minutes": 0.0,
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 5,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 6,
+      "scope": 0,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 6,
+      "scope": 1,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 6,
+      "scope": 0,
+      "params": {
+        "count": 10
+      },
+      "out": 0.6,
+      "is_met": false
+    },
+    {
+      "type": 6,
+      "scope": 1,
+      "params": {
+        "count": 10
+      },
+      "out": 0.6,
+      "is_met": false
+    },
+    {
+      "type": 6,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 6,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 7,
+      "scope": 0,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 7,
+      "scope": 1,
+      "params": {
+        "count": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 7,
+      "scope": 0,
+      "params": {
+        "count": 7
+      },
+      "out": 0.571428571428571,
+      "is_met": false
+    },
+    {
+      "type": 7,
+      "scope": 1,
+      "params": {
+        "count": 7
+      },
+      "out": 0.571428571428571,
+      "is_met": false
+    },
+    {
+      "type": 7,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 7,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 8,
+      "scope": 0,
+      "params": {
+        "count": 2
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 8,
+      "scope": 1,
+      "params": {
+        "count": 2
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 8,
+      "scope": 0,
+      "params": {
+        "count": 16
+      },
+      "out": 0.3125,
+      "is_met": false
+    },
+    {
+      "type": 8,
+      "scope": 1,
+      "params": {
+        "count": 16
+      },
+      "out": 0.3125,
+      "is_met": false
+    },
+    {
+      "type": 8,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 8,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 9,
+      "scope": 0,
+      "params": {
+        "level": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 9,
+      "scope": 1,
+      "params": {
+        "level": 1
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 9,
+      "scope": 0,
+      "params": {
+        "level": 13
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 9,
+      "scope": 1,
+      "params": {
+        "level": 13
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 9,
+      "scope": 0,
+      "params": {
+        "level": 40
+      },
+      "out": 0.325,
+      "is_met": false
+    },
+    {
+      "type": 9,
+      "scope": 1,
+      "params": {
+        "level": 40
+      },
+      "out": 0.325,
+      "is_met": false
+    },
+    {
+      "type": 9,
+      "scope": 0,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 9,
+      "scope": 1,
+      "params": {},
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 10,
+      "scope": 0,
+      "params": {
+        "ratio": 0.25
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 10,
+      "scope": 1,
+      "params": {
+        "ratio": 0.25
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 10,
+      "scope": 0,
+      "params": {
+        "ratio": 1.0
+      },
+      "out": 0.3125,
+      "is_met": false
+    },
+    {
+      "type": 10,
+      "scope": 1,
+      "params": {
+        "ratio": 1.0
+      },
+      "out": 0.3125,
+      "is_met": false
+    },
+    {
+      "type": 10,
+      "scope": 0,
+      "params": {
+        "ratio": 0.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 10,
+      "scope": 1,
+      "params": {
+        "ratio": 0.0
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 10,
+      "scope": 0,
+      "params": {},
+      "out": 0.3125,
+      "is_met": false
+    },
+    {
+      "type": 10,
+      "scope": 1,
+      "params": {},
+      "out": 0.3125,
+      "is_met": false
+    },
+    {
+      "type": 11,
+      "scope": 0,
+      "params": {
+        "achievement_id": "first_sprout"
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 11,
+      "scope": 1,
+      "params": {
+        "achievement_id": "first_sprout"
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 11,
+      "scope": 0,
+      "params": {
+        "achievement_id": "nope"
+      },
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 11,
+      "scope": 1,
+      "params": {
+        "achievement_id": "nope"
+      },
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 11,
+      "scope": 0,
+      "params": {},
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 11,
+      "scope": 1,
+      "params": {},
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 12,
+      "scope": 0,
+      "params": {
+        "expedition_id": "north_ridge"
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 12,
+      "scope": 1,
+      "params": {
+        "expedition_id": "north_ridge"
+      },
+      "out": 1.0,
+      "is_met": true
+    },
+    {
+      "type": 12,
+      "scope": 0,
+      "params": {
+        "expedition_id": "nope"
+      },
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 12,
+      "scope": 1,
+      "params": {
+        "expedition_id": "nope"
+      },
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 12,
+      "scope": 0,
+      "params": {},
+      "out": 0.0,
+      "is_met": false
+    },
+    {
+      "type": 12,
+      "scope": 1,
+      "params": {},
+      "out": 0.0,
+      "is_met": false
+    }
+  ],
+  "describe": [
+    {
+      "type": 0,
+      "params": {
+        "amount": 0.0
+      },
+      "out": "Focus for 0m"
+    },
+    {
+      "type": 0,
+      "params": {
+        "amount": -10.0
+      },
+      "out": "Focus for 0m"
+    },
+    {
+      "type": 0,
+      "params": {
+        "amount": 100.0
+      },
+      "out": "Focus for 1h 40m"
+    },
+    {
+      "type": 0,
+      "params": {
+        "amount": 500.0
+      },
+      "out": "Focus for 8h 20m"
+    },
+    {
+      "type": 0,
+      "params": {},
+      "out": "Focus for 0m"
+    },
+    {
+      "type": 1,
+      "params": {
+        "count": 0
+      },
+      "out": "Complete 0 focus sessions"
+    },
+    {
+      "type": 1,
+      "params": {
+        "count": 3
+      },
+      "out": "Complete 3 focus sessions"
+    },
+    {
+      "type": 1,
+      "params": {
+        "count": 40
+      },
+      "out": "Complete 40 focus sessions"
+    },
+    {
+      "type": 1,
+      "params": {},
+      "out": "Complete 1 focus sessions"
+    },
+    {
+      "type": 2,
+      "params": {
+        "count": 1
+      },
+      "out": "Focus on 1 separate days"
+    },
+    {
+      "type": 2,
+      "params": {
+        "count": 4
+      },
+      "out": "Focus on 4 separate days"
+    },
+    {
+      "type": 2,
+      "params": {
+        "count": 90
+      },
+      "out": "Focus on 90 separate days"
+    },
+    {
+      "type": 2,
+      "params": {},
+      "out": "Focus on 1 separate days"
+    },
+    {
+      "type": 3,
+      "params": {
+        "count": 1
+      },
+      "out": "Focus 1 days in a row"
+    },
+    {
+      "type": 3,
+      "params": {
+        "count": 3
+      },
+      "out": "Focus 3 days in a row"
+    },
+    {
+      "type": 3,
+      "params": {
+        "count": 30
+      },
+      "out": "Focus 30 days in a row"
+    },
+    {
+      "type": 3,
+      "params": {},
+      "out": "Focus 1 days in a row"
+    },
+    {
+      "type": 4,
+      "params": {
+        "count": 1,
+        "start_hour": 5,
+        "end_hour": 9
+      },
+      "out": "Complete 1 sessions between 5 AM and 9 AM"
+    },
+    {
+      "type": 4,
+      "params": {
+        "count": 2,
+        "start_hour": 20,
+        "end_hour": 2
+      },
+      "out": "Complete 2 sessions between 8 PM and 2 AM"
+    },
+    {
+      "type": 4,
+      "params": {
+        "count": 3,
+        "start_hour": 0,
+        "end_hour": 23
+      },
+      "out": "Complete 3 sessions between 12 AM and 11 PM"
+    },
+    {
+      "type": 4,
+      "params": {
+        "count": 1,
+        "start_hour": -4,
+        "end_hour": 99
+      },
+      "out": "Complete 1 sessions between 12 AM and 11 PM"
+    },
+    {
+      "type": 4,
+      "params": {
+        "count": 1,
+        "start_hour": 13,
+        "end_hour": 13
+      },
+      "out": "Complete 1 sessions between 1 PM and 1 PM"
+    },
+    {
+      "type": 4,
+      "params": {},
+      "out": "Complete 1 sessions between 12 AM and 11 PM"
+    },
+    {
+      "type": 5,
+      "params": {
+        "minutes": 25.0,
+        "count": 1
+      },
+      "out": "Complete 1 sessions of at least 25m"
+    },
+    {
+      "type": 5,
+      "params": {
+        "minutes": 90.0,
+        "count": 2
+      },
+      "out": "Complete 2 sessions of at least 1h 30m"
+    },
+    {
+      "type": 5,
+      "params": {
+        "minutes": 0.0,
+        "count": 1
+      },
+      "out": "Complete 1 sessions of at least 0m"
+    },
+    {
+      "type": 5,
+      "params": {},
+      "out": "Complete 1 sessions of at least 0m"
+    },
+    {
+      "type": 6,
+      "params": {
+        "count": 1
+      },
+      "out": "Take 1 breaks"
+    },
+    {
+      "type": 6,
+      "params": {
+        "count": 10
+      },
+      "out": "Take 10 breaks"
+    },
+    {
+      "type": 6,
+      "params": {},
+      "out": "Take 1 breaks"
+    },
+    {
+      "type": 7,
+      "params": {
+        "count": 1
+      },
+      "out": "Grow 1 plants to maturity"
+    },
+    {
+      "type": 7,
+      "params": {
+        "count": 7
+      },
+      "out": "Grow 7 plants to maturity"
+    },
+    {
+      "type": 7,
+      "params": {},
+      "out": "Grow 1 plants to maturity"
+    },
+    {
+      "type": 8,
+      "params": {
+        "count": 2
+      },
+      "out": "Discover 2 species"
+    },
+    {
+      "type": 8,
+      "params": {
+        "count": 16
+      },
+      "out": "Discover 16 species"
+    },
+    {
+      "type": 8,
+      "params": {},
+      "out": "Discover 1 species"
+    },
+    {
+      "type": 9,
+      "params": {
+        "level": 1
+      },
+      "out": "Reach level 1"
+    },
+    {
+      "type": 9,
+      "params": {
+        "level": 13
+      },
+      "out": "Reach level 13"
+    },
+    {
+      "type": 9,
+      "params": {
+        "level": 40
+      },
+      "out": "Reach level 40"
+    },
+    {
+      "type": 9,
+      "params": {},
+      "out": "Reach level 1"
+    },
+    {
+      "type": 10,
+      "params": {
+        "ratio": 0.25
+      },
+      "out": "Complete 25% of the catalogue"
+    },
+    {
+      "type": 10,
+      "params": {
+        "ratio": 1.0
+      },
+      "out": "Complete 100% of the catalogue"
+    },
+    {
+      "type": 10,
+      "params": {
+        "ratio": 0.0
+      },
+      "out": "Complete 0% of the catalogue"
+    },
+    {
+      "type": 10,
+      "params": {},
+      "out": "Complete 100% of the catalogue"
+    },
+    {
+      "type": 11,
+      "params": {
+        "achievement_id": "first_sprout"
+      },
+      "out": "Unlock a required achievement"
+    },
+    {
+      "type": 11,
+      "params": {
+        "achievement_id": "nope"
+      },
+      "out": "Unlock a required achievement"
+    },
+    {
+      "type": 11,
+      "params": {},
+      "out": "Unlock a required achievement"
+    },
+    {
+      "type": 12,
+      "params": {
+        "expedition_id": "north_ridge"
+      },
+      "out": "Complete a required expedition"
+    },
+    {
+      "type": 12,
+      "params": {
+        "expedition_id": "nope"
+      },
+      "out": "Complete a required expedition"
+    },
+    {
+      "type": 12,
+      "params": {},
+      "out": "Complete a required expedition"
+    },
+    {
+      "type": 0,
+      "params": {
+        "amount": 60.0
+      },
+      "description_override": "Sit with it for an hour",
+      "out": "Sit with it for an hour"
+    }
+  ]
+}

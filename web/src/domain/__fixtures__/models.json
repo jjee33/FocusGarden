@@ -1,0 +1,721 @@
+{
+  "focus_session_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "id": "",
+        "kind": 0,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s1",
+        "kind": 99,
+        "completion": -4,
+        "anomaly": 77
+      },
+      "out": {
+        "id": "s1",
+        "kind": 0,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s2",
+        "actual_focus_minutes": -50.0,
+        "paused_minutes": -3.0,
+        "intended_duration_minutes": -25.0,
+        "xp_earned": -100
+      },
+      "out": {
+        "id": "s2",
+        "kind": 0,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s3",
+        "start_hour": 47
+      },
+      "out": {
+        "id": "s3",
+        "kind": 0,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 23,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s4",
+        "start_hour": -9
+      },
+      "out": {
+        "id": "s4",
+        "kind": 0,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s5",
+        "date_key": "garbage",
+        "started_at_utc": 1787000000.0
+      },
+      "out": {
+        "id": "s5",
+        "kind": 0,
+        "started_at_utc": 1787000000.0,
+        "ended_at_utc": 0.0,
+        "date_key": "2026-08-17",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s6",
+        "date_key": "2026-08-29",
+        "started_at_utc": 1787000000.0
+      },
+      "out": {
+        "id": "s6",
+        "kind": 0,
+        "started_at_utc": 1787000000.0,
+        "ended_at_utc": 0.0,
+        "date_key": "2026-08-29",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    },
+    {
+      "in": {
+        "id": "s7",
+        "kind": 2,
+        "completion": 3,
+        "anomaly": 1,
+        "awards_applied": true,
+        "actual_focus_minutes": 12.5,
+        "project_id": "p",
+        "plant_uid": "pl"
+      },
+      "out": {
+        "id": "s7",
+        "kind": 2,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 12.5,
+        "paused_minutes": 0.0,
+        "completion": 3,
+        "anomaly": 1,
+        "interruption_reason": "",
+        "project_id": "p",
+        "plant_uid": "pl",
+        "xp_earned": 0,
+        "awards_applied": true
+      }
+    },
+    {
+      "in": {
+        "id": "s8",
+        "kind": "not-an-int",
+        "actual_focus_minutes": "nope"
+      },
+      "out": {
+        "id": "s8",
+        "kind": 0,
+        "started_at_utc": 0.0,
+        "ended_at_utc": 0.0,
+        "date_key": "",
+        "start_hour": 0,
+        "intended_duration_minutes": 0.0,
+        "actual_focus_minutes": 0.0,
+        "paused_minutes": 0.0,
+        "completion": 0,
+        "anomaly": 0,
+        "interruption_reason": "",
+        "project_id": "",
+        "plant_uid": "",
+        "xp_earned": 0,
+        "awards_applied": false
+      }
+    }
+  ],
+  "plant_instance_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "uid": "",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p1",
+        "growth_stage": -4,
+        "accumulated_focus_minutes": -10.0,
+        "maturity": 9
+      },
+      "out": {
+        "uid": "p1",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p2",
+        "location": 0,
+        "shelf_slot": 5,
+        "garden_cell_x": 2,
+        "garden_cell_y": 3,
+        "garden_rotation": 2
+      },
+      "out": {
+        "uid": "p2",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p3",
+        "location": 1,
+        "shelf_slot": 5,
+        "garden_cell_x": 2,
+        "garden_cell_y": 3,
+        "garden_rotation": 2
+      },
+      "out": {
+        "uid": "p3",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 1,
+        "shelf_slot": 5,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p4",
+        "location": 2,
+        "shelf_slot": 5,
+        "garden_cell_x": 2,
+        "garden_cell_y": 3,
+        "garden_rotation": 2
+      },
+      "out": {
+        "uid": "p4",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 2,
+        "shelf_slot": -1,
+        "garden_cell_x": 2,
+        "garden_cell_y": 3,
+        "garden_rotation": 2,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p5",
+        "location": 77
+      },
+      "out": {
+        "uid": "p5",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p6",
+        "location": 2,
+        "garden_rotation": -1
+      },
+      "out": {
+        "uid": "p6",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 2,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 3,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p7",
+        "location": 2,
+        "garden_rotation": -7
+      },
+      "out": {
+        "uid": "p7",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 2,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 1,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p8",
+        "location": 2,
+        "garden_rotation": 9
+      },
+      "out": {
+        "uid": "p8",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 2,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 1,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p9",
+        "pot_id": ""
+      },
+      "out": {
+        "uid": "p9",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p10",
+        "mutation_ids": [
+          "a",
+          "b"
+        ],
+        "contributing_session_ids": [
+          "s1",
+          "s2"
+        ]
+      },
+      "out": {
+        "uid": "p10",
+        "species_id": "",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [
+          "s1",
+          "s2"
+        ],
+        "primary_project_id": "",
+        "mutation_ids": [
+          "a",
+          "b"
+        ],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": false,
+        "mystery_revealed": false
+      }
+    },
+    {
+      "in": {
+        "uid": "p11",
+        "is_mystery": true,
+        "mystery_revealed": false,
+        "species_id": "secret"
+      },
+      "out": {
+        "uid": "p11",
+        "species_id": "secret",
+        "nickname": "",
+        "planted_at_utc": 0.0,
+        "matured_at_utc": 0.0,
+        "accumulated_focus_minutes": 0.0,
+        "growth_stage": 0,
+        "maturity": 0,
+        "contributing_session_ids": [],
+        "primary_project_id": "",
+        "mutation_ids": [],
+        "pot_id": "terracotta_basic",
+        "favorite": false,
+        "location": 0,
+        "shelf_slot": -1,
+        "garden_cell_x": -1,
+        "garden_cell_y": -1,
+        "garden_rotation": 0,
+        "is_mystery": true,
+        "mystery_revealed": false
+      }
+    }
+  ],
+  "player_profile_from_dict": [
+    {
+      "in": {},
+      "out": {
+        "display_name": "Gardener",
+        "created_at_utc": 0.0,
+        "total_xp": 0,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [],
+        "current_streak": 0,
+        "longest_streak": 0,
+        "last_focus_date_key": "",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": false
+      }
+    },
+    {
+      "in": {
+        "total_xp": -500,
+        "current_streak": -3,
+        "longest_streak": -9
+      },
+      "out": {
+        "display_name": "Gardener",
+        "created_at_utc": 0.0,
+        "total_xp": 0,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [],
+        "current_streak": 0,
+        "longest_streak": 0,
+        "last_focus_date_key": "",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": false
+      }
+    },
+    {
+      "in": {
+        "current_streak": 12,
+        "longest_streak": 4
+      },
+      "out": {
+        "display_name": "Gardener",
+        "created_at_utc": 0.0,
+        "total_xp": 0,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [],
+        "current_streak": 12,
+        "longest_streak": 12,
+        "last_focus_date_key": "",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": false
+      }
+    },
+    {
+      "in": {
+        "current_streak": 4,
+        "longest_streak": 12
+      },
+      "out": {
+        "display_name": "Gardener",
+        "created_at_utc": 0.0,
+        "total_xp": 0,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [],
+        "current_streak": 4,
+        "longest_streak": 12,
+        "last_focus_date_key": "",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": false
+      }
+    },
+    {
+      "in": {
+        "display_name": "",
+        "focus_sessions_in_cycle": -2
+      },
+      "out": {
+        "display_name": "",
+        "created_at_utc": 0.0,
+        "total_xp": 0,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [],
+        "current_streak": 0,
+        "longest_streak": 0,
+        "last_focus_date_key": "",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": false
+      }
+    },
+    {
+      "in": {
+        "display_name": "Joshua",
+        "total_xp": 4200,
+        "unlocked_ids": [
+          "a",
+          "b"
+        ],
+        "onboarding_completed": true,
+        "last_focus_date_key": "2026-08-29"
+      },
+      "out": {
+        "display_name": "Joshua",
+        "created_at_utc": 0.0,
+        "total_xp": 4200,
+        "active_plant_uid": "",
+        "active_project_id": "",
+        "unlocked_ids": [
+          "a",
+          "b"
+        ],
+        "current_streak": 0,
+        "longest_streak": 0,
+        "last_focus_date_key": "2026-08-29",
+        "focus_sessions_in_cycle": 0,
+        "onboarding_completed": true
+      }
+    }
+  ]
+}

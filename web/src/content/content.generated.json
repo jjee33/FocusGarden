@@ -1,0 +1,1637 @@
+{
+  "content_format": 1,
+  "generated_by": "tools/export_content_json.gd",
+  "species": [
+    {
+      "id": "aloe_vera",
+      "display_name": "Aloe Vera",
+      "scientific_name": "Aloe barbadensis miller",
+      "description": "Thick, water-holding blades in a tidy rosette. Patient through neglect, unimpressed by fuss.",
+      "rarity": "common",
+      "biome_id": "desert",
+      "tags": [
+        "succulent",
+        "beginner"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 180.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "rosette",
+        "leaf_shape": "lance",
+        "leaf_color_base": "#5E8C5A",
+        "leaf_color_tip": "#9BC08A",
+        "stem_color": "#668B52",
+        "leaf_count_max": 9,
+        "leaf_length_ratio": 0.62,
+        "leaf_width_ratio": 0.2,
+        "leaf_arc": 0.1,
+        "spread_radians": 1.0,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.035
+      },
+      "botanical": {
+        "family": "Asphodelaceae",
+        "native_region": "Arabian Peninsula",
+        "light_preference": "Bright, some direct sun",
+        "watering_preference": "Sparingly; let it dry fully",
+        "care_difficulty": "Easy",
+        "interesting_fact": "Aloe has been cultivated so long that it no longer exists reliably in the wild."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 180.0,
+      "display_focus_minutes": 180.0
+    },
+    {
+      "id": "bonsai",
+      "display_name": "Juniper Bonsai",
+      "scientific_name": "Juniperus procumbens",
+      "description": "A tree kept small on purpose, shaped over years. The only plant here that measures time in seasons.",
+      "rarity": "legendary",
+      "biome_id": "temperate",
+      "tags": [
+        "longterm",
+        "tree"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 600.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": {
+        "type": "plants_matured",
+        "scope": "global",
+        "params": {
+          "count": 5
+        },
+        "description_override": ""
+      },
+      "morphology": {
+        "form": "upright",
+        "leaf_shape": "round",
+        "leaf_color_base": "#39603A",
+        "leaf_color_tip": "#7A9B57",
+        "stem_color": "#547542",
+        "leaf_count_max": 13,
+        "leaf_length_ratio": 0.22,
+        "leaf_width_ratio": 0.95,
+        "leaf_arc": 0.18,
+        "spread_radians": 1.45,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.03
+      },
+      "botanical": {
+        "family": "Cupressaceae",
+        "native_region": "Japan",
+        "light_preference": "Full sun, outdoors where possible",
+        "watering_preference": "Check daily; the pots are shallow",
+        "care_difficulty": "A long commitment",
+        "interesting_fact": "Bonsai is a cultivation practice, not a species — the tree is ordinary, and only the care is unusual."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": true,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 600.0,
+      "display_focus_minutes": 600.0
+    },
+    {
+      "id": "boston_fern",
+      "display_name": "Boston Fern",
+      "scientific_name": "Nephrolepis exaltata",
+      "description": "Soft arching fronds that fill a corner. Wants humidity, and will tell you when it is not getting it.",
+      "rarity": "uncommon",
+      "biome_id": "woodland",
+      "tags": [
+        "fern",
+        "humidity"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 270.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "frond",
+        "leaf_shape": "lance",
+        "leaf_color_base": "#3E7A42",
+        "leaf_color_tip": "#84B564",
+        "stem_color": "#568246",
+        "leaf_count_max": 9,
+        "leaf_length_ratio": 0.52,
+        "leaf_width_ratio": 0.16,
+        "leaf_arc": 0.22,
+        "spread_radians": 0.95,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.075
+      },
+      "botanical": {
+        "family": "Nephrolepidaceae",
+        "native_region": "Tropical Americas",
+        "light_preference": "Bright indirect, never direct",
+        "watering_preference": "Constantly damp, never soggy",
+        "care_difficulty": "Fussy about humidity",
+        "interesting_fact": "Ferns reproduce by spores, not seeds — the brown dots under the fronds are not a disease."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 270.0,
+      "display_focus_minutes": 270.0
+    },
+    {
+      "id": "calathea",
+      "display_name": "Prayer Plant",
+      "scientific_name": "Calathea orbifolia",
+      "description": "Broad silver-striped leaves that lift at dusk and lower again by morning.",
+      "rarity": "epic",
+      "biome_id": "tropical",
+      "tags": [
+        "variegated",
+        "demanding"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 480.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "rosette",
+        "leaf_shape": "oval",
+        "leaf_color_base": "#2F6140",
+        "leaf_color_tip": "#6FA05F",
+        "stem_color": "#4F7645",
+        "leaf_count_max": 8,
+        "leaf_length_ratio": 0.5,
+        "leaf_width_ratio": 0.68,
+        "leaf_arc": 0.14,
+        "spread_radians": 1.05,
+        "variegation": 0.7,
+        "variegation_color": "#CFE0C0",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.05
+      },
+      "botanical": {
+        "family": "Marantaceae",
+        "native_region": "Bolivian rainforest",
+        "light_preference": "Medium indirect",
+        "watering_preference": "Distilled or rainwater; it dislikes tap minerals",
+        "care_difficulty": "Demanding",
+        "interesting_fact": "The nightly leaf movement is called nyctinasty, driven by water pressure in a hinge at each leaf base."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": true,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 480.0,
+      "display_focus_minutes": 480.0
+    },
+    {
+      "id": "echeveria",
+      "display_name": "Echeveria",
+      "scientific_name": "Echeveria elegans",
+      "description": "A geometric rosette of pale blue-green leaves, arranged with improbable precision.",
+      "rarity": "uncommon",
+      "biome_id": "desert",
+      "tags": [
+        "succulent",
+        "geometric"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 270.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "succulent",
+        "leaf_shape": "oval",
+        "leaf_color_base": "#7D9E85",
+        "leaf_color_tip": "#C3D6BE",
+        "stem_color": "#769468",
+        "leaf_count_max": 12,
+        "leaf_length_ratio": 0.4,
+        "leaf_width_ratio": 0.5,
+        "leaf_arc": 0.12,
+        "spread_radians": 0.9,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.02
+      },
+      "botanical": {
+        "family": "Crassulaceae",
+        "native_region": "Semi-desert Mexico",
+        "light_preference": "Bright, direct sun",
+        "watering_preference": "Rarely, at the soil only",
+        "care_difficulty": "Moderate",
+        "interesting_fact": "The pale bloom on the leaves is a wax coating; wiping it off removes the plant's sunscreen."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 270.0,
+      "display_focus_minutes": 270.0
+    },
+    {
+      "id": "jade_plant",
+      "display_name": "Jade Plant",
+      "scientific_name": "Crassula ovata",
+      "description": "A small tree of glossy coin-shaped leaves. Grows slowly, and lives a very long time.",
+      "rarity": "common",
+      "biome_id": "desert",
+      "tags": [
+        "succulent",
+        "slow"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 180.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "upright",
+        "leaf_shape": "round",
+        "leaf_color_base": "#4B7D46",
+        "leaf_color_tip": "#8FBB74",
+        "stem_color": "#5D8448",
+        "leaf_count_max": 7,
+        "leaf_length_ratio": 0.26,
+        "leaf_width_ratio": 0.78,
+        "leaf_arc": 0.05,
+        "spread_radians": 1.3,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.03
+      },
+      "botanical": {
+        "family": "Crassulaceae",
+        "native_region": "Mozambique and South Africa",
+        "light_preference": "Bright, some direct sun",
+        "watering_preference": "Deeply, then let it dry",
+        "care_difficulty": "Easy",
+        "interesting_fact": "Given enough decades a jade plant becomes genuinely tree-like, with a thick woody trunk."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 180.0,
+      "display_focus_minutes": 180.0
+    },
+    {
+      "id": "lavender",
+      "display_name": "English Lavender",
+      "scientific_name": "Lavandula angustifolia",
+      "description": "Silver-grey foliage under a haze of purple spires. Smells like a warm afternoon.",
+      "rarity": "rare",
+      "biome_id": "mediterranean",
+      "tags": [
+        "flowering",
+        "fragrant"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 360.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "flowering",
+        "leaf_shape": "needle",
+        "leaf_color_base": "#6E8168",
+        "leaf_color_tip": "#A8B79A",
+        "stem_color": "#6E8659",
+        "leaf_count_max": 16,
+        "leaf_length_ratio": 0.5,
+        "leaf_width_ratio": 0.16,
+        "leaf_arc": 0.06,
+        "spread_radians": 1.05,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": true,
+        "flower_shape": "spire",
+        "flower_color": "#8E7CB8",
+        "flower_centre_color": "#6B5A96",
+        "flower_count": 6,
+        "sway_amount": 0.08
+      },
+      "botanical": {
+        "family": "Lamiaceae",
+        "native_region": "Mediterranean hillsides",
+        "light_preference": "Full sun",
+        "watering_preference": "Drought tolerant once rooted",
+        "care_difficulty": "Needs sharp drainage",
+        "interesting_fact": "The scent comes from oil glands on the leaves, which is why brushing past a lavender bush releases it."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 360.0,
+      "display_focus_minutes": 360.0
+    },
+    {
+      "id": "monstera",
+      "display_name": "Monstera",
+      "scientific_name": "Monstera deliciosa",
+      "description": "Enormous split leaves that arrive one at a time, each bigger than the last. Worth the wait.",
+      "rarity": "rare",
+      "biome_id": "tropical",
+      "tags": [
+        "statement",
+        "fenestrated"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 360.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "upright",
+        "leaf_shape": "split",
+        "leaf_color_base": "#2C5F35",
+        "leaf_color_tip": "#63A054",
+        "stem_color": "#4D7540",
+        "leaf_count_max": 8,
+        "leaf_length_ratio": 0.48,
+        "leaf_width_ratio": 0.86,
+        "leaf_arc": 0.1,
+        "spread_radians": 1.1,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.045
+      },
+      "botanical": {
+        "family": "Araceae",
+        "native_region": "Southern Mexico to Panama",
+        "light_preference": "Bright indirect",
+        "watering_preference": "When the top two inches dry",
+        "care_difficulty": "Easy once established",
+        "interesting_fact": "The holes are called fenestrations, and are thought to let wind and light pass through to leaves below."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 360.0,
+      "display_focus_minutes": 360.0
+    },
+    {
+      "id": "moon_cactus",
+      "display_name": "Moon Cactus",
+      "scientific_name": "Gymnocalycium mihanovichii",
+      "description": "A small, oddly cheerful cactus. Keeps company through late sessions.",
+      "rarity": "epic",
+      "biome_id": "desert",
+      "tags": [
+        "evening",
+        "cactus"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 480.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "cactus",
+        "leaf_shape": "needle",
+        "leaf_color_base": "#5D8A54",
+        "leaf_color_tip": "#A6C08C",
+        "stem_color": "#668A4F",
+        "leaf_count_max": 6,
+        "leaf_length_ratio": 0.35,
+        "leaf_width_ratio": 0.3,
+        "leaf_arc": 0.12,
+        "spread_radians": 0.9,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": true,
+        "flower_shape": "daisy",
+        "flower_color": "#E9899B",
+        "flower_centre_color": "#F3D9A0",
+        "flower_count": 1,
+        "sway_amount": 0.015
+      },
+      "botanical": {
+        "family": "Cactaceae",
+        "native_region": "Paraguay and northern Argentina",
+        "light_preference": "Bright, filtered",
+        "watering_preference": "Very sparingly",
+        "care_difficulty": "Moderate",
+        "interesting_fact": "The brightly coloured tops sold in shops are mutants with no chlorophyll, grafted onto a green host to survive."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": true,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 480.0,
+      "display_focus_minutes": 480.0
+    },
+    {
+      "id": "orchid",
+      "display_name": "Moth Orchid",
+      "scientific_name": "Phalaenopsis amabilis",
+      "description": "Blooms that last for months on a single arching spike. Rewards steadiness over intensity.",
+      "rarity": "epic",
+      "biome_id": "tropical",
+      "tags": [
+        "flowering",
+        "epiphyte"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 480.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "flowering",
+        "leaf_shape": "oval",
+        "leaf_color_base": "#37663D",
+        "leaf_color_tip": "#6D9B5C",
+        "stem_color": "#537844",
+        "leaf_count_max": 6,
+        "leaf_length_ratio": 0.52,
+        "leaf_width_ratio": 0.52,
+        "leaf_arc": 0.2,
+        "spread_radians": 1.25,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": true,
+        "flower_shape": "cluster",
+        "flower_color": "#F0DCE8",
+        "flower_centre_color": "#C08AAE",
+        "flower_count": 5,
+        "sway_amount": 0.04
+      },
+      "botanical": {
+        "family": "Orchidaceae",
+        "native_region": "Southeast Asia and northern Australia",
+        "light_preference": "Bright indirect, never direct",
+        "watering_preference": "A thorough soak, then let the roots dry",
+        "care_difficulty": "Moderate",
+        "interesting_fact": "In the wild it grows on tree bark, not soil — its roots are green and photosynthesise."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": true,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 480.0,
+      "display_focus_minutes": 480.0
+    },
+    {
+      "id": "peace_lily",
+      "display_name": "Peace Lily",
+      "scientific_name": "Spathiphyllum wallisii",
+      "description": "Deep green leaves and a single white bract that unfurls like a held breath.",
+      "rarity": "uncommon",
+      "biome_id": "tropical",
+      "tags": [
+        "flowering",
+        "low-light"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 270.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "flowering",
+        "leaf_shape": "lance",
+        "leaf_color_base": "#2E6138",
+        "leaf_color_tip": "#5C9150",
+        "stem_color": "#4E7641",
+        "leaf_count_max": 9,
+        "leaf_length_ratio": 0.52,
+        "leaf_width_ratio": 0.3,
+        "leaf_arc": 0.16,
+        "spread_radians": 1.0,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": true,
+        "flower_shape": "spathe",
+        "flower_color": "#F6F2E4",
+        "flower_centre_color": "#D6D08E",
+        "flower_count": 3,
+        "sway_amount": 0.05
+      },
+      "botanical": {
+        "family": "Araceae",
+        "native_region": "Tropical Americas",
+        "light_preference": "Low to medium indirect",
+        "watering_preference": "Keep evenly moist",
+        "care_difficulty": "Easy",
+        "interesting_fact": "The white 'flower' is a modified leaf; the true flowers are the tiny bumps on the spike it wraps."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 270.0,
+      "display_focus_minutes": 270.0
+    },
+    {
+      "id": "pothos",
+      "display_name": "Golden Pothos",
+      "scientific_name": "Epipremnum aureum",
+      "description": "Forgiving and eager. Trails happily from any shelf it is given, and asks for very little in return.",
+      "rarity": "common",
+      "biome_id": "houseplant",
+      "tags": [
+        "trailing",
+        "beginner"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 180.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "trailing",
+        "leaf_shape": "heart",
+        "leaf_color_base": "#3F7A3A",
+        "leaf_color_tip": "#8CC06A",
+        "stem_color": "#578242",
+        "leaf_count_max": 10,
+        "leaf_length_ratio": 0.62,
+        "leaf_width_ratio": 0.8,
+        "leaf_arc": 0.18,
+        "spread_radians": 1.1,
+        "variegation": 0.5,
+        "variegation_color": "#E4DC9A",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.05
+      },
+      "botanical": {
+        "family": "Araceae",
+        "native_region": "French Polynesia",
+        "light_preference": "Low to bright indirect",
+        "watering_preference": "When the top two inches dry out",
+        "care_difficulty": "Very easy",
+        "interesting_fact": "Pothos rarely flowers in cultivation — most plants grown indoors have never bloomed at all."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 180.0,
+      "display_focus_minutes": 180.0
+    },
+    {
+      "id": "rubber_plant",
+      "display_name": "Rubber Plant",
+      "scientific_name": "Ficus elastica",
+      "description": "Broad lacquered leaves on a confident upright stem. Grows toward whatever light it can find.",
+      "rarity": "uncommon",
+      "biome_id": "tropical",
+      "tags": [
+        "architectural",
+        "ficus"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 270.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "upright",
+        "leaf_shape": "oval",
+        "leaf_color_base": "#2F5F3B",
+        "leaf_color_tip": "#5E8F4E",
+        "stem_color": "#4F7543",
+        "leaf_count_max": 8,
+        "leaf_length_ratio": 0.42,
+        "leaf_width_ratio": 0.5,
+        "leaf_arc": 0.08,
+        "spread_radians": 1.0,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.035
+      },
+      "botanical": {
+        "family": "Moraceae",
+        "native_region": "Southeast Asia",
+        "light_preference": "Bright indirect",
+        "watering_preference": "When the top inch dries",
+        "care_difficulty": "Easy",
+        "interesting_fact": "Its milky sap was once a commercial rubber source, before the Pará rubber tree displaced it."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 270.0,
+      "display_focus_minutes": 270.0
+    },
+    {
+      "id": "snake_plant",
+      "display_name": "Snake Plant",
+      "scientific_name": "Dracaena trifasciata",
+      "description": "Upright banded blades that seem to grow while you are not looking. Nearly impossible to discourage.",
+      "rarity": "common",
+      "biome_id": "desert",
+      "tags": [
+        "architectural",
+        "beginner"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 180.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "spike",
+        "leaf_shape": "strap",
+        "leaf_color_base": "#3D6B44",
+        "leaf_color_tip": "#7FA556",
+        "stem_color": "#567B47",
+        "leaf_count_max": 7,
+        "leaf_length_ratio": 0.8,
+        "leaf_width_ratio": 0.11,
+        "leaf_arc": 0.04,
+        "spread_radians": 0.85,
+        "variegation": 0.35,
+        "variegation_color": "#D8CE7E",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.02
+      },
+      "botanical": {
+        "family": "Asparagaceae",
+        "native_region": "West Africa",
+        "light_preference": "Anything from shade to bright",
+        "watering_preference": "Every few weeks at most",
+        "care_difficulty": "Very easy",
+        "interesting_fact": "It keeps its pores shut by day and opens them at night, losing far less water than most houseplants."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 180.0,
+      "display_focus_minutes": 180.0
+    },
+    {
+      "id": "spider_plant",
+      "display_name": "Spider Plant",
+      "scientific_name": "Chlorophytum comosum",
+      "description": "Arching striped leaves that throw out little copies of themselves on long stems.",
+      "rarity": "common",
+      "biome_id": "houseplant",
+      "tags": [
+        "variegated",
+        "beginner"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 180.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "rosette",
+        "leaf_shape": "strap",
+        "leaf_color_base": "#4C8446",
+        "leaf_color_tip": "#93C271",
+        "stem_color": "#5D8748",
+        "leaf_count_max": 14,
+        "leaf_length_ratio": 0.6,
+        "leaf_width_ratio": 0.13,
+        "leaf_arc": 0.3,
+        "spread_radians": 1.35,
+        "variegation": 0.6,
+        "variegation_color": "#F0EEC4",
+        "has_flowers": false,
+        "flower_shape": "daisy",
+        "flower_color": "#E8C86A",
+        "flower_centre_color": "#8A6A3A",
+        "flower_count": 3,
+        "sway_amount": 0.07
+      },
+      "botanical": {
+        "family": "Asparagaceae",
+        "native_region": "Southern Africa",
+        "light_preference": "Bright indirect",
+        "watering_preference": "Keep lightly moist",
+        "care_difficulty": "Very easy",
+        "interesting_fact": "The dangling plantlets are clones, and will root in a glass of water within a week or two."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 180.0,
+      "display_focus_minutes": 180.0
+    },
+    {
+      "id": "sunflower",
+      "display_name": "Sunflower",
+      "scientific_name": "Helianthus annuus",
+      "description": "Grows fast, grows tall, and faces the morning. Best raised alongside early starts.",
+      "rarity": "rare",
+      "biome_id": "temperate",
+      "tags": [
+        "morning",
+        "annual"
+      ],
+      "growth_requirement": {
+        "type": "total_focus_minutes",
+        "scope": "active_plant",
+        "params": {
+          "amount": 360.0
+        },
+        "description_override": ""
+      },
+      "unlock_requirement": null,
+      "morphology": {
+        "form": "flowering",
+        "leaf_shape": "heart",
+        "leaf_color_base": "#4C7A32",
+        "leaf_color_tip": "#84AC52",
+        "stem_color": "#5D823E",
+        "leaf_count_max": 7,
+        "leaf_length_ratio": 0.54,
+        "leaf_width_ratio": 0.74,
+        "leaf_arc": 0.1,
+        "spread_radians": 0.9,
+        "variegation": 0.0,
+        "variegation_color": "#E8E4C9",
+        "has_flowers": true,
+        "flower_shape": "daisy",
+        "flower_color": "#EFB63F",
+        "flower_centre_color": "#7A4B22",
+        "flower_count": 1,
+        "sway_amount": 0.06
+      },
+      "botanical": {
+        "family": "Asteraceae",
+        "native_region": "North America",
+        "light_preference": "As much direct sun as possible",
+        "watering_preference": "Generously; they drink hard",
+        "care_difficulty": "Easy",
+        "interesting_fact": "Young sunflowers track the sun across the sky, but mature heads settle facing east for good."
+      },
+      "preferred_pot_ids": [],
+      "allowed_mutation_ids": [],
+      "hidden_until_discovered": false,
+      "seasonal_months": [],
+      "stage_count": 3,
+      "maturity_minutes": 360.0,
+      "display_focus_minutes": 360.0
+    }
+  ],
+  "pots": [
+    {
+      "id": "ceramic_sage",
+      "display_name": "Sage Ceramic",
+      "shape": "rounded",
+      "pattern": "bands",
+      "body_color": "#7FA08B",
+      "rim_color": "#66876F",
+      "accent_color": "#E4EDE0",
+      "soil_color": "#4A3B2A",
+      "top_width_ratio": 1.05,
+      "bottom_width_ratio": 0.78,
+      "unlock_requirement": {
+        "type": "player_level",
+        "scope": "global",
+        "params": {
+          "level": 2
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "painted_chevron",
+      "display_name": "Painted Chevron",
+      "shape": "tapered",
+      "pattern": "chevron",
+      "body_color": "#D9A05B",
+      "rim_color": "#B67F3E",
+      "accent_color": "#5C4A32",
+      "soil_color": "#4A3B2A",
+      "top_width_ratio": 1.05,
+      "bottom_width_ratio": 0.78,
+      "unlock_requirement": {
+        "type": "player_level",
+        "scope": "global",
+        "params": {
+          "level": 8
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "speckled_bowl",
+      "display_name": "Speckled Bowl",
+      "shape": "bowl",
+      "pattern": "dots",
+      "body_color": "#8FA5B5",
+      "rim_color": "#75899A",
+      "accent_color": "#E9EFF2",
+      "soil_color": "#4A3B2A",
+      "top_width_ratio": 1.05,
+      "bottom_width_ratio": 0.78,
+      "unlock_requirement": {
+        "type": "player_level",
+        "scope": "global",
+        "params": {
+          "level": 14
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "stoneware_cream",
+      "display_name": "Cream Stoneware",
+      "shape": "cylinder",
+      "pattern": "none",
+      "body_color": "#E4D6BC",
+      "rim_color": "#CDBB9B",
+      "accent_color": "#B7A385",
+      "soil_color": "#4A3B2A",
+      "top_width_ratio": 1.05,
+      "bottom_width_ratio": 0.78,
+      "unlock_requirement": null
+    },
+    {
+      "id": "terracotta_basic",
+      "display_name": "Terracotta",
+      "shape": "tapered",
+      "pattern": "none",
+      "body_color": "#C26A45",
+      "rim_color": "#A9563A",
+      "accent_color": "#E8C9A0",
+      "soil_color": "#4A3B2A",
+      "top_width_ratio": 1.05,
+      "bottom_width_ratio": 0.78,
+      "unlock_requirement": null
+    },
+    {
+      "id": "woven_basket",
+      "display_name": "Woven Basket",
+      "shape": "basket",
+      "pattern": "weave",
+      "body_color": "#CBA871",
+      "rim_color": "#B08F5A",
+      "accent_color": "#9C7C4C",
+      "soil_color": "#4A3B2A",
+      "top_width_ratio": 1.05,
+      "bottom_width_ratio": 0.78,
+      "unlock_requirement": {
+        "type": "plants_matured",
+        "scope": "global",
+        "params": {
+          "count": 3
+        },
+        "description_override": ""
+      }
+    }
+  ],
+  "achievements": [
+    {
+      "id": "botanist",
+      "title": "Botanist",
+      "description": "Discover 8 species.",
+      "category": "collection",
+      "rarity": "rare",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "species_discovered",
+        "scope": "global",
+        "params": {
+          "count": 8
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "century_garden",
+      "title": "Century Garden",
+      "description": "Reach 100 hours of focus.",
+      "category": "focus",
+      "rarity": "epic",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 6000.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "complete_catalogue",
+      "title": "Complete Catalogue",
+      "description": "Discover every species.",
+      "category": "collection",
+      "rarity": "legendary",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "catalogue_completion",
+        "scope": "global",
+        "params": {
+          "ratio": 1.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "consistency",
+      "title": "Consistency",
+      "description": "Focus on 7 consecutive days.",
+      "category": "consistency",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "consecutive_days",
+        "scope": "global",
+        "params": {
+          "count": 7
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "deep_work",
+      "title": "Deep Work",
+      "description": "Complete a 90-minute focus session.",
+      "category": "focus",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "session_length_at_least",
+        "scope": "global",
+        "params": {
+          "count": 1,
+          "minutes": 90.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "early_bird",
+      "title": "Early Bird",
+      "description": "Complete 25 sessions before 9 AM.",
+      "category": "consistency",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "sessions_in_time_window",
+        "scope": "global",
+        "params": {
+          "count": 25,
+          "end_hour": 8,
+          "start_hour": 4
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "fifty_days",
+      "title": "Fifty Days",
+      "description": "Focus on 50 separate days.",
+      "category": "consistency",
+      "rarity": "rare",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "unique_focus_days",
+        "scope": "global",
+        "params": {
+          "count": 50
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "fifty_plants",
+      "title": "Overgrown",
+      "description": "Bring 50 plants to maturity.",
+      "category": "collection",
+      "rarity": "epic",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "plants_matured",
+        "scope": "global",
+        "params": {
+          "count": 50
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "first_bloom",
+      "title": "First Bloom",
+      "description": "Bring your first plant to maturity.",
+      "category": "collection",
+      "rarity": "common",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "plants_matured",
+        "scope": "global",
+        "params": {
+          "count": 1
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "first_sprout",
+      "title": "First Sprout",
+      "description": "Complete your first focus session.",
+      "category": "focus",
+      "rarity": "common",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "completed_sessions",
+        "scope": "global",
+        "params": {
+          "count": 1
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "five_hundred_hours",
+      "title": "A Real Garden",
+      "description": "Reach 500 hours of focus.",
+      "category": "focus",
+      "rarity": "legendary",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 30000.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "green_thumb",
+      "title": "Green Thumb",
+      "description": "Bring 10 plants to maturity.",
+      "category": "collection",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "plants_matured",
+        "scope": "global",
+        "params": {
+          "count": 10
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "half_catalogue",
+      "title": "Well Read",
+      "description": "Discover half the catalogue.",
+      "category": "collection",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "catalogue_completion",
+        "scope": "global",
+        "params": {
+          "ratio": 0.5
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "hundred_sessions",
+      "title": "Well Practised",
+      "description": "Complete 100 focus sessions.",
+      "category": "focus",
+      "rarity": "rare",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "completed_sessions",
+        "scope": "global",
+        "params": {
+          "count": 100
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "level_five",
+      "title": "Settling In",
+      "description": "Reach level 5.",
+      "category": "garden",
+      "rarity": "common",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "player_level",
+        "scope": "global",
+        "params": {
+          "level": 5
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "level_twenty",
+      "title": "Seasoned Gardener",
+      "description": "Reach level 20.",
+      "category": "garden",
+      "rarity": "rare",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "player_level",
+        "scope": "global",
+        "params": {
+          "level": 20
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "marathon",
+      "title": "Marathon",
+      "description": "Complete ten sessions of at least an hour.",
+      "category": "focus",
+      "rarity": "rare",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "session_length_at_least",
+        "scope": "global",
+        "params": {
+          "count": 10,
+          "minutes": 60.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "month_of_days",
+      "title": "A Month of Days",
+      "description": "Focus on 30 consecutive days.",
+      "category": "consistency",
+      "rarity": "epic",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "consecutive_days",
+        "scope": "global",
+        "params": {
+          "count": 30
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "night_owl",
+      "title": "Night Owl",
+      "description": "Complete 25 sessions after 8 PM.",
+      "category": "consistency",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "sessions_in_time_window",
+        "scope": "global",
+        "params": {
+          "count": 25,
+          "end_hour": 4,
+          "start_hour": 20
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "patient_gardener",
+      "title": "The Patient Gardener",
+      "description": "Grow a plant that takes fourteen separate days.",
+      "category": "exploration",
+      "rarity": "legendary",
+      "hidden": true,
+      "track_progress": true,
+      "requirement": {
+        "type": "unique_focus_days",
+        "scope": "global",
+        "params": {
+          "count": 14
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "taking_care",
+      "title": "Taking Care",
+      "description": "Complete 100 breaks.",
+      "category": "consistency",
+      "rarity": "uncommon",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "break_sessions",
+        "scope": "global",
+        "params": {
+          "count": 100
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "ten_hours",
+      "title": "Ten Hours In",
+      "description": "Reach 10 hours of focus.",
+      "category": "focus",
+      "rarity": "common",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 600.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "the_long_night",
+      "title": "The Long Night",
+      "description": "Complete a session that starts after 2 AM.",
+      "category": "exploration",
+      "rarity": "rare",
+      "hidden": true,
+      "track_progress": true,
+      "requirement": {
+        "type": "sessions_in_time_window",
+        "scope": "global",
+        "params": {
+          "count": 1,
+          "end_hour": 4,
+          "start_hour": 2
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "twenty_five_sessions",
+      "title": "Finding the Rhythm",
+      "description": "Complete 25 focus sessions.",
+      "category": "focus",
+      "rarity": "common",
+      "hidden": false,
+      "track_progress": true,
+      "requirement": {
+        "type": "completed_sessions",
+        "scope": "global",
+        "params": {
+          "count": 25
+        },
+        "description_override": ""
+      }
+    }
+  ],
+  "decorations": [
+    {
+      "id": "birdbath",
+      "display_name": "Birdbath",
+      "shape": "birdbath",
+      "primary_color": "#C6C0B4",
+      "accent_color": "#8FA5B5",
+      "unlock_expansion_id": "the_fence"
+    },
+    {
+      "id": "fence",
+      "display_name": "Fence",
+      "shape": "fence",
+      "primary_color": "#C08F55",
+      "accent_color": "#96693A",
+      "unlock_expansion_id": "the_fence"
+    },
+    {
+      "id": "garden_bench",
+      "display_name": "Bench",
+      "shape": "bench",
+      "primary_color": "#C69A63",
+      "accent_color": "#8B6438",
+      "unlock_expansion_id": ""
+    },
+    {
+      "id": "greenhouse_panel",
+      "display_name": "Greenhouse",
+      "shape": "fence",
+      "primary_color": "#9FB8AE",
+      "accent_color": "#5E7A6E",
+      "unlock_expansion_id": "the_greenhouse"
+    },
+    {
+      "id": "lantern",
+      "display_name": "Lantern",
+      "shape": "lantern",
+      "primary_color": "#3B3630",
+      "accent_color": "#F7D08A",
+      "unlock_expansion_id": "wider_beds"
+    },
+    {
+      "id": "planter_box",
+      "display_name": "Planter box",
+      "shape": "planter",
+      "primary_color": "#B0824B",
+      "accent_color": "#8B6438",
+      "unlock_expansion_id": "wider_beds"
+    },
+    {
+      "id": "pond",
+      "display_name": "Pond",
+      "shape": "pond",
+      "primary_color": "#6E9C9A",
+      "accent_color": "#4F7C7A",
+      "unlock_expansion_id": "the_pond"
+    },
+    {
+      "id": "stepping_stone",
+      "display_name": "Stepping stone",
+      "shape": "stone",
+      "primary_color": "#A9A29A",
+      "accent_color": "#877F76",
+      "unlock_expansion_id": "the_pond"
+    },
+    {
+      "id": "stone_path",
+      "display_name": "Stone path",
+      "shape": "path",
+      "primary_color": "#A9A29A",
+      "accent_color": "#8B857D",
+      "unlock_expansion_id": ""
+    }
+  ],
+  "expansions": [
+    {
+      "id": "first_plot",
+      "display_name": "A patch of ground",
+      "description": "Where the garden begins. Room for a few plants and somewhere to sit.",
+      "grid_width": 4,
+      "grid_height": 3,
+      "unlocks_decorations": [
+        "stone_path",
+        "garden_bench"
+      ],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 0.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "wider_beds",
+      "display_name": "Wider beds",
+      "description": "The beds are dug out further. More room, and a lantern for the evenings.",
+      "grid_width": 5,
+      "grid_height": 4,
+      "unlocks_decorations": [
+        "lantern",
+        "planter_box"
+      ],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 600.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "the_pond",
+      "display_name": "A small pond",
+      "description": "Water at the centre of the garden, with stones set around it.",
+      "grid_width": 6,
+      "grid_height": 4,
+      "unlocks_decorations": [
+        "pond",
+        "stepping_stone"
+      ],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 1500.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "the_fence",
+      "display_name": "A fence and a gate",
+      "description": "The garden now has an edge, and a birdbath in the corner.",
+      "grid_width": 7,
+      "grid_height": 5,
+      "unlocks_decorations": [
+        "fence",
+        "birdbath"
+      ],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 3000.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "the_greenhouse",
+      "display_name": "A greenhouse",
+      "description": "Glass and timber at the far end, for the things that need shelter.",
+      "grid_width": 8,
+      "grid_height": 5,
+      "unlocks_decorations": [
+        "greenhouse_panel"
+      ],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 6000.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "the_orchard",
+      "display_name": "The orchard",
+      "description": "Ground enough for standing trees, and a path worn between them.",
+      "grid_width": 9,
+      "grid_height": 6,
+      "unlocks_decorations": [],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 15000.0
+        },
+        "description_override": ""
+      }
+    },
+    {
+      "id": "the_grounds",
+      "display_name": "The grounds",
+      "description": "No longer a garden so much as a place. Five hundred hours made this.",
+      "grid_width": 10,
+      "grid_height": 7,
+      "unlocks_decorations": [],
+      "requirement": {
+        "type": "total_focus_minutes",
+        "scope": "global",
+        "params": {
+          "amount": 30000.0
+        },
+        "description_override": ""
+      }
+    }
+  ]
+}

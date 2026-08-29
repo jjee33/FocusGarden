@@ -1,0 +1,9939 @@
+{
+  "constants": {
+    "XP_PER_FOCUS_MINUTE": 2.0,
+    "XP_PER_BREAK_MINUTE": 0.25,
+    "LINEAR_TERM": 50.0,
+    "QUADRATIC_TERM": 25.0,
+    "MAX_LEVEL": 100
+  },
+  "cumulative_xp_for_level": [
+    {
+      "level": -3,
+      "out": 0
+    },
+    {
+      "level": -2,
+      "out": 0
+    },
+    {
+      "level": -1,
+      "out": 0
+    },
+    {
+      "level": 0,
+      "out": 0
+    },
+    {
+      "level": 1,
+      "out": 0
+    },
+    {
+      "level": 2,
+      "out": 75
+    },
+    {
+      "level": 3,
+      "out": 200
+    },
+    {
+      "level": 4,
+      "out": 375
+    },
+    {
+      "level": 5,
+      "out": 600
+    },
+    {
+      "level": 6,
+      "out": 875
+    },
+    {
+      "level": 7,
+      "out": 1200
+    },
+    {
+      "level": 8,
+      "out": 1575
+    },
+    {
+      "level": 9,
+      "out": 2000
+    },
+    {
+      "level": 10,
+      "out": 2475
+    },
+    {
+      "level": 11,
+      "out": 3000
+    },
+    {
+      "level": 12,
+      "out": 3575
+    },
+    {
+      "level": 13,
+      "out": 4200
+    },
+    {
+      "level": 14,
+      "out": 4875
+    },
+    {
+      "level": 15,
+      "out": 5600
+    },
+    {
+      "level": 16,
+      "out": 6375
+    },
+    {
+      "level": 17,
+      "out": 7200
+    },
+    {
+      "level": 18,
+      "out": 8075
+    },
+    {
+      "level": 19,
+      "out": 9000
+    },
+    {
+      "level": 20,
+      "out": 9975
+    },
+    {
+      "level": 21,
+      "out": 11000
+    },
+    {
+      "level": 22,
+      "out": 12075
+    },
+    {
+      "level": 23,
+      "out": 13200
+    },
+    {
+      "level": 24,
+      "out": 14375
+    },
+    {
+      "level": 25,
+      "out": 15600
+    },
+    {
+      "level": 26,
+      "out": 16875
+    },
+    {
+      "level": 27,
+      "out": 18200
+    },
+    {
+      "level": 28,
+      "out": 19575
+    },
+    {
+      "level": 29,
+      "out": 21000
+    },
+    {
+      "level": 30,
+      "out": 22475
+    },
+    {
+      "level": 31,
+      "out": 24000
+    },
+    {
+      "level": 32,
+      "out": 25575
+    },
+    {
+      "level": 33,
+      "out": 27200
+    },
+    {
+      "level": 34,
+      "out": 28875
+    },
+    {
+      "level": 35,
+      "out": 30600
+    },
+    {
+      "level": 36,
+      "out": 32375
+    },
+    {
+      "level": 37,
+      "out": 34200
+    },
+    {
+      "level": 38,
+      "out": 36075
+    },
+    {
+      "level": 39,
+      "out": 38000
+    },
+    {
+      "level": 40,
+      "out": 39975
+    },
+    {
+      "level": 41,
+      "out": 42000
+    },
+    {
+      "level": 42,
+      "out": 44075
+    },
+    {
+      "level": 43,
+      "out": 46200
+    },
+    {
+      "level": 44,
+      "out": 48375
+    },
+    {
+      "level": 45,
+      "out": 50600
+    },
+    {
+      "level": 46,
+      "out": 52875
+    },
+    {
+      "level": 47,
+      "out": 55200
+    },
+    {
+      "level": 48,
+      "out": 57575
+    },
+    {
+      "level": 49,
+      "out": 60000
+    },
+    {
+      "level": 50,
+      "out": 62475
+    },
+    {
+      "level": 51,
+      "out": 65000
+    },
+    {
+      "level": 52,
+      "out": 67575
+    },
+    {
+      "level": 53,
+      "out": 70200
+    },
+    {
+      "level": 54,
+      "out": 72875
+    },
+    {
+      "level": 55,
+      "out": 75600
+    },
+    {
+      "level": 56,
+      "out": 78375
+    },
+    {
+      "level": 57,
+      "out": 81200
+    },
+    {
+      "level": 58,
+      "out": 84075
+    },
+    {
+      "level": 59,
+      "out": 87000
+    },
+    {
+      "level": 60,
+      "out": 89975
+    },
+    {
+      "level": 61,
+      "out": 93000
+    },
+    {
+      "level": 62,
+      "out": 96075
+    },
+    {
+      "level": 63,
+      "out": 99200
+    },
+    {
+      "level": 64,
+      "out": 102375
+    },
+    {
+      "level": 65,
+      "out": 105600
+    },
+    {
+      "level": 66,
+      "out": 108875
+    },
+    {
+      "level": 67,
+      "out": 112200
+    },
+    {
+      "level": 68,
+      "out": 115575
+    },
+    {
+      "level": 69,
+      "out": 119000
+    },
+    {
+      "level": 70,
+      "out": 122475
+    },
+    {
+      "level": 71,
+      "out": 126000
+    },
+    {
+      "level": 72,
+      "out": 129575
+    },
+    {
+      "level": 73,
+      "out": 133200
+    },
+    {
+      "level": 74,
+      "out": 136875
+    },
+    {
+      "level": 75,
+      "out": 140600
+    },
+    {
+      "level": 76,
+      "out": 144375
+    },
+    {
+      "level": 77,
+      "out": 148200
+    },
+    {
+      "level": 78,
+      "out": 152075
+    },
+    {
+      "level": 79,
+      "out": 156000
+    },
+    {
+      "level": 80,
+      "out": 159975
+    },
+    {
+      "level": 81,
+      "out": 164000
+    },
+    {
+      "level": 82,
+      "out": 168075
+    },
+    {
+      "level": 83,
+      "out": 172200
+    },
+    {
+      "level": 84,
+      "out": 176375
+    },
+    {
+      "level": 85,
+      "out": 180600
+    },
+    {
+      "level": 86,
+      "out": 184875
+    },
+    {
+      "level": 87,
+      "out": 189200
+    },
+    {
+      "level": 88,
+      "out": 193575
+    },
+    {
+      "level": 89,
+      "out": 198000
+    },
+    {
+      "level": 90,
+      "out": 202475
+    },
+    {
+      "level": 91,
+      "out": 207000
+    },
+    {
+      "level": 92,
+      "out": 211575
+    },
+    {
+      "level": 93,
+      "out": 216200
+    },
+    {
+      "level": 94,
+      "out": 220875
+    },
+    {
+      "level": 95,
+      "out": 225600
+    },
+    {
+      "level": 96,
+      "out": 230375
+    },
+    {
+      "level": 97,
+      "out": 235200
+    },
+    {
+      "level": 98,
+      "out": 240075
+    },
+    {
+      "level": 99,
+      "out": 245000
+    },
+    {
+      "level": 100,
+      "out": 249975
+    },
+    {
+      "level": 101,
+      "out": 255000
+    },
+    {
+      "level": 102,
+      "out": 260075
+    },
+    {
+      "level": 103,
+      "out": 265200
+    },
+    {
+      "level": 104,
+      "out": 270375
+    },
+    {
+      "level": 105,
+      "out": 275600
+    }
+  ],
+  "level_for_xp": [
+    {
+      "total_xp": -5,
+      "out": 1
+    },
+    {
+      "total_xp": -4,
+      "out": 1
+    },
+    {
+      "total_xp": -3,
+      "out": 1
+    },
+    {
+      "total_xp": -2,
+      "out": 1
+    },
+    {
+      "total_xp": -1,
+      "out": 1
+    },
+    {
+      "total_xp": 0,
+      "out": 1
+    },
+    {
+      "total_xp": 1,
+      "out": 1
+    },
+    {
+      "total_xp": 2,
+      "out": 1
+    },
+    {
+      "total_xp": 3,
+      "out": 1
+    },
+    {
+      "total_xp": 4,
+      "out": 1
+    },
+    {
+      "total_xp": 5,
+      "out": 1
+    },
+    {
+      "total_xp": 6,
+      "out": 1
+    },
+    {
+      "total_xp": 7,
+      "out": 1
+    },
+    {
+      "total_xp": 8,
+      "out": 1
+    },
+    {
+      "total_xp": 9,
+      "out": 1
+    },
+    {
+      "total_xp": 10,
+      "out": 1
+    },
+    {
+      "total_xp": 11,
+      "out": 1
+    },
+    {
+      "total_xp": 12,
+      "out": 1
+    },
+    {
+      "total_xp": 13,
+      "out": 1
+    },
+    {
+      "total_xp": 14,
+      "out": 1
+    },
+    {
+      "total_xp": 15,
+      "out": 1
+    },
+    {
+      "total_xp": 16,
+      "out": 1
+    },
+    {
+      "total_xp": 17,
+      "out": 1
+    },
+    {
+      "total_xp": 18,
+      "out": 1
+    },
+    {
+      "total_xp": 19,
+      "out": 1
+    },
+    {
+      "total_xp": 20,
+      "out": 1
+    },
+    {
+      "total_xp": 21,
+      "out": 1
+    },
+    {
+      "total_xp": 22,
+      "out": 1
+    },
+    {
+      "total_xp": 23,
+      "out": 1
+    },
+    {
+      "total_xp": 24,
+      "out": 1
+    },
+    {
+      "total_xp": 25,
+      "out": 1
+    },
+    {
+      "total_xp": 26,
+      "out": 1
+    },
+    {
+      "total_xp": 27,
+      "out": 1
+    },
+    {
+      "total_xp": 28,
+      "out": 1
+    },
+    {
+      "total_xp": 29,
+      "out": 1
+    },
+    {
+      "total_xp": 30,
+      "out": 1
+    },
+    {
+      "total_xp": 31,
+      "out": 1
+    },
+    {
+      "total_xp": 32,
+      "out": 1
+    },
+    {
+      "total_xp": 33,
+      "out": 1
+    },
+    {
+      "total_xp": 34,
+      "out": 1
+    },
+    {
+      "total_xp": 35,
+      "out": 1
+    },
+    {
+      "total_xp": 36,
+      "out": 1
+    },
+    {
+      "total_xp": 37,
+      "out": 1
+    },
+    {
+      "total_xp": 38,
+      "out": 1
+    },
+    {
+      "total_xp": 39,
+      "out": 1
+    },
+    {
+      "total_xp": 40,
+      "out": 1
+    },
+    {
+      "total_xp": 41,
+      "out": 1
+    },
+    {
+      "total_xp": 42,
+      "out": 1
+    },
+    {
+      "total_xp": 43,
+      "out": 1
+    },
+    {
+      "total_xp": 44,
+      "out": 1
+    },
+    {
+      "total_xp": 45,
+      "out": 1
+    },
+    {
+      "total_xp": 46,
+      "out": 1
+    },
+    {
+      "total_xp": 47,
+      "out": 1
+    },
+    {
+      "total_xp": 48,
+      "out": 1
+    },
+    {
+      "total_xp": 49,
+      "out": 1
+    },
+    {
+      "total_xp": 50,
+      "out": 1
+    },
+    {
+      "total_xp": 51,
+      "out": 1
+    },
+    {
+      "total_xp": 52,
+      "out": 1
+    },
+    {
+      "total_xp": 53,
+      "out": 1
+    },
+    {
+      "total_xp": 54,
+      "out": 1
+    },
+    {
+      "total_xp": 55,
+      "out": 1
+    },
+    {
+      "total_xp": 56,
+      "out": 1
+    },
+    {
+      "total_xp": 57,
+      "out": 1
+    },
+    {
+      "total_xp": 58,
+      "out": 1
+    },
+    {
+      "total_xp": 59,
+      "out": 1
+    },
+    {
+      "total_xp": 60,
+      "out": 1
+    },
+    {
+      "total_xp": 61,
+      "out": 1
+    },
+    {
+      "total_xp": 62,
+      "out": 1
+    },
+    {
+      "total_xp": 63,
+      "out": 1
+    },
+    {
+      "total_xp": 64,
+      "out": 1
+    },
+    {
+      "total_xp": 65,
+      "out": 1
+    },
+    {
+      "total_xp": 66,
+      "out": 1
+    },
+    {
+      "total_xp": 67,
+      "out": 1
+    },
+    {
+      "total_xp": 68,
+      "out": 1
+    },
+    {
+      "total_xp": 69,
+      "out": 1
+    },
+    {
+      "total_xp": 70,
+      "out": 1
+    },
+    {
+      "total_xp": 71,
+      "out": 1
+    },
+    {
+      "total_xp": 72,
+      "out": 1
+    },
+    {
+      "total_xp": 73,
+      "out": 1
+    },
+    {
+      "total_xp": 74,
+      "out": 1
+    },
+    {
+      "total_xp": 75,
+      "out": 2
+    },
+    {
+      "total_xp": 76,
+      "out": 2
+    },
+    {
+      "total_xp": 77,
+      "out": 2
+    },
+    {
+      "total_xp": 78,
+      "out": 2
+    },
+    {
+      "total_xp": 79,
+      "out": 2
+    },
+    {
+      "total_xp": 80,
+      "out": 2
+    },
+    {
+      "total_xp": 81,
+      "out": 2
+    },
+    {
+      "total_xp": 82,
+      "out": 2
+    },
+    {
+      "total_xp": 83,
+      "out": 2
+    },
+    {
+      "total_xp": 84,
+      "out": 2
+    },
+    {
+      "total_xp": 85,
+      "out": 2
+    },
+    {
+      "total_xp": 86,
+      "out": 2
+    },
+    {
+      "total_xp": 87,
+      "out": 2
+    },
+    {
+      "total_xp": 88,
+      "out": 2
+    },
+    {
+      "total_xp": 89,
+      "out": 2
+    },
+    {
+      "total_xp": 90,
+      "out": 2
+    },
+    {
+      "total_xp": 91,
+      "out": 2
+    },
+    {
+      "total_xp": 92,
+      "out": 2
+    },
+    {
+      "total_xp": 93,
+      "out": 2
+    },
+    {
+      "total_xp": 94,
+      "out": 2
+    },
+    {
+      "total_xp": 95,
+      "out": 2
+    },
+    {
+      "total_xp": 96,
+      "out": 2
+    },
+    {
+      "total_xp": 97,
+      "out": 2
+    },
+    {
+      "total_xp": 98,
+      "out": 2
+    },
+    {
+      "total_xp": 99,
+      "out": 2
+    },
+    {
+      "total_xp": 100,
+      "out": 2
+    },
+    {
+      "total_xp": 101,
+      "out": 2
+    },
+    {
+      "total_xp": 102,
+      "out": 2
+    },
+    {
+      "total_xp": 103,
+      "out": 2
+    },
+    {
+      "total_xp": 104,
+      "out": 2
+    },
+    {
+      "total_xp": 105,
+      "out": 2
+    },
+    {
+      "total_xp": 106,
+      "out": 2
+    },
+    {
+      "total_xp": 107,
+      "out": 2
+    },
+    {
+      "total_xp": 108,
+      "out": 2
+    },
+    {
+      "total_xp": 109,
+      "out": 2
+    },
+    {
+      "total_xp": 110,
+      "out": 2
+    },
+    {
+      "total_xp": 111,
+      "out": 2
+    },
+    {
+      "total_xp": 112,
+      "out": 2
+    },
+    {
+      "total_xp": 113,
+      "out": 2
+    },
+    {
+      "total_xp": 114,
+      "out": 2
+    },
+    {
+      "total_xp": 115,
+      "out": 2
+    },
+    {
+      "total_xp": 116,
+      "out": 2
+    },
+    {
+      "total_xp": 117,
+      "out": 2
+    },
+    {
+      "total_xp": 118,
+      "out": 2
+    },
+    {
+      "total_xp": 119,
+      "out": 2
+    },
+    {
+      "total_xp": 120,
+      "out": 2
+    },
+    {
+      "total_xp": 121,
+      "out": 2
+    },
+    {
+      "total_xp": 122,
+      "out": 2
+    },
+    {
+      "total_xp": 123,
+      "out": 2
+    },
+    {
+      "total_xp": 124,
+      "out": 2
+    },
+    {
+      "total_xp": 125,
+      "out": 2
+    },
+    {
+      "total_xp": 126,
+      "out": 2
+    },
+    {
+      "total_xp": 127,
+      "out": 2
+    },
+    {
+      "total_xp": 128,
+      "out": 2
+    },
+    {
+      "total_xp": 129,
+      "out": 2
+    },
+    {
+      "total_xp": 130,
+      "out": 2
+    },
+    {
+      "total_xp": 131,
+      "out": 2
+    },
+    {
+      "total_xp": 132,
+      "out": 2
+    },
+    {
+      "total_xp": 133,
+      "out": 2
+    },
+    {
+      "total_xp": 134,
+      "out": 2
+    },
+    {
+      "total_xp": 135,
+      "out": 2
+    },
+    {
+      "total_xp": 136,
+      "out": 2
+    },
+    {
+      "total_xp": 137,
+      "out": 2
+    },
+    {
+      "total_xp": 138,
+      "out": 2
+    },
+    {
+      "total_xp": 139,
+      "out": 2
+    },
+    {
+      "total_xp": 140,
+      "out": 2
+    },
+    {
+      "total_xp": 141,
+      "out": 2
+    },
+    {
+      "total_xp": 142,
+      "out": 2
+    },
+    {
+      "total_xp": 143,
+      "out": 2
+    },
+    {
+      "total_xp": 144,
+      "out": 2
+    },
+    {
+      "total_xp": 145,
+      "out": 2
+    },
+    {
+      "total_xp": 146,
+      "out": 2
+    },
+    {
+      "total_xp": 147,
+      "out": 2
+    },
+    {
+      "total_xp": 148,
+      "out": 2
+    },
+    {
+      "total_xp": 149,
+      "out": 2
+    },
+    {
+      "total_xp": 150,
+      "out": 2
+    },
+    {
+      "total_xp": 151,
+      "out": 2
+    },
+    {
+      "total_xp": 152,
+      "out": 2
+    },
+    {
+      "total_xp": 153,
+      "out": 2
+    },
+    {
+      "total_xp": 154,
+      "out": 2
+    },
+    {
+      "total_xp": 155,
+      "out": 2
+    },
+    {
+      "total_xp": 156,
+      "out": 2
+    },
+    {
+      "total_xp": 157,
+      "out": 2
+    },
+    {
+      "total_xp": 158,
+      "out": 2
+    },
+    {
+      "total_xp": 159,
+      "out": 2
+    },
+    {
+      "total_xp": 160,
+      "out": 2
+    },
+    {
+      "total_xp": 161,
+      "out": 2
+    },
+    {
+      "total_xp": 162,
+      "out": 2
+    },
+    {
+      "total_xp": 163,
+      "out": 2
+    },
+    {
+      "total_xp": 164,
+      "out": 2
+    },
+    {
+      "total_xp": 165,
+      "out": 2
+    },
+    {
+      "total_xp": 166,
+      "out": 2
+    },
+    {
+      "total_xp": 167,
+      "out": 2
+    },
+    {
+      "total_xp": 168,
+      "out": 2
+    },
+    {
+      "total_xp": 169,
+      "out": 2
+    },
+    {
+      "total_xp": 170,
+      "out": 2
+    },
+    {
+      "total_xp": 171,
+      "out": 2
+    },
+    {
+      "total_xp": 172,
+      "out": 2
+    },
+    {
+      "total_xp": 173,
+      "out": 2
+    },
+    {
+      "total_xp": 174,
+      "out": 2
+    },
+    {
+      "total_xp": 175,
+      "out": 2
+    },
+    {
+      "total_xp": 176,
+      "out": 2
+    },
+    {
+      "total_xp": 177,
+      "out": 2
+    },
+    {
+      "total_xp": 178,
+      "out": 2
+    },
+    {
+      "total_xp": 179,
+      "out": 2
+    },
+    {
+      "total_xp": 180,
+      "out": 2
+    },
+    {
+      "total_xp": 181,
+      "out": 2
+    },
+    {
+      "total_xp": 182,
+      "out": 2
+    },
+    {
+      "total_xp": 183,
+      "out": 2
+    },
+    {
+      "total_xp": 184,
+      "out": 2
+    },
+    {
+      "total_xp": 185,
+      "out": 2
+    },
+    {
+      "total_xp": 186,
+      "out": 2
+    },
+    {
+      "total_xp": 187,
+      "out": 2
+    },
+    {
+      "total_xp": 188,
+      "out": 2
+    },
+    {
+      "total_xp": 189,
+      "out": 2
+    },
+    {
+      "total_xp": 190,
+      "out": 2
+    },
+    {
+      "total_xp": 191,
+      "out": 2
+    },
+    {
+      "total_xp": 192,
+      "out": 2
+    },
+    {
+      "total_xp": 193,
+      "out": 2
+    },
+    {
+      "total_xp": 194,
+      "out": 2
+    },
+    {
+      "total_xp": 195,
+      "out": 2
+    },
+    {
+      "total_xp": 196,
+      "out": 2
+    },
+    {
+      "total_xp": 197,
+      "out": 2
+    },
+    {
+      "total_xp": 198,
+      "out": 2
+    },
+    {
+      "total_xp": 199,
+      "out": 2
+    },
+    {
+      "total_xp": 200,
+      "out": 3
+    },
+    {
+      "total_xp": 201,
+      "out": 3
+    },
+    {
+      "total_xp": 202,
+      "out": 3
+    },
+    {
+      "total_xp": 203,
+      "out": 3
+    },
+    {
+      "total_xp": 204,
+      "out": 3
+    },
+    {
+      "total_xp": 205,
+      "out": 3
+    },
+    {
+      "total_xp": 206,
+      "out": 3
+    },
+    {
+      "total_xp": 207,
+      "out": 3
+    },
+    {
+      "total_xp": 208,
+      "out": 3
+    },
+    {
+      "total_xp": 209,
+      "out": 3
+    },
+    {
+      "total_xp": 210,
+      "out": 3
+    },
+    {
+      "total_xp": 211,
+      "out": 3
+    },
+    {
+      "total_xp": 212,
+      "out": 3
+    },
+    {
+      "total_xp": 213,
+      "out": 3
+    },
+    {
+      "total_xp": 214,
+      "out": 3
+    },
+    {
+      "total_xp": 215,
+      "out": 3
+    },
+    {
+      "total_xp": 216,
+      "out": 3
+    },
+    {
+      "total_xp": 217,
+      "out": 3
+    },
+    {
+      "total_xp": 218,
+      "out": 3
+    },
+    {
+      "total_xp": 219,
+      "out": 3
+    },
+    {
+      "total_xp": 220,
+      "out": 3
+    },
+    {
+      "total_xp": 221,
+      "out": 3
+    },
+    {
+      "total_xp": 222,
+      "out": 3
+    },
+    {
+      "total_xp": 223,
+      "out": 3
+    },
+    {
+      "total_xp": 224,
+      "out": 3
+    },
+    {
+      "total_xp": 225,
+      "out": 3
+    },
+    {
+      "total_xp": 226,
+      "out": 3
+    },
+    {
+      "total_xp": 227,
+      "out": 3
+    },
+    {
+      "total_xp": 228,
+      "out": 3
+    },
+    {
+      "total_xp": 229,
+      "out": 3
+    },
+    {
+      "total_xp": 230,
+      "out": 3
+    },
+    {
+      "total_xp": 231,
+      "out": 3
+    },
+    {
+      "total_xp": 232,
+      "out": 3
+    },
+    {
+      "total_xp": 233,
+      "out": 3
+    },
+    {
+      "total_xp": 234,
+      "out": 3
+    },
+    {
+      "total_xp": 235,
+      "out": 3
+    },
+    {
+      "total_xp": 236,
+      "out": 3
+    },
+    {
+      "total_xp": 237,
+      "out": 3
+    },
+    {
+      "total_xp": 238,
+      "out": 3
+    },
+    {
+      "total_xp": 239,
+      "out": 3
+    },
+    {
+      "total_xp": 240,
+      "out": 3
+    },
+    {
+      "total_xp": 241,
+      "out": 3
+    },
+    {
+      "total_xp": 242,
+      "out": 3
+    },
+    {
+      "total_xp": 243,
+      "out": 3
+    },
+    {
+      "total_xp": 244,
+      "out": 3
+    },
+    {
+      "total_xp": 245,
+      "out": 3
+    },
+    {
+      "total_xp": 246,
+      "out": 3
+    },
+    {
+      "total_xp": 247,
+      "out": 3
+    },
+    {
+      "total_xp": 248,
+      "out": 3
+    },
+    {
+      "total_xp": 249,
+      "out": 3
+    },
+    {
+      "total_xp": 250,
+      "out": 3
+    },
+    {
+      "total_xp": 251,
+      "out": 3
+    },
+    {
+      "total_xp": 252,
+      "out": 3
+    },
+    {
+      "total_xp": 253,
+      "out": 3
+    },
+    {
+      "total_xp": 254,
+      "out": 3
+    },
+    {
+      "total_xp": 255,
+      "out": 3
+    },
+    {
+      "total_xp": 256,
+      "out": 3
+    },
+    {
+      "total_xp": 257,
+      "out": 3
+    },
+    {
+      "total_xp": 258,
+      "out": 3
+    },
+    {
+      "total_xp": 259,
+      "out": 3
+    },
+    {
+      "total_xp": 260,
+      "out": 3
+    },
+    {
+      "total_xp": 261,
+      "out": 3
+    },
+    {
+      "total_xp": 262,
+      "out": 3
+    },
+    {
+      "total_xp": 263,
+      "out": 3
+    },
+    {
+      "total_xp": 264,
+      "out": 3
+    },
+    {
+      "total_xp": 265,
+      "out": 3
+    },
+    {
+      "total_xp": 266,
+      "out": 3
+    },
+    {
+      "total_xp": 267,
+      "out": 3
+    },
+    {
+      "total_xp": 268,
+      "out": 3
+    },
+    {
+      "total_xp": 269,
+      "out": 3
+    },
+    {
+      "total_xp": 270,
+      "out": 3
+    },
+    {
+      "total_xp": 271,
+      "out": 3
+    },
+    {
+      "total_xp": 272,
+      "out": 3
+    },
+    {
+      "total_xp": 273,
+      "out": 3
+    },
+    {
+      "total_xp": 274,
+      "out": 3
+    },
+    {
+      "total_xp": 275,
+      "out": 3
+    },
+    {
+      "total_xp": 276,
+      "out": 3
+    },
+    {
+      "total_xp": 277,
+      "out": 3
+    },
+    {
+      "total_xp": 278,
+      "out": 3
+    },
+    {
+      "total_xp": 279,
+      "out": 3
+    },
+    {
+      "total_xp": 280,
+      "out": 3
+    },
+    {
+      "total_xp": 281,
+      "out": 3
+    },
+    {
+      "total_xp": 282,
+      "out": 3
+    },
+    {
+      "total_xp": 283,
+      "out": 3
+    },
+    {
+      "total_xp": 284,
+      "out": 3
+    },
+    {
+      "total_xp": 285,
+      "out": 3
+    },
+    {
+      "total_xp": 286,
+      "out": 3
+    },
+    {
+      "total_xp": 287,
+      "out": 3
+    },
+    {
+      "total_xp": 288,
+      "out": 3
+    },
+    {
+      "total_xp": 289,
+      "out": 3
+    },
+    {
+      "total_xp": 290,
+      "out": 3
+    },
+    {
+      "total_xp": 291,
+      "out": 3
+    },
+    {
+      "total_xp": 292,
+      "out": 3
+    },
+    {
+      "total_xp": 293,
+      "out": 3
+    },
+    {
+      "total_xp": 294,
+      "out": 3
+    },
+    {
+      "total_xp": 295,
+      "out": 3
+    },
+    {
+      "total_xp": 296,
+      "out": 3
+    },
+    {
+      "total_xp": 297,
+      "out": 3
+    },
+    {
+      "total_xp": 298,
+      "out": 3
+    },
+    {
+      "total_xp": 299,
+      "out": 3
+    },
+    {
+      "total_xp": 300,
+      "out": 3
+    },
+    {
+      "total_xp": 301,
+      "out": 3
+    },
+    {
+      "total_xp": 302,
+      "out": 3
+    },
+    {
+      "total_xp": 303,
+      "out": 3
+    },
+    {
+      "total_xp": 304,
+      "out": 3
+    },
+    {
+      "total_xp": 305,
+      "out": 3
+    },
+    {
+      "total_xp": 306,
+      "out": 3
+    },
+    {
+      "total_xp": 307,
+      "out": 3
+    },
+    {
+      "total_xp": 308,
+      "out": 3
+    },
+    {
+      "total_xp": 309,
+      "out": 3
+    },
+    {
+      "total_xp": 310,
+      "out": 3
+    },
+    {
+      "total_xp": 311,
+      "out": 3
+    },
+    {
+      "total_xp": 312,
+      "out": 3
+    },
+    {
+      "total_xp": 313,
+      "out": 3
+    },
+    {
+      "total_xp": 314,
+      "out": 3
+    },
+    {
+      "total_xp": 315,
+      "out": 3
+    },
+    {
+      "total_xp": 316,
+      "out": 3
+    },
+    {
+      "total_xp": 317,
+      "out": 3
+    },
+    {
+      "total_xp": 318,
+      "out": 3
+    },
+    {
+      "total_xp": 319,
+      "out": 3
+    },
+    {
+      "total_xp": 320,
+      "out": 3
+    },
+    {
+      "total_xp": 321,
+      "out": 3
+    },
+    {
+      "total_xp": 322,
+      "out": 3
+    },
+    {
+      "total_xp": 323,
+      "out": 3
+    },
+    {
+      "total_xp": 324,
+      "out": 3
+    },
+    {
+      "total_xp": 325,
+      "out": 3
+    },
+    {
+      "total_xp": 326,
+      "out": 3
+    },
+    {
+      "total_xp": 327,
+      "out": 3
+    },
+    {
+      "total_xp": 328,
+      "out": 3
+    },
+    {
+      "total_xp": 329,
+      "out": 3
+    },
+    {
+      "total_xp": 330,
+      "out": 3
+    },
+    {
+      "total_xp": 331,
+      "out": 3
+    },
+    {
+      "total_xp": 332,
+      "out": 3
+    },
+    {
+      "total_xp": 333,
+      "out": 3
+    },
+    {
+      "total_xp": 334,
+      "out": 3
+    },
+    {
+      "total_xp": 335,
+      "out": 3
+    },
+    {
+      "total_xp": 336,
+      "out": 3
+    },
+    {
+      "total_xp": 337,
+      "out": 3
+    },
+    {
+      "total_xp": 338,
+      "out": 3
+    },
+    {
+      "total_xp": 339,
+      "out": 3
+    },
+    {
+      "total_xp": 340,
+      "out": 3
+    },
+    {
+      "total_xp": 341,
+      "out": 3
+    },
+    {
+      "total_xp": 342,
+      "out": 3
+    },
+    {
+      "total_xp": 343,
+      "out": 3
+    },
+    {
+      "total_xp": 344,
+      "out": 3
+    },
+    {
+      "total_xp": 345,
+      "out": 3
+    },
+    {
+      "total_xp": 346,
+      "out": 3
+    },
+    {
+      "total_xp": 347,
+      "out": 3
+    },
+    {
+      "total_xp": 348,
+      "out": 3
+    },
+    {
+      "total_xp": 349,
+      "out": 3
+    },
+    {
+      "total_xp": 350,
+      "out": 3
+    },
+    {
+      "total_xp": 351,
+      "out": 3
+    },
+    {
+      "total_xp": 352,
+      "out": 3
+    },
+    {
+      "total_xp": 353,
+      "out": 3
+    },
+    {
+      "total_xp": 354,
+      "out": 3
+    },
+    {
+      "total_xp": 355,
+      "out": 3
+    },
+    {
+      "total_xp": 356,
+      "out": 3
+    },
+    {
+      "total_xp": 357,
+      "out": 3
+    },
+    {
+      "total_xp": 358,
+      "out": 3
+    },
+    {
+      "total_xp": 359,
+      "out": 3
+    },
+    {
+      "total_xp": 360,
+      "out": 3
+    },
+    {
+      "total_xp": 361,
+      "out": 3
+    },
+    {
+      "total_xp": 362,
+      "out": 3
+    },
+    {
+      "total_xp": 363,
+      "out": 3
+    },
+    {
+      "total_xp": 364,
+      "out": 3
+    },
+    {
+      "total_xp": 365,
+      "out": 3
+    },
+    {
+      "total_xp": 366,
+      "out": 3
+    },
+    {
+      "total_xp": 367,
+      "out": 3
+    },
+    {
+      "total_xp": 368,
+      "out": 3
+    },
+    {
+      "total_xp": 369,
+      "out": 3
+    },
+    {
+      "total_xp": 370,
+      "out": 3
+    },
+    {
+      "total_xp": 371,
+      "out": 3
+    },
+    {
+      "total_xp": 372,
+      "out": 3
+    },
+    {
+      "total_xp": 373,
+      "out": 3
+    },
+    {
+      "total_xp": 374,
+      "out": 3
+    },
+    {
+      "total_xp": 375,
+      "out": 4
+    },
+    {
+      "total_xp": 376,
+      "out": 4
+    },
+    {
+      "total_xp": 377,
+      "out": 4
+    },
+    {
+      "total_xp": 378,
+      "out": 4
+    },
+    {
+      "total_xp": 379,
+      "out": 4
+    },
+    {
+      "total_xp": 380,
+      "out": 4
+    },
+    {
+      "total_xp": 381,
+      "out": 4
+    },
+    {
+      "total_xp": 382,
+      "out": 4
+    },
+    {
+      "total_xp": 383,
+      "out": 4
+    },
+    {
+      "total_xp": 384,
+      "out": 4
+    },
+    {
+      "total_xp": 385,
+      "out": 4
+    },
+    {
+      "total_xp": 386,
+      "out": 4
+    },
+    {
+      "total_xp": 387,
+      "out": 4
+    },
+    {
+      "total_xp": 388,
+      "out": 4
+    },
+    {
+      "total_xp": 389,
+      "out": 4
+    },
+    {
+      "total_xp": 390,
+      "out": 4
+    },
+    {
+      "total_xp": 391,
+      "out": 4
+    },
+    {
+      "total_xp": 392,
+      "out": 4
+    },
+    {
+      "total_xp": 393,
+      "out": 4
+    },
+    {
+      "total_xp": 394,
+      "out": 4
+    },
+    {
+      "total_xp": 395,
+      "out": 4
+    },
+    {
+      "total_xp": 396,
+      "out": 4
+    },
+    {
+      "total_xp": 397,
+      "out": 4
+    },
+    {
+      "total_xp": 398,
+      "out": 4
+    },
+    {
+      "total_xp": 399,
+      "out": 4
+    },
+    {
+      "total_xp": 598,
+      "out": 4
+    },
+    {
+      "total_xp": 599,
+      "out": 4
+    },
+    {
+      "total_xp": 600,
+      "out": 5
+    },
+    {
+      "total_xp": 601,
+      "out": 5
+    },
+    {
+      "total_xp": 602,
+      "out": 5
+    },
+    {
+      "total_xp": 873,
+      "out": 5
+    },
+    {
+      "total_xp": 874,
+      "out": 5
+    },
+    {
+      "total_xp": 875,
+      "out": 6
+    },
+    {
+      "total_xp": 876,
+      "out": 6
+    },
+    {
+      "total_xp": 877,
+      "out": 6
+    },
+    {
+      "total_xp": 1198,
+      "out": 6
+    },
+    {
+      "total_xp": 1199,
+      "out": 6
+    },
+    {
+      "total_xp": 1200,
+      "out": 7
+    },
+    {
+      "total_xp": 1201,
+      "out": 7
+    },
+    {
+      "total_xp": 1202,
+      "out": 7
+    },
+    {
+      "total_xp": 1573,
+      "out": 7
+    },
+    {
+      "total_xp": 1574,
+      "out": 7
+    },
+    {
+      "total_xp": 1575,
+      "out": 8
+    },
+    {
+      "total_xp": 1576,
+      "out": 8
+    },
+    {
+      "total_xp": 1577,
+      "out": 8
+    },
+    {
+      "total_xp": 1998,
+      "out": 8
+    },
+    {
+      "total_xp": 1999,
+      "out": 8
+    },
+    {
+      "total_xp": 2000,
+      "out": 9
+    },
+    {
+      "total_xp": 2001,
+      "out": 9
+    },
+    {
+      "total_xp": 2002,
+      "out": 9
+    },
+    {
+      "total_xp": 2473,
+      "out": 9
+    },
+    {
+      "total_xp": 2474,
+      "out": 9
+    },
+    {
+      "total_xp": 2475,
+      "out": 10
+    },
+    {
+      "total_xp": 2476,
+      "out": 10
+    },
+    {
+      "total_xp": 2477,
+      "out": 10
+    },
+    {
+      "total_xp": 2998,
+      "out": 10
+    },
+    {
+      "total_xp": 2999,
+      "out": 10
+    },
+    {
+      "total_xp": 3000,
+      "out": 11
+    },
+    {
+      "total_xp": 3001,
+      "out": 11
+    },
+    {
+      "total_xp": 3002,
+      "out": 11
+    },
+    {
+      "total_xp": 3573,
+      "out": 11
+    },
+    {
+      "total_xp": 3574,
+      "out": 11
+    },
+    {
+      "total_xp": 3575,
+      "out": 12
+    },
+    {
+      "total_xp": 3576,
+      "out": 12
+    },
+    {
+      "total_xp": 3577,
+      "out": 12
+    },
+    {
+      "total_xp": 4198,
+      "out": 12
+    },
+    {
+      "total_xp": 4199,
+      "out": 12
+    },
+    {
+      "total_xp": 4200,
+      "out": 13
+    },
+    {
+      "total_xp": 4201,
+      "out": 13
+    },
+    {
+      "total_xp": 4202,
+      "out": 13
+    },
+    {
+      "total_xp": 4873,
+      "out": 13
+    },
+    {
+      "total_xp": 4874,
+      "out": 13
+    },
+    {
+      "total_xp": 4875,
+      "out": 14
+    },
+    {
+      "total_xp": 4876,
+      "out": 14
+    },
+    {
+      "total_xp": 4877,
+      "out": 14
+    },
+    {
+      "total_xp": 5598,
+      "out": 14
+    },
+    {
+      "total_xp": 5599,
+      "out": 14
+    },
+    {
+      "total_xp": 5600,
+      "out": 15
+    },
+    {
+      "total_xp": 5601,
+      "out": 15
+    },
+    {
+      "total_xp": 5602,
+      "out": 15
+    },
+    {
+      "total_xp": 6373,
+      "out": 15
+    },
+    {
+      "total_xp": 6374,
+      "out": 15
+    },
+    {
+      "total_xp": 6375,
+      "out": 16
+    },
+    {
+      "total_xp": 6376,
+      "out": 16
+    },
+    {
+      "total_xp": 6377,
+      "out": 16
+    },
+    {
+      "total_xp": 7198,
+      "out": 16
+    },
+    {
+      "total_xp": 7199,
+      "out": 16
+    },
+    {
+      "total_xp": 7200,
+      "out": 17
+    },
+    {
+      "total_xp": 7201,
+      "out": 17
+    },
+    {
+      "total_xp": 7202,
+      "out": 17
+    },
+    {
+      "total_xp": 8073,
+      "out": 17
+    },
+    {
+      "total_xp": 8074,
+      "out": 17
+    },
+    {
+      "total_xp": 8075,
+      "out": 18
+    },
+    {
+      "total_xp": 8076,
+      "out": 18
+    },
+    {
+      "total_xp": 8077,
+      "out": 18
+    },
+    {
+      "total_xp": 8998,
+      "out": 18
+    },
+    {
+      "total_xp": 8999,
+      "out": 18
+    },
+    {
+      "total_xp": 9000,
+      "out": 19
+    },
+    {
+      "total_xp": 9001,
+      "out": 19
+    },
+    {
+      "total_xp": 9002,
+      "out": 19
+    },
+    {
+      "total_xp": 9973,
+      "out": 19
+    },
+    {
+      "total_xp": 9974,
+      "out": 19
+    },
+    {
+      "total_xp": 9975,
+      "out": 20
+    },
+    {
+      "total_xp": 9976,
+      "out": 20
+    },
+    {
+      "total_xp": 9977,
+      "out": 20
+    },
+    {
+      "total_xp": 10998,
+      "out": 20
+    },
+    {
+      "total_xp": 10999,
+      "out": 20
+    },
+    {
+      "total_xp": 11000,
+      "out": 21
+    },
+    {
+      "total_xp": 11001,
+      "out": 21
+    },
+    {
+      "total_xp": 11002,
+      "out": 21
+    },
+    {
+      "total_xp": 12073,
+      "out": 21
+    },
+    {
+      "total_xp": 12074,
+      "out": 21
+    },
+    {
+      "total_xp": 12075,
+      "out": 22
+    },
+    {
+      "total_xp": 12076,
+      "out": 22
+    },
+    {
+      "total_xp": 12077,
+      "out": 22
+    },
+    {
+      "total_xp": 13198,
+      "out": 22
+    },
+    {
+      "total_xp": 13199,
+      "out": 22
+    },
+    {
+      "total_xp": 13200,
+      "out": 23
+    },
+    {
+      "total_xp": 13201,
+      "out": 23
+    },
+    {
+      "total_xp": 13202,
+      "out": 23
+    },
+    {
+      "total_xp": 14373,
+      "out": 23
+    },
+    {
+      "total_xp": 14374,
+      "out": 23
+    },
+    {
+      "total_xp": 14375,
+      "out": 24
+    },
+    {
+      "total_xp": 14376,
+      "out": 24
+    },
+    {
+      "total_xp": 14377,
+      "out": 24
+    },
+    {
+      "total_xp": 15598,
+      "out": 24
+    },
+    {
+      "total_xp": 15599,
+      "out": 24
+    },
+    {
+      "total_xp": 15600,
+      "out": 25
+    },
+    {
+      "total_xp": 15601,
+      "out": 25
+    },
+    {
+      "total_xp": 15602,
+      "out": 25
+    },
+    {
+      "total_xp": 16873,
+      "out": 25
+    },
+    {
+      "total_xp": 16874,
+      "out": 25
+    },
+    {
+      "total_xp": 16875,
+      "out": 26
+    },
+    {
+      "total_xp": 16876,
+      "out": 26
+    },
+    {
+      "total_xp": 16877,
+      "out": 26
+    },
+    {
+      "total_xp": 18198,
+      "out": 26
+    },
+    {
+      "total_xp": 18199,
+      "out": 26
+    },
+    {
+      "total_xp": 18200,
+      "out": 27
+    },
+    {
+      "total_xp": 18201,
+      "out": 27
+    },
+    {
+      "total_xp": 18202,
+      "out": 27
+    },
+    {
+      "total_xp": 19573,
+      "out": 27
+    },
+    {
+      "total_xp": 19574,
+      "out": 27
+    },
+    {
+      "total_xp": 19575,
+      "out": 28
+    },
+    {
+      "total_xp": 19576,
+      "out": 28
+    },
+    {
+      "total_xp": 19577,
+      "out": 28
+    },
+    {
+      "total_xp": 20998,
+      "out": 28
+    },
+    {
+      "total_xp": 20999,
+      "out": 28
+    },
+    {
+      "total_xp": 21000,
+      "out": 29
+    },
+    {
+      "total_xp": 21001,
+      "out": 29
+    },
+    {
+      "total_xp": 21002,
+      "out": 29
+    },
+    {
+      "total_xp": 22473,
+      "out": 29
+    },
+    {
+      "total_xp": 22474,
+      "out": 29
+    },
+    {
+      "total_xp": 22475,
+      "out": 30
+    },
+    {
+      "total_xp": 22476,
+      "out": 30
+    },
+    {
+      "total_xp": 22477,
+      "out": 30
+    },
+    {
+      "total_xp": 23998,
+      "out": 30
+    },
+    {
+      "total_xp": 23999,
+      "out": 30
+    },
+    {
+      "total_xp": 24000,
+      "out": 31
+    },
+    {
+      "total_xp": 24001,
+      "out": 31
+    },
+    {
+      "total_xp": 24002,
+      "out": 31
+    },
+    {
+      "total_xp": 25573,
+      "out": 31
+    },
+    {
+      "total_xp": 25574,
+      "out": 31
+    },
+    {
+      "total_xp": 25575,
+      "out": 32
+    },
+    {
+      "total_xp": 25576,
+      "out": 32
+    },
+    {
+      "total_xp": 25577,
+      "out": 32
+    },
+    {
+      "total_xp": 27198,
+      "out": 32
+    },
+    {
+      "total_xp": 27199,
+      "out": 32
+    },
+    {
+      "total_xp": 27200,
+      "out": 33
+    },
+    {
+      "total_xp": 27201,
+      "out": 33
+    },
+    {
+      "total_xp": 27202,
+      "out": 33
+    },
+    {
+      "total_xp": 28873,
+      "out": 33
+    },
+    {
+      "total_xp": 28874,
+      "out": 33
+    },
+    {
+      "total_xp": 28875,
+      "out": 34
+    },
+    {
+      "total_xp": 28876,
+      "out": 34
+    },
+    {
+      "total_xp": 28877,
+      "out": 34
+    },
+    {
+      "total_xp": 30598,
+      "out": 34
+    },
+    {
+      "total_xp": 30599,
+      "out": 34
+    },
+    {
+      "total_xp": 30600,
+      "out": 35
+    },
+    {
+      "total_xp": 30601,
+      "out": 35
+    },
+    {
+      "total_xp": 30602,
+      "out": 35
+    },
+    {
+      "total_xp": 32373,
+      "out": 35
+    },
+    {
+      "total_xp": 32374,
+      "out": 35
+    },
+    {
+      "total_xp": 32375,
+      "out": 36
+    },
+    {
+      "total_xp": 32376,
+      "out": 36
+    },
+    {
+      "total_xp": 32377,
+      "out": 36
+    },
+    {
+      "total_xp": 34198,
+      "out": 36
+    },
+    {
+      "total_xp": 34199,
+      "out": 36
+    },
+    {
+      "total_xp": 34200,
+      "out": 37
+    },
+    {
+      "total_xp": 34201,
+      "out": 37
+    },
+    {
+      "total_xp": 34202,
+      "out": 37
+    },
+    {
+      "total_xp": 36073,
+      "out": 37
+    },
+    {
+      "total_xp": 36074,
+      "out": 37
+    },
+    {
+      "total_xp": 36075,
+      "out": 38
+    },
+    {
+      "total_xp": 36076,
+      "out": 38
+    },
+    {
+      "total_xp": 36077,
+      "out": 38
+    },
+    {
+      "total_xp": 37998,
+      "out": 38
+    },
+    {
+      "total_xp": 37999,
+      "out": 38
+    },
+    {
+      "total_xp": 38000,
+      "out": 39
+    },
+    {
+      "total_xp": 38001,
+      "out": 39
+    },
+    {
+      "total_xp": 38002,
+      "out": 39
+    },
+    {
+      "total_xp": 39973,
+      "out": 39
+    },
+    {
+      "total_xp": 39974,
+      "out": 39
+    },
+    {
+      "total_xp": 39975,
+      "out": 40
+    },
+    {
+      "total_xp": 39976,
+      "out": 40
+    },
+    {
+      "total_xp": 39977,
+      "out": 40
+    },
+    {
+      "total_xp": 41998,
+      "out": 40
+    },
+    {
+      "total_xp": 41999,
+      "out": 40
+    },
+    {
+      "total_xp": 42000,
+      "out": 41
+    },
+    {
+      "total_xp": 42001,
+      "out": 41
+    },
+    {
+      "total_xp": 42002,
+      "out": 41
+    },
+    {
+      "total_xp": 44073,
+      "out": 41
+    },
+    {
+      "total_xp": 44074,
+      "out": 41
+    },
+    {
+      "total_xp": 44075,
+      "out": 42
+    },
+    {
+      "total_xp": 44076,
+      "out": 42
+    },
+    {
+      "total_xp": 44077,
+      "out": 42
+    },
+    {
+      "total_xp": 46198,
+      "out": 42
+    },
+    {
+      "total_xp": 46199,
+      "out": 42
+    },
+    {
+      "total_xp": 46200,
+      "out": 43
+    },
+    {
+      "total_xp": 46201,
+      "out": 43
+    },
+    {
+      "total_xp": 46202,
+      "out": 43
+    },
+    {
+      "total_xp": 48373,
+      "out": 43
+    },
+    {
+      "total_xp": 48374,
+      "out": 43
+    },
+    {
+      "total_xp": 48375,
+      "out": 44
+    },
+    {
+      "total_xp": 48376,
+      "out": 44
+    },
+    {
+      "total_xp": 48377,
+      "out": 44
+    },
+    {
+      "total_xp": 50598,
+      "out": 44
+    },
+    {
+      "total_xp": 50599,
+      "out": 44
+    },
+    {
+      "total_xp": 50600,
+      "out": 45
+    },
+    {
+      "total_xp": 50601,
+      "out": 45
+    },
+    {
+      "total_xp": 50602,
+      "out": 45
+    },
+    {
+      "total_xp": 52873,
+      "out": 45
+    },
+    {
+      "total_xp": 52874,
+      "out": 45
+    },
+    {
+      "total_xp": 52875,
+      "out": 46
+    },
+    {
+      "total_xp": 52876,
+      "out": 46
+    },
+    {
+      "total_xp": 52877,
+      "out": 46
+    },
+    {
+      "total_xp": 55198,
+      "out": 46
+    },
+    {
+      "total_xp": 55199,
+      "out": 46
+    },
+    {
+      "total_xp": 55200,
+      "out": 47
+    },
+    {
+      "total_xp": 55201,
+      "out": 47
+    },
+    {
+      "total_xp": 55202,
+      "out": 47
+    },
+    {
+      "total_xp": 57573,
+      "out": 47
+    },
+    {
+      "total_xp": 57574,
+      "out": 47
+    },
+    {
+      "total_xp": 57575,
+      "out": 48
+    },
+    {
+      "total_xp": 57576,
+      "out": 48
+    },
+    {
+      "total_xp": 57577,
+      "out": 48
+    },
+    {
+      "total_xp": 59998,
+      "out": 48
+    },
+    {
+      "total_xp": 59999,
+      "out": 48
+    },
+    {
+      "total_xp": 60000,
+      "out": 49
+    },
+    {
+      "total_xp": 60001,
+      "out": 49
+    },
+    {
+      "total_xp": 60002,
+      "out": 49
+    },
+    {
+      "total_xp": 62473,
+      "out": 49
+    },
+    {
+      "total_xp": 62474,
+      "out": 49
+    },
+    {
+      "total_xp": 62475,
+      "out": 50
+    },
+    {
+      "total_xp": 62476,
+      "out": 50
+    },
+    {
+      "total_xp": 62477,
+      "out": 50
+    },
+    {
+      "total_xp": 64998,
+      "out": 50
+    },
+    {
+      "total_xp": 64999,
+      "out": 50
+    },
+    {
+      "total_xp": 65000,
+      "out": 51
+    },
+    {
+      "total_xp": 65001,
+      "out": 51
+    },
+    {
+      "total_xp": 65002,
+      "out": 51
+    },
+    {
+      "total_xp": 67573,
+      "out": 51
+    },
+    {
+      "total_xp": 67574,
+      "out": 51
+    },
+    {
+      "total_xp": 67575,
+      "out": 52
+    },
+    {
+      "total_xp": 67576,
+      "out": 52
+    },
+    {
+      "total_xp": 67577,
+      "out": 52
+    },
+    {
+      "total_xp": 70198,
+      "out": 52
+    },
+    {
+      "total_xp": 70199,
+      "out": 52
+    },
+    {
+      "total_xp": 70200,
+      "out": 53
+    },
+    {
+      "total_xp": 70201,
+      "out": 53
+    },
+    {
+      "total_xp": 70202,
+      "out": 53
+    },
+    {
+      "total_xp": 72873,
+      "out": 53
+    },
+    {
+      "total_xp": 72874,
+      "out": 53
+    },
+    {
+      "total_xp": 72875,
+      "out": 54
+    },
+    {
+      "total_xp": 72876,
+      "out": 54
+    },
+    {
+      "total_xp": 72877,
+      "out": 54
+    },
+    {
+      "total_xp": 75598,
+      "out": 54
+    },
+    {
+      "total_xp": 75599,
+      "out": 54
+    },
+    {
+      "total_xp": 75600,
+      "out": 55
+    },
+    {
+      "total_xp": 75601,
+      "out": 55
+    },
+    {
+      "total_xp": 75602,
+      "out": 55
+    },
+    {
+      "total_xp": 78373,
+      "out": 55
+    },
+    {
+      "total_xp": 78374,
+      "out": 55
+    },
+    {
+      "total_xp": 78375,
+      "out": 56
+    },
+    {
+      "total_xp": 78376,
+      "out": 56
+    },
+    {
+      "total_xp": 78377,
+      "out": 56
+    },
+    {
+      "total_xp": 81198,
+      "out": 56
+    },
+    {
+      "total_xp": 81199,
+      "out": 56
+    },
+    {
+      "total_xp": 81200,
+      "out": 57
+    },
+    {
+      "total_xp": 81201,
+      "out": 57
+    },
+    {
+      "total_xp": 81202,
+      "out": 57
+    },
+    {
+      "total_xp": 84073,
+      "out": 57
+    },
+    {
+      "total_xp": 84074,
+      "out": 57
+    },
+    {
+      "total_xp": 84075,
+      "out": 58
+    },
+    {
+      "total_xp": 84076,
+      "out": 58
+    },
+    {
+      "total_xp": 84077,
+      "out": 58
+    },
+    {
+      "total_xp": 86998,
+      "out": 58
+    },
+    {
+      "total_xp": 86999,
+      "out": 58
+    },
+    {
+      "total_xp": 87000,
+      "out": 59
+    },
+    {
+      "total_xp": 87001,
+      "out": 59
+    },
+    {
+      "total_xp": 87002,
+      "out": 59
+    },
+    {
+      "total_xp": 89973,
+      "out": 59
+    },
+    {
+      "total_xp": 89974,
+      "out": 59
+    },
+    {
+      "total_xp": 89975,
+      "out": 60
+    },
+    {
+      "total_xp": 89976,
+      "out": 60
+    },
+    {
+      "total_xp": 89977,
+      "out": 60
+    },
+    {
+      "total_xp": 92998,
+      "out": 60
+    },
+    {
+      "total_xp": 92999,
+      "out": 60
+    },
+    {
+      "total_xp": 93000,
+      "out": 61
+    },
+    {
+      "total_xp": 93001,
+      "out": 61
+    },
+    {
+      "total_xp": 93002,
+      "out": 61
+    },
+    {
+      "total_xp": 96073,
+      "out": 61
+    },
+    {
+      "total_xp": 96074,
+      "out": 61
+    },
+    {
+      "total_xp": 96075,
+      "out": 62
+    },
+    {
+      "total_xp": 96076,
+      "out": 62
+    },
+    {
+      "total_xp": 96077,
+      "out": 62
+    },
+    {
+      "total_xp": 99198,
+      "out": 62
+    },
+    {
+      "total_xp": 99199,
+      "out": 62
+    },
+    {
+      "total_xp": 99200,
+      "out": 63
+    },
+    {
+      "total_xp": 99201,
+      "out": 63
+    },
+    {
+      "total_xp": 99202,
+      "out": 63
+    },
+    {
+      "total_xp": 102373,
+      "out": 63
+    },
+    {
+      "total_xp": 102374,
+      "out": 63
+    },
+    {
+      "total_xp": 102375,
+      "out": 64
+    },
+    {
+      "total_xp": 102376,
+      "out": 64
+    },
+    {
+      "total_xp": 102377,
+      "out": 64
+    },
+    {
+      "total_xp": 105598,
+      "out": 64
+    },
+    {
+      "total_xp": 105599,
+      "out": 64
+    },
+    {
+      "total_xp": 105600,
+      "out": 65
+    },
+    {
+      "total_xp": 105601,
+      "out": 65
+    },
+    {
+      "total_xp": 105602,
+      "out": 65
+    },
+    {
+      "total_xp": 108873,
+      "out": 65
+    },
+    {
+      "total_xp": 108874,
+      "out": 65
+    },
+    {
+      "total_xp": 108875,
+      "out": 66
+    },
+    {
+      "total_xp": 108876,
+      "out": 66
+    },
+    {
+      "total_xp": 108877,
+      "out": 66
+    },
+    {
+      "total_xp": 112198,
+      "out": 66
+    },
+    {
+      "total_xp": 112199,
+      "out": 66
+    },
+    {
+      "total_xp": 112200,
+      "out": 67
+    },
+    {
+      "total_xp": 112201,
+      "out": 67
+    },
+    {
+      "total_xp": 112202,
+      "out": 67
+    },
+    {
+      "total_xp": 115573,
+      "out": 67
+    },
+    {
+      "total_xp": 115574,
+      "out": 67
+    },
+    {
+      "total_xp": 115575,
+      "out": 68
+    },
+    {
+      "total_xp": 115576,
+      "out": 68
+    },
+    {
+      "total_xp": 115577,
+      "out": 68
+    },
+    {
+      "total_xp": 118998,
+      "out": 68
+    },
+    {
+      "total_xp": 118999,
+      "out": 68
+    },
+    {
+      "total_xp": 119000,
+      "out": 69
+    },
+    {
+      "total_xp": 119001,
+      "out": 69
+    },
+    {
+      "total_xp": 119002,
+      "out": 69
+    },
+    {
+      "total_xp": 122473,
+      "out": 69
+    },
+    {
+      "total_xp": 122474,
+      "out": 69
+    },
+    {
+      "total_xp": 122475,
+      "out": 70
+    },
+    {
+      "total_xp": 122476,
+      "out": 70
+    },
+    {
+      "total_xp": 122477,
+      "out": 70
+    },
+    {
+      "total_xp": 125998,
+      "out": 70
+    },
+    {
+      "total_xp": 125999,
+      "out": 70
+    },
+    {
+      "total_xp": 126000,
+      "out": 71
+    },
+    {
+      "total_xp": 126001,
+      "out": 71
+    },
+    {
+      "total_xp": 126002,
+      "out": 71
+    },
+    {
+      "total_xp": 129573,
+      "out": 71
+    },
+    {
+      "total_xp": 129574,
+      "out": 71
+    },
+    {
+      "total_xp": 129575,
+      "out": 72
+    },
+    {
+      "total_xp": 129576,
+      "out": 72
+    },
+    {
+      "total_xp": 129577,
+      "out": 72
+    },
+    {
+      "total_xp": 133198,
+      "out": 72
+    },
+    {
+      "total_xp": 133199,
+      "out": 72
+    },
+    {
+      "total_xp": 133200,
+      "out": 73
+    },
+    {
+      "total_xp": 133201,
+      "out": 73
+    },
+    {
+      "total_xp": 133202,
+      "out": 73
+    },
+    {
+      "total_xp": 136873,
+      "out": 73
+    },
+    {
+      "total_xp": 136874,
+      "out": 73
+    },
+    {
+      "total_xp": 136875,
+      "out": 74
+    },
+    {
+      "total_xp": 136876,
+      "out": 74
+    },
+    {
+      "total_xp": 136877,
+      "out": 74
+    },
+    {
+      "total_xp": 140598,
+      "out": 74
+    },
+    {
+      "total_xp": 140599,
+      "out": 74
+    },
+    {
+      "total_xp": 140600,
+      "out": 75
+    },
+    {
+      "total_xp": 140601,
+      "out": 75
+    },
+    {
+      "total_xp": 140602,
+      "out": 75
+    },
+    {
+      "total_xp": 144373,
+      "out": 75
+    },
+    {
+      "total_xp": 144374,
+      "out": 75
+    },
+    {
+      "total_xp": 144375,
+      "out": 76
+    },
+    {
+      "total_xp": 144376,
+      "out": 76
+    },
+    {
+      "total_xp": 144377,
+      "out": 76
+    },
+    {
+      "total_xp": 148198,
+      "out": 76
+    },
+    {
+      "total_xp": 148199,
+      "out": 76
+    },
+    {
+      "total_xp": 148200,
+      "out": 77
+    },
+    {
+      "total_xp": 148201,
+      "out": 77
+    },
+    {
+      "total_xp": 148202,
+      "out": 77
+    },
+    {
+      "total_xp": 152073,
+      "out": 77
+    },
+    {
+      "total_xp": 152074,
+      "out": 77
+    },
+    {
+      "total_xp": 152075,
+      "out": 78
+    },
+    {
+      "total_xp": 152076,
+      "out": 78
+    },
+    {
+      "total_xp": 152077,
+      "out": 78
+    },
+    {
+      "total_xp": 155998,
+      "out": 78
+    },
+    {
+      "total_xp": 155999,
+      "out": 78
+    },
+    {
+      "total_xp": 156000,
+      "out": 79
+    },
+    {
+      "total_xp": 156001,
+      "out": 79
+    },
+    {
+      "total_xp": 156002,
+      "out": 79
+    },
+    {
+      "total_xp": 159973,
+      "out": 79
+    },
+    {
+      "total_xp": 159974,
+      "out": 79
+    },
+    {
+      "total_xp": 159975,
+      "out": 80
+    },
+    {
+      "total_xp": 159976,
+      "out": 80
+    },
+    {
+      "total_xp": 159977,
+      "out": 80
+    },
+    {
+      "total_xp": 163998,
+      "out": 80
+    },
+    {
+      "total_xp": 163999,
+      "out": 80
+    },
+    {
+      "total_xp": 164000,
+      "out": 81
+    },
+    {
+      "total_xp": 164001,
+      "out": 81
+    },
+    {
+      "total_xp": 164002,
+      "out": 81
+    },
+    {
+      "total_xp": 168073,
+      "out": 81
+    },
+    {
+      "total_xp": 168074,
+      "out": 81
+    },
+    {
+      "total_xp": 168075,
+      "out": 82
+    },
+    {
+      "total_xp": 168076,
+      "out": 82
+    },
+    {
+      "total_xp": 168077,
+      "out": 82
+    },
+    {
+      "total_xp": 172198,
+      "out": 82
+    },
+    {
+      "total_xp": 172199,
+      "out": 82
+    },
+    {
+      "total_xp": 172200,
+      "out": 83
+    },
+    {
+      "total_xp": 172201,
+      "out": 83
+    },
+    {
+      "total_xp": 172202,
+      "out": 83
+    },
+    {
+      "total_xp": 176373,
+      "out": 83
+    },
+    {
+      "total_xp": 176374,
+      "out": 83
+    },
+    {
+      "total_xp": 176375,
+      "out": 84
+    },
+    {
+      "total_xp": 176376,
+      "out": 84
+    },
+    {
+      "total_xp": 176377,
+      "out": 84
+    },
+    {
+      "total_xp": 180598,
+      "out": 84
+    },
+    {
+      "total_xp": 180599,
+      "out": 84
+    },
+    {
+      "total_xp": 180600,
+      "out": 85
+    },
+    {
+      "total_xp": 180601,
+      "out": 85
+    },
+    {
+      "total_xp": 180602,
+      "out": 85
+    },
+    {
+      "total_xp": 184873,
+      "out": 85
+    },
+    {
+      "total_xp": 184874,
+      "out": 85
+    },
+    {
+      "total_xp": 184875,
+      "out": 86
+    },
+    {
+      "total_xp": 184876,
+      "out": 86
+    },
+    {
+      "total_xp": 184877,
+      "out": 86
+    },
+    {
+      "total_xp": 189198,
+      "out": 86
+    },
+    {
+      "total_xp": 189199,
+      "out": 86
+    },
+    {
+      "total_xp": 189200,
+      "out": 87
+    },
+    {
+      "total_xp": 189201,
+      "out": 87
+    },
+    {
+      "total_xp": 189202,
+      "out": 87
+    },
+    {
+      "total_xp": 193573,
+      "out": 87
+    },
+    {
+      "total_xp": 193574,
+      "out": 87
+    },
+    {
+      "total_xp": 193575,
+      "out": 88
+    },
+    {
+      "total_xp": 193576,
+      "out": 88
+    },
+    {
+      "total_xp": 193577,
+      "out": 88
+    },
+    {
+      "total_xp": 197998,
+      "out": 88
+    },
+    {
+      "total_xp": 197999,
+      "out": 88
+    },
+    {
+      "total_xp": 198000,
+      "out": 89
+    },
+    {
+      "total_xp": 198001,
+      "out": 89
+    },
+    {
+      "total_xp": 198002,
+      "out": 89
+    },
+    {
+      "total_xp": 202473,
+      "out": 89
+    },
+    {
+      "total_xp": 202474,
+      "out": 89
+    },
+    {
+      "total_xp": 202475,
+      "out": 90
+    },
+    {
+      "total_xp": 202476,
+      "out": 90
+    },
+    {
+      "total_xp": 202477,
+      "out": 90
+    },
+    {
+      "total_xp": 206998,
+      "out": 90
+    },
+    {
+      "total_xp": 206999,
+      "out": 90
+    },
+    {
+      "total_xp": 207000,
+      "out": 91
+    },
+    {
+      "total_xp": 207001,
+      "out": 91
+    },
+    {
+      "total_xp": 207002,
+      "out": 91
+    },
+    {
+      "total_xp": 211573,
+      "out": 91
+    },
+    {
+      "total_xp": 211574,
+      "out": 91
+    },
+    {
+      "total_xp": 211575,
+      "out": 92
+    },
+    {
+      "total_xp": 211576,
+      "out": 92
+    },
+    {
+      "total_xp": 211577,
+      "out": 92
+    },
+    {
+      "total_xp": 216198,
+      "out": 92
+    },
+    {
+      "total_xp": 216199,
+      "out": 92
+    },
+    {
+      "total_xp": 216200,
+      "out": 93
+    },
+    {
+      "total_xp": 216201,
+      "out": 93
+    },
+    {
+      "total_xp": 216202,
+      "out": 93
+    },
+    {
+      "total_xp": 220873,
+      "out": 93
+    },
+    {
+      "total_xp": 220874,
+      "out": 93
+    },
+    {
+      "total_xp": 220875,
+      "out": 94
+    },
+    {
+      "total_xp": 220876,
+      "out": 94
+    },
+    {
+      "total_xp": 220877,
+      "out": 94
+    },
+    {
+      "total_xp": 225598,
+      "out": 94
+    },
+    {
+      "total_xp": 225599,
+      "out": 94
+    },
+    {
+      "total_xp": 225600,
+      "out": 95
+    },
+    {
+      "total_xp": 225601,
+      "out": 95
+    },
+    {
+      "total_xp": 225602,
+      "out": 95
+    },
+    {
+      "total_xp": 230373,
+      "out": 95
+    },
+    {
+      "total_xp": 230374,
+      "out": 95
+    },
+    {
+      "total_xp": 230375,
+      "out": 96
+    },
+    {
+      "total_xp": 230376,
+      "out": 96
+    },
+    {
+      "total_xp": 230377,
+      "out": 96
+    },
+    {
+      "total_xp": 235198,
+      "out": 96
+    },
+    {
+      "total_xp": 235199,
+      "out": 96
+    },
+    {
+      "total_xp": 235200,
+      "out": 97
+    },
+    {
+      "total_xp": 235201,
+      "out": 97
+    },
+    {
+      "total_xp": 235202,
+      "out": 97
+    },
+    {
+      "total_xp": 240073,
+      "out": 97
+    },
+    {
+      "total_xp": 240074,
+      "out": 97
+    },
+    {
+      "total_xp": 240075,
+      "out": 98
+    },
+    {
+      "total_xp": 240076,
+      "out": 98
+    },
+    {
+      "total_xp": 240077,
+      "out": 98
+    },
+    {
+      "total_xp": 244998,
+      "out": 98
+    },
+    {
+      "total_xp": 244999,
+      "out": 98
+    },
+    {
+      "total_xp": 245000,
+      "out": 99
+    },
+    {
+      "total_xp": 245001,
+      "out": 99
+    },
+    {
+      "total_xp": 245002,
+      "out": 99
+    },
+    {
+      "total_xp": 249973,
+      "out": 99
+    },
+    {
+      "total_xp": 249974,
+      "out": 99
+    },
+    {
+      "total_xp": 249975,
+      "out": 100
+    },
+    {
+      "total_xp": 249976,
+      "out": 100
+    },
+    {
+      "total_xp": 249977,
+      "out": 100
+    },
+    {
+      "total_xp": 5000,
+      "out": 14
+    },
+    {
+      "total_xp": 12345,
+      "out": 22
+    },
+    {
+      "total_xp": 99999,
+      "out": 63
+    },
+    {
+      "total_xp": 250000,
+      "out": 100
+    },
+    {
+      "total_xp": 1000000,
+      "out": 100
+    },
+    {
+      "total_xp": 2147483647,
+      "out": 100
+    }
+  ],
+  "level_progress": [
+    {
+      "total_xp": -5,
+      "earned_in_level": 0,
+      "level_span": 75,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": -4,
+      "earned_in_level": 0,
+      "level_span": 75,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": -3,
+      "earned_in_level": 0,
+      "level_span": 75,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": -2,
+      "earned_in_level": 0,
+      "level_span": 75,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": -1,
+      "earned_in_level": 0,
+      "level_span": 75,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 0,
+      "earned_in_level": 0,
+      "level_span": 75,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 1,
+      "earned_in_level": 1,
+      "level_span": 75,
+      "ratio": 0.0133333333333333
+    },
+    {
+      "total_xp": 2,
+      "earned_in_level": 2,
+      "level_span": 75,
+      "ratio": 0.0266666666666667
+    },
+    {
+      "total_xp": 3,
+      "earned_in_level": 3,
+      "level_span": 75,
+      "ratio": 0.04
+    },
+    {
+      "total_xp": 4,
+      "earned_in_level": 4,
+      "level_span": 75,
+      "ratio": 0.0533333333333333
+    },
+    {
+      "total_xp": 5,
+      "earned_in_level": 5,
+      "level_span": 75,
+      "ratio": 0.0666666666666667
+    },
+    {
+      "total_xp": 6,
+      "earned_in_level": 6,
+      "level_span": 75,
+      "ratio": 0.08
+    },
+    {
+      "total_xp": 7,
+      "earned_in_level": 7,
+      "level_span": 75,
+      "ratio": 0.0933333333333333
+    },
+    {
+      "total_xp": 8,
+      "earned_in_level": 8,
+      "level_span": 75,
+      "ratio": 0.106666666666667
+    },
+    {
+      "total_xp": 9,
+      "earned_in_level": 9,
+      "level_span": 75,
+      "ratio": 0.12
+    },
+    {
+      "total_xp": 10,
+      "earned_in_level": 10,
+      "level_span": 75,
+      "ratio": 0.133333333333333
+    },
+    {
+      "total_xp": 11,
+      "earned_in_level": 11,
+      "level_span": 75,
+      "ratio": 0.146666666666667
+    },
+    {
+      "total_xp": 12,
+      "earned_in_level": 12,
+      "level_span": 75,
+      "ratio": 0.16
+    },
+    {
+      "total_xp": 13,
+      "earned_in_level": 13,
+      "level_span": 75,
+      "ratio": 0.173333333333333
+    },
+    {
+      "total_xp": 14,
+      "earned_in_level": 14,
+      "level_span": 75,
+      "ratio": 0.186666666666667
+    },
+    {
+      "total_xp": 15,
+      "earned_in_level": 15,
+      "level_span": 75,
+      "ratio": 0.2
+    },
+    {
+      "total_xp": 16,
+      "earned_in_level": 16,
+      "level_span": 75,
+      "ratio": 0.213333333333333
+    },
+    {
+      "total_xp": 17,
+      "earned_in_level": 17,
+      "level_span": 75,
+      "ratio": 0.226666666666667
+    },
+    {
+      "total_xp": 18,
+      "earned_in_level": 18,
+      "level_span": 75,
+      "ratio": 0.24
+    },
+    {
+      "total_xp": 19,
+      "earned_in_level": 19,
+      "level_span": 75,
+      "ratio": 0.253333333333333
+    },
+    {
+      "total_xp": 20,
+      "earned_in_level": 20,
+      "level_span": 75,
+      "ratio": 0.266666666666667
+    },
+    {
+      "total_xp": 21,
+      "earned_in_level": 21,
+      "level_span": 75,
+      "ratio": 0.28
+    },
+    {
+      "total_xp": 22,
+      "earned_in_level": 22,
+      "level_span": 75,
+      "ratio": 0.293333333333333
+    },
+    {
+      "total_xp": 23,
+      "earned_in_level": 23,
+      "level_span": 75,
+      "ratio": 0.306666666666667
+    },
+    {
+      "total_xp": 24,
+      "earned_in_level": 24,
+      "level_span": 75,
+      "ratio": 0.32
+    },
+    {
+      "total_xp": 25,
+      "earned_in_level": 25,
+      "level_span": 75,
+      "ratio": 0.333333333333333
+    },
+    {
+      "total_xp": 26,
+      "earned_in_level": 26,
+      "level_span": 75,
+      "ratio": 0.346666666666667
+    },
+    {
+      "total_xp": 27,
+      "earned_in_level": 27,
+      "level_span": 75,
+      "ratio": 0.36
+    },
+    {
+      "total_xp": 28,
+      "earned_in_level": 28,
+      "level_span": 75,
+      "ratio": 0.373333333333333
+    },
+    {
+      "total_xp": 29,
+      "earned_in_level": 29,
+      "level_span": 75,
+      "ratio": 0.386666666666667
+    },
+    {
+      "total_xp": 30,
+      "earned_in_level": 30,
+      "level_span": 75,
+      "ratio": 0.4
+    },
+    {
+      "total_xp": 31,
+      "earned_in_level": 31,
+      "level_span": 75,
+      "ratio": 0.413333333333333
+    },
+    {
+      "total_xp": 32,
+      "earned_in_level": 32,
+      "level_span": 75,
+      "ratio": 0.426666666666667
+    },
+    {
+      "total_xp": 33,
+      "earned_in_level": 33,
+      "level_span": 75,
+      "ratio": 0.44
+    },
+    {
+      "total_xp": 34,
+      "earned_in_level": 34,
+      "level_span": 75,
+      "ratio": 0.453333333333333
+    },
+    {
+      "total_xp": 35,
+      "earned_in_level": 35,
+      "level_span": 75,
+      "ratio": 0.466666666666667
+    },
+    {
+      "total_xp": 36,
+      "earned_in_level": 36,
+      "level_span": 75,
+      "ratio": 0.48
+    },
+    {
+      "total_xp": 37,
+      "earned_in_level": 37,
+      "level_span": 75,
+      "ratio": 0.493333333333333
+    },
+    {
+      "total_xp": 38,
+      "earned_in_level": 38,
+      "level_span": 75,
+      "ratio": 0.506666666666667
+    },
+    {
+      "total_xp": 39,
+      "earned_in_level": 39,
+      "level_span": 75,
+      "ratio": 0.52
+    },
+    {
+      "total_xp": 40,
+      "earned_in_level": 40,
+      "level_span": 75,
+      "ratio": 0.533333333333333
+    },
+    {
+      "total_xp": 41,
+      "earned_in_level": 41,
+      "level_span": 75,
+      "ratio": 0.546666666666667
+    },
+    {
+      "total_xp": 42,
+      "earned_in_level": 42,
+      "level_span": 75,
+      "ratio": 0.56
+    },
+    {
+      "total_xp": 43,
+      "earned_in_level": 43,
+      "level_span": 75,
+      "ratio": 0.573333333333333
+    },
+    {
+      "total_xp": 44,
+      "earned_in_level": 44,
+      "level_span": 75,
+      "ratio": 0.586666666666667
+    },
+    {
+      "total_xp": 45,
+      "earned_in_level": 45,
+      "level_span": 75,
+      "ratio": 0.6
+    },
+    {
+      "total_xp": 46,
+      "earned_in_level": 46,
+      "level_span": 75,
+      "ratio": 0.613333333333333
+    },
+    {
+      "total_xp": 47,
+      "earned_in_level": 47,
+      "level_span": 75,
+      "ratio": 0.626666666666667
+    },
+    {
+      "total_xp": 48,
+      "earned_in_level": 48,
+      "level_span": 75,
+      "ratio": 0.64
+    },
+    {
+      "total_xp": 49,
+      "earned_in_level": 49,
+      "level_span": 75,
+      "ratio": 0.653333333333333
+    },
+    {
+      "total_xp": 50,
+      "earned_in_level": 50,
+      "level_span": 75,
+      "ratio": 0.666666666666667
+    },
+    {
+      "total_xp": 51,
+      "earned_in_level": 51,
+      "level_span": 75,
+      "ratio": 0.68
+    },
+    {
+      "total_xp": 52,
+      "earned_in_level": 52,
+      "level_span": 75,
+      "ratio": 0.693333333333333
+    },
+    {
+      "total_xp": 53,
+      "earned_in_level": 53,
+      "level_span": 75,
+      "ratio": 0.706666666666667
+    },
+    {
+      "total_xp": 54,
+      "earned_in_level": 54,
+      "level_span": 75,
+      "ratio": 0.72
+    },
+    {
+      "total_xp": 55,
+      "earned_in_level": 55,
+      "level_span": 75,
+      "ratio": 0.733333333333333
+    },
+    {
+      "total_xp": 56,
+      "earned_in_level": 56,
+      "level_span": 75,
+      "ratio": 0.746666666666667
+    },
+    {
+      "total_xp": 57,
+      "earned_in_level": 57,
+      "level_span": 75,
+      "ratio": 0.76
+    },
+    {
+      "total_xp": 58,
+      "earned_in_level": 58,
+      "level_span": 75,
+      "ratio": 0.773333333333333
+    },
+    {
+      "total_xp": 59,
+      "earned_in_level": 59,
+      "level_span": 75,
+      "ratio": 0.786666666666667
+    },
+    {
+      "total_xp": 60,
+      "earned_in_level": 60,
+      "level_span": 75,
+      "ratio": 0.8
+    },
+    {
+      "total_xp": 61,
+      "earned_in_level": 61,
+      "level_span": 75,
+      "ratio": 0.813333333333333
+    },
+    {
+      "total_xp": 62,
+      "earned_in_level": 62,
+      "level_span": 75,
+      "ratio": 0.826666666666667
+    },
+    {
+      "total_xp": 63,
+      "earned_in_level": 63,
+      "level_span": 75,
+      "ratio": 0.84
+    },
+    {
+      "total_xp": 64,
+      "earned_in_level": 64,
+      "level_span": 75,
+      "ratio": 0.853333333333333
+    },
+    {
+      "total_xp": 65,
+      "earned_in_level": 65,
+      "level_span": 75,
+      "ratio": 0.866666666666667
+    },
+    {
+      "total_xp": 66,
+      "earned_in_level": 66,
+      "level_span": 75,
+      "ratio": 0.88
+    },
+    {
+      "total_xp": 67,
+      "earned_in_level": 67,
+      "level_span": 75,
+      "ratio": 0.893333333333333
+    },
+    {
+      "total_xp": 68,
+      "earned_in_level": 68,
+      "level_span": 75,
+      "ratio": 0.906666666666667
+    },
+    {
+      "total_xp": 69,
+      "earned_in_level": 69,
+      "level_span": 75,
+      "ratio": 0.92
+    },
+    {
+      "total_xp": 70,
+      "earned_in_level": 70,
+      "level_span": 75,
+      "ratio": 0.933333333333333
+    },
+    {
+      "total_xp": 71,
+      "earned_in_level": 71,
+      "level_span": 75,
+      "ratio": 0.946666666666667
+    },
+    {
+      "total_xp": 72,
+      "earned_in_level": 72,
+      "level_span": 75,
+      "ratio": 0.96
+    },
+    {
+      "total_xp": 73,
+      "earned_in_level": 73,
+      "level_span": 75,
+      "ratio": 0.973333333333333
+    },
+    {
+      "total_xp": 74,
+      "earned_in_level": 74,
+      "level_span": 75,
+      "ratio": 0.986666666666667
+    },
+    {
+      "total_xp": 75,
+      "earned_in_level": 0,
+      "level_span": 125,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 76,
+      "earned_in_level": 1,
+      "level_span": 125,
+      "ratio": 0.008
+    },
+    {
+      "total_xp": 77,
+      "earned_in_level": 2,
+      "level_span": 125,
+      "ratio": 0.016
+    },
+    {
+      "total_xp": 78,
+      "earned_in_level": 3,
+      "level_span": 125,
+      "ratio": 0.024
+    },
+    {
+      "total_xp": 79,
+      "earned_in_level": 4,
+      "level_span": 125,
+      "ratio": 0.032
+    },
+    {
+      "total_xp": 80,
+      "earned_in_level": 5,
+      "level_span": 125,
+      "ratio": 0.04
+    },
+    {
+      "total_xp": 81,
+      "earned_in_level": 6,
+      "level_span": 125,
+      "ratio": 0.048
+    },
+    {
+      "total_xp": 82,
+      "earned_in_level": 7,
+      "level_span": 125,
+      "ratio": 0.056
+    },
+    {
+      "total_xp": 83,
+      "earned_in_level": 8,
+      "level_span": 125,
+      "ratio": 0.064
+    },
+    {
+      "total_xp": 84,
+      "earned_in_level": 9,
+      "level_span": 125,
+      "ratio": 0.072
+    },
+    {
+      "total_xp": 85,
+      "earned_in_level": 10,
+      "level_span": 125,
+      "ratio": 0.08
+    },
+    {
+      "total_xp": 86,
+      "earned_in_level": 11,
+      "level_span": 125,
+      "ratio": 0.088
+    },
+    {
+      "total_xp": 87,
+      "earned_in_level": 12,
+      "level_span": 125,
+      "ratio": 0.096
+    },
+    {
+      "total_xp": 88,
+      "earned_in_level": 13,
+      "level_span": 125,
+      "ratio": 0.104
+    },
+    {
+      "total_xp": 89,
+      "earned_in_level": 14,
+      "level_span": 125,
+      "ratio": 0.112
+    },
+    {
+      "total_xp": 90,
+      "earned_in_level": 15,
+      "level_span": 125,
+      "ratio": 0.12
+    },
+    {
+      "total_xp": 91,
+      "earned_in_level": 16,
+      "level_span": 125,
+      "ratio": 0.128
+    },
+    {
+      "total_xp": 92,
+      "earned_in_level": 17,
+      "level_span": 125,
+      "ratio": 0.136
+    },
+    {
+      "total_xp": 93,
+      "earned_in_level": 18,
+      "level_span": 125,
+      "ratio": 0.144
+    },
+    {
+      "total_xp": 94,
+      "earned_in_level": 19,
+      "level_span": 125,
+      "ratio": 0.152
+    },
+    {
+      "total_xp": 95,
+      "earned_in_level": 20,
+      "level_span": 125,
+      "ratio": 0.16
+    },
+    {
+      "total_xp": 96,
+      "earned_in_level": 21,
+      "level_span": 125,
+      "ratio": 0.168
+    },
+    {
+      "total_xp": 97,
+      "earned_in_level": 22,
+      "level_span": 125,
+      "ratio": 0.176
+    },
+    {
+      "total_xp": 98,
+      "earned_in_level": 23,
+      "level_span": 125,
+      "ratio": 0.184
+    },
+    {
+      "total_xp": 99,
+      "earned_in_level": 24,
+      "level_span": 125,
+      "ratio": 0.192
+    },
+    {
+      "total_xp": 100,
+      "earned_in_level": 25,
+      "level_span": 125,
+      "ratio": 0.2
+    },
+    {
+      "total_xp": 101,
+      "earned_in_level": 26,
+      "level_span": 125,
+      "ratio": 0.208
+    },
+    {
+      "total_xp": 102,
+      "earned_in_level": 27,
+      "level_span": 125,
+      "ratio": 0.216
+    },
+    {
+      "total_xp": 103,
+      "earned_in_level": 28,
+      "level_span": 125,
+      "ratio": 0.224
+    },
+    {
+      "total_xp": 104,
+      "earned_in_level": 29,
+      "level_span": 125,
+      "ratio": 0.232
+    },
+    {
+      "total_xp": 105,
+      "earned_in_level": 30,
+      "level_span": 125,
+      "ratio": 0.24
+    },
+    {
+      "total_xp": 106,
+      "earned_in_level": 31,
+      "level_span": 125,
+      "ratio": 0.248
+    },
+    {
+      "total_xp": 107,
+      "earned_in_level": 32,
+      "level_span": 125,
+      "ratio": 0.256
+    },
+    {
+      "total_xp": 108,
+      "earned_in_level": 33,
+      "level_span": 125,
+      "ratio": 0.264
+    },
+    {
+      "total_xp": 109,
+      "earned_in_level": 34,
+      "level_span": 125,
+      "ratio": 0.272
+    },
+    {
+      "total_xp": 110,
+      "earned_in_level": 35,
+      "level_span": 125,
+      "ratio": 0.28
+    },
+    {
+      "total_xp": 111,
+      "earned_in_level": 36,
+      "level_span": 125,
+      "ratio": 0.288
+    },
+    {
+      "total_xp": 112,
+      "earned_in_level": 37,
+      "level_span": 125,
+      "ratio": 0.296
+    },
+    {
+      "total_xp": 113,
+      "earned_in_level": 38,
+      "level_span": 125,
+      "ratio": 0.304
+    },
+    {
+      "total_xp": 114,
+      "earned_in_level": 39,
+      "level_span": 125,
+      "ratio": 0.312
+    },
+    {
+      "total_xp": 115,
+      "earned_in_level": 40,
+      "level_span": 125,
+      "ratio": 0.32
+    },
+    {
+      "total_xp": 116,
+      "earned_in_level": 41,
+      "level_span": 125,
+      "ratio": 0.328
+    },
+    {
+      "total_xp": 117,
+      "earned_in_level": 42,
+      "level_span": 125,
+      "ratio": 0.336
+    },
+    {
+      "total_xp": 118,
+      "earned_in_level": 43,
+      "level_span": 125,
+      "ratio": 0.344
+    },
+    {
+      "total_xp": 119,
+      "earned_in_level": 44,
+      "level_span": 125,
+      "ratio": 0.352
+    },
+    {
+      "total_xp": 120,
+      "earned_in_level": 45,
+      "level_span": 125,
+      "ratio": 0.36
+    },
+    {
+      "total_xp": 121,
+      "earned_in_level": 46,
+      "level_span": 125,
+      "ratio": 0.368
+    },
+    {
+      "total_xp": 122,
+      "earned_in_level": 47,
+      "level_span": 125,
+      "ratio": 0.376
+    },
+    {
+      "total_xp": 123,
+      "earned_in_level": 48,
+      "level_span": 125,
+      "ratio": 0.384
+    },
+    {
+      "total_xp": 124,
+      "earned_in_level": 49,
+      "level_span": 125,
+      "ratio": 0.392
+    },
+    {
+      "total_xp": 125,
+      "earned_in_level": 50,
+      "level_span": 125,
+      "ratio": 0.4
+    },
+    {
+      "total_xp": 126,
+      "earned_in_level": 51,
+      "level_span": 125,
+      "ratio": 0.408
+    },
+    {
+      "total_xp": 127,
+      "earned_in_level": 52,
+      "level_span": 125,
+      "ratio": 0.416
+    },
+    {
+      "total_xp": 128,
+      "earned_in_level": 53,
+      "level_span": 125,
+      "ratio": 0.424
+    },
+    {
+      "total_xp": 129,
+      "earned_in_level": 54,
+      "level_span": 125,
+      "ratio": 0.432
+    },
+    {
+      "total_xp": 130,
+      "earned_in_level": 55,
+      "level_span": 125,
+      "ratio": 0.44
+    },
+    {
+      "total_xp": 131,
+      "earned_in_level": 56,
+      "level_span": 125,
+      "ratio": 0.448
+    },
+    {
+      "total_xp": 132,
+      "earned_in_level": 57,
+      "level_span": 125,
+      "ratio": 0.456
+    },
+    {
+      "total_xp": 133,
+      "earned_in_level": 58,
+      "level_span": 125,
+      "ratio": 0.464
+    },
+    {
+      "total_xp": 134,
+      "earned_in_level": 59,
+      "level_span": 125,
+      "ratio": 0.472
+    },
+    {
+      "total_xp": 135,
+      "earned_in_level": 60,
+      "level_span": 125,
+      "ratio": 0.48
+    },
+    {
+      "total_xp": 136,
+      "earned_in_level": 61,
+      "level_span": 125,
+      "ratio": 0.488
+    },
+    {
+      "total_xp": 137,
+      "earned_in_level": 62,
+      "level_span": 125,
+      "ratio": 0.496
+    },
+    {
+      "total_xp": 138,
+      "earned_in_level": 63,
+      "level_span": 125,
+      "ratio": 0.504
+    },
+    {
+      "total_xp": 139,
+      "earned_in_level": 64,
+      "level_span": 125,
+      "ratio": 0.512
+    },
+    {
+      "total_xp": 140,
+      "earned_in_level": 65,
+      "level_span": 125,
+      "ratio": 0.52
+    },
+    {
+      "total_xp": 141,
+      "earned_in_level": 66,
+      "level_span": 125,
+      "ratio": 0.528
+    },
+    {
+      "total_xp": 142,
+      "earned_in_level": 67,
+      "level_span": 125,
+      "ratio": 0.536
+    },
+    {
+      "total_xp": 143,
+      "earned_in_level": 68,
+      "level_span": 125,
+      "ratio": 0.544
+    },
+    {
+      "total_xp": 144,
+      "earned_in_level": 69,
+      "level_span": 125,
+      "ratio": 0.552
+    },
+    {
+      "total_xp": 145,
+      "earned_in_level": 70,
+      "level_span": 125,
+      "ratio": 0.56
+    },
+    {
+      "total_xp": 146,
+      "earned_in_level": 71,
+      "level_span": 125,
+      "ratio": 0.568
+    },
+    {
+      "total_xp": 147,
+      "earned_in_level": 72,
+      "level_span": 125,
+      "ratio": 0.576
+    },
+    {
+      "total_xp": 148,
+      "earned_in_level": 73,
+      "level_span": 125,
+      "ratio": 0.584
+    },
+    {
+      "total_xp": 149,
+      "earned_in_level": 74,
+      "level_span": 125,
+      "ratio": 0.592
+    },
+    {
+      "total_xp": 150,
+      "earned_in_level": 75,
+      "level_span": 125,
+      "ratio": 0.6
+    },
+    {
+      "total_xp": 151,
+      "earned_in_level": 76,
+      "level_span": 125,
+      "ratio": 0.608
+    },
+    {
+      "total_xp": 152,
+      "earned_in_level": 77,
+      "level_span": 125,
+      "ratio": 0.616
+    },
+    {
+      "total_xp": 153,
+      "earned_in_level": 78,
+      "level_span": 125,
+      "ratio": 0.624
+    },
+    {
+      "total_xp": 154,
+      "earned_in_level": 79,
+      "level_span": 125,
+      "ratio": 0.632
+    },
+    {
+      "total_xp": 155,
+      "earned_in_level": 80,
+      "level_span": 125,
+      "ratio": 0.64
+    },
+    {
+      "total_xp": 156,
+      "earned_in_level": 81,
+      "level_span": 125,
+      "ratio": 0.648
+    },
+    {
+      "total_xp": 157,
+      "earned_in_level": 82,
+      "level_span": 125,
+      "ratio": 0.656
+    },
+    {
+      "total_xp": 158,
+      "earned_in_level": 83,
+      "level_span": 125,
+      "ratio": 0.664
+    },
+    {
+      "total_xp": 159,
+      "earned_in_level": 84,
+      "level_span": 125,
+      "ratio": 0.672
+    },
+    {
+      "total_xp": 160,
+      "earned_in_level": 85,
+      "level_span": 125,
+      "ratio": 0.68
+    },
+    {
+      "total_xp": 161,
+      "earned_in_level": 86,
+      "level_span": 125,
+      "ratio": 0.688
+    },
+    {
+      "total_xp": 162,
+      "earned_in_level": 87,
+      "level_span": 125,
+      "ratio": 0.696
+    },
+    {
+      "total_xp": 163,
+      "earned_in_level": 88,
+      "level_span": 125,
+      "ratio": 0.704
+    },
+    {
+      "total_xp": 164,
+      "earned_in_level": 89,
+      "level_span": 125,
+      "ratio": 0.712
+    },
+    {
+      "total_xp": 165,
+      "earned_in_level": 90,
+      "level_span": 125,
+      "ratio": 0.72
+    },
+    {
+      "total_xp": 166,
+      "earned_in_level": 91,
+      "level_span": 125,
+      "ratio": 0.728
+    },
+    {
+      "total_xp": 167,
+      "earned_in_level": 92,
+      "level_span": 125,
+      "ratio": 0.736
+    },
+    {
+      "total_xp": 168,
+      "earned_in_level": 93,
+      "level_span": 125,
+      "ratio": 0.744
+    },
+    {
+      "total_xp": 169,
+      "earned_in_level": 94,
+      "level_span": 125,
+      "ratio": 0.752
+    },
+    {
+      "total_xp": 170,
+      "earned_in_level": 95,
+      "level_span": 125,
+      "ratio": 0.76
+    },
+    {
+      "total_xp": 171,
+      "earned_in_level": 96,
+      "level_span": 125,
+      "ratio": 0.768
+    },
+    {
+      "total_xp": 172,
+      "earned_in_level": 97,
+      "level_span": 125,
+      "ratio": 0.776
+    },
+    {
+      "total_xp": 173,
+      "earned_in_level": 98,
+      "level_span": 125,
+      "ratio": 0.784
+    },
+    {
+      "total_xp": 174,
+      "earned_in_level": 99,
+      "level_span": 125,
+      "ratio": 0.792
+    },
+    {
+      "total_xp": 175,
+      "earned_in_level": 100,
+      "level_span": 125,
+      "ratio": 0.8
+    },
+    {
+      "total_xp": 176,
+      "earned_in_level": 101,
+      "level_span": 125,
+      "ratio": 0.808
+    },
+    {
+      "total_xp": 177,
+      "earned_in_level": 102,
+      "level_span": 125,
+      "ratio": 0.816
+    },
+    {
+      "total_xp": 178,
+      "earned_in_level": 103,
+      "level_span": 125,
+      "ratio": 0.824
+    },
+    {
+      "total_xp": 179,
+      "earned_in_level": 104,
+      "level_span": 125,
+      "ratio": 0.832
+    },
+    {
+      "total_xp": 180,
+      "earned_in_level": 105,
+      "level_span": 125,
+      "ratio": 0.84
+    },
+    {
+      "total_xp": 181,
+      "earned_in_level": 106,
+      "level_span": 125,
+      "ratio": 0.848
+    },
+    {
+      "total_xp": 182,
+      "earned_in_level": 107,
+      "level_span": 125,
+      "ratio": 0.856
+    },
+    {
+      "total_xp": 183,
+      "earned_in_level": 108,
+      "level_span": 125,
+      "ratio": 0.864
+    },
+    {
+      "total_xp": 184,
+      "earned_in_level": 109,
+      "level_span": 125,
+      "ratio": 0.872
+    },
+    {
+      "total_xp": 185,
+      "earned_in_level": 110,
+      "level_span": 125,
+      "ratio": 0.88
+    },
+    {
+      "total_xp": 186,
+      "earned_in_level": 111,
+      "level_span": 125,
+      "ratio": 0.888
+    },
+    {
+      "total_xp": 187,
+      "earned_in_level": 112,
+      "level_span": 125,
+      "ratio": 0.896
+    },
+    {
+      "total_xp": 188,
+      "earned_in_level": 113,
+      "level_span": 125,
+      "ratio": 0.904
+    },
+    {
+      "total_xp": 189,
+      "earned_in_level": 114,
+      "level_span": 125,
+      "ratio": 0.912
+    },
+    {
+      "total_xp": 190,
+      "earned_in_level": 115,
+      "level_span": 125,
+      "ratio": 0.92
+    },
+    {
+      "total_xp": 191,
+      "earned_in_level": 116,
+      "level_span": 125,
+      "ratio": 0.928
+    },
+    {
+      "total_xp": 192,
+      "earned_in_level": 117,
+      "level_span": 125,
+      "ratio": 0.936
+    },
+    {
+      "total_xp": 193,
+      "earned_in_level": 118,
+      "level_span": 125,
+      "ratio": 0.944
+    },
+    {
+      "total_xp": 194,
+      "earned_in_level": 119,
+      "level_span": 125,
+      "ratio": 0.952
+    },
+    {
+      "total_xp": 195,
+      "earned_in_level": 120,
+      "level_span": 125,
+      "ratio": 0.96
+    },
+    {
+      "total_xp": 196,
+      "earned_in_level": 121,
+      "level_span": 125,
+      "ratio": 0.968
+    },
+    {
+      "total_xp": 197,
+      "earned_in_level": 122,
+      "level_span": 125,
+      "ratio": 0.976
+    },
+    {
+      "total_xp": 198,
+      "earned_in_level": 123,
+      "level_span": 125,
+      "ratio": 0.984
+    },
+    {
+      "total_xp": 199,
+      "earned_in_level": 124,
+      "level_span": 125,
+      "ratio": 0.992
+    },
+    {
+      "total_xp": 200,
+      "earned_in_level": 0,
+      "level_span": 175,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 201,
+      "earned_in_level": 1,
+      "level_span": 175,
+      "ratio": 0.00571428571428571
+    },
+    {
+      "total_xp": 202,
+      "earned_in_level": 2,
+      "level_span": 175,
+      "ratio": 0.0114285714285714
+    },
+    {
+      "total_xp": 203,
+      "earned_in_level": 3,
+      "level_span": 175,
+      "ratio": 0.0171428571428571
+    },
+    {
+      "total_xp": 204,
+      "earned_in_level": 4,
+      "level_span": 175,
+      "ratio": 0.0228571428571429
+    },
+    {
+      "total_xp": 205,
+      "earned_in_level": 5,
+      "level_span": 175,
+      "ratio": 0.0285714285714286
+    },
+    {
+      "total_xp": 206,
+      "earned_in_level": 6,
+      "level_span": 175,
+      "ratio": 0.0342857142857143
+    },
+    {
+      "total_xp": 207,
+      "earned_in_level": 7,
+      "level_span": 175,
+      "ratio": 0.04
+    },
+    {
+      "total_xp": 208,
+      "earned_in_level": 8,
+      "level_span": 175,
+      "ratio": 0.0457142857142857
+    },
+    {
+      "total_xp": 209,
+      "earned_in_level": 9,
+      "level_span": 175,
+      "ratio": 0.0514285714285714
+    },
+    {
+      "total_xp": 210,
+      "earned_in_level": 10,
+      "level_span": 175,
+      "ratio": 0.0571428571428571
+    },
+    {
+      "total_xp": 211,
+      "earned_in_level": 11,
+      "level_span": 175,
+      "ratio": 0.0628571428571429
+    },
+    {
+      "total_xp": 212,
+      "earned_in_level": 12,
+      "level_span": 175,
+      "ratio": 0.0685714285714286
+    },
+    {
+      "total_xp": 213,
+      "earned_in_level": 13,
+      "level_span": 175,
+      "ratio": 0.0742857142857143
+    },
+    {
+      "total_xp": 214,
+      "earned_in_level": 14,
+      "level_span": 175,
+      "ratio": 0.08
+    },
+    {
+      "total_xp": 215,
+      "earned_in_level": 15,
+      "level_span": 175,
+      "ratio": 0.0857142857142857
+    },
+    {
+      "total_xp": 216,
+      "earned_in_level": 16,
+      "level_span": 175,
+      "ratio": 0.0914285714285714
+    },
+    {
+      "total_xp": 217,
+      "earned_in_level": 17,
+      "level_span": 175,
+      "ratio": 0.0971428571428571
+    },
+    {
+      "total_xp": 218,
+      "earned_in_level": 18,
+      "level_span": 175,
+      "ratio": 0.102857142857143
+    },
+    {
+      "total_xp": 219,
+      "earned_in_level": 19,
+      "level_span": 175,
+      "ratio": 0.108571428571429
+    },
+    {
+      "total_xp": 220,
+      "earned_in_level": 20,
+      "level_span": 175,
+      "ratio": 0.114285714285714
+    },
+    {
+      "total_xp": 221,
+      "earned_in_level": 21,
+      "level_span": 175,
+      "ratio": 0.12
+    },
+    {
+      "total_xp": 222,
+      "earned_in_level": 22,
+      "level_span": 175,
+      "ratio": 0.125714285714286
+    },
+    {
+      "total_xp": 223,
+      "earned_in_level": 23,
+      "level_span": 175,
+      "ratio": 0.131428571428571
+    },
+    {
+      "total_xp": 224,
+      "earned_in_level": 24,
+      "level_span": 175,
+      "ratio": 0.137142857142857
+    },
+    {
+      "total_xp": 225,
+      "earned_in_level": 25,
+      "level_span": 175,
+      "ratio": 0.142857142857143
+    },
+    {
+      "total_xp": 226,
+      "earned_in_level": 26,
+      "level_span": 175,
+      "ratio": 0.148571428571429
+    },
+    {
+      "total_xp": 227,
+      "earned_in_level": 27,
+      "level_span": 175,
+      "ratio": 0.154285714285714
+    },
+    {
+      "total_xp": 228,
+      "earned_in_level": 28,
+      "level_span": 175,
+      "ratio": 0.16
+    },
+    {
+      "total_xp": 229,
+      "earned_in_level": 29,
+      "level_span": 175,
+      "ratio": 0.165714285714286
+    },
+    {
+      "total_xp": 230,
+      "earned_in_level": 30,
+      "level_span": 175,
+      "ratio": 0.171428571428571
+    },
+    {
+      "total_xp": 231,
+      "earned_in_level": 31,
+      "level_span": 175,
+      "ratio": 0.177142857142857
+    },
+    {
+      "total_xp": 232,
+      "earned_in_level": 32,
+      "level_span": 175,
+      "ratio": 0.182857142857143
+    },
+    {
+      "total_xp": 233,
+      "earned_in_level": 33,
+      "level_span": 175,
+      "ratio": 0.188571428571429
+    },
+    {
+      "total_xp": 234,
+      "earned_in_level": 34,
+      "level_span": 175,
+      "ratio": 0.194285714285714
+    },
+    {
+      "total_xp": 235,
+      "earned_in_level": 35,
+      "level_span": 175,
+      "ratio": 0.2
+    },
+    {
+      "total_xp": 236,
+      "earned_in_level": 36,
+      "level_span": 175,
+      "ratio": 0.205714285714286
+    },
+    {
+      "total_xp": 237,
+      "earned_in_level": 37,
+      "level_span": 175,
+      "ratio": 0.211428571428571
+    },
+    {
+      "total_xp": 238,
+      "earned_in_level": 38,
+      "level_span": 175,
+      "ratio": 0.217142857142857
+    },
+    {
+      "total_xp": 239,
+      "earned_in_level": 39,
+      "level_span": 175,
+      "ratio": 0.222857142857143
+    },
+    {
+      "total_xp": 240,
+      "earned_in_level": 40,
+      "level_span": 175,
+      "ratio": 0.228571428571429
+    },
+    {
+      "total_xp": 241,
+      "earned_in_level": 41,
+      "level_span": 175,
+      "ratio": 0.234285714285714
+    },
+    {
+      "total_xp": 242,
+      "earned_in_level": 42,
+      "level_span": 175,
+      "ratio": 0.24
+    },
+    {
+      "total_xp": 243,
+      "earned_in_level": 43,
+      "level_span": 175,
+      "ratio": 0.245714285714286
+    },
+    {
+      "total_xp": 244,
+      "earned_in_level": 44,
+      "level_span": 175,
+      "ratio": 0.251428571428571
+    },
+    {
+      "total_xp": 245,
+      "earned_in_level": 45,
+      "level_span": 175,
+      "ratio": 0.257142857142857
+    },
+    {
+      "total_xp": 246,
+      "earned_in_level": 46,
+      "level_span": 175,
+      "ratio": 0.262857142857143
+    },
+    {
+      "total_xp": 247,
+      "earned_in_level": 47,
+      "level_span": 175,
+      "ratio": 0.268571428571429
+    },
+    {
+      "total_xp": 248,
+      "earned_in_level": 48,
+      "level_span": 175,
+      "ratio": 0.274285714285714
+    },
+    {
+      "total_xp": 249,
+      "earned_in_level": 49,
+      "level_span": 175,
+      "ratio": 0.28
+    },
+    {
+      "total_xp": 250,
+      "earned_in_level": 50,
+      "level_span": 175,
+      "ratio": 0.285714285714286
+    },
+    {
+      "total_xp": 251,
+      "earned_in_level": 51,
+      "level_span": 175,
+      "ratio": 0.291428571428571
+    },
+    {
+      "total_xp": 252,
+      "earned_in_level": 52,
+      "level_span": 175,
+      "ratio": 0.297142857142857
+    },
+    {
+      "total_xp": 253,
+      "earned_in_level": 53,
+      "level_span": 175,
+      "ratio": 0.302857142857143
+    },
+    {
+      "total_xp": 254,
+      "earned_in_level": 54,
+      "level_span": 175,
+      "ratio": 0.308571428571429
+    },
+    {
+      "total_xp": 255,
+      "earned_in_level": 55,
+      "level_span": 175,
+      "ratio": 0.314285714285714
+    },
+    {
+      "total_xp": 256,
+      "earned_in_level": 56,
+      "level_span": 175,
+      "ratio": 0.32
+    },
+    {
+      "total_xp": 257,
+      "earned_in_level": 57,
+      "level_span": 175,
+      "ratio": 0.325714285714286
+    },
+    {
+      "total_xp": 258,
+      "earned_in_level": 58,
+      "level_span": 175,
+      "ratio": 0.331428571428571
+    },
+    {
+      "total_xp": 259,
+      "earned_in_level": 59,
+      "level_span": 175,
+      "ratio": 0.337142857142857
+    },
+    {
+      "total_xp": 260,
+      "earned_in_level": 60,
+      "level_span": 175,
+      "ratio": 0.342857142857143
+    },
+    {
+      "total_xp": 261,
+      "earned_in_level": 61,
+      "level_span": 175,
+      "ratio": 0.348571428571429
+    },
+    {
+      "total_xp": 262,
+      "earned_in_level": 62,
+      "level_span": 175,
+      "ratio": 0.354285714285714
+    },
+    {
+      "total_xp": 263,
+      "earned_in_level": 63,
+      "level_span": 175,
+      "ratio": 0.36
+    },
+    {
+      "total_xp": 264,
+      "earned_in_level": 64,
+      "level_span": 175,
+      "ratio": 0.365714285714286
+    },
+    {
+      "total_xp": 265,
+      "earned_in_level": 65,
+      "level_span": 175,
+      "ratio": 0.371428571428571
+    },
+    {
+      "total_xp": 266,
+      "earned_in_level": 66,
+      "level_span": 175,
+      "ratio": 0.377142857142857
+    },
+    {
+      "total_xp": 267,
+      "earned_in_level": 67,
+      "level_span": 175,
+      "ratio": 0.382857142857143
+    },
+    {
+      "total_xp": 268,
+      "earned_in_level": 68,
+      "level_span": 175,
+      "ratio": 0.388571428571429
+    },
+    {
+      "total_xp": 269,
+      "earned_in_level": 69,
+      "level_span": 175,
+      "ratio": 0.394285714285714
+    },
+    {
+      "total_xp": 270,
+      "earned_in_level": 70,
+      "level_span": 175,
+      "ratio": 0.4
+    },
+    {
+      "total_xp": 271,
+      "earned_in_level": 71,
+      "level_span": 175,
+      "ratio": 0.405714285714286
+    },
+    {
+      "total_xp": 272,
+      "earned_in_level": 72,
+      "level_span": 175,
+      "ratio": 0.411428571428571
+    },
+    {
+      "total_xp": 273,
+      "earned_in_level": 73,
+      "level_span": 175,
+      "ratio": 0.417142857142857
+    },
+    {
+      "total_xp": 274,
+      "earned_in_level": 74,
+      "level_span": 175,
+      "ratio": 0.422857142857143
+    },
+    {
+      "total_xp": 275,
+      "earned_in_level": 75,
+      "level_span": 175,
+      "ratio": 0.428571428571429
+    },
+    {
+      "total_xp": 276,
+      "earned_in_level": 76,
+      "level_span": 175,
+      "ratio": 0.434285714285714
+    },
+    {
+      "total_xp": 277,
+      "earned_in_level": 77,
+      "level_span": 175,
+      "ratio": 0.44
+    },
+    {
+      "total_xp": 278,
+      "earned_in_level": 78,
+      "level_span": 175,
+      "ratio": 0.445714285714286
+    },
+    {
+      "total_xp": 279,
+      "earned_in_level": 79,
+      "level_span": 175,
+      "ratio": 0.451428571428571
+    },
+    {
+      "total_xp": 280,
+      "earned_in_level": 80,
+      "level_span": 175,
+      "ratio": 0.457142857142857
+    },
+    {
+      "total_xp": 281,
+      "earned_in_level": 81,
+      "level_span": 175,
+      "ratio": 0.462857142857143
+    },
+    {
+      "total_xp": 282,
+      "earned_in_level": 82,
+      "level_span": 175,
+      "ratio": 0.468571428571429
+    },
+    {
+      "total_xp": 283,
+      "earned_in_level": 83,
+      "level_span": 175,
+      "ratio": 0.474285714285714
+    },
+    {
+      "total_xp": 284,
+      "earned_in_level": 84,
+      "level_span": 175,
+      "ratio": 0.48
+    },
+    {
+      "total_xp": 285,
+      "earned_in_level": 85,
+      "level_span": 175,
+      "ratio": 0.485714285714286
+    },
+    {
+      "total_xp": 286,
+      "earned_in_level": 86,
+      "level_span": 175,
+      "ratio": 0.491428571428571
+    },
+    {
+      "total_xp": 287,
+      "earned_in_level": 87,
+      "level_span": 175,
+      "ratio": 0.497142857142857
+    },
+    {
+      "total_xp": 288,
+      "earned_in_level": 88,
+      "level_span": 175,
+      "ratio": 0.502857142857143
+    },
+    {
+      "total_xp": 289,
+      "earned_in_level": 89,
+      "level_span": 175,
+      "ratio": 0.508571428571429
+    },
+    {
+      "total_xp": 290,
+      "earned_in_level": 90,
+      "level_span": 175,
+      "ratio": 0.514285714285714
+    },
+    {
+      "total_xp": 291,
+      "earned_in_level": 91,
+      "level_span": 175,
+      "ratio": 0.52
+    },
+    {
+      "total_xp": 292,
+      "earned_in_level": 92,
+      "level_span": 175,
+      "ratio": 0.525714285714286
+    },
+    {
+      "total_xp": 293,
+      "earned_in_level": 93,
+      "level_span": 175,
+      "ratio": 0.531428571428571
+    },
+    {
+      "total_xp": 294,
+      "earned_in_level": 94,
+      "level_span": 175,
+      "ratio": 0.537142857142857
+    },
+    {
+      "total_xp": 295,
+      "earned_in_level": 95,
+      "level_span": 175,
+      "ratio": 0.542857142857143
+    },
+    {
+      "total_xp": 296,
+      "earned_in_level": 96,
+      "level_span": 175,
+      "ratio": 0.548571428571429
+    },
+    {
+      "total_xp": 297,
+      "earned_in_level": 97,
+      "level_span": 175,
+      "ratio": 0.554285714285714
+    },
+    {
+      "total_xp": 298,
+      "earned_in_level": 98,
+      "level_span": 175,
+      "ratio": 0.56
+    },
+    {
+      "total_xp": 299,
+      "earned_in_level": 99,
+      "level_span": 175,
+      "ratio": 0.565714285714286
+    },
+    {
+      "total_xp": 300,
+      "earned_in_level": 100,
+      "level_span": 175,
+      "ratio": 0.571428571428571
+    },
+    {
+      "total_xp": 301,
+      "earned_in_level": 101,
+      "level_span": 175,
+      "ratio": 0.577142857142857
+    },
+    {
+      "total_xp": 302,
+      "earned_in_level": 102,
+      "level_span": 175,
+      "ratio": 0.582857142857143
+    },
+    {
+      "total_xp": 303,
+      "earned_in_level": 103,
+      "level_span": 175,
+      "ratio": 0.588571428571429
+    },
+    {
+      "total_xp": 304,
+      "earned_in_level": 104,
+      "level_span": 175,
+      "ratio": 0.594285714285714
+    },
+    {
+      "total_xp": 305,
+      "earned_in_level": 105,
+      "level_span": 175,
+      "ratio": 0.6
+    },
+    {
+      "total_xp": 306,
+      "earned_in_level": 106,
+      "level_span": 175,
+      "ratio": 0.605714285714286
+    },
+    {
+      "total_xp": 307,
+      "earned_in_level": 107,
+      "level_span": 175,
+      "ratio": 0.611428571428571
+    },
+    {
+      "total_xp": 308,
+      "earned_in_level": 108,
+      "level_span": 175,
+      "ratio": 0.617142857142857
+    },
+    {
+      "total_xp": 309,
+      "earned_in_level": 109,
+      "level_span": 175,
+      "ratio": 0.622857142857143
+    },
+    {
+      "total_xp": 310,
+      "earned_in_level": 110,
+      "level_span": 175,
+      "ratio": 0.628571428571429
+    },
+    {
+      "total_xp": 311,
+      "earned_in_level": 111,
+      "level_span": 175,
+      "ratio": 0.634285714285714
+    },
+    {
+      "total_xp": 312,
+      "earned_in_level": 112,
+      "level_span": 175,
+      "ratio": 0.64
+    },
+    {
+      "total_xp": 313,
+      "earned_in_level": 113,
+      "level_span": 175,
+      "ratio": 0.645714285714286
+    },
+    {
+      "total_xp": 314,
+      "earned_in_level": 114,
+      "level_span": 175,
+      "ratio": 0.651428571428571
+    },
+    {
+      "total_xp": 315,
+      "earned_in_level": 115,
+      "level_span": 175,
+      "ratio": 0.657142857142857
+    },
+    {
+      "total_xp": 316,
+      "earned_in_level": 116,
+      "level_span": 175,
+      "ratio": 0.662857142857143
+    },
+    {
+      "total_xp": 317,
+      "earned_in_level": 117,
+      "level_span": 175,
+      "ratio": 0.668571428571429
+    },
+    {
+      "total_xp": 318,
+      "earned_in_level": 118,
+      "level_span": 175,
+      "ratio": 0.674285714285714
+    },
+    {
+      "total_xp": 319,
+      "earned_in_level": 119,
+      "level_span": 175,
+      "ratio": 0.68
+    },
+    {
+      "total_xp": 320,
+      "earned_in_level": 120,
+      "level_span": 175,
+      "ratio": 0.685714285714286
+    },
+    {
+      "total_xp": 321,
+      "earned_in_level": 121,
+      "level_span": 175,
+      "ratio": 0.691428571428571
+    },
+    {
+      "total_xp": 322,
+      "earned_in_level": 122,
+      "level_span": 175,
+      "ratio": 0.697142857142857
+    },
+    {
+      "total_xp": 323,
+      "earned_in_level": 123,
+      "level_span": 175,
+      "ratio": 0.702857142857143
+    },
+    {
+      "total_xp": 324,
+      "earned_in_level": 124,
+      "level_span": 175,
+      "ratio": 0.708571428571429
+    },
+    {
+      "total_xp": 325,
+      "earned_in_level": 125,
+      "level_span": 175,
+      "ratio": 0.714285714285714
+    },
+    {
+      "total_xp": 326,
+      "earned_in_level": 126,
+      "level_span": 175,
+      "ratio": 0.72
+    },
+    {
+      "total_xp": 327,
+      "earned_in_level": 127,
+      "level_span": 175,
+      "ratio": 0.725714285714286
+    },
+    {
+      "total_xp": 328,
+      "earned_in_level": 128,
+      "level_span": 175,
+      "ratio": 0.731428571428571
+    },
+    {
+      "total_xp": 329,
+      "earned_in_level": 129,
+      "level_span": 175,
+      "ratio": 0.737142857142857
+    },
+    {
+      "total_xp": 330,
+      "earned_in_level": 130,
+      "level_span": 175,
+      "ratio": 0.742857142857143
+    },
+    {
+      "total_xp": 331,
+      "earned_in_level": 131,
+      "level_span": 175,
+      "ratio": 0.748571428571429
+    },
+    {
+      "total_xp": 332,
+      "earned_in_level": 132,
+      "level_span": 175,
+      "ratio": 0.754285714285714
+    },
+    {
+      "total_xp": 333,
+      "earned_in_level": 133,
+      "level_span": 175,
+      "ratio": 0.76
+    },
+    {
+      "total_xp": 334,
+      "earned_in_level": 134,
+      "level_span": 175,
+      "ratio": 0.765714285714286
+    },
+    {
+      "total_xp": 335,
+      "earned_in_level": 135,
+      "level_span": 175,
+      "ratio": 0.771428571428571
+    },
+    {
+      "total_xp": 336,
+      "earned_in_level": 136,
+      "level_span": 175,
+      "ratio": 0.777142857142857
+    },
+    {
+      "total_xp": 337,
+      "earned_in_level": 137,
+      "level_span": 175,
+      "ratio": 0.782857142857143
+    },
+    {
+      "total_xp": 338,
+      "earned_in_level": 138,
+      "level_span": 175,
+      "ratio": 0.788571428571429
+    },
+    {
+      "total_xp": 339,
+      "earned_in_level": 139,
+      "level_span": 175,
+      "ratio": 0.794285714285714
+    },
+    {
+      "total_xp": 340,
+      "earned_in_level": 140,
+      "level_span": 175,
+      "ratio": 0.8
+    },
+    {
+      "total_xp": 341,
+      "earned_in_level": 141,
+      "level_span": 175,
+      "ratio": 0.805714285714286
+    },
+    {
+      "total_xp": 342,
+      "earned_in_level": 142,
+      "level_span": 175,
+      "ratio": 0.811428571428571
+    },
+    {
+      "total_xp": 343,
+      "earned_in_level": 143,
+      "level_span": 175,
+      "ratio": 0.817142857142857
+    },
+    {
+      "total_xp": 344,
+      "earned_in_level": 144,
+      "level_span": 175,
+      "ratio": 0.822857142857143
+    },
+    {
+      "total_xp": 345,
+      "earned_in_level": 145,
+      "level_span": 175,
+      "ratio": 0.828571428571429
+    },
+    {
+      "total_xp": 346,
+      "earned_in_level": 146,
+      "level_span": 175,
+      "ratio": 0.834285714285714
+    },
+    {
+      "total_xp": 347,
+      "earned_in_level": 147,
+      "level_span": 175,
+      "ratio": 0.84
+    },
+    {
+      "total_xp": 348,
+      "earned_in_level": 148,
+      "level_span": 175,
+      "ratio": 0.845714285714286
+    },
+    {
+      "total_xp": 349,
+      "earned_in_level": 149,
+      "level_span": 175,
+      "ratio": 0.851428571428571
+    },
+    {
+      "total_xp": 350,
+      "earned_in_level": 150,
+      "level_span": 175,
+      "ratio": 0.857142857142857
+    },
+    {
+      "total_xp": 351,
+      "earned_in_level": 151,
+      "level_span": 175,
+      "ratio": 0.862857142857143
+    },
+    {
+      "total_xp": 352,
+      "earned_in_level": 152,
+      "level_span": 175,
+      "ratio": 0.868571428571429
+    },
+    {
+      "total_xp": 353,
+      "earned_in_level": 153,
+      "level_span": 175,
+      "ratio": 0.874285714285714
+    },
+    {
+      "total_xp": 354,
+      "earned_in_level": 154,
+      "level_span": 175,
+      "ratio": 0.88
+    },
+    {
+      "total_xp": 355,
+      "earned_in_level": 155,
+      "level_span": 175,
+      "ratio": 0.885714285714286
+    },
+    {
+      "total_xp": 356,
+      "earned_in_level": 156,
+      "level_span": 175,
+      "ratio": 0.891428571428571
+    },
+    {
+      "total_xp": 357,
+      "earned_in_level": 157,
+      "level_span": 175,
+      "ratio": 0.897142857142857
+    },
+    {
+      "total_xp": 358,
+      "earned_in_level": 158,
+      "level_span": 175,
+      "ratio": 0.902857142857143
+    },
+    {
+      "total_xp": 359,
+      "earned_in_level": 159,
+      "level_span": 175,
+      "ratio": 0.908571428571429
+    },
+    {
+      "total_xp": 360,
+      "earned_in_level": 160,
+      "level_span": 175,
+      "ratio": 0.914285714285714
+    },
+    {
+      "total_xp": 361,
+      "earned_in_level": 161,
+      "level_span": 175,
+      "ratio": 0.92
+    },
+    {
+      "total_xp": 362,
+      "earned_in_level": 162,
+      "level_span": 175,
+      "ratio": 0.925714285714286
+    },
+    {
+      "total_xp": 363,
+      "earned_in_level": 163,
+      "level_span": 175,
+      "ratio": 0.931428571428571
+    },
+    {
+      "total_xp": 364,
+      "earned_in_level": 164,
+      "level_span": 175,
+      "ratio": 0.937142857142857
+    },
+    {
+      "total_xp": 365,
+      "earned_in_level": 165,
+      "level_span": 175,
+      "ratio": 0.942857142857143
+    },
+    {
+      "total_xp": 366,
+      "earned_in_level": 166,
+      "level_span": 175,
+      "ratio": 0.948571428571429
+    },
+    {
+      "total_xp": 367,
+      "earned_in_level": 167,
+      "level_span": 175,
+      "ratio": 0.954285714285714
+    },
+    {
+      "total_xp": 368,
+      "earned_in_level": 168,
+      "level_span": 175,
+      "ratio": 0.96
+    },
+    {
+      "total_xp": 369,
+      "earned_in_level": 169,
+      "level_span": 175,
+      "ratio": 0.965714285714286
+    },
+    {
+      "total_xp": 370,
+      "earned_in_level": 170,
+      "level_span": 175,
+      "ratio": 0.971428571428571
+    },
+    {
+      "total_xp": 371,
+      "earned_in_level": 171,
+      "level_span": 175,
+      "ratio": 0.977142857142857
+    },
+    {
+      "total_xp": 372,
+      "earned_in_level": 172,
+      "level_span": 175,
+      "ratio": 0.982857142857143
+    },
+    {
+      "total_xp": 373,
+      "earned_in_level": 173,
+      "level_span": 175,
+      "ratio": 0.988571428571429
+    },
+    {
+      "total_xp": 374,
+      "earned_in_level": 174,
+      "level_span": 175,
+      "ratio": 0.994285714285714
+    },
+    {
+      "total_xp": 375,
+      "earned_in_level": 0,
+      "level_span": 225,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 376,
+      "earned_in_level": 1,
+      "level_span": 225,
+      "ratio": 0.00444444444444444
+    },
+    {
+      "total_xp": 377,
+      "earned_in_level": 2,
+      "level_span": 225,
+      "ratio": 0.00888888888888889
+    },
+    {
+      "total_xp": 378,
+      "earned_in_level": 3,
+      "level_span": 225,
+      "ratio": 0.0133333333333333
+    },
+    {
+      "total_xp": 379,
+      "earned_in_level": 4,
+      "level_span": 225,
+      "ratio": 0.0177777777777778
+    },
+    {
+      "total_xp": 380,
+      "earned_in_level": 5,
+      "level_span": 225,
+      "ratio": 0.0222222222222222
+    },
+    {
+      "total_xp": 381,
+      "earned_in_level": 6,
+      "level_span": 225,
+      "ratio": 0.0266666666666667
+    },
+    {
+      "total_xp": 382,
+      "earned_in_level": 7,
+      "level_span": 225,
+      "ratio": 0.0311111111111111
+    },
+    {
+      "total_xp": 383,
+      "earned_in_level": 8,
+      "level_span": 225,
+      "ratio": 0.0355555555555556
+    },
+    {
+      "total_xp": 384,
+      "earned_in_level": 9,
+      "level_span": 225,
+      "ratio": 0.04
+    },
+    {
+      "total_xp": 385,
+      "earned_in_level": 10,
+      "level_span": 225,
+      "ratio": 0.0444444444444444
+    },
+    {
+      "total_xp": 386,
+      "earned_in_level": 11,
+      "level_span": 225,
+      "ratio": 0.0488888888888889
+    },
+    {
+      "total_xp": 387,
+      "earned_in_level": 12,
+      "level_span": 225,
+      "ratio": 0.0533333333333333
+    },
+    {
+      "total_xp": 388,
+      "earned_in_level": 13,
+      "level_span": 225,
+      "ratio": 0.0577777777777778
+    },
+    {
+      "total_xp": 389,
+      "earned_in_level": 14,
+      "level_span": 225,
+      "ratio": 0.0622222222222222
+    },
+    {
+      "total_xp": 390,
+      "earned_in_level": 15,
+      "level_span": 225,
+      "ratio": 0.0666666666666667
+    },
+    {
+      "total_xp": 391,
+      "earned_in_level": 16,
+      "level_span": 225,
+      "ratio": 0.0711111111111111
+    },
+    {
+      "total_xp": 392,
+      "earned_in_level": 17,
+      "level_span": 225,
+      "ratio": 0.0755555555555556
+    },
+    {
+      "total_xp": 393,
+      "earned_in_level": 18,
+      "level_span": 225,
+      "ratio": 0.08
+    },
+    {
+      "total_xp": 394,
+      "earned_in_level": 19,
+      "level_span": 225,
+      "ratio": 0.0844444444444444
+    },
+    {
+      "total_xp": 395,
+      "earned_in_level": 20,
+      "level_span": 225,
+      "ratio": 0.0888888888888889
+    },
+    {
+      "total_xp": 396,
+      "earned_in_level": 21,
+      "level_span": 225,
+      "ratio": 0.0933333333333333
+    },
+    {
+      "total_xp": 397,
+      "earned_in_level": 22,
+      "level_span": 225,
+      "ratio": 0.0977777777777778
+    },
+    {
+      "total_xp": 398,
+      "earned_in_level": 23,
+      "level_span": 225,
+      "ratio": 0.102222222222222
+    },
+    {
+      "total_xp": 399,
+      "earned_in_level": 24,
+      "level_span": 225,
+      "ratio": 0.106666666666667
+    },
+    {
+      "total_xp": 598,
+      "earned_in_level": 223,
+      "level_span": 225,
+      "ratio": 0.991111111111111
+    },
+    {
+      "total_xp": 599,
+      "earned_in_level": 224,
+      "level_span": 225,
+      "ratio": 0.995555555555556
+    },
+    {
+      "total_xp": 600,
+      "earned_in_level": 0,
+      "level_span": 275,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 601,
+      "earned_in_level": 1,
+      "level_span": 275,
+      "ratio": 0.00363636363636364
+    },
+    {
+      "total_xp": 602,
+      "earned_in_level": 2,
+      "level_span": 275,
+      "ratio": 0.00727272727272727
+    },
+    {
+      "total_xp": 873,
+      "earned_in_level": 273,
+      "level_span": 275,
+      "ratio": 0.992727272727273
+    },
+    {
+      "total_xp": 874,
+      "earned_in_level": 274,
+      "level_span": 275,
+      "ratio": 0.996363636363636
+    },
+    {
+      "total_xp": 875,
+      "earned_in_level": 0,
+      "level_span": 325,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 876,
+      "earned_in_level": 1,
+      "level_span": 325,
+      "ratio": 0.00307692307692308
+    },
+    {
+      "total_xp": 877,
+      "earned_in_level": 2,
+      "level_span": 325,
+      "ratio": 0.00615384615384615
+    },
+    {
+      "total_xp": 1198,
+      "earned_in_level": 323,
+      "level_span": 325,
+      "ratio": 0.993846153846154
+    },
+    {
+      "total_xp": 1199,
+      "earned_in_level": 324,
+      "level_span": 325,
+      "ratio": 0.996923076923077
+    },
+    {
+      "total_xp": 1200,
+      "earned_in_level": 0,
+      "level_span": 375,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 1201,
+      "earned_in_level": 1,
+      "level_span": 375,
+      "ratio": 0.00266666666666667
+    },
+    {
+      "total_xp": 1202,
+      "earned_in_level": 2,
+      "level_span": 375,
+      "ratio": 0.00533333333333333
+    },
+    {
+      "total_xp": 1573,
+      "earned_in_level": 373,
+      "level_span": 375,
+      "ratio": 0.994666666666667
+    },
+    {
+      "total_xp": 1574,
+      "earned_in_level": 374,
+      "level_span": 375,
+      "ratio": 0.997333333333333
+    },
+    {
+      "total_xp": 1575,
+      "earned_in_level": 0,
+      "level_span": 425,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 1576,
+      "earned_in_level": 1,
+      "level_span": 425,
+      "ratio": 0.00235294117647059
+    },
+    {
+      "total_xp": 1577,
+      "earned_in_level": 2,
+      "level_span": 425,
+      "ratio": 0.00470588235294118
+    },
+    {
+      "total_xp": 1998,
+      "earned_in_level": 423,
+      "level_span": 425,
+      "ratio": 0.995294117647059
+    },
+    {
+      "total_xp": 1999,
+      "earned_in_level": 424,
+      "level_span": 425,
+      "ratio": 0.997647058823529
+    },
+    {
+      "total_xp": 2000,
+      "earned_in_level": 0,
+      "level_span": 475,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 2001,
+      "earned_in_level": 1,
+      "level_span": 475,
+      "ratio": 0.00210526315789474
+    },
+    {
+      "total_xp": 2002,
+      "earned_in_level": 2,
+      "level_span": 475,
+      "ratio": 0.00421052631578947
+    },
+    {
+      "total_xp": 2473,
+      "earned_in_level": 473,
+      "level_span": 475,
+      "ratio": 0.995789473684211
+    },
+    {
+      "total_xp": 2474,
+      "earned_in_level": 474,
+      "level_span": 475,
+      "ratio": 0.997894736842105
+    },
+    {
+      "total_xp": 2475,
+      "earned_in_level": 0,
+      "level_span": 525,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 2476,
+      "earned_in_level": 1,
+      "level_span": 525,
+      "ratio": 0.0019047619047619
+    },
+    {
+      "total_xp": 2477,
+      "earned_in_level": 2,
+      "level_span": 525,
+      "ratio": 0.00380952380952381
+    },
+    {
+      "total_xp": 2998,
+      "earned_in_level": 523,
+      "level_span": 525,
+      "ratio": 0.996190476190476
+    },
+    {
+      "total_xp": 2999,
+      "earned_in_level": 524,
+      "level_span": 525,
+      "ratio": 0.998095238095238
+    },
+    {
+      "total_xp": 3000,
+      "earned_in_level": 0,
+      "level_span": 575,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 3001,
+      "earned_in_level": 1,
+      "level_span": 575,
+      "ratio": 0.00173913043478261
+    },
+    {
+      "total_xp": 3002,
+      "earned_in_level": 2,
+      "level_span": 575,
+      "ratio": 0.00347826086956522
+    },
+    {
+      "total_xp": 3573,
+      "earned_in_level": 573,
+      "level_span": 575,
+      "ratio": 0.996521739130435
+    },
+    {
+      "total_xp": 3574,
+      "earned_in_level": 574,
+      "level_span": 575,
+      "ratio": 0.998260869565217
+    },
+    {
+      "total_xp": 3575,
+      "earned_in_level": 0,
+      "level_span": 625,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 3576,
+      "earned_in_level": 1,
+      "level_span": 625,
+      "ratio": 0.0016
+    },
+    {
+      "total_xp": 3577,
+      "earned_in_level": 2,
+      "level_span": 625,
+      "ratio": 0.0032
+    },
+    {
+      "total_xp": 4198,
+      "earned_in_level": 623,
+      "level_span": 625,
+      "ratio": 0.9968
+    },
+    {
+      "total_xp": 4199,
+      "earned_in_level": 624,
+      "level_span": 625,
+      "ratio": 0.9984
+    },
+    {
+      "total_xp": 4200,
+      "earned_in_level": 0,
+      "level_span": 675,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 4201,
+      "earned_in_level": 1,
+      "level_span": 675,
+      "ratio": 0.00148148148148148
+    },
+    {
+      "total_xp": 4202,
+      "earned_in_level": 2,
+      "level_span": 675,
+      "ratio": 0.00296296296296296
+    },
+    {
+      "total_xp": 4873,
+      "earned_in_level": 673,
+      "level_span": 675,
+      "ratio": 0.997037037037037
+    },
+    {
+      "total_xp": 4874,
+      "earned_in_level": 674,
+      "level_span": 675,
+      "ratio": 0.998518518518518
+    },
+    {
+      "total_xp": 4875,
+      "earned_in_level": 0,
+      "level_span": 725,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 4876,
+      "earned_in_level": 1,
+      "level_span": 725,
+      "ratio": 0.00137931034482759
+    },
+    {
+      "total_xp": 4877,
+      "earned_in_level": 2,
+      "level_span": 725,
+      "ratio": 0.00275862068965517
+    },
+    {
+      "total_xp": 5598,
+      "earned_in_level": 723,
+      "level_span": 725,
+      "ratio": 0.997241379310345
+    },
+    {
+      "total_xp": 5599,
+      "earned_in_level": 724,
+      "level_span": 725,
+      "ratio": 0.998620689655172
+    },
+    {
+      "total_xp": 5600,
+      "earned_in_level": 0,
+      "level_span": 775,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 5601,
+      "earned_in_level": 1,
+      "level_span": 775,
+      "ratio": 0.00129032258064516
+    },
+    {
+      "total_xp": 5602,
+      "earned_in_level": 2,
+      "level_span": 775,
+      "ratio": 0.00258064516129032
+    },
+    {
+      "total_xp": 6373,
+      "earned_in_level": 773,
+      "level_span": 775,
+      "ratio": 0.99741935483871
+    },
+    {
+      "total_xp": 6374,
+      "earned_in_level": 774,
+      "level_span": 775,
+      "ratio": 0.998709677419355
+    },
+    {
+      "total_xp": 6375,
+      "earned_in_level": 0,
+      "level_span": 825,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 6376,
+      "earned_in_level": 1,
+      "level_span": 825,
+      "ratio": 0.00121212121212121
+    },
+    {
+      "total_xp": 6377,
+      "earned_in_level": 2,
+      "level_span": 825,
+      "ratio": 0.00242424242424242
+    },
+    {
+      "total_xp": 7198,
+      "earned_in_level": 823,
+      "level_span": 825,
+      "ratio": 0.997575757575758
+    },
+    {
+      "total_xp": 7199,
+      "earned_in_level": 824,
+      "level_span": 825,
+      "ratio": 0.998787878787879
+    },
+    {
+      "total_xp": 7200,
+      "earned_in_level": 0,
+      "level_span": 875,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 7201,
+      "earned_in_level": 1,
+      "level_span": 875,
+      "ratio": 0.00114285714285714
+    },
+    {
+      "total_xp": 7202,
+      "earned_in_level": 2,
+      "level_span": 875,
+      "ratio": 0.00228571428571429
+    },
+    {
+      "total_xp": 8073,
+      "earned_in_level": 873,
+      "level_span": 875,
+      "ratio": 0.997714285714286
+    },
+    {
+      "total_xp": 8074,
+      "earned_in_level": 874,
+      "level_span": 875,
+      "ratio": 0.998857142857143
+    },
+    {
+      "total_xp": 8075,
+      "earned_in_level": 0,
+      "level_span": 925,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 8076,
+      "earned_in_level": 1,
+      "level_span": 925,
+      "ratio": 0.00108108108108108
+    },
+    {
+      "total_xp": 8077,
+      "earned_in_level": 2,
+      "level_span": 925,
+      "ratio": 0.00216216216216216
+    },
+    {
+      "total_xp": 8998,
+      "earned_in_level": 923,
+      "level_span": 925,
+      "ratio": 0.997837837837838
+    },
+    {
+      "total_xp": 8999,
+      "earned_in_level": 924,
+      "level_span": 925,
+      "ratio": 0.998918918918919
+    },
+    {
+      "total_xp": 9000,
+      "earned_in_level": 0,
+      "level_span": 975,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 9001,
+      "earned_in_level": 1,
+      "level_span": 975,
+      "ratio": 0.00102564102564103
+    },
+    {
+      "total_xp": 9002,
+      "earned_in_level": 2,
+      "level_span": 975,
+      "ratio": 0.00205128205128205
+    },
+    {
+      "total_xp": 9973,
+      "earned_in_level": 973,
+      "level_span": 975,
+      "ratio": 0.997948717948718
+    },
+    {
+      "total_xp": 9974,
+      "earned_in_level": 974,
+      "level_span": 975,
+      "ratio": 0.998974358974359
+    },
+    {
+      "total_xp": 9975,
+      "earned_in_level": 0,
+      "level_span": 1025,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 9976,
+      "earned_in_level": 1,
+      "level_span": 1025,
+      "ratio": 0.000975609756097561
+    },
+    {
+      "total_xp": 9977,
+      "earned_in_level": 2,
+      "level_span": 1025,
+      "ratio": 0.00195121951219512
+    },
+    {
+      "total_xp": 10998,
+      "earned_in_level": 1023,
+      "level_span": 1025,
+      "ratio": 0.998048780487805
+    },
+    {
+      "total_xp": 10999,
+      "earned_in_level": 1024,
+      "level_span": 1025,
+      "ratio": 0.999024390243902
+    },
+    {
+      "total_xp": 11000,
+      "earned_in_level": 0,
+      "level_span": 1075,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 11001,
+      "earned_in_level": 1,
+      "level_span": 1075,
+      "ratio": 0.000930232558139535
+    },
+    {
+      "total_xp": 11002,
+      "earned_in_level": 2,
+      "level_span": 1075,
+      "ratio": 0.00186046511627907
+    },
+    {
+      "total_xp": 12073,
+      "earned_in_level": 1073,
+      "level_span": 1075,
+      "ratio": 0.998139534883721
+    },
+    {
+      "total_xp": 12074,
+      "earned_in_level": 1074,
+      "level_span": 1075,
+      "ratio": 0.99906976744186
+    },
+    {
+      "total_xp": 12075,
+      "earned_in_level": 0,
+      "level_span": 1125,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 12076,
+      "earned_in_level": 1,
+      "level_span": 1125,
+      "ratio": 0.000888888888888889
+    },
+    {
+      "total_xp": 12077,
+      "earned_in_level": 2,
+      "level_span": 1125,
+      "ratio": 0.00177777777777778
+    },
+    {
+      "total_xp": 13198,
+      "earned_in_level": 1123,
+      "level_span": 1125,
+      "ratio": 0.998222222222222
+    },
+    {
+      "total_xp": 13199,
+      "earned_in_level": 1124,
+      "level_span": 1125,
+      "ratio": 0.999111111111111
+    },
+    {
+      "total_xp": 13200,
+      "earned_in_level": 0,
+      "level_span": 1175,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 13201,
+      "earned_in_level": 1,
+      "level_span": 1175,
+      "ratio": 0.000851063829787234
+    },
+    {
+      "total_xp": 13202,
+      "earned_in_level": 2,
+      "level_span": 1175,
+      "ratio": 0.00170212765957447
+    },
+    {
+      "total_xp": 14373,
+      "earned_in_level": 1173,
+      "level_span": 1175,
+      "ratio": 0.998297872340426
+    },
+    {
+      "total_xp": 14374,
+      "earned_in_level": 1174,
+      "level_span": 1175,
+      "ratio": 0.999148936170213
+    },
+    {
+      "total_xp": 14375,
+      "earned_in_level": 0,
+      "level_span": 1225,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 14376,
+      "earned_in_level": 1,
+      "level_span": 1225,
+      "ratio": 0.000816326530612245
+    },
+    {
+      "total_xp": 14377,
+      "earned_in_level": 2,
+      "level_span": 1225,
+      "ratio": 0.00163265306122449
+    },
+    {
+      "total_xp": 15598,
+      "earned_in_level": 1223,
+      "level_span": 1225,
+      "ratio": 0.998367346938775
+    },
+    {
+      "total_xp": 15599,
+      "earned_in_level": 1224,
+      "level_span": 1225,
+      "ratio": 0.999183673469388
+    },
+    {
+      "total_xp": 15600,
+      "earned_in_level": 0,
+      "level_span": 1275,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 15601,
+      "earned_in_level": 1,
+      "level_span": 1275,
+      "ratio": 0.000784313725490196
+    },
+    {
+      "total_xp": 15602,
+      "earned_in_level": 2,
+      "level_span": 1275,
+      "ratio": 0.00156862745098039
+    },
+    {
+      "total_xp": 16873,
+      "earned_in_level": 1273,
+      "level_span": 1275,
+      "ratio": 0.99843137254902
+    },
+    {
+      "total_xp": 16874,
+      "earned_in_level": 1274,
+      "level_span": 1275,
+      "ratio": 0.99921568627451
+    },
+    {
+      "total_xp": 16875,
+      "earned_in_level": 0,
+      "level_span": 1325,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 16876,
+      "earned_in_level": 1,
+      "level_span": 1325,
+      "ratio": 0.000754716981132075
+    },
+    {
+      "total_xp": 16877,
+      "earned_in_level": 2,
+      "level_span": 1325,
+      "ratio": 0.00150943396226415
+    },
+    {
+      "total_xp": 18198,
+      "earned_in_level": 1323,
+      "level_span": 1325,
+      "ratio": 0.998490566037736
+    },
+    {
+      "total_xp": 18199,
+      "earned_in_level": 1324,
+      "level_span": 1325,
+      "ratio": 0.999245283018868
+    },
+    {
+      "total_xp": 18200,
+      "earned_in_level": 0,
+      "level_span": 1375,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 18201,
+      "earned_in_level": 1,
+      "level_span": 1375,
+      "ratio": 0.000727272727272727
+    },
+    {
+      "total_xp": 18202,
+      "earned_in_level": 2,
+      "level_span": 1375,
+      "ratio": 0.00145454545454545
+    },
+    {
+      "total_xp": 19573,
+      "earned_in_level": 1373,
+      "level_span": 1375,
+      "ratio": 0.998545454545455
+    },
+    {
+      "total_xp": 19574,
+      "earned_in_level": 1374,
+      "level_span": 1375,
+      "ratio": 0.999272727272727
+    },
+    {
+      "total_xp": 19575,
+      "earned_in_level": 0,
+      "level_span": 1425,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 19576,
+      "earned_in_level": 1,
+      "level_span": 1425,
+      "ratio": 0.000701754385964912
+    },
+    {
+      "total_xp": 19577,
+      "earned_in_level": 2,
+      "level_span": 1425,
+      "ratio": 0.00140350877192982
+    },
+    {
+      "total_xp": 20998,
+      "earned_in_level": 1423,
+      "level_span": 1425,
+      "ratio": 0.99859649122807
+    },
+    {
+      "total_xp": 20999,
+      "earned_in_level": 1424,
+      "level_span": 1425,
+      "ratio": 0.999298245614035
+    },
+    {
+      "total_xp": 21000,
+      "earned_in_level": 0,
+      "level_span": 1475,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 21001,
+      "earned_in_level": 1,
+      "level_span": 1475,
+      "ratio": 0.000677966101694915
+    },
+    {
+      "total_xp": 21002,
+      "earned_in_level": 2,
+      "level_span": 1475,
+      "ratio": 0.00135593220338983
+    },
+    {
+      "total_xp": 22473,
+      "earned_in_level": 1473,
+      "level_span": 1475,
+      "ratio": 0.99864406779661
+    },
+    {
+      "total_xp": 22474,
+      "earned_in_level": 1474,
+      "level_span": 1475,
+      "ratio": 0.999322033898305
+    },
+    {
+      "total_xp": 22475,
+      "earned_in_level": 0,
+      "level_span": 1525,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 22476,
+      "earned_in_level": 1,
+      "level_span": 1525,
+      "ratio": 0.000655737704918033
+    },
+    {
+      "total_xp": 22477,
+      "earned_in_level": 2,
+      "level_span": 1525,
+      "ratio": 0.00131147540983607
+    },
+    {
+      "total_xp": 23998,
+      "earned_in_level": 1523,
+      "level_span": 1525,
+      "ratio": 0.998688524590164
+    },
+    {
+      "total_xp": 23999,
+      "earned_in_level": 1524,
+      "level_span": 1525,
+      "ratio": 0.999344262295082
+    },
+    {
+      "total_xp": 24000,
+      "earned_in_level": 0,
+      "level_span": 1575,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 24001,
+      "earned_in_level": 1,
+      "level_span": 1575,
+      "ratio": 0.000634920634920635
+    },
+    {
+      "total_xp": 24002,
+      "earned_in_level": 2,
+      "level_span": 1575,
+      "ratio": 0.00126984126984127
+    },
+    {
+      "total_xp": 25573,
+      "earned_in_level": 1573,
+      "level_span": 1575,
+      "ratio": 0.998730158730159
+    },
+    {
+      "total_xp": 25574,
+      "earned_in_level": 1574,
+      "level_span": 1575,
+      "ratio": 0.999365079365079
+    },
+    {
+      "total_xp": 25575,
+      "earned_in_level": 0,
+      "level_span": 1625,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 25576,
+      "earned_in_level": 1,
+      "level_span": 1625,
+      "ratio": 0.000615384615384615
+    },
+    {
+      "total_xp": 25577,
+      "earned_in_level": 2,
+      "level_span": 1625,
+      "ratio": 0.00123076923076923
+    },
+    {
+      "total_xp": 27198,
+      "earned_in_level": 1623,
+      "level_span": 1625,
+      "ratio": 0.998769230769231
+    },
+    {
+      "total_xp": 27199,
+      "earned_in_level": 1624,
+      "level_span": 1625,
+      "ratio": 0.999384615384615
+    },
+    {
+      "total_xp": 27200,
+      "earned_in_level": 0,
+      "level_span": 1675,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 27201,
+      "earned_in_level": 1,
+      "level_span": 1675,
+      "ratio": 0.000597014925373134
+    },
+    {
+      "total_xp": 27202,
+      "earned_in_level": 2,
+      "level_span": 1675,
+      "ratio": 0.00119402985074627
+    },
+    {
+      "total_xp": 28873,
+      "earned_in_level": 1673,
+      "level_span": 1675,
+      "ratio": 0.998805970149254
+    },
+    {
+      "total_xp": 28874,
+      "earned_in_level": 1674,
+      "level_span": 1675,
+      "ratio": 0.999402985074627
+    },
+    {
+      "total_xp": 28875,
+      "earned_in_level": 0,
+      "level_span": 1725,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 28876,
+      "earned_in_level": 1,
+      "level_span": 1725,
+      "ratio": 0.000579710144927536
+    },
+    {
+      "total_xp": 28877,
+      "earned_in_level": 2,
+      "level_span": 1725,
+      "ratio": 0.00115942028985507
+    },
+    {
+      "total_xp": 30598,
+      "earned_in_level": 1723,
+      "level_span": 1725,
+      "ratio": 0.998840579710145
+    },
+    {
+      "total_xp": 30599,
+      "earned_in_level": 1724,
+      "level_span": 1725,
+      "ratio": 0.999420289855072
+    },
+    {
+      "total_xp": 30600,
+      "earned_in_level": 0,
+      "level_span": 1775,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 30601,
+      "earned_in_level": 1,
+      "level_span": 1775,
+      "ratio": 0.000563380281690141
+    },
+    {
+      "total_xp": 30602,
+      "earned_in_level": 2,
+      "level_span": 1775,
+      "ratio": 0.00112676056338028
+    },
+    {
+      "total_xp": 32373,
+      "earned_in_level": 1773,
+      "level_span": 1775,
+      "ratio": 0.99887323943662
+    },
+    {
+      "total_xp": 32374,
+      "earned_in_level": 1774,
+      "level_span": 1775,
+      "ratio": 0.99943661971831
+    },
+    {
+      "total_xp": 32375,
+      "earned_in_level": 0,
+      "level_span": 1825,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 32376,
+      "earned_in_level": 1,
+      "level_span": 1825,
+      "ratio": 0.000547945205479452
+    },
+    {
+      "total_xp": 32377,
+      "earned_in_level": 2,
+      "level_span": 1825,
+      "ratio": 0.0010958904109589
+    },
+    {
+      "total_xp": 34198,
+      "earned_in_level": 1823,
+      "level_span": 1825,
+      "ratio": 0.998904109589041
+    },
+    {
+      "total_xp": 34199,
+      "earned_in_level": 1824,
+      "level_span": 1825,
+      "ratio": 0.999452054794521
+    },
+    {
+      "total_xp": 34200,
+      "earned_in_level": 0,
+      "level_span": 1875,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 34201,
+      "earned_in_level": 1,
+      "level_span": 1875,
+      "ratio": 0.000533333333333333
+    },
+    {
+      "total_xp": 34202,
+      "earned_in_level": 2,
+      "level_span": 1875,
+      "ratio": 0.00106666666666667
+    },
+    {
+      "total_xp": 36073,
+      "earned_in_level": 1873,
+      "level_span": 1875,
+      "ratio": 0.998933333333333
+    },
+    {
+      "total_xp": 36074,
+      "earned_in_level": 1874,
+      "level_span": 1875,
+      "ratio": 0.999466666666667
+    },
+    {
+      "total_xp": 36075,
+      "earned_in_level": 0,
+      "level_span": 1925,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 36076,
+      "earned_in_level": 1,
+      "level_span": 1925,
+      "ratio": 0.000519480519480519
+    },
+    {
+      "total_xp": 36077,
+      "earned_in_level": 2,
+      "level_span": 1925,
+      "ratio": 0.00103896103896104
+    },
+    {
+      "total_xp": 37998,
+      "earned_in_level": 1923,
+      "level_span": 1925,
+      "ratio": 0.998961038961039
+    },
+    {
+      "total_xp": 37999,
+      "earned_in_level": 1924,
+      "level_span": 1925,
+      "ratio": 0.99948051948052
+    },
+    {
+      "total_xp": 38000,
+      "earned_in_level": 0,
+      "level_span": 1975,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 38001,
+      "earned_in_level": 1,
+      "level_span": 1975,
+      "ratio": 0.000506329113924051
+    },
+    {
+      "total_xp": 38002,
+      "earned_in_level": 2,
+      "level_span": 1975,
+      "ratio": 0.0010126582278481
+    },
+    {
+      "total_xp": 39973,
+      "earned_in_level": 1973,
+      "level_span": 1975,
+      "ratio": 0.998987341772152
+    },
+    {
+      "total_xp": 39974,
+      "earned_in_level": 1974,
+      "level_span": 1975,
+      "ratio": 0.999493670886076
+    },
+    {
+      "total_xp": 39975,
+      "earned_in_level": 0,
+      "level_span": 2025,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 39976,
+      "earned_in_level": 1,
+      "level_span": 2025,
+      "ratio": 0.000493827160493827
+    },
+    {
+      "total_xp": 39977,
+      "earned_in_level": 2,
+      "level_span": 2025,
+      "ratio": 0.000987654320987654
+    },
+    {
+      "total_xp": 41998,
+      "earned_in_level": 2023,
+      "level_span": 2025,
+      "ratio": 0.999012345679012
+    },
+    {
+      "total_xp": 41999,
+      "earned_in_level": 2024,
+      "level_span": 2025,
+      "ratio": 0.999506172839506
+    },
+    {
+      "total_xp": 42000,
+      "earned_in_level": 0,
+      "level_span": 2075,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 42001,
+      "earned_in_level": 1,
+      "level_span": 2075,
+      "ratio": 0.000481927710843373
+    },
+    {
+      "total_xp": 42002,
+      "earned_in_level": 2,
+      "level_span": 2075,
+      "ratio": 0.000963855421686747
+    },
+    {
+      "total_xp": 44073,
+      "earned_in_level": 2073,
+      "level_span": 2075,
+      "ratio": 0.999036144578313
+    },
+    {
+      "total_xp": 44074,
+      "earned_in_level": 2074,
+      "level_span": 2075,
+      "ratio": 0.999518072289157
+    },
+    {
+      "total_xp": 44075,
+      "earned_in_level": 0,
+      "level_span": 2125,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 44076,
+      "earned_in_level": 1,
+      "level_span": 2125,
+      "ratio": 0.000470588235294118
+    },
+    {
+      "total_xp": 44077,
+      "earned_in_level": 2,
+      "level_span": 2125,
+      "ratio": 0.000941176470588235
+    },
+    {
+      "total_xp": 46198,
+      "earned_in_level": 2123,
+      "level_span": 2125,
+      "ratio": 0.999058823529412
+    },
+    {
+      "total_xp": 46199,
+      "earned_in_level": 2124,
+      "level_span": 2125,
+      "ratio": 0.999529411764706
+    },
+    {
+      "total_xp": 46200,
+      "earned_in_level": 0,
+      "level_span": 2175,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 46201,
+      "earned_in_level": 1,
+      "level_span": 2175,
+      "ratio": 0.000459770114942529
+    },
+    {
+      "total_xp": 46202,
+      "earned_in_level": 2,
+      "level_span": 2175,
+      "ratio": 0.000919540229885057
+    },
+    {
+      "total_xp": 48373,
+      "earned_in_level": 2173,
+      "level_span": 2175,
+      "ratio": 0.999080459770115
+    },
+    {
+      "total_xp": 48374,
+      "earned_in_level": 2174,
+      "level_span": 2175,
+      "ratio": 0.999540229885057
+    },
+    {
+      "total_xp": 48375,
+      "earned_in_level": 0,
+      "level_span": 2225,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 48376,
+      "earned_in_level": 1,
+      "level_span": 2225,
+      "ratio": 0.000449438202247191
+    },
+    {
+      "total_xp": 48377,
+      "earned_in_level": 2,
+      "level_span": 2225,
+      "ratio": 0.000898876404494382
+    },
+    {
+      "total_xp": 50598,
+      "earned_in_level": 2223,
+      "level_span": 2225,
+      "ratio": 0.999101123595506
+    },
+    {
+      "total_xp": 50599,
+      "earned_in_level": 2224,
+      "level_span": 2225,
+      "ratio": 0.999550561797753
+    },
+    {
+      "total_xp": 50600,
+      "earned_in_level": 0,
+      "level_span": 2275,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 50601,
+      "earned_in_level": 1,
+      "level_span": 2275,
+      "ratio": 0.00043956043956044
+    },
+    {
+      "total_xp": 50602,
+      "earned_in_level": 2,
+      "level_span": 2275,
+      "ratio": 0.000879120879120879
+    },
+    {
+      "total_xp": 52873,
+      "earned_in_level": 2273,
+      "level_span": 2275,
+      "ratio": 0.999120879120879
+    },
+    {
+      "total_xp": 52874,
+      "earned_in_level": 2274,
+      "level_span": 2275,
+      "ratio": 0.99956043956044
+    },
+    {
+      "total_xp": 52875,
+      "earned_in_level": 0,
+      "level_span": 2325,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 52876,
+      "earned_in_level": 1,
+      "level_span": 2325,
+      "ratio": 0.00043010752688172
+    },
+    {
+      "total_xp": 52877,
+      "earned_in_level": 2,
+      "level_span": 2325,
+      "ratio": 0.000860215053763441
+    },
+    {
+      "total_xp": 55198,
+      "earned_in_level": 2323,
+      "level_span": 2325,
+      "ratio": 0.999139784946237
+    },
+    {
+      "total_xp": 55199,
+      "earned_in_level": 2324,
+      "level_span": 2325,
+      "ratio": 0.999569892473118
+    },
+    {
+      "total_xp": 55200,
+      "earned_in_level": 0,
+      "level_span": 2375,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 55201,
+      "earned_in_level": 1,
+      "level_span": 2375,
+      "ratio": 0.000421052631578947
+    },
+    {
+      "total_xp": 55202,
+      "earned_in_level": 2,
+      "level_span": 2375,
+      "ratio": 0.000842105263157895
+    },
+    {
+      "total_xp": 57573,
+      "earned_in_level": 2373,
+      "level_span": 2375,
+      "ratio": 0.999157894736842
+    },
+    {
+      "total_xp": 57574,
+      "earned_in_level": 2374,
+      "level_span": 2375,
+      "ratio": 0.999578947368421
+    },
+    {
+      "total_xp": 57575,
+      "earned_in_level": 0,
+      "level_span": 2425,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 57576,
+      "earned_in_level": 1,
+      "level_span": 2425,
+      "ratio": 0.000412371134020619
+    },
+    {
+      "total_xp": 57577,
+      "earned_in_level": 2,
+      "level_span": 2425,
+      "ratio": 0.000824742268041237
+    },
+    {
+      "total_xp": 59998,
+      "earned_in_level": 2423,
+      "level_span": 2425,
+      "ratio": 0.999175257731959
+    },
+    {
+      "total_xp": 59999,
+      "earned_in_level": 2424,
+      "level_span": 2425,
+      "ratio": 0.999587628865979
+    },
+    {
+      "total_xp": 60000,
+      "earned_in_level": 0,
+      "level_span": 2475,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 60001,
+      "earned_in_level": 1,
+      "level_span": 2475,
+      "ratio": 0.000404040404040404
+    },
+    {
+      "total_xp": 60002,
+      "earned_in_level": 2,
+      "level_span": 2475,
+      "ratio": 0.000808080808080808
+    },
+    {
+      "total_xp": 62473,
+      "earned_in_level": 2473,
+      "level_span": 2475,
+      "ratio": 0.999191919191919
+    },
+    {
+      "total_xp": 62474,
+      "earned_in_level": 2474,
+      "level_span": 2475,
+      "ratio": 0.99959595959596
+    },
+    {
+      "total_xp": 62475,
+      "earned_in_level": 0,
+      "level_span": 2525,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 62476,
+      "earned_in_level": 1,
+      "level_span": 2525,
+      "ratio": 0.000396039603960396
+    },
+    {
+      "total_xp": 62477,
+      "earned_in_level": 2,
+      "level_span": 2525,
+      "ratio": 0.000792079207920792
+    },
+    {
+      "total_xp": 64998,
+      "earned_in_level": 2523,
+      "level_span": 2525,
+      "ratio": 0.999207920792079
+    },
+    {
+      "total_xp": 64999,
+      "earned_in_level": 2524,
+      "level_span": 2525,
+      "ratio": 0.99960396039604
+    },
+    {
+      "total_xp": 65000,
+      "earned_in_level": 0,
+      "level_span": 2575,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 65001,
+      "earned_in_level": 1,
+      "level_span": 2575,
+      "ratio": 0.000388349514563107
+    },
+    {
+      "total_xp": 65002,
+      "earned_in_level": 2,
+      "level_span": 2575,
+      "ratio": 0.000776699029126214
+    },
+    {
+      "total_xp": 67573,
+      "earned_in_level": 2573,
+      "level_span": 2575,
+      "ratio": 0.999223300970874
+    },
+    {
+      "total_xp": 67574,
+      "earned_in_level": 2574,
+      "level_span": 2575,
+      "ratio": 0.999611650485437
+    },
+    {
+      "total_xp": 67575,
+      "earned_in_level": 0,
+      "level_span": 2625,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 67576,
+      "earned_in_level": 1,
+      "level_span": 2625,
+      "ratio": 0.000380952380952381
+    },
+    {
+      "total_xp": 67577,
+      "earned_in_level": 2,
+      "level_span": 2625,
+      "ratio": 0.000761904761904762
+    },
+    {
+      "total_xp": 70198,
+      "earned_in_level": 2623,
+      "level_span": 2625,
+      "ratio": 0.999238095238095
+    },
+    {
+      "total_xp": 70199,
+      "earned_in_level": 2624,
+      "level_span": 2625,
+      "ratio": 0.999619047619048
+    },
+    {
+      "total_xp": 70200,
+      "earned_in_level": 0,
+      "level_span": 2675,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 70201,
+      "earned_in_level": 1,
+      "level_span": 2675,
+      "ratio": 0.000373831775700935
+    },
+    {
+      "total_xp": 70202,
+      "earned_in_level": 2,
+      "level_span": 2675,
+      "ratio": 0.000747663551401869
+    },
+    {
+      "total_xp": 72873,
+      "earned_in_level": 2673,
+      "level_span": 2675,
+      "ratio": 0.999252336448598
+    },
+    {
+      "total_xp": 72874,
+      "earned_in_level": 2674,
+      "level_span": 2675,
+      "ratio": 0.999626168224299
+    },
+    {
+      "total_xp": 72875,
+      "earned_in_level": 0,
+      "level_span": 2725,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 72876,
+      "earned_in_level": 1,
+      "level_span": 2725,
+      "ratio": 0.00036697247706422
+    },
+    {
+      "total_xp": 72877,
+      "earned_in_level": 2,
+      "level_span": 2725,
+      "ratio": 0.00073394495412844
+    },
+    {
+      "total_xp": 75598,
+      "earned_in_level": 2723,
+      "level_span": 2725,
+      "ratio": 0.999266055045872
+    },
+    {
+      "total_xp": 75599,
+      "earned_in_level": 2724,
+      "level_span": 2725,
+      "ratio": 0.999633027522936
+    },
+    {
+      "total_xp": 75600,
+      "earned_in_level": 0,
+      "level_span": 2775,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 75601,
+      "earned_in_level": 1,
+      "level_span": 2775,
+      "ratio": 0.00036036036036036
+    },
+    {
+      "total_xp": 75602,
+      "earned_in_level": 2,
+      "level_span": 2775,
+      "ratio": 0.000720720720720721
+    },
+    {
+      "total_xp": 78373,
+      "earned_in_level": 2773,
+      "level_span": 2775,
+      "ratio": 0.999279279279279
+    },
+    {
+      "total_xp": 78374,
+      "earned_in_level": 2774,
+      "level_span": 2775,
+      "ratio": 0.99963963963964
+    },
+    {
+      "total_xp": 78375,
+      "earned_in_level": 0,
+      "level_span": 2825,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 78376,
+      "earned_in_level": 1,
+      "level_span": 2825,
+      "ratio": 0.000353982300884956
+    },
+    {
+      "total_xp": 78377,
+      "earned_in_level": 2,
+      "level_span": 2825,
+      "ratio": 0.000707964601769912
+    },
+    {
+      "total_xp": 81198,
+      "earned_in_level": 2823,
+      "level_span": 2825,
+      "ratio": 0.99929203539823
+    },
+    {
+      "total_xp": 81199,
+      "earned_in_level": 2824,
+      "level_span": 2825,
+      "ratio": 0.999646017699115
+    },
+    {
+      "total_xp": 81200,
+      "earned_in_level": 0,
+      "level_span": 2875,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 81201,
+      "earned_in_level": 1,
+      "level_span": 2875,
+      "ratio": 0.000347826086956522
+    },
+    {
+      "total_xp": 81202,
+      "earned_in_level": 2,
+      "level_span": 2875,
+      "ratio": 0.000695652173913044
+    },
+    {
+      "total_xp": 84073,
+      "earned_in_level": 2873,
+      "level_span": 2875,
+      "ratio": 0.999304347826087
+    },
+    {
+      "total_xp": 84074,
+      "earned_in_level": 2874,
+      "level_span": 2875,
+      "ratio": 0.999652173913044
+    },
+    {
+      "total_xp": 84075,
+      "earned_in_level": 0,
+      "level_span": 2925,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 84076,
+      "earned_in_level": 1,
+      "level_span": 2925,
+      "ratio": 0.000341880341880342
+    },
+    {
+      "total_xp": 84077,
+      "earned_in_level": 2,
+      "level_span": 2925,
+      "ratio": 0.000683760683760684
+    },
+    {
+      "total_xp": 86998,
+      "earned_in_level": 2923,
+      "level_span": 2925,
+      "ratio": 0.999316239316239
+    },
+    {
+      "total_xp": 86999,
+      "earned_in_level": 2924,
+      "level_span": 2925,
+      "ratio": 0.99965811965812
+    },
+    {
+      "total_xp": 87000,
+      "earned_in_level": 0,
+      "level_span": 2975,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 87001,
+      "earned_in_level": 1,
+      "level_span": 2975,
+      "ratio": 0.000336134453781513
+    },
+    {
+      "total_xp": 87002,
+      "earned_in_level": 2,
+      "level_span": 2975,
+      "ratio": 0.000672268907563025
+    },
+    {
+      "total_xp": 89973,
+      "earned_in_level": 2973,
+      "level_span": 2975,
+      "ratio": 0.999327731092437
+    },
+    {
+      "total_xp": 89974,
+      "earned_in_level": 2974,
+      "level_span": 2975,
+      "ratio": 0.999663865546218
+    },
+    {
+      "total_xp": 89975,
+      "earned_in_level": 0,
+      "level_span": 3025,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 89976,
+      "earned_in_level": 1,
+      "level_span": 3025,
+      "ratio": 0.000330578512396694
+    },
+    {
+      "total_xp": 89977,
+      "earned_in_level": 2,
+      "level_span": 3025,
+      "ratio": 0.000661157024793388
+    },
+    {
+      "total_xp": 92998,
+      "earned_in_level": 3023,
+      "level_span": 3025,
+      "ratio": 0.999338842975207
+    },
+    {
+      "total_xp": 92999,
+      "earned_in_level": 3024,
+      "level_span": 3025,
+      "ratio": 0.999669421487603
+    },
+    {
+      "total_xp": 93000,
+      "earned_in_level": 0,
+      "level_span": 3075,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 93001,
+      "earned_in_level": 1,
+      "level_span": 3075,
+      "ratio": 0.00032520325203252
+    },
+    {
+      "total_xp": 93002,
+      "earned_in_level": 2,
+      "level_span": 3075,
+      "ratio": 0.000650406504065041
+    },
+    {
+      "total_xp": 96073,
+      "earned_in_level": 3073,
+      "level_span": 3075,
+      "ratio": 0.999349593495935
+    },
+    {
+      "total_xp": 96074,
+      "earned_in_level": 3074,
+      "level_span": 3075,
+      "ratio": 0.999674796747967
+    },
+    {
+      "total_xp": 96075,
+      "earned_in_level": 0,
+      "level_span": 3125,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 96076,
+      "earned_in_level": 1,
+      "level_span": 3125,
+      "ratio": 0.00032
+    },
+    {
+      "total_xp": 96077,
+      "earned_in_level": 2,
+      "level_span": 3125,
+      "ratio": 0.00064
+    },
+    {
+      "total_xp": 99198,
+      "earned_in_level": 3123,
+      "level_span": 3125,
+      "ratio": 0.99936
+    },
+    {
+      "total_xp": 99199,
+      "earned_in_level": 3124,
+      "level_span": 3125,
+      "ratio": 0.99968
+    },
+    {
+      "total_xp": 99200,
+      "earned_in_level": 0,
+      "level_span": 3175,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 99201,
+      "earned_in_level": 1,
+      "level_span": 3175,
+      "ratio": 0.00031496062992126
+    },
+    {
+      "total_xp": 99202,
+      "earned_in_level": 2,
+      "level_span": 3175,
+      "ratio": 0.00062992125984252
+    },
+    {
+      "total_xp": 102373,
+      "earned_in_level": 3173,
+      "level_span": 3175,
+      "ratio": 0.999370078740157
+    },
+    {
+      "total_xp": 102374,
+      "earned_in_level": 3174,
+      "level_span": 3175,
+      "ratio": 0.999685039370079
+    },
+    {
+      "total_xp": 102375,
+      "earned_in_level": 0,
+      "level_span": 3225,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 102376,
+      "earned_in_level": 1,
+      "level_span": 3225,
+      "ratio": 0.000310077519379845
+    },
+    {
+      "total_xp": 102377,
+      "earned_in_level": 2,
+      "level_span": 3225,
+      "ratio": 0.00062015503875969
+    },
+    {
+      "total_xp": 105598,
+      "earned_in_level": 3223,
+      "level_span": 3225,
+      "ratio": 0.99937984496124
+    },
+    {
+      "total_xp": 105599,
+      "earned_in_level": 3224,
+      "level_span": 3225,
+      "ratio": 0.99968992248062
+    },
+    {
+      "total_xp": 105600,
+      "earned_in_level": 0,
+      "level_span": 3275,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 105601,
+      "earned_in_level": 1,
+      "level_span": 3275,
+      "ratio": 0.000305343511450382
+    },
+    {
+      "total_xp": 105602,
+      "earned_in_level": 2,
+      "level_span": 3275,
+      "ratio": 0.000610687022900763
+    },
+    {
+      "total_xp": 108873,
+      "earned_in_level": 3273,
+      "level_span": 3275,
+      "ratio": 0.999389312977099
+    },
+    {
+      "total_xp": 108874,
+      "earned_in_level": 3274,
+      "level_span": 3275,
+      "ratio": 0.99969465648855
+    },
+    {
+      "total_xp": 108875,
+      "earned_in_level": 0,
+      "level_span": 3325,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 108876,
+      "earned_in_level": 1,
+      "level_span": 3325,
+      "ratio": 0.000300751879699248
+    },
+    {
+      "total_xp": 108877,
+      "earned_in_level": 2,
+      "level_span": 3325,
+      "ratio": 0.000601503759398496
+    },
+    {
+      "total_xp": 112198,
+      "earned_in_level": 3323,
+      "level_span": 3325,
+      "ratio": 0.999398496240602
+    },
+    {
+      "total_xp": 112199,
+      "earned_in_level": 3324,
+      "level_span": 3325,
+      "ratio": 0.999699248120301
+    },
+    {
+      "total_xp": 112200,
+      "earned_in_level": 0,
+      "level_span": 3375,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 112201,
+      "earned_in_level": 1,
+      "level_span": 3375,
+      "ratio": 0.000296296296296296
+    },
+    {
+      "total_xp": 112202,
+      "earned_in_level": 2,
+      "level_span": 3375,
+      "ratio": 0.000592592592592593
+    },
+    {
+      "total_xp": 115573,
+      "earned_in_level": 3373,
+      "level_span": 3375,
+      "ratio": 0.999407407407407
+    },
+    {
+      "total_xp": 115574,
+      "earned_in_level": 3374,
+      "level_span": 3375,
+      "ratio": 0.999703703703704
+    },
+    {
+      "total_xp": 115575,
+      "earned_in_level": 0,
+      "level_span": 3425,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 115576,
+      "earned_in_level": 1,
+      "level_span": 3425,
+      "ratio": 0.000291970802919708
+    },
+    {
+      "total_xp": 115577,
+      "earned_in_level": 2,
+      "level_span": 3425,
+      "ratio": 0.000583941605839416
+    },
+    {
+      "total_xp": 118998,
+      "earned_in_level": 3423,
+      "level_span": 3425,
+      "ratio": 0.999416058394161
+    },
+    {
+      "total_xp": 118999,
+      "earned_in_level": 3424,
+      "level_span": 3425,
+      "ratio": 0.99970802919708
+    },
+    {
+      "total_xp": 119000,
+      "earned_in_level": 0,
+      "level_span": 3475,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 119001,
+      "earned_in_level": 1,
+      "level_span": 3475,
+      "ratio": 0.000287769784172662
+    },
+    {
+      "total_xp": 119002,
+      "earned_in_level": 2,
+      "level_span": 3475,
+      "ratio": 0.000575539568345324
+    },
+    {
+      "total_xp": 122473,
+      "earned_in_level": 3473,
+      "level_span": 3475,
+      "ratio": 0.999424460431655
+    },
+    {
+      "total_xp": 122474,
+      "earned_in_level": 3474,
+      "level_span": 3475,
+      "ratio": 0.999712230215827
+    },
+    {
+      "total_xp": 122475,
+      "earned_in_level": 0,
+      "level_span": 3525,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 122476,
+      "earned_in_level": 1,
+      "level_span": 3525,
+      "ratio": 0.000283687943262411
+    },
+    {
+      "total_xp": 122477,
+      "earned_in_level": 2,
+      "level_span": 3525,
+      "ratio": 0.000567375886524823
+    },
+    {
+      "total_xp": 125998,
+      "earned_in_level": 3523,
+      "level_span": 3525,
+      "ratio": 0.999432624113475
+    },
+    {
+      "total_xp": 125999,
+      "earned_in_level": 3524,
+      "level_span": 3525,
+      "ratio": 0.999716312056738
+    },
+    {
+      "total_xp": 126000,
+      "earned_in_level": 0,
+      "level_span": 3575,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 126001,
+      "earned_in_level": 1,
+      "level_span": 3575,
+      "ratio": 0.00027972027972028
+    },
+    {
+      "total_xp": 126002,
+      "earned_in_level": 2,
+      "level_span": 3575,
+      "ratio": 0.000559440559440559
+    },
+    {
+      "total_xp": 129573,
+      "earned_in_level": 3573,
+      "level_span": 3575,
+      "ratio": 0.999440559440559
+    },
+    {
+      "total_xp": 129574,
+      "earned_in_level": 3574,
+      "level_span": 3575,
+      "ratio": 0.99972027972028
+    },
+    {
+      "total_xp": 129575,
+      "earned_in_level": 0,
+      "level_span": 3625,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 129576,
+      "earned_in_level": 1,
+      "level_span": 3625,
+      "ratio": 0.000275862068965517
+    },
+    {
+      "total_xp": 129577,
+      "earned_in_level": 2,
+      "level_span": 3625,
+      "ratio": 0.000551724137931035
+    },
+    {
+      "total_xp": 133198,
+      "earned_in_level": 3623,
+      "level_span": 3625,
+      "ratio": 0.999448275862069
+    },
+    {
+      "total_xp": 133199,
+      "earned_in_level": 3624,
+      "level_span": 3625,
+      "ratio": 0.999724137931034
+    },
+    {
+      "total_xp": 133200,
+      "earned_in_level": 0,
+      "level_span": 3675,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 133201,
+      "earned_in_level": 1,
+      "level_span": 3675,
+      "ratio": 0.000272108843537415
+    },
+    {
+      "total_xp": 133202,
+      "earned_in_level": 2,
+      "level_span": 3675,
+      "ratio": 0.00054421768707483
+    },
+    {
+      "total_xp": 136873,
+      "earned_in_level": 3673,
+      "level_span": 3675,
+      "ratio": 0.999455782312925
+    },
+    {
+      "total_xp": 136874,
+      "earned_in_level": 3674,
+      "level_span": 3675,
+      "ratio": 0.999727891156463
+    },
+    {
+      "total_xp": 136875,
+      "earned_in_level": 0,
+      "level_span": 3725,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 136876,
+      "earned_in_level": 1,
+      "level_span": 3725,
+      "ratio": 0.000268456375838926
+    },
+    {
+      "total_xp": 136877,
+      "earned_in_level": 2,
+      "level_span": 3725,
+      "ratio": 0.000536912751677852
+    },
+    {
+      "total_xp": 140598,
+      "earned_in_level": 3723,
+      "level_span": 3725,
+      "ratio": 0.999463087248322
+    },
+    {
+      "total_xp": 140599,
+      "earned_in_level": 3724,
+      "level_span": 3725,
+      "ratio": 0.999731543624161
+    },
+    {
+      "total_xp": 140600,
+      "earned_in_level": 0,
+      "level_span": 3775,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 140601,
+      "earned_in_level": 1,
+      "level_span": 3775,
+      "ratio": 0.000264900662251656
+    },
+    {
+      "total_xp": 140602,
+      "earned_in_level": 2,
+      "level_span": 3775,
+      "ratio": 0.000529801324503311
+    },
+    {
+      "total_xp": 144373,
+      "earned_in_level": 3773,
+      "level_span": 3775,
+      "ratio": 0.999470198675497
+    },
+    {
+      "total_xp": 144374,
+      "earned_in_level": 3774,
+      "level_span": 3775,
+      "ratio": 0.999735099337748
+    },
+    {
+      "total_xp": 144375,
+      "earned_in_level": 0,
+      "level_span": 3825,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 144376,
+      "earned_in_level": 1,
+      "level_span": 3825,
+      "ratio": 0.000261437908496732
+    },
+    {
+      "total_xp": 144377,
+      "earned_in_level": 2,
+      "level_span": 3825,
+      "ratio": 0.000522875816993464
+    },
+    {
+      "total_xp": 148198,
+      "earned_in_level": 3823,
+      "level_span": 3825,
+      "ratio": 0.999477124183006
+    },
+    {
+      "total_xp": 148199,
+      "earned_in_level": 3824,
+      "level_span": 3825,
+      "ratio": 0.999738562091503
+    },
+    {
+      "total_xp": 148200,
+      "earned_in_level": 0,
+      "level_span": 3875,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 148201,
+      "earned_in_level": 1,
+      "level_span": 3875,
+      "ratio": 0.000258064516129032
+    },
+    {
+      "total_xp": 148202,
+      "earned_in_level": 2,
+      "level_span": 3875,
+      "ratio": 0.000516129032258065
+    },
+    {
+      "total_xp": 152073,
+      "earned_in_level": 3873,
+      "level_span": 3875,
+      "ratio": 0.999483870967742
+    },
+    {
+      "total_xp": 152074,
+      "earned_in_level": 3874,
+      "level_span": 3875,
+      "ratio": 0.999741935483871
+    },
+    {
+      "total_xp": 152075,
+      "earned_in_level": 0,
+      "level_span": 3925,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 152076,
+      "earned_in_level": 1,
+      "level_span": 3925,
+      "ratio": 0.000254777070063694
+    },
+    {
+      "total_xp": 152077,
+      "earned_in_level": 2,
+      "level_span": 3925,
+      "ratio": 0.000509554140127388
+    },
+    {
+      "total_xp": 155998,
+      "earned_in_level": 3923,
+      "level_span": 3925,
+      "ratio": 0.999490445859873
+    },
+    {
+      "total_xp": 155999,
+      "earned_in_level": 3924,
+      "level_span": 3925,
+      "ratio": 0.999745222929936
+    },
+    {
+      "total_xp": 156000,
+      "earned_in_level": 0,
+      "level_span": 3975,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 156001,
+      "earned_in_level": 1,
+      "level_span": 3975,
+      "ratio": 0.000251572327044025
+    },
+    {
+      "total_xp": 156002,
+      "earned_in_level": 2,
+      "level_span": 3975,
+      "ratio": 0.00050314465408805
+    },
+    {
+      "total_xp": 159973,
+      "earned_in_level": 3973,
+      "level_span": 3975,
+      "ratio": 0.999496855345912
+    },
+    {
+      "total_xp": 159974,
+      "earned_in_level": 3974,
+      "level_span": 3975,
+      "ratio": 0.999748427672956
+    },
+    {
+      "total_xp": 159975,
+      "earned_in_level": 0,
+      "level_span": 4025,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 159976,
+      "earned_in_level": 1,
+      "level_span": 4025,
+      "ratio": 0.000248447204968944
+    },
+    {
+      "total_xp": 159977,
+      "earned_in_level": 2,
+      "level_span": 4025,
+      "ratio": 0.000496894409937888
+    },
+    {
+      "total_xp": 163998,
+      "earned_in_level": 4023,
+      "level_span": 4025,
+      "ratio": 0.999503105590062
+    },
+    {
+      "total_xp": 163999,
+      "earned_in_level": 4024,
+      "level_span": 4025,
+      "ratio": 0.999751552795031
+    },
+    {
+      "total_xp": 164000,
+      "earned_in_level": 0,
+      "level_span": 4075,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 164001,
+      "earned_in_level": 1,
+      "level_span": 4075,
+      "ratio": 0.000245398773006135
+    },
+    {
+      "total_xp": 164002,
+      "earned_in_level": 2,
+      "level_span": 4075,
+      "ratio": 0.00049079754601227
+    },
+    {
+      "total_xp": 168073,
+      "earned_in_level": 4073,
+      "level_span": 4075,
+      "ratio": 0.999509202453988
+    },
+    {
+      "total_xp": 168074,
+      "earned_in_level": 4074,
+      "level_span": 4075,
+      "ratio": 0.999754601226994
+    },
+    {
+      "total_xp": 168075,
+      "earned_in_level": 0,
+      "level_span": 4125,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 168076,
+      "earned_in_level": 1,
+      "level_span": 4125,
+      "ratio": 0.000242424242424242
+    },
+    {
+      "total_xp": 168077,
+      "earned_in_level": 2,
+      "level_span": 4125,
+      "ratio": 0.000484848484848485
+    },
+    {
+      "total_xp": 172198,
+      "earned_in_level": 4123,
+      "level_span": 4125,
+      "ratio": 0.999515151515151
+    },
+    {
+      "total_xp": 172199,
+      "earned_in_level": 4124,
+      "level_span": 4125,
+      "ratio": 0.999757575757576
+    },
+    {
+      "total_xp": 172200,
+      "earned_in_level": 0,
+      "level_span": 4175,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 172201,
+      "earned_in_level": 1,
+      "level_span": 4175,
+      "ratio": 0.000239520958083832
+    },
+    {
+      "total_xp": 172202,
+      "earned_in_level": 2,
+      "level_span": 4175,
+      "ratio": 0.000479041916167665
+    },
+    {
+      "total_xp": 176373,
+      "earned_in_level": 4173,
+      "level_span": 4175,
+      "ratio": 0.999520958083832
+    },
+    {
+      "total_xp": 176374,
+      "earned_in_level": 4174,
+      "level_span": 4175,
+      "ratio": 0.999760479041916
+    },
+    {
+      "total_xp": 176375,
+      "earned_in_level": 0,
+      "level_span": 4225,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 176376,
+      "earned_in_level": 1,
+      "level_span": 4225,
+      "ratio": 0.000236686390532544
+    },
+    {
+      "total_xp": 176377,
+      "earned_in_level": 2,
+      "level_span": 4225,
+      "ratio": 0.000473372781065089
+    },
+    {
+      "total_xp": 180598,
+      "earned_in_level": 4223,
+      "level_span": 4225,
+      "ratio": 0.999526627218935
+    },
+    {
+      "total_xp": 180599,
+      "earned_in_level": 4224,
+      "level_span": 4225,
+      "ratio": 0.999763313609467
+    },
+    {
+      "total_xp": 180600,
+      "earned_in_level": 0,
+      "level_span": 4275,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 180601,
+      "earned_in_level": 1,
+      "level_span": 4275,
+      "ratio": 0.000233918128654971
+    },
+    {
+      "total_xp": 180602,
+      "earned_in_level": 2,
+      "level_span": 4275,
+      "ratio": 0.000467836257309942
+    },
+    {
+      "total_xp": 184873,
+      "earned_in_level": 4273,
+      "level_span": 4275,
+      "ratio": 0.99953216374269
+    },
+    {
+      "total_xp": 184874,
+      "earned_in_level": 4274,
+      "level_span": 4275,
+      "ratio": 0.999766081871345
+    },
+    {
+      "total_xp": 184875,
+      "earned_in_level": 0,
+      "level_span": 4325,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 184876,
+      "earned_in_level": 1,
+      "level_span": 4325,
+      "ratio": 0.00023121387283237
+    },
+    {
+      "total_xp": 184877,
+      "earned_in_level": 2,
+      "level_span": 4325,
+      "ratio": 0.00046242774566474
+    },
+    {
+      "total_xp": 189198,
+      "earned_in_level": 4323,
+      "level_span": 4325,
+      "ratio": 0.999537572254335
+    },
+    {
+      "total_xp": 189199,
+      "earned_in_level": 4324,
+      "level_span": 4325,
+      "ratio": 0.999768786127168
+    },
+    {
+      "total_xp": 189200,
+      "earned_in_level": 0,
+      "level_span": 4375,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 189201,
+      "earned_in_level": 1,
+      "level_span": 4375,
+      "ratio": 0.000228571428571429
+    },
+    {
+      "total_xp": 189202,
+      "earned_in_level": 2,
+      "level_span": 4375,
+      "ratio": 0.000457142857142857
+    },
+    {
+      "total_xp": 193573,
+      "earned_in_level": 4373,
+      "level_span": 4375,
+      "ratio": 0.999542857142857
+    },
+    {
+      "total_xp": 193574,
+      "earned_in_level": 4374,
+      "level_span": 4375,
+      "ratio": 0.999771428571429
+    },
+    {
+      "total_xp": 193575,
+      "earned_in_level": 0,
+      "level_span": 4425,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 193576,
+      "earned_in_level": 1,
+      "level_span": 4425,
+      "ratio": 0.000225988700564972
+    },
+    {
+      "total_xp": 193577,
+      "earned_in_level": 2,
+      "level_span": 4425,
+      "ratio": 0.000451977401129944
+    },
+    {
+      "total_xp": 197998,
+      "earned_in_level": 4423,
+      "level_span": 4425,
+      "ratio": 0.99954802259887
+    },
+    {
+      "total_xp": 197999,
+      "earned_in_level": 4424,
+      "level_span": 4425,
+      "ratio": 0.999774011299435
+    },
+    {
+      "total_xp": 198000,
+      "earned_in_level": 0,
+      "level_span": 4475,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 198001,
+      "earned_in_level": 1,
+      "level_span": 4475,
+      "ratio": 0.000223463687150838
+    },
+    {
+      "total_xp": 198002,
+      "earned_in_level": 2,
+      "level_span": 4475,
+      "ratio": 0.000446927374301676
+    },
+    {
+      "total_xp": 202473,
+      "earned_in_level": 4473,
+      "level_span": 4475,
+      "ratio": 0.999553072625698
+    },
+    {
+      "total_xp": 202474,
+      "earned_in_level": 4474,
+      "level_span": 4475,
+      "ratio": 0.999776536312849
+    },
+    {
+      "total_xp": 202475,
+      "earned_in_level": 0,
+      "level_span": 4525,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 202476,
+      "earned_in_level": 1,
+      "level_span": 4525,
+      "ratio": 0.000220994475138122
+    },
+    {
+      "total_xp": 202477,
+      "earned_in_level": 2,
+      "level_span": 4525,
+      "ratio": 0.000441988950276243
+    },
+    {
+      "total_xp": 206998,
+      "earned_in_level": 4523,
+      "level_span": 4525,
+      "ratio": 0.999558011049724
+    },
+    {
+      "total_xp": 206999,
+      "earned_in_level": 4524,
+      "level_span": 4525,
+      "ratio": 0.999779005524862
+    },
+    {
+      "total_xp": 207000,
+      "earned_in_level": 0,
+      "level_span": 4575,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 207001,
+      "earned_in_level": 1,
+      "level_span": 4575,
+      "ratio": 0.000218579234972678
+    },
+    {
+      "total_xp": 207002,
+      "earned_in_level": 2,
+      "level_span": 4575,
+      "ratio": 0.000437158469945355
+    },
+    {
+      "total_xp": 211573,
+      "earned_in_level": 4573,
+      "level_span": 4575,
+      "ratio": 0.999562841530055
+    },
+    {
+      "total_xp": 211574,
+      "earned_in_level": 4574,
+      "level_span": 4575,
+      "ratio": 0.999781420765027
+    },
+    {
+      "total_xp": 211575,
+      "earned_in_level": 0,
+      "level_span": 4625,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 211576,
+      "earned_in_level": 1,
+      "level_span": 4625,
+      "ratio": 0.000216216216216216
+    },
+    {
+      "total_xp": 211577,
+      "earned_in_level": 2,
+      "level_span": 4625,
+      "ratio": 0.000432432432432432
+    },
+    {
+      "total_xp": 216198,
+      "earned_in_level": 4623,
+      "level_span": 4625,
+      "ratio": 0.999567567567568
+    },
+    {
+      "total_xp": 216199,
+      "earned_in_level": 4624,
+      "level_span": 4625,
+      "ratio": 0.999783783783784
+    },
+    {
+      "total_xp": 216200,
+      "earned_in_level": 0,
+      "level_span": 4675,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 216201,
+      "earned_in_level": 1,
+      "level_span": 4675,
+      "ratio": 0.000213903743315508
+    },
+    {
+      "total_xp": 216202,
+      "earned_in_level": 2,
+      "level_span": 4675,
+      "ratio": 0.000427807486631016
+    },
+    {
+      "total_xp": 220873,
+      "earned_in_level": 4673,
+      "level_span": 4675,
+      "ratio": 0.999572192513369
+    },
+    {
+      "total_xp": 220874,
+      "earned_in_level": 4674,
+      "level_span": 4675,
+      "ratio": 0.999786096256684
+    },
+    {
+      "total_xp": 220875,
+      "earned_in_level": 0,
+      "level_span": 4725,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 220876,
+      "earned_in_level": 1,
+      "level_span": 4725,
+      "ratio": 0.000211640211640212
+    },
+    {
+      "total_xp": 220877,
+      "earned_in_level": 2,
+      "level_span": 4725,
+      "ratio": 0.000423280423280423
+    },
+    {
+      "total_xp": 225598,
+      "earned_in_level": 4723,
+      "level_span": 4725,
+      "ratio": 0.99957671957672
+    },
+    {
+      "total_xp": 225599,
+      "earned_in_level": 4724,
+      "level_span": 4725,
+      "ratio": 0.99978835978836
+    },
+    {
+      "total_xp": 225600,
+      "earned_in_level": 0,
+      "level_span": 4775,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 225601,
+      "earned_in_level": 1,
+      "level_span": 4775,
+      "ratio": 0.000209424083769634
+    },
+    {
+      "total_xp": 225602,
+      "earned_in_level": 2,
+      "level_span": 4775,
+      "ratio": 0.000418848167539267
+    },
+    {
+      "total_xp": 230373,
+      "earned_in_level": 4773,
+      "level_span": 4775,
+      "ratio": 0.999581151832461
+    },
+    {
+      "total_xp": 230374,
+      "earned_in_level": 4774,
+      "level_span": 4775,
+      "ratio": 0.99979057591623
+    },
+    {
+      "total_xp": 230375,
+      "earned_in_level": 0,
+      "level_span": 4825,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 230376,
+      "earned_in_level": 1,
+      "level_span": 4825,
+      "ratio": 0.000207253886010363
+    },
+    {
+      "total_xp": 230377,
+      "earned_in_level": 2,
+      "level_span": 4825,
+      "ratio": 0.000414507772020725
+    },
+    {
+      "total_xp": 235198,
+      "earned_in_level": 4823,
+      "level_span": 4825,
+      "ratio": 0.999585492227979
+    },
+    {
+      "total_xp": 235199,
+      "earned_in_level": 4824,
+      "level_span": 4825,
+      "ratio": 0.99979274611399
+    },
+    {
+      "total_xp": 235200,
+      "earned_in_level": 0,
+      "level_span": 4875,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 235201,
+      "earned_in_level": 1,
+      "level_span": 4875,
+      "ratio": 0.000205128205128205
+    },
+    {
+      "total_xp": 235202,
+      "earned_in_level": 2,
+      "level_span": 4875,
+      "ratio": 0.00041025641025641
+    },
+    {
+      "total_xp": 240073,
+      "earned_in_level": 4873,
+      "level_span": 4875,
+      "ratio": 0.999589743589744
+    },
+    {
+      "total_xp": 240074,
+      "earned_in_level": 4874,
+      "level_span": 4875,
+      "ratio": 0.999794871794872
+    },
+    {
+      "total_xp": 240075,
+      "earned_in_level": 0,
+      "level_span": 4925,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 240076,
+      "earned_in_level": 1,
+      "level_span": 4925,
+      "ratio": 0.000203045685279188
+    },
+    {
+      "total_xp": 240077,
+      "earned_in_level": 2,
+      "level_span": 4925,
+      "ratio": 0.000406091370558376
+    },
+    {
+      "total_xp": 244998,
+      "earned_in_level": 4923,
+      "level_span": 4925,
+      "ratio": 0.999593908629442
+    },
+    {
+      "total_xp": 244999,
+      "earned_in_level": 4924,
+      "level_span": 4925,
+      "ratio": 0.999796954314721
+    },
+    {
+      "total_xp": 245000,
+      "earned_in_level": 0,
+      "level_span": 4975,
+      "ratio": 0.0
+    },
+    {
+      "total_xp": 245001,
+      "earned_in_level": 1,
+      "level_span": 4975,
+      "ratio": 0.000201005025125628
+    },
+    {
+      "total_xp": 245002,
+      "earned_in_level": 2,
+      "level_span": 4975,
+      "ratio": 0.000402010050251256
+    },
+    {
+      "total_xp": 249973,
+      "earned_in_level": 4973,
+      "level_span": 4975,
+      "ratio": 0.999597989949749
+    },
+    {
+      "total_xp": 249974,
+      "earned_in_level": 4974,
+      "level_span": 4975,
+      "ratio": 0.999798994974874
+    },
+    {
+      "total_xp": 249975,
+      "earned_in_level": 0,
+      "level_span": 0,
+      "ratio": 1.0
+    },
+    {
+      "total_xp": 249976,
+      "earned_in_level": 0,
+      "level_span": 0,
+      "ratio": 1.0
+    },
+    {
+      "total_xp": 249977,
+      "earned_in_level": 0,
+      "level_span": 0,
+      "ratio": 1.0
+    },
+    {
+      "total_xp": 5000,
+      "earned_in_level": 125,
+      "level_span": 725,
+      "ratio": 0.172413793103448
+    },
+    {
+      "total_xp": 12345,
+      "earned_in_level": 270,
+      "level_span": 1125,
+      "ratio": 0.24
+    },
+    {
+      "total_xp": 99999,
+      "earned_in_level": 799,
+      "level_span": 3175,
+      "ratio": 0.251653543307087
+    },
+    {
+      "total_xp": 250000,
+      "earned_in_level": 0,
+      "level_span": 0,
+      "ratio": 1.0
+    },
+    {
+      "total_xp": 1000000,
+      "earned_in_level": 0,
+      "level_span": 0,
+      "ratio": 1.0
+    },
+    {
+      "total_xp": 2147483647,
+      "earned_in_level": 0,
+      "level_span": 0,
+      "ratio": 1.0
+    }
+  ],
+  "xp_for_session": [
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 1.0,
+      "out": 2
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 12.5,
+      "out": 25
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 25.0,
+      "out": 50
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 25.9,
+      "out": 51
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 90.0,
+      "out": 180
+    },
+    {
+      "kind": 0,
+      "completion": 0,
+      "actual_focus_minutes": 600.0,
+      "out": 1200
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 1.0,
+      "out": 2
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 12.5,
+      "out": 25
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 25.0,
+      "out": 50
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 25.9,
+      "out": 51
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 90.0,
+      "out": 180
+    },
+    {
+      "kind": 0,
+      "completion": 1,
+      "actual_focus_minutes": 600.0,
+      "out": 1200
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 12.5,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 25.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 25.9,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 90.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 2,
+      "actual_focus_minutes": 600.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 1.0,
+      "out": 2
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 12.5,
+      "out": 25
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 25.0,
+      "out": 50
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 25.9,
+      "out": 51
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 90.0,
+      "out": 180
+    },
+    {
+      "kind": 0,
+      "completion": 3,
+      "actual_focus_minutes": 600.0,
+      "out": 1200
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 12.5,
+      "out": 3
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 25.0,
+      "out": 6
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 25.9,
+      "out": 6
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 90.0,
+      "out": 22
+    },
+    {
+      "kind": 1,
+      "completion": 0,
+      "actual_focus_minutes": 600.0,
+      "out": 150
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 12.5,
+      "out": 3
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 25.0,
+      "out": 6
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 25.9,
+      "out": 6
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 90.0,
+      "out": 22
+    },
+    {
+      "kind": 1,
+      "completion": 1,
+      "actual_focus_minutes": 600.0,
+      "out": 150
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 12.5,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 25.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 25.9,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 90.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 2,
+      "actual_focus_minutes": 600.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 12.5,
+      "out": 3
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 25.0,
+      "out": 6
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 25.9,
+      "out": 6
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 90.0,
+      "out": 22
+    },
+    {
+      "kind": 1,
+      "completion": 3,
+      "actual_focus_minutes": 600.0,
+      "out": 150
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 12.5,
+      "out": 3
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 25.0,
+      "out": 6
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 25.9,
+      "out": 6
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 90.0,
+      "out": 22
+    },
+    {
+      "kind": 2,
+      "completion": 0,
+      "actual_focus_minutes": 600.0,
+      "out": 150
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 12.5,
+      "out": 3
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 25.0,
+      "out": 6
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 25.9,
+      "out": 6
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 90.0,
+      "out": 22
+    },
+    {
+      "kind": 2,
+      "completion": 1,
+      "actual_focus_minutes": 600.0,
+      "out": 150
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 12.5,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 25.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 25.9,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 90.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 2,
+      "actual_focus_minutes": 600.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 0.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 0.4,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 1.0,
+      "out": 0
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 12.5,
+      "out": 3
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 25.0,
+      "out": 6
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 25.9,
+      "out": 6
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 90.0,
+      "out": 22
+    },
+    {
+      "kind": 2,
+      "completion": 3,
+      "actual_focus_minutes": 600.0,
+      "out": 150
+    }
+  ]
+}

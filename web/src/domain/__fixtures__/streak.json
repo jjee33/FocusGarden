@@ -1,0 +1,379 @@
+{
+  "calculate": [
+    {
+      "label": "empty",
+      "sessions": [],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 0,
+        "longest": 0,
+        "qualifying_days": [],
+        "last_qualifying_day": ""
+      }
+    },
+    {
+      "label": "single_today",
+      "sessions": [
+        [
+          "2026-08-29",
+          30.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    },
+    {
+      "label": "single_yesterday",
+      "sessions": [
+        [
+          "2026-08-28",
+          30.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-28"
+        ],
+        "last_qualifying_day": "2026-08-28"
+      }
+    },
+    {
+      "label": "gap_of_two_days",
+      "sessions": [
+        [
+          "2026-08-26",
+          30.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 0,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-26"
+        ],
+        "last_qualifying_day": "2026-08-26"
+      }
+    },
+    {
+      "label": "three_in_a_row_to_today",
+      "sessions": [
+        [
+          "2026-08-27",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-28",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-29",
+          25.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 3,
+        "longest": 3,
+        "qualifying_days": [
+          "2026-08-27",
+          "2026-08-28",
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    },
+    {
+      "label": "broken_run_keeps_longest",
+      "sessions": [
+        [
+          "2026-08-01",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-02",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-03",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-04",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-20",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-29",
+          25.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 4,
+        "qualifying_days": [
+          "2026-08-01",
+          "2026-08-02",
+          "2026-08-03",
+          "2026-08-04",
+          "2026-08-20",
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    },
+    {
+      "label": "below_threshold_does_not_qualify",
+      "sessions": [
+        [
+          "2026-08-28",
+          19.9,
+          0,
+          0
+        ],
+        [
+          "2026-08-29",
+          20.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    },
+    {
+      "label": "minutes_accumulate_across_sessions",
+      "sessions": [
+        [
+          "2026-08-29",
+          11.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-29",
+          10.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    },
+    {
+      "label": "breaks_do_not_count",
+      "sessions": [
+        [
+          "2026-08-29",
+          60.0,
+          1,
+          0
+        ],
+        [
+          "2026-08-29",
+          60.0,
+          2,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 0,
+        "longest": 0,
+        "qualifying_days": [],
+        "last_qualifying_day": ""
+      }
+    },
+    {
+      "label": "cancelled_does_not_count",
+      "sessions": [
+        [
+          "2026-08-29",
+          60.0,
+          0,
+          2
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 0,
+        "longest": 0,
+        "qualifying_days": [],
+        "last_qualifying_day": ""
+      }
+    },
+    {
+      "label": "zero_threshold",
+      "sessions": [
+        [
+          "2026-08-29",
+          0.5,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 0.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    },
+    {
+      "label": "month_boundary",
+      "sessions": [
+        [
+          "2026-07-31",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-01",
+          25.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-01",
+      "out": {
+        "current": 2,
+        "longest": 2,
+        "qualifying_days": [
+          "2026-07-31",
+          "2026-08-01"
+        ],
+        "last_qualifying_day": "2026-08-01"
+      }
+    },
+    {
+      "label": "leap_day",
+      "sessions": [
+        [
+          "2024-02-28",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2024-02-29",
+          25.0,
+          0,
+          0
+        ],
+        [
+          "2024-03-01",
+          25.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2024-03-01",
+      "out": {
+        "current": 3,
+        "longest": 3,
+        "qualifying_days": [
+          "2024-02-28",
+          "2024-02-29",
+          "2024-03-01"
+        ],
+        "last_qualifying_day": "2024-03-01"
+      }
+    },
+    {
+      "label": "missing_date_key_ignored",
+      "sessions": [
+        [
+          "",
+          60.0,
+          0,
+          0
+        ],
+        [
+          "2026-08-29",
+          25.0,
+          0,
+          0
+        ]
+      ],
+      "threshold_minutes": 20.0,
+      "today_key": "2026-08-29",
+      "out": {
+        "current": 1,
+        "longest": 1,
+        "qualifying_days": [
+          "2026-08-29"
+        ],
+        "last_qualifying_day": "2026-08-29"
+      }
+    }
+  ]
+}

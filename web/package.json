@@ -1,0 +1,16 @@
+{
+  "name": "focus-garden-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Focus Garden for the web. Domain logic ported from the Godot app and pinned to it by fixtures.",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
