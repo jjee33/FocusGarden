@@ -1674,3 +1674,59 @@
   gap: var(--sp-xs);
   flex: none;
 }
+
+/* ------------------------------------------------------------ device tokens --- */
+
+/*
+ * The one-time reveal. Loud on purpose: this string exists in exactly one place
+ * for a few seconds, and someone who navigates away without copying it has to
+ * create another. Better to over-signal than to be quietly unrecoverable.
+ */
+.token-reveal {
+  display: grid;
+  gap: var(--sp-sm);
+  margin: var(--sp-sm) var(--sp-md);
+  padding: var(--sp-md);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in oklab, var(--amber) 55%, var(--border-soft));
+  background: color-mix(in oklab, var(--amber) 10%, var(--bg-raised));
+}
+.token-reveal p { margin: 0; font-size: var(--t-small); color: var(--ink-2); }
+
+.token-reveal__value {
+  display: block;
+  padding: var(--sp-sm);
+  border-radius: var(--r-sm);
+  background: var(--bg-base);
+  border: 1px solid var(--border-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--t-small);
+  color: var(--ink);
+  /* It is one long unbroken string; without this it runs off the card. */
+  word-break: break-all;
+  user-select: all;
+}
+
+.token-list { list-style: none; margin: 0; padding: 0 var(--sp-md); display: grid; gap: var(--sp-xs); }
+.token-list li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: var(--sp-sm) 0;
+  border-top: 1px solid var(--hairline);
+}
+.token-list__mark { color: var(--ink-muted); display: grid; place-items: center; }
+.token-list div { display: grid; gap: 1px; min-width: 0; }
+.token-list b { font-size: var(--t-body); font-weight: 650; }
+.token-list span { font-size: var(--t-small); color: var(--ink-muted); }
+
+.token-add {
+  display: grid;
+  gap: var(--sp-sm);
+  padding: var(--sp-md);
+  border-top: 1px solid var(--hairline);
+  justify-items: start;
+}
+.token-add .auth__field { width: 100%; max-width: 22rem; }
+.token-add .auth__field > span { text-transform: none; letter-spacing: normal; font-weight: 400; font-size: var(--t-small); color: var(--ink-2); }

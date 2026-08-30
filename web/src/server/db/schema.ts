@@ -228,9 +228,38 @@ export const mailThrottle = sqliteTable("mail_throttle", {
   count: integer("count").notNull(),
 });
 
+/**
+ * Long-lived tokens, so the desktop app can sync.
+ *
+ * The desktop is a Godot binary, not a browser: it has no cookie jar and no
+ * sensible place to complete an OAuth redirect. A token the person creates in
+ * the web app and pastes into Settings is the honest mechanism - it is explicit,
+ * it is revocable, and it never asks anyone to type their password into a native
+ * window.
+ *
+ * ONLY A HASH IS STORED. The token is shown once at creation and never again,
+ * and this table holds sha256 of it. A stolen database therefore yields no
+ * working credentials, which is the entire difference between this and a
+ * password column. It also means "show me my token" is impossible rather than
+ * merely discouraged.
+ */
+export const deviceToken = sqliteTable("device_token", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  /** sha256 of the token, hex. Unique so a lookup is one indexed read. */
+  tokenHash: text("token_hash").notNull().unique(),
+  /** The person's own label: "Desktop PC", "work laptop". */
+  label: text("label").notNull(),
+  createdAt: integer("created_at").notNull(),
+  /** Unix seconds, 0 until first use. Lets someone spot a token they forgot. */
+  lastUsedAt: integer("last_used_at").notNull().default(0),
+}, (table) => [
+  index("device_token_user").on(table.userId),
+]);
+
 export const schema = {
   user, session, account, verification,
   profile, plant, project, catalogueEntry, achievementState,
   journalEntry, focusSession, dailyRollup, revisionCounter, pushLog,
-  mailThrottle,
+  mailThrottle, deviceToken,
 };

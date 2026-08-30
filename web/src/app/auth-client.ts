@@ -149,3 +149,49 @@ export async function deleteAccount(
       : "Something went wrong. Nothing was deleted.",
   };
 }
+
+export interface DeviceToken {
+  id: string;
+  label: string;
+  createdAt: number;
+  lastUsedAt: number;
+}
+
+/** The devices allowed to sync without a browser session. */
+export async function listDeviceTokens(): Promise<DeviceToken[]> {
+  const r = await fetch("/api/account/tokens", { credentials: "include" });
+  if (!r.ok) return [];
+  const body = await r.json().catch(() => ({})) as { tokens?: DeviceToken[] };
+  return body.tokens ?? [];
+}
+
+/**
+ * Creates a token and returns it ONCE.
+ *
+ * The server keeps only a hash, so this string cannot be recovered afterwards.
+ * The caller must show it immediately or it is gone - which is the point, not an
+ * inconvenience to work around.
+ */
+export async function createDeviceToken(
+  label: string,
+): Promise<{ ok: true; token: string } | { ok: false; message: string }> {
+  const r = await fetch("/api/account/tokens", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ label }),
+  });
+  const body = await r.json().catch(() => ({})) as { token?: string; error?: string };
+  if (r.ok && typeof body.token === "string") return { ok: true, token: body.token };
+  return { ok: false, message: body.error ?? "The device could not be added." };
+}
+
+export async function revokeDeviceToken(id: string): Promise<boolean> {
+  const r = await fetch("/api/account/tokens/revoke", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ id }),
+  });
+  return r.ok;
+}

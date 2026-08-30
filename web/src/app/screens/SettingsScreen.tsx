@@ -24,6 +24,7 @@ import { deleteAccount, signOut, useSession } from "../auth-client.js";
 import type { useSync } from "../useSync.js";
 import { formatDatetime } from "../../domain/time-util.js";
 import { Icon } from "../components/Icon.js";
+import { DeviceTokens } from "./DeviceTokens.js";
 
 interface Props {
   garden: ReturnType<typeof useGarden>;
@@ -301,6 +302,9 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
             </button>
           </Row>
         </section>
+
+        {/* Tokens only mean anything for an account that can sync. */}
+        {authSession !== null && <DeviceTokens />}
 
         {/*
           Only shown to someone who has an account, because there is nothing to

@@ -19,6 +19,7 @@ import type { AppBindings } from "./context.js";
 import { assertEnv } from "./env.js";
 import { createDatabase } from "./db/client.js";
 import { createAuth } from "./auth.js";
+import { bearerFrom, ownerOf } from "./device-token.js";
 import { accountRoutes } from "./routes/account.js";
 import { syncRoutes } from "./routes/sync.js";
 
@@ -114,15 +115,45 @@ export function createApp() {
    * forever against HTML it cannot parse.
    */
   app.use("/api/sync/*", async (c, next) => {
+    /*
+     * TWO WAYS IN, because two very different clients need to sync.
+     *
+     * A browser arrives with a session cookie. The desktop app is a Godot binary
+     * with no cookie jar and nowhere to land an OAuth redirect, so it presents a
+     * bearer token the person created in the web app and pasted into its
+     * settings.
+     *
+     * The cookie is tried FIRST and the token only if there is no session. A
+     * browser should never be authenticating with a long-lived token, and
+     * preferring the cookie means a stale token in some extension cannot quietly
+     * take over a real session.
+     */
     const auth = createAuth(c.env);
-    const result = await auth.api.getSession({ headers: c.req.raw.headers });
-    if (result === null) return c.json({ error: "Not signed in." }, 401);
-    c.set("user", {
-      id: result.user.id,
-      email: result.user.email,
-      name: result.user.name,
-    });
-    await next();
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+    if (session !== null) {
+      c.set("user", {
+        id: session.user.id,
+        email: session.user.email,
+        name: session.user.name,
+      });
+      await next();
+      return;
+    }
+
+    const bearer = bearerFrom(c.req.raw.headers);
+    if (bearer !== "") {
+      const owner = await ownerOf(c.get("db"), bearer);
+      if (owner !== null) {
+        // Only the id is known from a token, and only the id is used by sync.
+        // Loading the user row to fill in an email nothing reads would be a
+        // query per request in exchange for nothing.
+        c.set("user", { id: owner.userId, email: "", name: "" });
+        await next();
+        return;
+      }
+    }
+
+    return c.json({ error: "Not signed in." }, 401);
   });
 
   app.route("/api/sync", syncRoutes());
