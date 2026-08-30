@@ -19,19 +19,25 @@
 
   "observability": { "enabled": true },
 
+  // ONE binding, named DB, because that is what src/server/env.ts declares and
+  // what every query reaches for. `wrangler d1 create` offers to append a second
+  // binding named after the database; two bindings onto one database is not an
+  // error but it is a second name for the same thing, and the unused one is
+  // where a future reader wastes an afternoon.
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "focus-garden",
-      // Filled in by `wrangler d1 create focus-garden`.
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      // A resource id, not a credential: reaching the database still requires an
+      // authenticated Cloudflare account. Secrets never appear in this file.
+      "database_id": "e7dbe702-7a44-404a-8153-b5b9d5a6ac8a",
       "migrations_dir": "drizzle"
     }
   ],
 
   "vars": {
     // Public, so it lives here. Every secret goes through `wrangler secret put`
-    // and must never appear in this file.
+    // in production, or .dev.vars locally - never this file, which is committed.
     "APP_URL": "https://thefocusgarden.com"
   }
 }
