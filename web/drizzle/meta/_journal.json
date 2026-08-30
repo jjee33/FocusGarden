@@ -29,6 +29,13 @@
       "when": 1788087445831,
       "tag": "0003_unusual_quasimodo",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1788089794367,
+      "tag": "0004_smart_wonder_man",
+      "breakpoints": true
     }
   ]
 }

@@ -141,48 +141,60 @@ export async function replaceGarden(
     }));
 
   /*
-   * Chunked, because D1 refuses a statement with too many bound parameters and a
-   * long-running garden carries hundreds of sessions.
+   * CHUNKED BY BOUND PARAMETERS, NOT BY ROWS. D1 refuses any statement with more
+   * than 100 of them, and a multi-row insert binds one per column per row - so
+   * the safe batch size depends on how wide the table is, not on a number that
+   * looks reasonable.
+   *
+   * The first version chunked at 40 rows. Every test bundle had one row per
+   * table and sailed through; the first real garden pushed 24 achievement rows
+   * at six columns each, 144 parameters, and the whole sync failed with nothing
+   * but "Failed query". Small synthetic fixtures cannot find a limit that scales
+   * with the data.
    *
    * The caller supplies the insert rather than the table, so each call keeps its
-   * own row type all the way through. Passing the table into a generic helper
-   * needed an `as never` at every site, and a cast that silences the compiler on
-   * an INSERT is a cast that will one day silence a real column mismatch.
+   * own row type. Passing the table into a generic helper needed an `as never`
+   * at every site, and a cast that silences the compiler on an INSERT will one
+   * day silence a real column mismatch.
    */
-  const inChunks = async <T>(values: T[], insert: (batch: T[]) => Promise<unknown>) => {
-    for (let i = 0; i < values.length; i += 40) {
-      const batch = values.slice(i, i + 40);
+  const PARAMETER_BUDGET = 90;
+  const inChunks = async <T>(
+    values: T[], columns: number, insert: (batch: T[]) => Promise<unknown>,
+  ) => {
+    const perBatch = Math.max(1, Math.floor(PARAMETER_BUDGET / columns));
+    for (let i = 0; i < values.length; i += perBatch) {
+      const batch = values.slice(i, i + perBatch);
       if (batch.length > 0) await insert(batch);
     }
   };
 
   await inChunks(
-    rows(save.plants, (p) => p.uid, plantInstanceToDict),
+    rows(save.plants, (p) => p.uid, plantInstanceToDict), 6,
     (b) => db.insert(plant).values(b).run(),
   );
   await inChunks(
-    rows(save.projects, (p) => p.id, projectCategoryToDict),
+    rows(save.projects, (p) => p.id, projectCategoryToDict), 6,
     (b) => db.insert(project).values(b).run(),
   );
   await inChunks(
-    rows(save.catalogue, (c) => c.speciesId, catalogueEntryToDict),
+    rows(save.catalogue, (c) => c.speciesId, catalogueEntryToDict), 6,
     (b) => db.insert(catalogueEntry).values(b).run(),
   );
   await inChunks(
-    rows(save.achievements, (a) => a.achievementId, achievementStateToDict),
+    rows(save.achievements, (a) => a.achievementId, achievementStateToDict), 6,
     (b) => db.insert(achievementState).values(b).run(),
   );
   await inChunks(
     save.journal.map((j) => ({
       id: j.id, userId, data: journalEntryToDict(j), createdAt: Math.floor(j.createdAtUtc),
-    })),
+    })), 4,
     (b) => db.insert(journalEntry).values(b).run(),
   );
   await inChunks(
     sessions.map((s) => ({
       id: s.id, userId, dateKey: s.dateKey, data: focusSessionToDict(s),
       createdAt: Math.floor(s.startedAtUtc),
-    })),
+    })), 5,
     (b) => db.insert(focusSession).values(b).run(),
   );
 

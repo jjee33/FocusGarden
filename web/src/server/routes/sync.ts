@@ -187,7 +187,10 @@ export function syncRoutes() {
           updatedAt: record.updatedAt,
           deletedAt: record.deletedAt,
         }).onConflictDoUpdate({
-          target: table.id,
+          // MUST match the table's primary key, which is (user_id, id). Naming
+          // only `id` here is what let one account's push overwrite another
+          // account's row - the conflict it resolved was the wrong conflict.
+          target: [table.userId, table.id],
           set: { data: record.value, revision, updatedAt: record.updatedAt,
             deletedAt: record.deletedAt },
         });

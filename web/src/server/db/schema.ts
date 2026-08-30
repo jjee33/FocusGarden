@@ -122,13 +122,30 @@ export const profile = sqliteTable("profile", {
  */
 function syncable(name: string) {
   return sqliteTable(name, {
-    id: text("id").primaryKey(),
+    id: text("id").notNull(),
     userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
     data: text("data", { mode: "json" }).notNull(),
     revision: integer("revision").notNull().default(1),
     updatedAt: integer("updated_at").notNull(),
     deletedAt: integer("deleted_at"),
-  }, (table) => [index(`${name}_user_idx`).on(table.userId, table.revision)]);
+  }, (table) => [
+    /*
+     * (user_id, id), NOT id alone. This was the single most dangerous bug in the
+     * schema.
+     *
+     * These ids are not globally unique and were never going to be: an
+     * achievement's id is "botanist" and a catalogue entry's is "monstera", the
+     * same strings for every person who uses the app. With `id` as the primary
+     * key, the SECOND account to sync collided with the first - and because the
+     * push upserts on conflict, it did not fail: it overwrote one person's row
+     * with another person's data.
+     *
+     * It had not bitten only because exactly one account had ever synced. It
+     * would have started corrupting gardens the day a second person signed up.
+     */
+    primaryKey({ columns: [table.userId, table.id] }),
+    index(`${name}_user_idx`).on(table.userId, table.revision),
+  ]);
 }
 
 export const plant = syncable("plant");
@@ -141,11 +158,15 @@ export const achievementState = syncable("achievement_state");
  * tombstone - which is also why it is not `syncable`.
  */
 export const journalEntry = sqliteTable("journal_entry", {
-  id: text("id").primaryKey(),
+  id: text("id").notNull(),
   userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   data: text("data", { mode: "json" }).notNull(),
   createdAt: integer("created_at").notNull(),
-}, (table) => [index("journal_user_idx").on(table.userId, table.createdAt)]);
+}, (table) => [
+  // Same reasoning as syncable(): an id is only unique within one account.
+  primaryKey({ columns: [table.userId, table.id] }),
+  index("journal_user_idx").on(table.userId, table.createdAt),
+]);
 
 /**
  * Focus sessions: immutable, append-only, unique ids. Syncing them is a set
@@ -155,13 +176,18 @@ export const journalEntry = sqliteTable("journal_entry", {
  * filters by: it is how a rollup is rebuilt and how a partial pull is bounded.
  */
 export const focusSession = sqliteTable("focus_session", {
-  id: text("id").primaryKey(),
+  id: text("id").notNull(),
   userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   /** Local "YYYY-MM-DD", captured at record time and never recomputed. */
   dateKey: text("date_key").notNull(),
   data: text("data", { mode: "json" }).notNull(),
   createdAt: integer("created_at").notNull(),
 }, (table) => [
+  // Session ids are random, so a collision here was improbable rather than
+  // certain - but "improbable across every user forever" is not a bet worth
+  // taking with somebody's history, and onConflictDoNothing would have silently
+  // dropped the loser's session.
+  primaryKey({ columns: [table.userId, table.id] }),
   index("focus_session_user_date_idx").on(table.userId, table.dateKey),
   index("focus_session_user_created_idx").on(table.userId, table.createdAt),
 ]);
