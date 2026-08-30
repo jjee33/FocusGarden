@@ -12,7 +12,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   NEVER_SYNCED, acknowledge, isDeleted, liveValues, makeRecord,
-  mergeAppendOnly, mergeCollection, tombstone, touch,
+  mergeAppendOnly, mergeCollection, nextPullCursor, tombstone, touch,
 } from "../sync.js";
 import type { SyncRecord } from "../sync.js";
 
@@ -191,5 +191,38 @@ describe("record helpers", () => {
     const revived = touch(tombstone(clean("a", "one", 3), T0 + 10), "again", T0 + 20);
     expect(isDeleted(revived)).toBe(false);
     expect(liveValues([revived])).toEqual(["again"]);
+  });
+});
+
+
+/*
+ * These exist because the client did the wrong one, and it lost data.
+ *
+ * The cursor was set from the push response, which meant anything a second
+ * device committed between this device's pull and its push was stepped over and
+ * never requested again. It was reproduced end to end against the deployed
+ * server: device B's plant became permanently invisible to device A.
+ */
+describe("nextPullCursor", () => {
+  it("advances only as far as this device actually read", () => {
+    // Pulled at 3, own push landed at 5. Revision 4 belongs to another device
+    // and has not been read yet, so the cursor must not pass 3.
+    expect(nextPullCursor(3, 5)).toBe(3);
+  });
+
+  it("never returns the push revision, however far ahead it is", () => {
+    for (const [pull, push] of [[0, 1], [1, 2], [7, 8], [7, 900], [42, 43]]) {
+      expect(nextPullCursor(pull!, push!)).toBe(pull);
+    }
+  });
+
+  it("holds when there was nothing to push and the two agree", () => {
+    expect(nextPullCursor(9, 9)).toBe(9);
+  });
+
+  it("does not go backwards when a push somehow reports lower", () => {
+    // Defensive: a stale or reordered response must not rewind the cursor and
+    // cause the whole history to be re-pulled.
+    expect(nextPullCursor(10, 4)).toBe(10);
   });
 });

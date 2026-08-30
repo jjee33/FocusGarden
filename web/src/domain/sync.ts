@@ -192,3 +192,30 @@ export function isDeleted<T>(record: SyncRecord<T>): boolean {
 export function liveValues<T>(records: readonly SyncRecord<T>[]): T[] {
   return records.filter((r) => !isDeleted(r)).map((r) => r.value);
 }
+
+/**
+ * How far the next pull may start from.
+ *
+ * THE CURSOR IS WHAT YOU READ, NEVER WHAT YOU WROTE, and the difference is
+ * other people's data. A sync cycle pulls and then pushes, so the push lands at
+ * a higher revision than the pull reported - and anything a second device
+ * committed in that gap sits between the two numbers. Taking the push revision
+ * as the cursor asks the server for "everything after my own write" and steps
+ * straight over it:
+ *
+ *   A pulls, sees revision 3
+ *   B pushes a new plant       -> revision 4
+ *   A pushes an unrelated edit -> revision 5
+ *   A stores 5, asks for what follows 5, and never sees revision 4 again.
+ *
+ * That is not a rare interleaving; two devices syncing within a few seconds is
+ * the ordinary case for the feature an account exists to provide.
+ *
+ * Erring the other way is cheap. A cursor left at the pull revision re-fetches
+ * this device's own writes next time, and the merge hashes them, finds them
+ * identical to what it already holds, and does nothing.
+ */
+export function nextPullCursor(pullRevision: number, pushRevision: number): number {
+  void pushRevision;
+  return pullRevision;
+}

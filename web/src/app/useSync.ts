@@ -37,6 +37,7 @@ import type { SyncRecord } from "../domain/sync.js";
 import { generate } from "../domain/uid.js";
 import type { Json } from "../domain/dict-util.js";
 import { getDict } from "../domain/dict-util.js";
+import { nextPullCursor } from "../domain/sync.js";
 import type { SyncMeta } from "../storage/sync-meta.js";
 import {
   acknowledgeRecord, contentHash, emptySyncMeta, isDirty, loadSyncMeta, metaForUser,
@@ -265,7 +266,34 @@ export function useSync(target: SyncTarget) {
         hasWork = true;
       }
 
-      let revision = Number(pulled["revision"] ?? meta.lastRevision);
+      /*
+       * TWO REVISIONS, AND CONFLATING THEM LOSES OTHER DEVICES' WORK.
+       *
+       * `pullRevision` is how far this device has actually READ. `revision` is
+       * where its own push landed. They are not the same number, and the pull
+       * cursor must be the former.
+       *
+       * This used to store the push revision as the cursor, which silently
+       * skipped anything another device committed in the gap between our pull
+       * and our push:
+       *
+       *   A pulls, sees revision 3
+       *   B pushes a new plant       -> revision 4
+       *   A pushes an unrelated edit -> revision 5
+       *   A stores 5 as its cursor, asks for "everything after 5",
+       *   and never sees revision 4 again.
+       *
+       * Reproduced end to end against the deployed server before this comment
+       * was written; B's plant was permanently invisible to A. It needs no
+       * unusual timing - two devices syncing within a few seconds is the normal
+       * case for the feature that justifies having an account at all.
+       *
+       * Advancing only to what we read re-pulls this device's own writes on the
+       * next sync. That costs a little bandwidth and nothing else: the merge
+       * hashes them, finds them identical, and does nothing.
+       */
+      const pullRevision = Number(pulled["revision"] ?? meta.lastRevision);
+      let revision = pullRevision;
       if (hasWork) {
         const pushed = await fetchJson("/api/sync/push", body);
         revision = Number(pushed["revision"] ?? revision);
@@ -285,7 +313,7 @@ export function useSync(target: SyncTarget) {
         meta.tombstones = {};
       }
 
-      meta.lastRevision = revision;
+      meta.lastRevision = nextPullCursor(pullRevision, revision);
       meta.lastAppendAt = Math.floor(nowSeconds());
       meta.lastSyncedAt = Math.floor(nowSeconds());
       await saveSyncMeta(db, meta);
