@@ -15,7 +15,9 @@
     "db:migrate:local": "wrangler d1 migrations apply focus-garden --local",
     "db:migrate": "wrangler d1 migrations apply focus-garden --remote",
     "server:dev": "wrangler dev",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "smoke": "node --no-warnings tools/smoke-production.mjs",
+    "backup": "node --no-warnings tools/backup-d1.mjs"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260829.1",
