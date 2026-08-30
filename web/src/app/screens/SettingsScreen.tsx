@@ -20,15 +20,19 @@ import type { GameSettings, ThemeMode } from "../../domain/game-settings.js";
 import { formatDuration } from "../../domain/time-util.js";
 import type { ThemeChoice } from "../usePlatform.js";
 import { useTheme } from "../usePlatform.js";
+import { signOut, useSession } from "../auth-client.js";
 
 interface Props {
   garden: ReturnType<typeof useGarden>;
+  /** Lets the shell offer the account again once someone signs out. */
+  onSignedOut: () => void;
 }
 
-export function SettingsScreen({ garden }: Props) {
+export function SettingsScreen({ garden, onSignedOut }: Props) {
   const { save, updateSettings } = garden;
   const settings = save.settings;
   const theme = useTheme();
+  const { data: authSession } = useSession();
 
   // The in-app motion preference, applied as a multiplier on every duration
   // token. Zero when reduced motion is on, which is what switches looping
@@ -145,6 +149,54 @@ export function SettingsScreen({ garden }: Props) {
             checked={settings.confirmBeforeCancelSession}
             onChange={(v) => set("confirmBeforeCancelSession", v)}
           />
+        </section>
+
+        <section className="setting-group" aria-labelledby="account-heading">
+          <h2 id="account-heading">Account</h2>
+          {authSession === null ? (
+            <Row
+              label="Not signed in"
+              hint="This garden lives on this device only. An account keeps it on every device you use, and nothing is lost when you add one."
+            >
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  // Clearing the flag is what brings the sign-in screen back;
+                  // it is a preference, not a session.
+                  try {
+                    localStorage.removeItem("fg.localOnly");
+                  } catch {
+                    /* the reload below still shows it for this session */
+                  }
+                  onSignedOut();
+                }}
+              >
+                Sign in
+              </button>
+            </Row>
+          ) : (
+            <Row label="Signed in" hint="Your garden syncs to every device you sign in on.">
+              <span className="account-row">
+                <b>{authSession.user.email}</b>
+                <span>{authSession.user.emailVerified ? "Email confirmed" : "Email not confirmed yet"}</span>
+              </span>
+            </Row>
+          )}
+          {authSession !== null && (
+            <Row
+              label="Sign out"
+              hint="Your garden stays on this device. Signing back in picks it up again."
+            >
+              <button
+                className="btn btn--ghost"
+                type="button"
+                onClick={() => { void signOut().then(onSignedOut); }}
+              >
+                Sign out
+              </button>
+            </Row>
+          )}
         </section>
 
         <section className="setting-group" aria-labelledby="data-heading">

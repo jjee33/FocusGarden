@@ -1013,3 +1013,132 @@
   gap: var(--sp-xxs);
   flex-wrap: wrap;
 }
+
+/* ------------------------------------------------------------------ auth --- */
+
+.auth {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-lg);
+  background:
+    radial-gradient(
+      110% 70% at 50% 0%,
+      color-mix(in oklab, var(--amber-glow) 26%, transparent),
+      transparent 62%
+    ),
+    var(--bg-base);
+}
+
+.auth__panel {
+  width: 100%;
+  max-width: 430px;
+  display: grid;
+  gap: var(--sp-md);
+  padding: var(--sp-xl);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-soft);
+  background: var(--bg-raised);
+  box-shadow: var(--elev-2);
+}
+
+.auth__brand {
+  display: grid;
+  gap: 1px;
+  margin-bottom: var(--sp-xs);
+}
+.auth__brand b {
+  font-family: var(--display);
+  font-size: var(--t-heading);
+  font-weight: 600;
+  font-variation-settings: "SOFT" 24;
+}
+.auth__brand span {
+  color: var(--ink-muted);
+  font-size: var(--t-caption);
+}
+
+.auth__panel h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-title);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.auth__panel p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--t-small);
+}
+
+.auth__actions {
+  display: grid;
+  gap: var(--sp-xs);
+}
+.auth__actions .btn {
+  width: 100%;
+}
+
+.auth__form {
+  display: grid;
+  gap: var(--sp-sm);
+}
+.auth__field {
+  display: grid;
+  gap: 4px;
+}
+.auth__field > span {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.auth__field small {
+  font-size: var(--t-caption);
+  color: var(--ink-muted);
+}
+
+.auth__error {
+  margin: 0;
+  padding: 10px var(--sp-sm);
+  border-radius: var(--r-sm);
+  background: color-mix(in oklab, var(--clay) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--clay) 40%, transparent);
+  color: var(--ink);
+  font-size: var(--t-small);
+}
+
+/* Quiet on purpose. Skipping is a legitimate choice, not a trap door - but the
+   account is what most people should pick, so it does not compete for weight. */
+.auth__skip {
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: var(--t-caption);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: var(--sp-xs);
+  justify-self: center;
+}
+.auth__skip:hover {
+  color: var(--ink-2);
+}
+
+/* --------------------------------------------------------- account block --- */
+
+.account-row {
+  display: grid;
+  gap: 2px;
+}
+.account-row b {
+  font-weight: 600;
+}
+.account-row span {
+  color: var(--ink-muted);
+  font-size: var(--t-caption);
+}

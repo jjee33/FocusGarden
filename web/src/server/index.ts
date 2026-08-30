@@ -38,6 +38,32 @@ export function createApp() {
     return handler(c, next);
   });
 
+  /**
+   * Health runs BEFORE the config check, and reports what is missing by name.
+   *
+   * It was behind the assertion, which meant the one endpoint you would reach
+   * for to diagnose a misconfigured deployment was the one guaranteed to fail
+   * from the misconfiguration - a 500 with no clue in it. Names only: knowing
+   * that RESEND_API_KEY is unset is diagnosis, printing its value is a leak.
+   */
+  app.get("/api/health", (c) => {
+    const required = [
+      "APP_URL", "BETTER_AUTH_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET",
+      "RESEND_API_KEY", "MAIL_FROM",
+    ] as const;
+    const env = c.env as unknown as Record<string, unknown>;
+    const missing = required.filter((key) => {
+      const value = env[key];
+      return value === undefined || value === "";
+    });
+    const hasDatabase = c.env.DB !== undefined;
+    return c.json({
+      ok: missing.length === 0 && hasDatabase,
+      database: hasDatabase ? "bound" : "missing",
+      missing,
+    }, missing.length === 0 && hasDatabase ? 200 : 503);
+  });
+
   app.use("/api/*", async (c, next) => {
     assertEnv(c.env);
     c.set("db", createDatabase(c.env));
@@ -67,8 +93,6 @@ export function createApp() {
   });
 
   app.route("/api/sync", syncRoutes());
-
-  app.get("/api/health", (c) => c.json({ ok: true }));
 
   app.notFound((c) => c.json({ error: "No such endpoint." }, 404));
 
