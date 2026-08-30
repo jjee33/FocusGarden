@@ -37,7 +37,21 @@ import { sendMail, verificationEmail, resetPasswordEmail } from "./mail.js";
  * from the options object, and annotating the loose `Auth<BetterAuthOptions>`
  * throws away everything it worked out.
  */
-export function createAuth(env: Env) {
+/**
+ * Somewhere for a failed send to be noticed by the caller that asked for it.
+ *
+ * better-auth calls `sendVerificationEmail` deep inside its own handler and
+ * nothing it returns reaches the response. Without this, a caller has no way to
+ * tell "the mail went" from "the mail was refused", and the resend button would
+ * report success against a broken mail key - which is exactly the class of
+ * cheerful lie that cost an afternoon here already.
+ */
+export interface MailReport {
+  failed: boolean;
+  detail: string;
+}
+
+export function createAuth(env: Env, report?: MailReport) {
   return betterAuth({
     baseURL: env.APP_URL,
     secret: env.BETTER_AUTH_SECRET,
@@ -61,12 +75,33 @@ export function createAuth(env: Env) {
     emailVerification: {
       sendOnSignUp: true,
       autoSignInAfterVerification: true,
+      /**
+       * A refused send must not take the account down with it.
+       *
+       * better-auth writes the user row and THEN calls this, so letting the
+       * throw escape produced an account that exists, cannot be verified,
+       * cannot be signed into, and answers "already taken" when you try again -
+       * a permanent dead end reached by one transient mail outage, and Resend
+       * will have one eventually.
+       *
+       * So the account survives and the failure is reported instead. The person
+       * lands on "check your email" with a resend button, and that button - which
+       * DOES pass a report - is where a still-broken mail path finally says so.
+       */
       sendVerificationEmail: async ({ user, url }) => {
-        await sendMail(env, {
-          to: user.email,
-          subject: "Confirm your email for Focus Garden",
-          ...verificationEmail(url),
-        });
+        try {
+          await sendMail(env, {
+            to: user.email,
+            subject: "Confirm your email for Focus Garden",
+            ...verificationEmail(url),
+          });
+        } catch (caught) {
+          const detail = caught instanceof Error ? caught.message : String(caught);
+          console.error("Verification email failed:", detail);
+          if (report === undefined) return;
+          report.failed = true;
+          report.detail = detail;
+        }
       },
     },
 

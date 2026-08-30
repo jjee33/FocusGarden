@@ -38,3 +38,35 @@ export function readableAuthError(message: string | undefined): string {
   }
   return "That email and password did not match. Try again.";
 }
+
+/**
+ * Ask for another verification email.
+ *
+ * Not `authClient.sendVerificationEmail`: that reaches better-auth directly,
+ * which has no rate limit on it and reports whether the address exists. This
+ * goes through our own endpoint, which throttles and answers identically either
+ * way. The distinction matters because this is the one mail-sending route an
+ * anonymous caller can reach.
+ */
+export async function resendVerification(
+  email: string,
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  let response: Response;
+  try {
+    response = await fetch("/api/account/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+  } catch {
+    return { ok: false, message: "Could not reach the server. Try again in a moment." };
+  }
+
+  if (response.ok) return { ok: true };
+
+  const body = await response.json().catch(() => ({})) as { error?: unknown };
+  const message = typeof body.error === "string"
+    ? body.error
+    : "We could not send that email just now. Try again shortly.";
+  return { ok: false, message };
+}

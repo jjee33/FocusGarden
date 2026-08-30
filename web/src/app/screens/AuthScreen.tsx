@@ -13,11 +13,18 @@
  * Nothing here reports whether an address is registered. "No account with that
  * email" is a lookup service for whoever asks, so every failure that could
  * distinguish an unknown account from a wrong password says the same thing.
+ *
+ * THE RESEND PATH IS NOT A CONVENIENCE. An account is created before its
+ * verification email is sent, so a mail failure - or a link left to expire, or a
+ * spam folder never checked - leaves someone with an account they cannot use and
+ * cannot re-create, because signing up again says the address is taken. Without
+ * a way to ask for another link that is a dead end, and the only exit is
+ * emailing whoever runs the site.
  */
 
 import { useState } from "react";
 
-import { readableAuthError, signIn, signUp } from "../auth-client.js";
+import { readableAuthError, resendVerification, signIn, signUp } from "../auth-client.js";
 
 type Mode = "choose" | "signup" | "signin";
 
@@ -34,6 +41,23 @@ export function AuthScreen({ onSkip }: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [sentTo, setSentTo] = useState("");
+  // Set when a sign-in failed specifically because the address is unverified,
+  // which is the one failure where naming the cause helps rather than leaks: the
+  // person already proved they know the password.
+  const [unverified, setUnverified] = useState(false);
+  const [resendState, setResendState] = useState<"idle" | "busy" | "sent">("idle");
+
+  const resend = async (address: string): Promise<void> => {
+    setResendState("busy");
+    setError("");
+    const result = await resendVerification(address);
+    if (result.ok) {
+      setResendState("sent");
+      return;
+    }
+    setResendState("idle");
+    setError(result.message);
+  };
 
   const google = async (): Promise<void> => {
     setError("");
@@ -49,6 +73,8 @@ export function AuthScreen({ onSkip }: Props) {
   const submit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
     setError("");
+    setUnverified(false);
+    setResendState("idle");
     setBusy(true);
 
     const result = mode === "signup"
@@ -57,6 +83,8 @@ export function AuthScreen({ onSkip }: Props) {
 
     setBusy(false);
     if (result.error !== null && result.error !== undefined) {
+      const raw = (result.error.message ?? "").toLowerCase();
+      setUnverified(raw.includes("verif"));
       setError(readableAuthError(result.error.message));
       return;
     }
@@ -77,9 +105,32 @@ export function AuthScreen({ onSkip }: Props) {
           <p className="hint">
             Nothing arrived? It can take a minute, and it is worth a look in spam.
           </p>
-          <button className="btn btn--ghost" type="button" onClick={() => setSentTo("")}>
-            Back
-          </button>
+
+          {error !== "" && <p className="auth__error" role="alert">{error}</p>}
+          {resendState === "sent" && (
+            <p className="hint" role="status">
+              Sent again. If this one does not arrive either, the address may already
+              be confirmed — try signing in.
+            </p>
+          )}
+
+          <div className="auth__actions">
+            <button
+              className="btn btn--ghost"
+              type="button"
+              disabled={resendState !== "idle"}
+              onClick={() => void resend(sentTo)}
+            >
+              {resendState === "busy" ? "Sending…" : "Send it again"}
+            </button>
+            <button className="btn btn--quiet" type="button" onClick={() => {
+              setSentTo("");
+              setResendState("idle");
+              setError("");
+            }}>
+              Back
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -149,6 +200,21 @@ export function AuthScreen({ onSkip }: Props) {
               </label>
 
               {error !== "" && <p className="auth__error" role="alert">{error}</p>}
+              {unverified && resendState !== "sent" && (
+                <button
+                  className="btn btn--quiet"
+                  type="button"
+                  disabled={resendState !== "idle" || email.trim() === ""}
+                  onClick={() => void resend(email.trim())}
+                >
+                  {resendState === "busy" ? "Sending…" : "Send me the link again"}
+                </button>
+              )}
+              {resendState === "sent" && (
+                <p className="hint" role="status">
+                  On its way. Open the link and you are in.
+                </p>
+              )}
 
               <button className="btn" type="submit" disabled={busy}>
                 {busy ? "One moment…" : mode === "signup" ? "Create account" : "Sign in"}

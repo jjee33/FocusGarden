@@ -50,8 +50,26 @@ export const session = sqliteTable("session", {
   userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
 });
 
+/**
+ * `issuer` is not optional, and leaving it out does not fail at startup.
+ *
+ * better-auth 1.7 scopes account identity by issuer, so the unique key is
+ * (issuer, accountId) rather than accountId alone. Omitting the column let the
+ * server boot, let sign-up create the USER row, and only then threw - which
+ * meant the credential row holding the password hash was never written. The
+ * result was an account that existed, could never sign in even once verified,
+ * and reported "already taken" on a second attempt.
+ *
+ * These four tables are better-auth's contract, not ours, and this is what it
+ * costs to transcribe a contract by hand: the drift is invisible until the exact
+ * request that needs the missing piece. Worth re-checking against
+ * `@better-auth/core/dist/db/get-tables.mjs` on every upgrade - `user`,
+ * `session` and `verification` were verified against it and match.
+ */
 export const account = sqliteTable("account", {
   id: text("id").primaryKey(),
+  /** "credential" for email+password; the provider id for social sign-in. */
+  issuer: text("issuer").notNull(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
   userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
@@ -64,7 +82,10 @@ export const account = sqliteTable("account", {
   password: text("password"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-});
+}, (table) => [
+  uniqueIndex("account_issuer_account_id").on(table.issuer, table.accountId),
+  index("account_user_id").on(table.userId),
+]);
 
 export const verification = sqliteTable("verification", {
   id: text("id").primaryKey(),
@@ -181,8 +202,35 @@ export const pushLog = sqliteTable("push_log", {
   uniqueIndex("push_log_unique").on(table.userId, table.requestId),
 ]);
 
+/**
+ * Rate limiting for the emails anyone can ask for without signing in.
+ *
+ * `/api/account/resend-verification` takes an address from an anonymous caller
+ * and sends mail to it. Unthrottled that is a spam amplifier pointed at a
+ * stranger's inbox with our sending domain on it, which costs us the domain's
+ * reputation and them their afternoon.
+ *
+ * THE KEY IS A HASH, NOT THE ADDRESS. Anyone can POST any email here, so an
+ * unhashed column would fill with addresses belonging to people who never had an
+ * account and never asked us to store anything about them. A hash still throttles
+ * exactly as well - the same input lands on the same row - while holding nothing
+ * readable about the people who are only here because somebody typed their
+ * address into a form.
+ */
+export const mailThrottle = sqliteTable("mail_throttle", {
+  /** sha256(purpose + ":" + lowercased address). */
+  key: text("key").primaryKey(),
+  /** Unix seconds of the last send, for the minimum interval. */
+  lastSentAt: integer("last_sent_at").notNull(),
+  /** Start of the current 24h window, for the daily cap. */
+  windowStart: integer("window_start").notNull(),
+  /** Sends inside the current window. */
+  count: integer("count").notNull(),
+});
+
 export const schema = {
   user, session, account, verification,
   profile, plant, project, catalogueEntry, achievementState,
   journalEntry, focusSession, dailyRollup, revisionCounter, pushLog,
+  mailThrottle,
 };

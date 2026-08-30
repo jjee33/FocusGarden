@@ -19,6 +19,7 @@ import type { AppBindings } from "./context.js";
 import { assertEnv } from "./env.js";
 import { createDatabase } from "./db/client.js";
 import { createAuth } from "./auth.js";
+import { accountRoutes } from "./routes/account.js";
 import { syncRoutes } from "./routes/sync.js";
 
 export function createApp() {
@@ -97,6 +98,13 @@ export function createApp() {
 
   /** better-auth owns everything under here: sign-in, callbacks, verification. */
   app.on(["GET", "POST"], "/api/auth/*", (c) => createAuth(c.env).handler(c.req.raw));
+
+  /**
+   * Unauthenticated, and it has to be: the whole point is a way back in for
+   * somebody who cannot sign in yet because their verification email never
+   * arrived. Rate limiting is what stands in for a session here.
+   */
+  app.route("/api/account", accountRoutes());
 
   /**
    * Everything past this point needs an account.
