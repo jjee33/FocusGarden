@@ -539,6 +539,26 @@ export function useGarden() {
     }));
   }, []);
 
+
+  /**
+   * Replaces local state with a reconciled copy from the sync engine.
+   *
+   * Every merged session is marked as already persisted, because they came off
+   * the wire and are about to be written here in one go - without that, the
+   * persist effect would see the whole pulled history as new and rewrite it row
+   * by row.
+   */
+  const applyMerged = useCallback((mergedSave: SaveData, mergedSessions: FocusSession[]) => {
+    setState(() => {
+      persistedSessions.current = new Set(mergedSessions.map((s) => s.id));
+      return { save: mergedSave, sessions: mergedSessions };
+    });
+    if (db.current !== null && !storage.blocked && !storage.ephemeral) {
+      void saveGarden(db.current, mergedSave, storage.blocked);
+      void putSessions(db.current, mergedSessions, storage.blocked);
+    }
+  }, [storage.blocked, storage.ephemeral]);
+
   const mutateSave = useCallback((change: (draft: SaveData) => SaveData) => {
     setState((prev) => ({ ...prev, save: change(prev.save) }));
   }, []);
@@ -671,6 +691,7 @@ export function useGarden() {
   return {
     state, save, sessions, summaries, stats, activePlant, activeProject,
     expansion, lastOutcome, storage, recovered, transferMessage, setTransferMessage,
+    db: db.current, applyMerged,
     completeSession, applyFinished, completeOnboarding,
     setActivePlant, setActiveProject, placeInGarden, rotatePlant,
     placeOnShelf, returnToInventory,

@@ -39,29 +39,54 @@ export function createApp() {
   });
 
   /**
-   * Health runs BEFORE the config check, and reports what is missing by name.
+   * Health runs BEFORE the config check, and reports what is wrong by name.
    *
-   * It was behind the assertion, which meant the one endpoint you would reach
-   * for to diagnose a misconfigured deployment was the one guaranteed to fail
-   * from the misconfiguration - a 500 with no clue in it. Names only: knowing
-   * that RESEND_API_KEY is unset is diagnosis, printing its value is a leak.
+   * It was originally behind the assertion, which meant the one endpoint you
+   * would reach for to diagnose a misconfigured deployment was the one
+   * guaranteed to fail from the misconfiguration.
+   *
+   * It then checked only that each value was PRESENT, and reported a green
+   * deployment whose Resend key was actually a copy of the auth secret pasted
+   * into the wrong line. A health check that says ok when it is not is worse
+   * than no health check, so each credential is now checked against the shape
+   * its issuer gives it. Shapes and names only: knowing that RESEND_API_KEY does
+   * not start with `re_` is diagnosis, printing the value would be a leak.
    */
   app.get("/api/health", (c) => {
-    const required = [
-      "APP_URL", "BETTER_AUTH_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET",
-      "RESEND_API_KEY", "MAIL_FROM",
-    ] as const;
-    const env = c.env as unknown as Record<string, unknown>;
-    const missing = required.filter((key) => {
-      const value = env[key];
-      return value === undefined || value === "";
-    });
+    const env = c.env as unknown as Record<string, string | undefined>;
+    const checks: { key: string; ok: (v: string) => boolean; want: string }[] = [
+      { key: "APP_URL", ok: (v) => v.startsWith("http"), want: "an http(s) origin" },
+      { key: "BETTER_AUTH_SECRET", ok: (v) => v.length >= 24, want: "24+ random characters" },
+      {
+        key: "GOOGLE_CLIENT_ID",
+        ok: (v) => v.endsWith(".apps.googleusercontent.com"),
+        want: "to end with .apps.googleusercontent.com",
+      },
+      {
+        key: "GOOGLE_CLIENT_SECRET",
+        ok: (v) => v.startsWith("GOCSPX-"),
+        want: "to start with GOCSPX-",
+      },
+      { key: "RESEND_API_KEY", ok: (v) => v.startsWith("re_"), want: "to start with re_" },
+      { key: "MAIL_FROM", ok: (v) => v.includes("@"), want: "an email address" },
+    ];
+
+    const missing: string[] = [];
+    const malformed: { key: string; want: string }[] = [];
+    for (const check of checks) {
+      const value = env[check.key];
+      if (value === undefined || value === "") missing.push(check.key);
+      else if (!check.ok(value)) malformed.push({ key: check.key, want: check.want });
+    }
+
     const hasDatabase = c.env.DB !== undefined;
+    const ok = missing.length === 0 && malformed.length === 0 && hasDatabase;
     return c.json({
-      ok: missing.length === 0 && hasDatabase,
+      ok,
       database: hasDatabase ? "bound" : "missing",
       missing,
-    }, missing.length === 0 && hasDatabase ? 200 : 503);
+      malformed,
+    }, ok ? 200 : 503);
   });
 
   app.use("/api/*", async (c, next) => {

@@ -18,6 +18,7 @@ import { SettingsScreen } from "./screens/SettingsScreen.js";
 import { OnboardingScreen } from "./screens/OnboardingScreen.js";
 import { AuthScreen } from "./screens/AuthScreen.js";
 import { useSession } from "./auth-client.js";
+import { useSync } from "./useSync.js";
 import { useGarden } from "./useGarden.js";
 import { useTheme } from "./usePlatform.js";
 
@@ -54,6 +55,18 @@ export function App() {
   const garden = useGarden();
   const theme = useTheme();
   const { data: authSession, isPending: authPending } = useSession();
+
+  // Sync is only ever attempted for a signed-in account with somewhere to store
+  // the result. Signed out, the app is complete on its own - that is the whole
+  // point of local-first, and it is why nothing below this line can break it.
+  const sync = useSync({
+    save: garden.save,
+    sessions: garden.sessions,
+    onMerged: garden.applyMerged,
+    db: garden.db,
+    userId: authSession?.user.id ?? null,
+    enabled: garden.storage.ready && !garden.storage.blocked && !garden.storage.ephemeral,
+  });
 
   // Signing in supersedes the earlier "not now": the offer should not reappear
   // on a device where an account is already in use.
@@ -160,7 +173,11 @@ export function App() {
           {screen === "shelf" && <ShelfScreen garden={garden} />}
           {screen === "stats" && <StatisticsScreen garden={garden} />}
           {screen === "settings" && (
-            <SettingsScreen garden={garden} onSignedOut={() => setLocalOnly(false)} />
+            <SettingsScreen
+              garden={garden}
+              sync={sync}
+              onSignedOut={() => setLocalOnly(false)}
+            />
           )}
         </div>
       </main>

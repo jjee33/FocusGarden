@@ -21,14 +21,17 @@ import { formatDuration } from "../../domain/time-util.js";
 import type { ThemeChoice } from "../usePlatform.js";
 import { useTheme } from "../usePlatform.js";
 import { signOut, useSession } from "../auth-client.js";
+import type { useSync } from "../useSync.js";
+import { formatDatetime } from "../../domain/time-util.js";
 
 interface Props {
   garden: ReturnType<typeof useGarden>;
+  sync: ReturnType<typeof useSync>;
   /** Lets the shell offer the account again once someone signs out. */
   onSignedOut: () => void;
 }
 
-export function SettingsScreen({ garden, onSignedOut }: Props) {
+export function SettingsScreen({ garden, sync, onSignedOut }: Props) {
   const { save, updateSettings } = garden;
   const settings = save.settings;
   const theme = useTheme();
@@ -181,6 +184,29 @@ export function SettingsScreen({ garden, onSignedOut }: Props) {
                 <b>{authSession.user.email}</b>
                 <span>{authSession.user.emailVerified ? "Email confirmed" : "Email not confirmed yet"}</span>
               </span>
+            </Row>
+          )}
+          {authSession !== null && (
+            <Row
+              label="Sync"
+              hint={
+                sync.status.state === "offline"
+                  ? "No connection. Everything you do is kept here and sent when you are back."
+                  : sync.status.message !== ""
+                    ? sync.status.message
+                    : sync.status.lastSyncedAt > 0
+                      ? `Last synced ${formatDatetime(sync.status.lastSyncedAt)}.`
+                      : "Not synced yet."
+              }
+            >
+              <button
+                className="btn btn--ghost"
+                type="button"
+                disabled={sync.status.state === "syncing"}
+                onClick={() => { void sync.sync(); }}
+              >
+                {sync.status.state === "syncing" ? "Syncing…" : "Sync now"}
+              </button>
             </Row>
           )}
           {authSession !== null && (
