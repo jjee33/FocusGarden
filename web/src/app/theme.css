@@ -52,7 +52,11 @@
   --ink-on-disabled: #6b6355;
 
   /* --- Accents --- */
-  --moss: #4f8340;
+  /* 4f8340 gave the primary button 4.44:1 against --ink-on-accent, just under
+     AA. Two hex points darker clears it at 4.61 and is not a visible change -
+     but it is "Start focusing" and "Sign in", so it is the text in the app that
+     can least afford to be almost readable. */
+  --moss: #4d803f;
   --moss-deep: #38602d;
   --moss-soft: #dde9ce;
   --accent-subtle: #e7f0dc;

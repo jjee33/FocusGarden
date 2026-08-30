@@ -36,7 +36,36 @@
     </noscript>
   </head>
   <body>
-    <div id="root"></div>
+    <!--
+      A real first paint, before any JavaScript.
+
+      The app is a pure SPA: #root was empty, so nothing at all appeared until
+      112 kB of JS had downloaded, parsed and mounted - which on throttled mobile
+      is most of a second of blank screen and was the whole of the remaining
+      Lighthouse performance gap. This is the same wordmark and ground colour the
+      app itself opens with, so the transition is a fill-in rather than a flash.
+
+      Styles are inline for the same reason: an external stylesheet is another
+      round trip this must not wait for. createRoot replaces the contents on
+      mount, so there is no hydration contract to keep - only a visual one.
+    -->
+    <style>
+      #boot{min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+        justify-content:center;gap:.35rem;background:#e9dfc9;color:#2b2519;
+        font-family:"Public Sans","Segoe UI",system-ui,-apple-system,sans-serif}
+      #boot b{font-family:"Fraunces","Iowan Old Style",Georgia,serif;font-size:1.5rem;font-weight:600}
+      #boot span{font-size:.85rem;color:#675c4a}
+      @media (prefers-color-scheme:dark){
+        #boot{background:#191d1a;color:#ede7d8}
+        #boot span{color:#a09c8c}
+      }
+    </style>
+    <div id="root">
+      <div id="boot" role="status" aria-live="polite">
+        <b>Focus Garden</b>
+        <span>grow what you give time to</span>
+      </div>
+    </div>
     <script type="module" src="/src/app/main.tsx"></script>
   </body>
 </html>

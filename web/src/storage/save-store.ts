@@ -14,6 +14,7 @@
  */
 
 import type { Json } from "../domain/dict-util.js";
+import { buildBundle } from "../domain/save-bundle.js";
 import type { SaveData } from "../domain/save-data.js";
 import { CURRENT_VERSION, createNewSave, saveDataFromDict, saveDataToDict } from "../domain/save-data.js";
 import type { FocusSession } from "../domain/focus-session.js";
@@ -159,3 +160,22 @@ export async function replaceAll(
 }
 
 export { openDatabase };
+
+/**
+ * The whole garden as JSON, read straight from disk with no React involved.
+ *
+ * This exists for the error boundary. The normal export lives on `useGarden`,
+ * which is unreachable once a render has thrown - and that is exactly the moment
+ * someone most wants their data in their own hands. So this opens the database
+ * itself and builds the same bundle from what is stored, depending on nothing
+ * that could have been part of the failure.
+ */
+export async function exportBundleFromStore(appVersion = "0.1.0"): Promise<string> {
+  const db = await openDatabase();
+  try {
+    const loaded = await loadGarden(db);
+    return JSON.stringify(buildBundle(loaded.save, loaded.sessions, appVersion), null, 2);
+  } finally {
+    db.close();
+  }
+}
