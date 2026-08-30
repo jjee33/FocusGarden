@@ -27,6 +27,25 @@
   gap: var(--sp-md);
 }
 
+/*
+ * The line that stops one wide child stretching every other one.
+ *
+ * Grid items default to `min-width: auto`, which resolves to min-content and
+ * refuses to shrink below it. The statistics heatmap is 26 fixed 13px columns,
+ * so its card had a min-content of 447px - and because a grid track grows to fit
+ * its widest item, EVERY sibling on that screen was stretched to 447 inside a
+ * 343px viewport. The heading, the paragraph and the tiles all ran off the edge,
+ * and the page looked wider than the others because it was.
+ *
+ * The heatmap already had `overflow-x: auto` and `min-width: 0`, which is why
+ * this looked like it should have worked: the scroll container was ready to
+ * scroll, but nothing ever asked it to, because its parent card could not be
+ * made narrow enough to force the issue.
+ */
+.shell__content > * {
+  min-width: 0;
+}
+
 @media (min-width: 768px) {
   .shell {
     grid-template-rows: none;
@@ -877,6 +896,48 @@
   font-size: var(--t-small);
   color: var(--ink-2);
 }
+/*
+ * On a phone a setting is two rows, not two columns.
+ *
+ * `1fr auto` with a 140px slider and its value left about 105px for the label,
+ * so "Sessions before a long break" wrapped to four lines beside a control that
+ * had room to spare. Stacking gives the label the full width and the slider a
+ * full-width track, which is also a far better touch target than 140px.
+ *
+ * A SWITCH stays inline, because it is one small control and a toggle marooned
+ * on its own line below its label reads as unrelated to it. Everything wider
+ * stacks - including segmented groups, which the first version of this rule
+ * wrongly treated as short. Three buttons reading "System / Light / Dark" left
+ * the Theme label 84px to work with and wrapped its hint over six lines, which
+ * is the exact problem this media query exists to fix.
+ */
+@media (max-width: 600px) {
+  .setting-row {
+    grid-template-columns: 1fr;
+    gap: var(--sp-xs);
+    align-items: start;
+  }
+
+  .setting-row:has(input[type="range"]) .setting-row__control,
+  .setting-row:has(.seg-group) .setting-row__control {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .setting-row input[type="range"] {
+    width: 100%;
+    flex: 1;
+  }
+
+  .setting-row__label span { max-width: none; }
+
+  /* Only a lone switch keeps its column. */
+  .setting-row:not(:has(input[type="range"])):not(:has(.seg-group)) {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
 .switch {
   appearance: none;
   width: 46px;
