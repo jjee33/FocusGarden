@@ -99,6 +99,12 @@ jobs:
           ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_save_roundtrip.gd > /dev/null
           ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_save_roundtrip.gd
 
+      - name: Save transfer
+        # A garden must survive being exported and imported somewhere else:
+        # sessions included, and none of the receiving machine's own history
+        # left mixed in with it.
+        run: ./tools/godot/Godot_v${GODOT_RELEASE}_linux.x86_64 --headless --path . --script res://tools/verify_save_transfer.gd
+
       - name: Fetch the export templates
         run: bash tools/fetch_export_templates.sh
 

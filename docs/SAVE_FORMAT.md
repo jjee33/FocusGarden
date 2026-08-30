@@ -138,6 +138,9 @@ returns a sane default for a missing or wrong-typed key. Beyond that:
   invisible occupant of a cell the player then cannot use
 - `longest_streak` is raised to at least `current_streak`
 - A missing `date_key` is rebuilt from the session's timestamp
+- Session rows in an import with no id, or that are not objects at all, are
+  skipped and counted, and the count is shown to the player — a silently smaller
+  history is the exact fault this format exists to prevent
 
 ## Top-level shape
 
@@ -165,6 +168,110 @@ instead of being silently lost. It is written on state changes, not on every
 tick — a tick-rate write would hammer the disk for hours.
 
 Field-by-field descriptions are in [DATA_MODEL.md](DATA_MODEL.md).
+
+## Export bundles
+
+Settings → Your data → **Export a copy** writes one file containing the whole
+garden. That file is `profile.json`'s exact shape, plus two keys:
+
+```jsonc
+{
+  "save_version": 2,
+  "player": { }, "settings": { }, "plants": [ ], ...   // exactly as profile.json
+  "in_flight_session": { },      // always emptied on export
+  "sessions": [ FocusSession, ... ],
+  "export": { "app_version", "exported_at_utc", "session_count" }
+}
+```
+
+**Why the sessions have to be in there.** No statistic is stored as a bare total
+and no plant stores a progress ratio — both are derived from the session rows on
+demand. An export carrying only `profile.json` therefore looked like *selective*
+data loss rather than a missing file: XP, plant count and species discovered
+arrived, while lifetime focus, streaks, the heatmap and every still-growing
+plant's progress did not. A garden of half-grown plants redrew itself as a tray
+of seeds with each label still naming the stage it had reached.
+
+**Why a superset and not a wrapper.** The migration chain applies to the bundle
+unchanged, because `save_version` and every key a step touches are still at the
+top level. A build older than the one that wrote it still imports the profile,
+ignoring the key it does not recognise. And the file stays one readable, inert
+JSON object.
+
+**Why `save_version` was not bumped.** The on-disk save shape did not change —
+only the export gained keys, and `SaveData.from_dict` has always ignored keys it
+does not know. A bump would have made every shipped build classify every new save
+as `FUTURE_VERSION` and refuse to write, over a change none of them can observe.
+The additive key is safe only because migration steps preserve what they do not
+understand; `test_save_bundle` pins that rule as an executable assertion rather
+than leaving it as a comment.
+
+`in_flight_session` is emptied because it holds a running session and its
+wall-clock anchor, offered back on the next launch. Resuming a pomodoro that was
+interrupted on a different machine three weeks ago is nonsense. The key is kept,
+so the bundle's shape stays identical to `to_dict()`.
+
+`export.session_count` is informational. Import counts the array; a header is
+never trusted to describe the body it travelled with.
+
+### Importing
+
+`SaveManager.read_bundle` parses, migrates and validates **without touching
+anything on disk**, so the player is shown what the file actually holds — real
+session count, real lifetime focus, the date range it spans — and confirms before
+their own garden is at risk. `apply_bundle` then does the destructive half, in
+this order:
+
+1. Force a snapshot of the current save, so the garden being replaced survives a
+   wrong choice of file.
+2. **Stage** the incoming shards into `saves/.incoming/sessions/`. If any of them
+   cannot be written, delete the staging folder and abort — nothing of the
+   player's has been touched. This is `AtomicFile`'s rule: verify before going
+   near the real file.
+3. Only now clear `saves/sessions/` and rename the staged folder into place.
+4. Write `profile.json` through the ordinary atomic save path.
+
+**Do not reorder these steps**, and in particular do not move 3 before 2. Steps 3
+and 4 cannot be one transaction, so a crash between them leaves a real garden
+beside a real history that did not grow together — an honest, visible state
+rather than a corrupt one, with step 1's snapshot taken seconds earlier. Writing
+the profile first would instead produce a new garden silently attached to the old
+machine's history, which is plausible-looking and permanently wrong.
+
+The staged folder is created even when the bundle has no sessions at all, so a
+legacy export still has something to rename into place. A file with no `sessions`
+key imports fine and says up front that statistics will be blank.
+
+Session shards are **replaced wholesale, never merged**. `SessionStore.save_all`
+only writes the years present in the data it is handed, so without clearing
+first, a garden spanning fewer years than the one it replaces would keep the
+previous garden's records for every year it does not mention — and every total
+would silently be a sum of two different people's work. `SessionStore.clear`
+removes every file in the folder, including the `.bak` beside each shard: leaving
+those lets `read_json_with_recovery` restore history from a shard that was
+supposed to be gone.
+
+Duplicate session ids in a bundle are dropped, first occurrence wins. `save_all`
+does not deduplicate — only `append` does — so one repeated id would be written
+twice and would permanently double lifetime focus, session counts, day totals and
+the streak all at once.
+
+Import reads with `AtomicFile.read_json`, which is **strict**:
+`read_json_with_recovery` scans the target's folder for a `.tmp` or a `.bak`,
+which is right for our save directory and wrong for a folder the player picked.
+Quietly substituting a different, older export sitting beside the one they chose
+is not recovery, and the import would then report success having replaced their
+garden with the wrong file.
+
+Exports also do not rotate backups: they write into a folder the player chose, and
+`focus-garden-2026-08-26.json.000001756….bak` appearing beside their file every
+time they re-export is litter in someone else's folder rather than insurance in
+ours.
+
+**Session records are not versioned and never pass through the migration chain** —
+shards are read raw and rely on `FocusSession.from_dict` being defensive. A
+bundle's `sessions` array inherits exactly that. A future change needing to
+migrate session fields would have to migrate shards *and* bundles.
 
 ## Dated snapshots
 

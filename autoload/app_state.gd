@@ -56,6 +56,13 @@ func load_game() -> void:
 		% [data.plants.size(), sessions.size(), data.projects.size()]
 	)
 
+	# Emitted from here, not from SaveManager, because only now are `data` and
+	# `sessions` both the loaded ones. Screens refresh straight off this signal, so
+	# firing it any earlier renders whatever is being replaced — which is what made
+	# an import look like it had done nothing. `reset_to_new_game` emits it at the
+	# same point, for the same reason.
+	EventBus.save_loaded.emit()
+
 
 ## Starter project categories, so a brand-new player can start a session
 ## immediately instead of being made to invent a taxonomy first (§9).
@@ -325,11 +332,7 @@ func reset_to_new_game() -> void:
 
 	# Session shards are removed too. Leaving them would mean a "new" garden that
 	# silently inherits years of history the moment statistics recompute.
-	var save_dir := SaveManager.get_save_dir()
-	var sessions_dir := SessionStore.sessions_dir(save_dir)
-	if DirAccess.dir_exists_absolute(sessions_dir):
-		for file_name: String in DirAccess.get_files_at(sessions_dir):
-			DirAccess.remove_absolute(sessions_dir.path_join(file_name))
+	SessionStore.clear(SaveManager.get_save_dir())
 
 	data = SaveData.create_new()
 	data.settings = preserved

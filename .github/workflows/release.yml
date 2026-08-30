@@ -164,6 +164,7 @@ jobs:
           "$godot" --headless --path . --script res://tools/verify_reliability.gd
           "$godot" --headless --path . --script res://tools/verify_save_roundtrip.gd > /dev/null
           "$godot" --headless --path . --script res://tools/verify_save_roundtrip.gd
+          "$godot" --headless --path . --script res://tools/verify_save_transfer.gd
 
       - name: Build the AppImage
         run: bash tools/build_appimage.sh

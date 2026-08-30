@@ -107,6 +107,13 @@ invariant on load.
 `is_species_hidden()` gates mystery seeds: while unrevealed, the UI must not show
 the species.
 
+`growth_stage` is authoritative for the band a plant has already been *seen* in.
+`apply_growth` never lets it regress, and `progress_ratio` never reports below
+it, so partial or missing history can shrink neither the number nor the art. The
+floor is the lower edge of the reached band and is clamped to the species' stage
+count, so it can restore a stage the player already reached and never the
+maturity they have not.
+
 ### `FocusSession` — `models/focus_session.gd`
 
 `id`, `kind`, `started_at_utc`, `ended_at_utc`, `date_key`, `start_hour`,
@@ -133,7 +140,7 @@ Anomalies: `NONE`, `SUSPEND`, `CLOCK_JUMP`, `NEGATIVE_DURATION`.
 | `AchievementState` | Per-achievement progress. `unlock()` returns true once. |
 | `JournalEntry` | Append-only. Stores composed `body` text rather than a template, so future wording changes cannot retroactively alter the player's history. |
 | `ShelfLayout` / `GardenLayout` | Styling and decorations only — plant placement lives on `PlantInstance`, so the two can never disagree. A garden cell holds `{"id", "rotation"}`; a planted specimen's own facing lives on the plant, beside the cell it stands in. |
-| `SaveData` | The container. Drops duplicate ids and skips malformed entries on load. |
+| `SaveData` | The container. Drops duplicate ids and skips malformed entries on load. Deliberately still excludes sessions on disk; an **export bundle** is `SaveData` plus the session history in one file — see [SAVE_FORMAT.md](SAVE_FORMAT.md#export-bundles). |
 
 ## Date and time conventions
 

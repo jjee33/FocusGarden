@@ -152,6 +152,40 @@ garden, staged plant maturity, and backups a player can find.
   mattered — the line had been read days earlier, and the tool said nothing at
   all as it ran.
 
+### Fixed — save transfer
+
+- **An exported save now carries your session history.** An export only ever
+  contained half a garden. The plants, projects, achievements and XP travelled;
+  the sessions behind them did not — and because no statistic is stored as a
+  total and no plant stores a progress ratio, both are recomputed from those
+  sessions on demand. So an imported garden arrived with every statistic blank,
+  and every plant that was still growing redrew itself as a seed while its own
+  label still named the stage it had reached. An export is now one
+  self-contained file.
+- **Importing no longer attaches your new garden to the old machine's history.**
+  Import replaced the profile and left the receiving computer's session records
+  exactly where they were, so the imported garden silently inherited someone
+  else's focus time, streak and heatmap. The history is now replaced wholesale.
+- **The import confirmation tells the truth about the file.** It used to quote a
+  focus total summed from the plants, which is a different quantity: it left out
+  breaks, left out every session not attached to a plant, and lost the history of
+  any plant the file no longer contained. It now reports the file's own figures —
+  sessions, real lifetime focus, and the range of dates it spans. A file exported
+  by an older version still imports, and says up front that it carries no history.
+- **A plant is never drawn below the stage it has already reached.** Stored
+  growth could never regress, but what the screens actually rendered could, which
+  is how "Young · 0%" came to be a thing a plant could say.
+- **Re-exporting no longer leaves a `.bak` file in your folder.** Exports reused
+  the save writer's backup rotation, which is insurance in our directory and
+  litter in yours.
+- **Importing reads the file you picked.** If it would not parse, the recovery
+  path could quietly substitute a different, older export sitting beside it and
+  report success.
+- **Screens now refresh with the save that was just loaded.** The "loaded" signal
+  fired one step early, while the app still held the save being replaced, so an
+  import or a restore could look like it had done nothing until you navigated
+  away and back.
+
 ### Fixed
 
 - **The interface scale no longer pushes the top-left of the app off screen.**

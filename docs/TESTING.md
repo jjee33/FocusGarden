@@ -117,8 +117,26 @@ tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script r
 ```
 
 Run twice. Proves autoload wiring, migration and deserialization work together on
-a cold start, which is the only path a player ever takes. Both scripts clean up
-after themselves and exit non-zero on failure.
+a cold start, which is the only path a player ever takes.
+
+```bash
+tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tools/verify_save_transfer.gd
+```
+
+Run once. Proves a garden survives being exported and imported somewhere else —
+the sessions travel with it, the receiving machine's own history is replaced
+rather than merged into it, and a still-growing plant comes back at the progress
+it had. That last assertion is the one that matters: export used to carry the
+plants without the sessions behind them, so every statistic arrived blank and
+every growing plant redrew itself as a seed. Unit tests cannot see it, because
+the fault lives in the wiring between the bundle, the session store and the save
+directory.
+
+It runs on its own relocated save directory under `user://verify_transfer` and
+refuses to start if that relocation did not take effect — it resets a garden and
+deletes a session history, and doing that to a real save would be unforgivable.
+
+All three scripts clean up after themselves and exit non-zero on failure.
 
 > **Tool scripts and autoloads.** A script run via `--script` is compiled
 > *before* autoloads are registered, so referencing `AppState` by name is a

@@ -479,8 +479,18 @@ func _on_export_pressed() -> void:
 	dialog.current_file = "focus-garden-%s.json" % TimeUtil.today_key()
 	dialog.title = "Export your garden"
 	dialog.file_selected.connect(func(path: String) -> void:
-		if SaveManager.export_save(path, AppState.data):
-			EventBus.toast_requested.emit("Exported", path.get_file(), "💾")
+		# The sessions go WITH it. An export without them is half a garden: the
+		# plants arrive, and every statistic behind them does not.
+		if SaveManager.export_save(path, AppState.data, AppState.sessions):
+			EventBus.toast_requested.emit(
+				"Exported",
+				"%s — %s, %s." % [
+					path.get_file(),
+					_count(AppState.data.plants.size(), "plant"),
+					_count(AppState.sessions.size(), "session"),
+				],
+				"💾"
+			)
 		else:
 			_show_error("Export failed", SaveManager.last_error_detail))
 	get_tree().root.add_child(dialog)
@@ -499,9 +509,10 @@ func _on_import_pressed() -> void:
 
 
 func _on_import_selected(path: String) -> void:
-	# Validated BEFORE anything is replaced, so a bad file cannot destroy the
-	# live save (§36). The confirmation states what is about to be lost.
-	var imported := SaveManager.import_save(path)
+	# Read and validated BEFORE anything is replaced, so a bad file cannot destroy
+	# the live save (§36). The confirmation states what is about to arrive and what
+	# is about to be lost, using the file's own figures.
+	var imported := SaveManager.read_bundle(path)
 	if imported == null:
 		_show_error("Could not import that file", SaveManager.last_error_detail)
 		return
@@ -509,31 +520,76 @@ func _on_import_selected(path: String) -> void:
 	var dialog := ConfirmDialog.open(
 		get_tree().root,
 		"Replace your garden?",
-		(
-			"That file holds %d plants and %s of focus. Importing it replaces everything "
-			+ "currently in Focus Garden."
-		) % [imported.plants.size(), TimeUtil.format_duration(_imported_focus(imported))],
+		_describe_import(imported.summary),
 		"Replace",
 		true,
 		"Keep mine"
 	)
 	dialog.confirmed.connect(func() -> void:
-		# The garden being replaced is backed up first, for the same reason reset
-		# does it: an import that turns out to be the wrong file must not be how
-		# someone loses the one they had.
-		SaveManager.snapshot_now(true)
-		AppState.data = imported
-		AppState.save_now()
+		# `apply_bundle` takes the backup itself, so the copy and the destruction
+		# cannot drift apart the way they would if this screen owned the snapshot.
+		if not SaveManager.apply_bundle(imported):
+			_show_error("Could not import that file", SaveManager.last_error_detail)
+			_rebuild()
+			return
+		# The files on disk ARE the save now, so the live state is re-read from them
+		# rather than assigned — the same route Restore takes, so sessions, projects
+		# and the migration path all come back through the one loading route.
 		AppState.load_game()
 		_rebuild()
 		EventBus.toast_requested.emit("Imported", "Your garden has been replaced.", "💾"))
 
 
-func _imported_focus(save: SaveData) -> float:
-	var total := 0.0
-	for plant: PlantInstance in save.plants:
-		total += plant.accumulated_focus_minutes
-	return total
+## What the player is told an import file holds.
+##
+## Every figure comes from the file's own session records. The previous wording
+## summed `accumulated_focus_minutes` across plants and called it focus time,
+## which is a different quantity: it excludes breaks, excludes every session not
+## attached to a plant, and loses the history of any plant the file no longer
+## contains. The number someone checks an import against is their lifetime focus,
+## so it has to be the same number the statistics screen will show afterwards.
+func _describe_import(summary: SaveBundle.Summary) -> String:
+	var body := ""
+
+	if not summary.has_sessions:
+		# A file written by a build from before sessions travelled with a save. It
+		# is still importable — refusing would strand anyone who already made one —
+		# but saying "0 sessions" would read as their data being gone rather than
+		# never having been in the file. Describe what they will SEE.
+		body = (
+			"That file holds %s, but no session history: it was exported by an older "
+			+ "version of Focus Garden, which only saved half the garden. Your "
+			+ "statistics will be empty afterwards, and plants that are still growing "
+			+ "will show the stage they had reached rather than their progress toward "
+			+ "the next one."
+		) % _count(summary.plant_count, "plant")
+	else:
+		body = "That file holds %s, %s and %s of focus" % [
+			_count(summary.plant_count, "plant"),
+			_count(summary.session_count, "session"),
+			TimeUtil.format_duration(summary.focus_minutes),
+		]
+		var span := summary.describe_range()
+		body += (", covering %s." % span) if not span.is_empty() else "."
+
+	body += (
+		" Importing replaces everything currently in Focus Garden. Your garden as it "
+		+ "stands is backed up first, so this can be undone."
+	)
+
+	var unusable := summary.skipped_count + summary.duplicate_count
+	if unusable > 0:
+		# Never silently import a smaller history than the file claims to hold.
+		body += " %s in that file could not be read and will be left out." % _count(
+			unusable, "record"
+		)
+	return body
+
+
+## "1 plant" / "14 plants". A dialog that says "1 plants" reads as unfinished
+## software at exactly the moment it is asking permission to delete a garden.
+func _count(amount: int, noun: String) -> String:
+	return "%d %s%s" % [amount, noun, "" if amount == 1 else "s"]
 
 
 ## §35 requires strong confirmation before deleting progress. Two steps, and the
