@@ -208,6 +208,21 @@ describe("TimeUtil", () => {
       check(actual === c.out, `shiftDateKey(${JSON.stringify(c.key)}, ${c.offset})`, actual, c.out);
     }
   });
+
+  // Added after the desktop was found rendering these in UTC while its own
+  // comment promised local time. This function was the one TimeUtil member the
+  // sweep did not cover, which is precisely how the two could disagree for
+  // months without anything going red.
+  it(`formatDatetime over ${timeFixture.format_datetime.length} stamp/offset pairs`, () => {
+    for (const c of timeFixture.format_datetime) {
+      const actual = T.formatDatetime(c.unix_seconds, c.offset_seconds);
+      check(
+        actual === c.out,
+        `formatDatetime(${c.unix_seconds}, ${c.offset_seconds})`,
+        actual, c.out,
+      );
+    }
+  });
 });
 
 describe("PlantGrowthService", () => {

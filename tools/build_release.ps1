@@ -51,6 +51,8 @@ Write-Host "=== Save persistence ===" -ForegroundColor Cyan
 & $godot --headless --path $root --script "res://tools/verify_save_roundtrip.gd" 2>&1 | Write-Host
 if ($LASTEXITCODE -ne 0) { Write-Error "Save persistence FAILED" }
 
+Invoke-Gate "Save transfer" "res://tools/verify_save_transfer.gd"
+
 Write-Host ""
 Write-Host "=== Exporting ===" -ForegroundColor Cyan
 New-Item -ItemType Directory -Force -Path (Split-Path $output -Parent) | Out-Null

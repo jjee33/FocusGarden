@@ -197,7 +197,7 @@ static func restore(snapshot_path: String, save_dir: String, backup_dir: String)
 	# Session shards are replaced wholesale rather than merged. A half-merged
 	# history would double-count sessions, and §37's dataset is the one thing in
 	# the app that has to stay exactly true.
-	_remove_recursive(SessionStore.sessions_dir(save_dir))
+	SessionStore.clear(save_dir)
 	_copy_sessions(snapshot_path, save_dir)
 	return true
 

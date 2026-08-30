@@ -3282,5 +3282,407 @@
       "offset": 400,
       "out": "2026-02-30"
     }
+  ],
+  "format_datetime": [
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": -50400,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": -18000,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": -3600,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": 0,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": 3600,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": 7200,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": 19800,
+      "out": ""
+    },
+    {
+      "unix_seconds": -1.0,
+      "offset_seconds": 50400,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": -50400,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": -18000,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": -3600,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": 0,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": 3600,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": 7200,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": 19800,
+      "out": ""
+    },
+    {
+      "unix_seconds": 0.0,
+      "offset_seconds": 50400,
+      "out": ""
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": -50400,
+      "out": "31 Dec 1969, 10:00"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": -18000,
+      "out": "31 Dec 1969, 19:00"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": -3600,
+      "out": "31 Dec 1969, 23:00"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": 0,
+      "out": "1 Jan 1970, 00:00"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": 3600,
+      "out": "1 Jan 1970, 01:00"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": 7200,
+      "out": "1 Jan 1970, 02:00"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": 19800,
+      "out": "1 Jan 1970, 05:30"
+    },
+    {
+      "unix_seconds": 1.0,
+      "offset_seconds": 50400,
+      "out": "1 Jan 1970, 14:00"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": -50400,
+      "out": "13 Aug 2026, 19:42"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": -18000,
+      "out": "14 Aug 2026, 04:42"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": -3600,
+      "out": "14 Aug 2026, 08:42"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": 0,
+      "out": "14 Aug 2026, 09:42"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": 3600,
+      "out": "14 Aug 2026, 10:42"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": 7200,
+      "out": "14 Aug 2026, 11:42"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": 19800,
+      "out": "14 Aug 2026, 15:12"
+    },
+    {
+      "unix_seconds": 1786700520.0,
+      "offset_seconds": 50400,
+      "out": "14 Aug 2026, 23:42"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": -50400,
+      "out": "14 Aug 2026, 09:30"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": -18000,
+      "out": "14 Aug 2026, 18:30"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": -3600,
+      "out": "14 Aug 2026, 22:30"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": 0,
+      "out": "14 Aug 2026, 23:30"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": 3600,
+      "out": "15 Aug 2026, 00:30"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": 7200,
+      "out": "15 Aug 2026, 01:30"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": 19800,
+      "out": "15 Aug 2026, 05:00"
+    },
+    {
+      "unix_seconds": 1786750200.0,
+      "offset_seconds": 50400,
+      "out": "15 Aug 2026, 13:30"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": -50400,
+      "out": "14 Aug 2026, 10:00"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": -18000,
+      "out": "14 Aug 2026, 19:00"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": -3600,
+      "out": "14 Aug 2026, 23:00"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": 0,
+      "out": "15 Aug 2026, 00:00"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": 3600,
+      "out": "15 Aug 2026, 01:00"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": 7200,
+      "out": "15 Aug 2026, 02:00"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": 19800,
+      "out": "15 Aug 2026, 05:30"
+    },
+    {
+      "unix_seconds": 1786752000.0,
+      "offset_seconds": 50400,
+      "out": "15 Aug 2026, 14:00"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": -50400,
+      "out": "31 Dec 2024, 09:59"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": -18000,
+      "out": "31 Dec 2024, 18:59"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": -3600,
+      "out": "31 Dec 2024, 22:59"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": 0,
+      "out": "31 Dec 2024, 23:59"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": 3600,
+      "out": "1 Jan 2025, 00:59"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": 7200,
+      "out": "1 Jan 2025, 01:59"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": 19800,
+      "out": "1 Jan 2025, 05:29"
+    },
+    {
+      "unix_seconds": 1735689599.0,
+      "offset_seconds": 50400,
+      "out": "1 Jan 2025, 13:59"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": -50400,
+      "out": "31 Dec 2024, 10:00"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": -18000,
+      "out": "31 Dec 2024, 19:00"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": -3600,
+      "out": "31 Dec 2024, 23:00"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": 0,
+      "out": "1 Jan 2025, 00:00"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": 3600,
+      "out": "1 Jan 2025, 01:00"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": 7200,
+      "out": "1 Jan 2025, 02:00"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": 19800,
+      "out": "1 Jan 2025, 05:30"
+    },
+    {
+      "unix_seconds": 1735689600.0,
+      "offset_seconds": 50400,
+      "out": "1 Jan 2025, 14:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": -50400,
+      "out": "31 Dec 1999, 10:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": -18000,
+      "out": "31 Dec 1999, 19:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": -3600,
+      "out": "31 Dec 1999, 23:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": 0,
+      "out": "1 Jan 2000, 00:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": 3600,
+      "out": "1 Jan 2000, 01:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": 7200,
+      "out": "1 Jan 2000, 02:00"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": 19800,
+      "out": "1 Jan 2000, 05:30"
+    },
+    {
+      "unix_seconds": 946684800.0,
+      "offset_seconds": 50400,
+      "out": "1 Jan 2000, 14:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": -50400,
+      "out": "31 Dec 2099, 10:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": -18000,
+      "out": "31 Dec 2099, 19:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": -3600,
+      "out": "31 Dec 2099, 23:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": 0,
+      "out": "1 Jan 2100, 00:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": 3600,
+      "out": "1 Jan 2100, 01:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": 7200,
+      "out": "1 Jan 2100, 02:00"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": 19800,
+      "out": "1 Jan 2100, 05:30"
+    },
+    {
+      "unix_seconds": 4102444800.0,
+      "offset_seconds": 50400,
+      "out": "1 Jan 2100, 14:00"
+    }
   ]
 }

@@ -75,6 +75,24 @@ static func save_all(save_dir: String, sessions: Array[FocusSession]) -> Error:
 	return OK
 
 
+## Deletes the whole session history for a save directory.
+##
+## Removes EVERY file in the folder, not just the `.json` shards. `append` passes
+## the sessions folder as its own backup directory, so a `2026.json.<stamp>.bak`
+## sits next to each shard — and `read_json_with_recovery` would happily restore
+## history from one of those after the shard it belonged to was deleted. Leaving
+## them behind is how a wiped history comes back from the dead.
+##
+## The one operation here that destroys something. Callers snapshot first.
+static func clear(save_dir: String) -> void:
+	var dir := sessions_dir(save_dir)
+	if not DirAccess.dir_exists_absolute(dir):
+		return
+	for file_name: String in DirAccess.get_files_at(dir):
+		DirAccess.remove_absolute(dir.path_join(file_name))
+	DirAccess.remove_absolute(dir)
+
+
 ## Appends one session to its year shard, rewriting only that shard.
 ## Replaces an existing record with the same id rather than duplicating it, so a
 ## re-save of an updated session (for example after awards are applied) does not

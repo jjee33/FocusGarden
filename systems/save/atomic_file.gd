@@ -40,7 +40,17 @@ class ReadResult extends RefCounted:
 
 
 ## Writes `data` as pretty-printed JSON, atomically. Returns OK or an Error.
-static func write_json(path: String, data: Dictionary, backup_dir: String = "") -> Error:
+##
+## `rotate_backup` is false ONLY for exports. Every save path depends on step 3,
+## and the flag exists because an export writes to a folder the PLAYER chose:
+## rotating there drops `focus-garden-2026-08-26.json.000001756….bak` beside
+## their file every time they re-export over it, which is litter in someone
+## else's folder rather than insurance in ours. It is a separate parameter rather
+## than an empty `backup_dir`, because an empty one already means something —
+## "rotate beside the file" — and that is exactly the behaviour being turned off.
+static func write_json(
+	path: String, data: Dictionary, backup_dir: String = "", rotate_backup: bool = true
+) -> Error:
 	var dir_path := path.get_base_dir()
 	if not DirAccess.dir_exists_absolute(dir_path):
 		var make_error := DirAccess.make_dir_recursive_absolute(dir_path)
@@ -70,10 +80,29 @@ static func write_json(path: String, data: Dictionary, backup_dir: String = "") 
 		return ERR_FILE_CORRUPT
 
 	if FileAccess.file_exists(path):
-		_rotate_backup(path, backup_dir)
+		if rotate_backup:
+			_rotate_backup(path, backup_dir)
 		DirAccess.remove_absolute(path)
 
 	return DirAccess.rename_absolute(tmp_path, path)
+
+
+## Reads exactly the file asked for, with NO fallback.
+##
+## Import uses this. `read_json_with_recovery` scans the folder its target lives
+## in for `<name>.tmp` and `<name>.<stamp>.bak`, which is right for our own save
+## directory and wrong for a folder the player picked: if the file they chose
+## will not parse, silently handing them a DIFFERENT, older export sitting beside
+## it is not recovery, it is a substitution they never asked for — and the import
+## would then report success while replacing their garden with the wrong one.
+static func read_json(path: String) -> ReadResult:
+	var result := ReadResult.new()
+	var primary: Variant = _try_read(path)
+	if primary != null:
+		result.data = primary
+		result.source = ReadSource.PRIMARY
+		result.source_name = path.get_file()
+	return result
 
 
 ## Reads JSON, falling back through the temp file and then backups when the
@@ -81,14 +110,9 @@ static func write_json(path: String, data: Dictionary, backup_dir: String = "") 
 static func read_json_with_recovery(path: String, backup_dir: String = "") -> ReadResult:
 	var result := ReadResult.new()
 
-	# Explicitly Variant: _try_read returns null on failure, so `:=` would infer
-	# Variant anyway and Godot treats that inference as an error.
-	var primary: Variant = _try_read(path)
-	if primary != null:
-		result.data = primary
-		result.source = ReadSource.PRIMARY
-		result.source_name = path.get_file()
-		return result
+	var primary := read_json(path)
+	if primary.exists():
+		return primary
 
 	# A leftover .tmp means we crashed between removing the real file and
 	# renaming the new one. It was verified before the swap started, so it is

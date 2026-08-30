@@ -72,7 +72,65 @@ func test_datetime_is_written_the_way_a_person_reads_one() -> void:
 	assert_false(formatted.is_empty(), "and it produced something")
 
 
+## The assertions above pass whether or not the offset is applied, which is why
+## they did not notice that it never was. These pin the actual number.
+func test_a_moment_is_rendered_in_local_time_not_utc() -> void:
+	# 2026-08-14 09:42:00 UTC.
+	var stamp := 1786700520.0
+
+	assert_eq(
+		TimeUtil.format_datetime(stamp, 0),
+		"14 Aug 2026, 09:42",
+		"at UTC the stamp renders as itself",
+	)
+	assert_eq(
+		TimeUtil.format_datetime(stamp, 2 * 3600),
+		"14 Aug 2026, 11:42",
+		"two hours east reads two hours later",
+	)
+	assert_eq(
+		TimeUtil.format_datetime(stamp, -5 * 3600),
+		"14 Aug 2026, 04:42",
+		"five hours west reads five hours earlier",
+	)
+
+
+func test_a_moment_near_midnight_moves_day_with_the_offset() -> void:
+	# 2026-08-14 23:30:00 UTC — the case where getting this wrong shows the
+	# player the wrong DATE, not merely the wrong hour.
+	var stamp := 1786750200.0
+
+	assert_eq(
+		TimeUtil.format_datetime(stamp, 2 * 3600),
+		"15 Aug 2026, 01:30",
+		"east of UTC it is already tomorrow",
+	)
+	assert_eq(
+		TimeUtil.format_datetime(stamp, -5 * 3600),
+		"14 Aug 2026, 18:30",
+		"west of UTC it is still the same evening",
+	)
+
+
+func test_an_unset_timestamp_stays_empty_whatever_the_offset() -> void:
+	assert_eq(TimeUtil.format_datetime(0.0, 5 * 3600), "", "no offset rescues an unset stamp")
+	assert_eq(TimeUtil.format_datetime(-1.0, -5 * 3600), "", "nor does a negative one")
+
+
 func test_a_missing_timestamp_formats_to_nothing() -> void:
 	# Rather than to 1 Jan 1970, which is what a bare conversion would give and
 	# would read as a real date the player had never seen before.
 	assert_eq(TimeUtil.format_datetime(0.0), "", "an unset timestamp shows nothing")
+
+
+func test_a_date_key_renders_the_way_a_person_reads_a_date() -> void:
+	assert_eq(TimeUtil.format_date_key("2026-08-14"), "14 Aug 2026", "a full date")
+	assert_eq(TimeUtil.format_date_key("2025-01-03"), "3 Jan 2025", "no leading zero on the day")
+	assert_eq(TimeUtil.format_date_key("2026-12-31"), "31 Dec 2026", "the last month resolves")
+
+
+func test_an_unreadable_date_key_is_returned_as_it_came() -> void:
+	# Better a raw key on screen than a fabricated date. These come off disk and
+	# can be anything.
+	assert_eq(TimeUtil.format_date_key(""), "", "an empty key stays empty")
+	assert_eq(TimeUtil.format_date_key("nonsense"), "nonsense", "junk is not invented over")

@@ -16,6 +16,10 @@ extends RefCounted
 const SECONDS_PER_DAY: int = 86400
 const SECONDS_PER_MINUTE: int = 60
 
+## Sentinel for "ask the OS", so callers can inject an offset instead. Chosen
+## below any real zone: the widest genuine offset is 14 hours, or 50400 seconds.
+const OFFSET_FROM_SYSTEM: int = -1000000
+
 
 ## Current UTC offset in seconds, as reported by the OS right now.
 static func local_offset_seconds() -> int:
@@ -82,6 +86,23 @@ static func is_valid_date_key(key: String) -> bool:
 	return _date_key_to_unix(key) >= 0
 
 
+## "14 Aug 2026" — one day, written the way a person reads one.
+##
+## Takes a stored date key rather than a timestamp: a key already IS a local day,
+## captured at record time, and re-deriving it from a timestamp would apply
+## today's UTC offset to a historical date and shift it across midnight whenever
+## daylight saving flipped in between.
+static func format_date_key(key: String) -> String:
+	if not is_valid_date_key(key):
+		return key
+	var parts := key.split("-")
+	return "%d %s %d" % [
+		int(parts[2]),
+		MONTH_ABBREVIATIONS[clampi(int(parts[1]) - 1, 0, 11)],
+		int(parts[0]),
+	]
+
+
 ## "1h 25m" / "45m" / "30s". Used everywhere focus time is displayed, so the app
 ## never shows two different formats for the same quantity.
 static func format_duration(total_minutes: float) -> String:
@@ -109,10 +130,22 @@ static func format_duration(total_minutes: float) -> String:
 ## Local time, deliberately: everything stored is UTC so that arithmetic is safe
 ## across timezone changes, but a timestamp shown to the player has to match the
 ## clock on their wall or it is worse than useless.
-static func format_datetime(unix_seconds: float) -> String:
+##
+## This did not do that. It converted the UTC stamp and rendered it unshifted, so
+## every "planted at" and every backup label was off by the viewer's offset while
+## the comment above insisted otherwise. The shift below is the same one
+## local_date_key already applies; the bug was that this function never learned
+## it. The test that covered it only asserted the year and month appeared, which
+## is true of the UTC rendering too — a test can only catch what it looks at.
+##
+## The offset is injectable so the fix is testable at all. Reading the system
+## zone inside means the only assertion available is "it matches whatever this
+## machine happens to be set to", which is not a test of anything.
+static func format_datetime(unix_seconds: float, offset_seconds: int = OFFSET_FROM_SYSTEM) -> String:
 	if unix_seconds <= 0.0:
 		return ""
-	var t := Time.get_datetime_dict_from_unix_time(int(unix_seconds))
+	var offset := local_offset_seconds() if offset_seconds == OFFSET_FROM_SYSTEM else offset_seconds
+	var t := Time.get_datetime_dict_from_unix_time(int(unix_seconds) + offset)
 	return "%d %s %d, %02d:%02d" % [
 		DictUtil.get_int(t, "day"),
 		MONTH_ABBREVIATIONS[clampi(DictUtil.get_int(t, "month", 1) - 1, 0, 11)],

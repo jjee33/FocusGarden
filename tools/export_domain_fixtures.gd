@@ -276,6 +276,23 @@ func _sweep_time_util() -> Dictionary:
 		for offset in [-400, -366, -31, -1, 0, 1, 31, 365, 400]:
 			shifted.append({"key": k, "offset": offset, "out": TimeUtil.shift_date_key(k, offset)})
 
+	# format_datetime was not swept until the offset bug was found in it, and the
+	# omission is why: it was the one TimeUtil function the two implementations
+	# could disagree about without anything noticing. The offset is passed in
+	# explicitly so the fixtures are the same on every machine that regenerates
+	# them - reading the system zone here would bake this laptop's timezone into
+	# a file that CI then compares against.
+	var moments: Array = []
+	for stamp in [
+		-1.0, 0.0, 1.0, 1786700520.0, 1786750200.0, 1786752000.0,
+		1735689599.0, 1735689600.0, 946684800.0, 4102444800.0,
+	]:
+		for offset in [-50400, -18000, -3600, 0, 3600, 7200, 19800, 50400]:
+			moments.append({
+				"unix_seconds": stamp, "offset_seconds": offset,
+				"out": TimeUtil.format_datetime(stamp, offset),
+			})
+
 	return {
 		"format_duration": durations,
 		"format_countdown": countdowns,
@@ -283,6 +300,7 @@ func _sweep_time_util() -> Dictionary:
 		"is_valid_date_key": validity,
 		"format_date_key": formatted,
 		"shift_date_key": shifted,
+		"format_datetime": moments,
 	}
 
 

@@ -196,6 +196,73 @@ func test_stage_count_has_a_floor() -> void:
 
 
 
+func test_a_plant_never_renders_below_the_stage_it_reached() -> void:
+	# THE IMPORTED-PLANT CASE. A garden whose session history had not travelled
+	# with it evaluated to 0.0 here, so every half-grown plant redrew itself as a
+	# seed while its own label still read "Young". growth_stage is stored player
+	# data, and it is the last band the plant was actually seen in.
+	var plant := PlantInstance.create(&"test_fern")
+	plant.growth_stage = 1
+
+	var ratio := PlantGrowthService.progress_ratio(plant, _species, RequirementContext.new())
+	assert_almost_eq(ratio, 1.0 / 3.0, "stage 1 of 3 reads as at least a third")
+	assert_eq(
+		PlantGrowthService.stage_for_ratio(ratio, 3), 1,
+		"and the floor maps back to exactly the stage it came from, never past it"
+	)
+
+
+func test_the_stage_floor_never_reaches_maturity() -> void:
+	# The floor restores a band the player already reached; it must never hand out
+	# the completion they have not. The highest stage index is one below the count,
+	# so the floor tops out below 1.0 and `just_matured` still needs a real ratio.
+	var plant := PlantInstance.create(&"test_fern")
+	plant.growth_stage = 2
+
+	var result := PlantGrowthService.apply_growth(plant, _species, RequirementContext.new())
+	assert_almost_eq(result.progress_ratio, 2.0 / 3.0, "the final band, not completion")
+	assert_false(plant.is_mature(), "an unearned maturity was not granted")
+	assert_false(result.just_matured, "and no celebration was fired")
+
+
+func test_an_out_of_range_stage_cannot_mature_a_garden() -> void:
+	# `PlantInstance.from_dict` only floors growth_stage at zero, so a hand-edited
+	# or foreign save can carry stage 99. Unclamped the floor would return 33.0,
+	# apply_growth would see a full ratio, and every plant in that file would
+	# mature on load. This is the clamp, asserted.
+	var plant := PlantInstance.create(&"test_fern")
+	plant.growth_stage = 99
+
+	var result := PlantGrowthService.apply_growth(plant, _species, RequirementContext.new())
+	assert_true(result.progress_ratio <= 1.0, "the ratio stayed in range")
+	assert_false(plant.is_mature(), "and a nonsense stage did not mature the plant")
+
+
+func test_the_floor_holds_when_a_species_loses_its_requirement() -> void:
+	# A content update that drops a requirement is a bug, and it must not
+	# retroactively un-grow a plant somebody watched grow. It still grants nothing:
+	# the floor cannot reach 1.0, so "un-growable" keeps meaning exactly that.
+	var plant := PlantInstance.create(&"test_fern")
+	plant.growth_stage = 1
+	_species.growth_requirement = null
+
+	var ratio := PlantGrowthService.progress_ratio(plant, _species, RequirementContext.new())
+	assert_almost_eq(ratio, 1.0 / 3.0, "the plant kept the band it had reached")
+	assert_true(ratio < 1.0, "but gained no maturity from a missing requirement")
+
+
+func test_real_progress_still_wins_over_the_floor() -> void:
+	# The floor is a floor, not a substitute. Once sessions are present again the
+	# evaluated ratio is what shows.
+	var plant := PlantInstance.create(&"test_fern")
+	plant.growth_stage = 1
+	assert_almost_eq(
+		PlantGrowthService.progress_ratio(plant, _species, _context_with_minutes(90.0)), 0.9,
+		"90 of 100 minutes reads as 90%, not as the stage-1 floor"
+	)
+
+
+
 func _context_with_minutes(minutes: float) -> RequirementContext:
 	var context := RequirementContext.new()
 	context.plant_focus_minutes = minutes

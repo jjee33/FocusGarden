@@ -36,12 +36,39 @@ static func progress_ratio(
 		# retunes a species upward would otherwise re-open every specimen the
 		# player already grew — and visibly shrink them back down on the shelf.
 		return 1.0
-	if species.growth_requirement == null:
-		# A species with no authored requirement would otherwise be instantly
-		# mature. Treat it as un-growable rather than silently handing the player
-		# a free plant.
-		return 0.0
-	return RequirementEvaluator.evaluate(species.growth_requirement, context)
+	# A species with no authored requirement would otherwise be instantly mature.
+	# It counts as un-growable rather than silently handing the player a free
+	# plant — but the floor below still applies, because a content update that
+	# drops a requirement is a bug and must not retroactively un-grow a plant
+	# somebody watched grow. The floor can never reach 1.0, so "un-growable" is
+	# still exactly what it means: no maturity from nothing.
+	var evaluated := (
+		0.0 if species.growth_requirement == null
+		else RequirementEvaluator.evaluate(species.growth_requirement, context)
+	)
+
+	# A plant is never DRAWN below the stage it has already reached.
+	#
+	# `apply_growth` has always refused to let a stored stage regress (§3: progress
+	# must feel permanent), but this function — which is what every screen actually
+	# renders — had no such floor, so the two could disagree. They did: an imported
+	# save whose session history had not come with it evaluated to 0.0 here, and a
+	# garden of half-grown plants redrew itself as a tray of seeds while each one
+	# still carried the right stage in the file.
+	#
+	# The floor is the LOWER EDGE of the reached band, so it can only ever restore
+	# a plant to where it already was: `stage_for_ratio` maps it straight back to
+	# the same stage, and because the highest stage index is one below the count it
+	# can never reach 1.0 and hand out a maturity nothing earned.
+	#
+	# THE CLAMP IS LOAD-BEARING. `PlantInstance.from_dict` only floors growth_stage
+	# at zero, so a hand-edited or foreign save can carry stage 99 — unclamped that
+	# would return 33.0, `apply_growth` would see a full ratio, and every plant in
+	# the file would mature on load. It also covers a species whose stage art
+	# SHRANK in a content update below a stage some plant had already reached.
+	var stages := maxi(2, species.get_stage_count())
+	var reached := float(clampi(plant.growth_stage, 0, stages - 1)) / float(stages)
+	return maxf(evaluated, reached)
 
 
 ## Names for the three default stages, in order. Used wherever a stage is shown

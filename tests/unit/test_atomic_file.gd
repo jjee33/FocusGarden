@@ -110,6 +110,47 @@ func test_no_temp_file_is_left_behind() -> void:
 	)
 
 
+func test_an_export_leaves_no_backup_beside_it() -> void:
+	# An export writes into a folder the PLAYER chose. Rotating there drops a .bak
+	# next to their file every time they re-export over it — litter in someone
+	# else's folder rather than insurance in ours.
+	AtomicFile.write_json(_path, {"generation": 1}, "", false)
+	AtomicFile.write_json(_path, {"generation": 2}, "", false)
+
+	assert_eq(AtomicFile.list_backups(_path, TEST_DIR).size(), 0, "no .bak was written")
+	assert_eq(
+		AtomicFile.read_json(_path).data["generation"], 2, "and the newest write is what is there"
+	)
+
+
+func test_saves_still_rotate_by_default() -> void:
+	# The opt-out must never be reachable by accident: every path that writes a
+	# SAVE depends on rotation, and this asserts the default beside the opt-out so
+	# the two cannot be confused.
+	AtomicFile.write_json(_path, {"generation": 1}, BACKUP_DIR)
+	AtomicFile.write_json(_path, {"generation": 2}, BACKUP_DIR)
+	assert_eq(AtomicFile.list_backups(_path, BACKUP_DIR).size(), 1, "the previous save was kept")
+
+
+func test_a_strict_read_never_substitutes_a_neighbouring_file() -> void:
+	# Import reads the exact file the player picked. Quietly handing them a
+	# DIFFERENT, older export from the same folder because theirs would not parse
+	# is not recovery — it is a substitution, and the import would then report
+	# success while replacing their garden with the wrong one.
+	AtomicFile.write_json(_path, {"generation": 1}, TEST_DIR)
+	AtomicFile.write_json(_path, {"generation": 2}, TEST_DIR)
+	var file := FileAccess.open(_path, FileAccess.WRITE)
+	file.store_string("{ truncated")
+	file.close()
+
+	assert_false(AtomicFile.read_json(_path).exists(), "the strict read reports failure")
+
+	# Side by side, because the difference between them IS the point.
+	var recovered := AtomicFile.read_json_with_recovery(_path, TEST_DIR)
+	assert_true(recovered.exists(), "while recovery still rescues a real save")
+	assert_true(recovered.recovered, "and says that it did")
+
+
 func _purge() -> void:
 	_purge_dir(BACKUP_DIR)
 	_purge_dir(TEST_DIR.path_join("a/b/c"))
