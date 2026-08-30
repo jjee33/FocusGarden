@@ -119,9 +119,10 @@ export function LandingScreen({ onSkip }: Props) {
             Every plant here grew out of time you spent focusing.
           </h1>
           <p>
-            A focus timer that keeps the receipts. Sit down for twenty-five
-            minutes and something in your garden is measurably further along than
-            it was. Nothing here can be bought, hurried, or watered — only grown.
+            A focus timer that remembers every minute you give it. Sit down for
+            twenty-five minutes and something in your garden will be a little
+            further along than it was. Nothing here can be bought, hurried, or
+            watered — only grown.
           </p>
           <div className="land__cta">
             <a className="btn" href="#start">Start growing</a>
@@ -177,9 +178,10 @@ export function LandingScreen({ onSkip }: Props) {
             <span className="land__num">Two</span>
             <h3>Sit with your work</h3>
             <p>
-              Set a length and begin. Close the tab, background it, take a break —
-              the clock is wall time, so the credit is exactly the time you gave
-              it, and an interrupted session is offered back rather than lost.
+              Set a length and begin. Take a break, make a cup of tea, step away
+              when you need to — the timer counts real time, so the credit is
+              exactly the time you gave it, and a session cut short is offered
+              back rather than lost.
             </p>
           </li>
           <li>
@@ -187,8 +189,8 @@ export function LandingScreen({ onSkip }: Props) {
             <h3>Watch it come in</h3>
             <p>
               Minutes become growth. A plant reaching maturity goes into the
-              ground, joins the catalogue, and stays there — a record of hours
-              you would otherwise have no evidence of.
+              ground, joins the catalogue, and stays there — a keepsake of hours
+              that would otherwise slip by with nothing to show for them.
             </p>
           </li>
         </ol>
@@ -199,9 +201,9 @@ export function LandingScreen({ onSkip }: Props) {
         <div className="land__shelfwords">
           <h2>Sixteen to find</h2>
           <p>
-            Every plant is drawn rather than painted — the same code renders a
-            seedling and a ten-hour bonsai, so nothing is a swapped-out picture.
-            Six of them are below, at full growth.
+            Every plant here truly grows — it fills out leaf by leaf, from first
+            sprout to full bloom, and no two grow quite the same way. Six of
+            them are below, fully grown.
           </p>
         </div>
         <ul className="land__specimens">
@@ -236,13 +238,13 @@ export function LandingScreen({ onSkip }: Props) {
           Stated as facts about the product rather than as marketing, because
           every one of them is checkable and several are unusual. */}
       <section className="land__plain">
-        <h2>What it does not do</h2>
+        <h2>A quiet corner of the internet</h2>
         <ul className="land__facts">
           <li><Icon name="check" /><span><b>No ads, no payment, no upsell.</b> There is no paid tier and nothing to buy.</span></li>
-          <li><Icon name="check" /><span><b>No tracking.</b> No analytics beyond a page count, no advertising, nothing that follows you.</span></li>
-          <li><Icon name="check" /><span><b>Works offline.</b> Every rule runs in your browser. Install it and it keeps working on a plane.</span></li>
+          <li><Icon name="check" /><span><b>No tracking.</b> Nothing here watches you or follows you around the internet.</span></li>
+          <li><Icon name="check" /><span><b>Works offline.</b> Your garden lives with you, not somewhere far away — it keeps growing on a plane, on a train, or anywhere without signal.</span></li>
           <li><Icon name="check" /><span><b>An account is optional.</b> It buys one thing: the same garden on your other devices.</span></li>
-          <li><Icon name="check" /><span><b>Your data leaves whenever you like.</b> One file, readable, and the desktop app opens it.</span></li>
+          <li><Icon name="check" /><span><b>Your garden is yours to keep.</b> Take a copy with you whenever you like — nothing is locked away.</span></li>
         </ul>
       </section>
 
