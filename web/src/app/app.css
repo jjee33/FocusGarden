@@ -1129,6 +1129,28 @@
   color: var(--ink-2);
 }
 
+/*
+ * The legal links, on the screen where an account is actually created.
+ *
+ * They are static pages rather than app routes, so these are real anchors that
+ * leave the SPA - which is also what makes them reachable by a crawler and by
+ * Google's OAuth review, neither of which runs our JavaScript.
+ */
+.auth__legal {
+  margin: var(--sp-sm) 0 0;
+  text-align: center;
+  font-size: var(--t-caption);
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+.auth__legal a {
+  color: var(--ink-muted);
+  text-underline-offset: 3px;
+}
+.auth__legal a:hover {
+  color: var(--ink-2);
+}
+
 /* --------------------------------------------------------- account block --- */
 
 .account-row {

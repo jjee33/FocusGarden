@@ -37,6 +37,22 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,woff2}"],
+        /*
+         * The legal pages are NOT the app, and the service worker must stop
+         * pretending they are.
+         *
+         * navigateFallback sends any unmatched navigation to index.html, which is
+         * right for SPA routes and wrong for these: the precache holds them under
+         * `privacy.html`, the URL people visit is `/privacy`, those do not match,
+         * and so a returning visitor with the worker installed would click
+         * "Privacy Policy" and be shown the focus timer. It would work perfectly
+         * in a fresh browser and fail only for people who had used the app -
+         * which is everybody who might click it.
+         *
+         * Google's OAuth review fetches these URLs too, and it does not run our
+         * JavaScript.
+         */
+        navigateFallbackDenylist: [/^\/privacy$/, /^\/terms$/],
         // Fonts come from Google's CDN; cache them so a second launch offline
         // does not fall back to a system serif and reflow the whole page.
         runtimeCaching: [

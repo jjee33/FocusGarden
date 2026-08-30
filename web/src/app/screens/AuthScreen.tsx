@@ -165,6 +165,11 @@ export function AuthScreen({ onSkip }: Props) {
             <button className="auth__skip" type="button" onClick={onSkip}>
               Just let me start — keep it on this device
             </button>
+            <p className="auth__legal">
+              By continuing you agree to our{" "}
+              <a href="/terms">Terms of Service</a> and{" "}
+              <a href="/privacy">Privacy Policy</a>.
+            </p>
           </>
         )}
 
@@ -239,6 +244,11 @@ export function AuthScreen({ onSkip }: Props) {
             <button className="auth__skip" type="button" onClick={onSkip}>
               Just let me start — keep it on this device
             </button>
+            <p className="auth__legal">
+              By continuing you agree to our{" "}
+              <a href="/terms">Terms of Service</a> and{" "}
+              <a href="/privacy">Privacy Policy</a>.
+            </p>
           </>
         )}
       </div>
