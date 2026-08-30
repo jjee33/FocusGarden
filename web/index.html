@@ -5,8 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#E9DFC9" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#191D1A" media="(prefers-color-scheme: dark)" />
-    <meta name="description" content="A cosy garden grown from the time you invest in yourself." />
-    <title>Focus Garden</title>
+    <title>Focus Garden — a focus timer that grows a garden</title>
+    <meta name="description" content="A focus timer that grows a garden from the hours you actually spend concentrating. Free, no ads, no tracking, and it works offline." />
+    <link rel="canonical" href="https://thefocusgarden.com/" />
+
+    <!--
+      Open Graph and Twitter cards, which were entirely absent.
+
+      Sharing the link anywhere - Slack, Discord, iMessage, a search result -
+      produced a bare URL with no preview at all. For a product whose whole claim
+      is that time turns into something worth looking at, an unadorned link is
+      the worst possible introduction.
+
+      og.png is generated from the LIVE SITE by tools/make-og-image.mjs, not
+      drawn by hand. The plants are procedural, so there is no asset to export
+      and a hand-made preview would drift the moment the renderer changed.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Focus Garden" />
+    <meta property="og:url" content="https://thefocusgarden.com/" />
+    <meta property="og:title" content="Focus Garden — grow what you give time to" />
+    <meta property="og:description" content="A focus timer that grows a garden from the hours you actually spend concentrating. Free, no ads, no tracking, and it works offline." />
+    <meta property="og:image" content="https://thefocusgarden.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Three plants at three stages of growth, standing in a garden bed." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Focus Garden — grow what you give time to" />
+    <meta name="twitter:description" content="A focus timer that grows a garden from the hours you actually spend concentrating." />
+    <meta name="twitter:image" content="https://thefocusgarden.com/og.png" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="apple-touch-icon" href="/icon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,21 +78,51 @@
     -->
     <style>
       #boot{min-height:100dvh;display:flex;flex-direction:column;align-items:center;
-        justify-content:center;gap:.35rem;background:#e9dfc9;color:#2b2519;
+        justify-content:center;gap:.4rem;padding:1.5rem;text-align:center;
+        background:#e9dfc9;color:#2b2519;
         font-family:"Public Sans","Segoe UI",system-ui,-apple-system,sans-serif}
-      #boot b{font-family:"Fraunces","Iowan Old Style",Georgia,serif;font-size:1.5rem;font-weight:600}
-      #boot span{font-size:.85rem;color:#675c4a}
+      #boot b{font-family:"Fraunces","Iowan Old Style",Georgia,serif;font-size:1.4rem;font-weight:600}
+      #boot .tag{font-size:.85rem;color:#675c4a}
+      #boot h1{font-family:"Fraunces","Iowan Old Style",Georgia,serif;
+        font-size:clamp(1.5rem,4vw,2.2rem);font-weight:600;line-height:1.15;
+        margin:1.6rem 0 .6rem;max-width:22ch;letter-spacing:-0.01em}
+      #boot p{margin:0;font-size:.95rem;color:#675c4a;max-width:44ch;line-height:1.5}
       @media (prefers-color-scheme:dark){
         #boot{background:#191d1a;color:#ede7d8}
-        #boot span{color:#a09c8c}
+        #boot .tag,#boot p{color:#a09c8c}
       }
     </style>
     <div id="root">
-      <div id="boot" role="status" aria-live="polite">
+      <!--
+        The same words the app opens with, so this is a first paint rather than a
+        placeholder - and so a crawler, which runs no JavaScript, gets the actual
+        pitch instead of two lines of branding. React replaces this on mount with
+        the interactive version of the same screen; nothing here is written for
+        machines that a person would not also see.
+      -->
+      <div id="boot">
         <b>Focus Garden</b>
-        <span>grow what you give time to</span>
+        <span class="tag">grow what you give time to</span>
+        <h1>Every plant here grew out of time you spent focusing.</h1>
+        <p>
+          A focus timer that grows a garden from the hours you actually spend
+          concentrating. Free, no ads, no tracking, and it works offline. An
+          account is optional and only keeps your garden on more than one device.
+        </p>
       </div>
     </div>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Focus Garden",
+        "url": "https://thefocusgarden.com/",
+        "description": "A focus timer that grows a garden from the hours you actually spend concentrating.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Any modern browser, Windows, Linux",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
     <script type="module" src="/src/app/main.tsx"></script>
   </body>
 </html>

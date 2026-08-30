@@ -1061,9 +1061,38 @@
 /* The moment before the first load settles. Deliberately blank rather than a
    spinner: it lasts a few frames, and a spinner that flashes reads as slower
    than nothing at all. */
+/* Matches #boot in index.html exactly, so React mounting over the static shell
+   changes nothing on screen. See components/BootScreen.tsx for why. */
 .boot {
   min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: var(--sp-lg);
+  text-align: center;
   background: var(--bg-base);
+  color: var(--ink);
+}
+.boot__words { display: contents; }
+.boot__words b { font-family: var(--display); font-size: 1.4rem; font-weight: 600; }
+.boot__tag { font-size: var(--t-small); color: var(--ink-muted); }
+.boot__words h1 {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 1.6rem 0 0.6rem;
+  max-width: 22ch;
+  letter-spacing: -0.01em;
+}
+.boot__words p {
+  margin: 0;
+  font-size: var(--t-body);
+  color: var(--ink-muted);
+  max-width: 44ch;
+  line-height: 1.5;
 }
 .seg-group {
   display: flex;

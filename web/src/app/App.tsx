@@ -20,6 +20,7 @@ import { JournalScreen } from "./screens/JournalScreen.js";
 import { SettingsScreen } from "./screens/SettingsScreen.js";
 import { OnboardingScreen } from "./screens/OnboardingScreen.js";
 import { Icon, type IconName } from "./components/Icon.js";
+import { BootScreen } from "./components/BootScreen.js";
 import { AuthScreen } from "./screens/AuthScreen.js";
 import { ResetLinkExpiredScreen, ResetPasswordScreen } from "./screens/ResetPasswordScreen.js";
 import { useSession } from "./auth-client.js";
@@ -179,9 +180,7 @@ export function App() {
   // session refresh must never take the UI away from someone mid-task.
   if (!settledOnce || !garden.storage.ready) {
     return (
-      <div className="boot" role="status" aria-live="polite">
-        <span className="visually-hidden">Opening your garden</span>
-      </div>
+      <BootScreen label="Opening your garden" />
     );
   }
 
@@ -221,9 +220,7 @@ export function App() {
 
   if (awaitingFirstSync) {
     return (
-      <div className="boot" role="status" aria-live="polite">
-        <span className="visually-hidden">Fetching your garden</span>
-      </div>
+      <BootScreen label="Fetching your garden" />
     );
   }
 
