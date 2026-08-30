@@ -11,9 +11,14 @@ APP_URL="http://localhost:8787"
 BETTER_AUTH_SECRET=""
 
 # Google Cloud console -> Credentials -> OAuth client ID (Web application).
+#
 # Authorised redirect URIs must include, exactly:
-#   http://localhost:5173/api/auth/callback/google
+#   http://localhost:8787/api/auth/callback/google
 #   https://thefocusgarden.com/api/auth/callback/google
+#
+# 8787, not 5173. Auth only works under `wrangler dev`, which serves the API and
+# the built app on one origin. The Vite dev server on 5173 serves the frontend
+# alone and has no /api to call, so a callback pointed there fails.
 GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 
