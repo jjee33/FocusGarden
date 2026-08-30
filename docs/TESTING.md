@@ -159,3 +159,9 @@ which navigation alone cannot reach.
 Also unautomated: real multi-hour sessions, genuine machine sleep, and true
 system clock changes. The clock logic is unit-tested against simulated versions
 of all three; confirming the real thing is a Milestone 9 task.
+
+## Backups
+
+See [BACKUPS.md](BACKUPS.md). The backup tool verifies every dump by restoring
+it, and `planRetention` - the part that deletes things - is covered by unit tests
+in the web suite.
