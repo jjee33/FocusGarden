@@ -13,14 +13,14 @@
  * environment.
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import type { useGarden } from "../useGarden.js";
 import type { GameSettings, ThemeMode } from "../../domain/game-settings.js";
 import { formatDuration } from "../../domain/time-util.js";
 import type { ThemeChoice } from "../usePlatform.js";
 import { useTheme } from "../usePlatform.js";
-import { signOut, useSession } from "../auth-client.js";
+import { deleteAccount, signOut, useSession } from "../auth-client.js";
 import type { useSync } from "../useSync.js";
 import { formatDatetime } from "../../domain/time-util.js";
 import { Icon } from "../components/Icon.js";
@@ -42,8 +42,39 @@ interface Props {
 }
 
 export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props) {
+  const [deleting, setDeleting] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [busyDelete, setBusyDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
   const { save, updateSettings } = garden;
   const settings = save.settings;
+
+  /**
+   * Delete, then sign out - and deliberately leave the local garden alone.
+   *
+   * The privacy policy promises exactly this: "Deleting your account does not
+   * touch the copy on your own device. You can carry on using Focus Garden
+   * without an account." Wiping IndexedDB here would be a kinder-sounding
+   * behaviour that contradicts a published document, and someone who deleted an
+   * account to stop syncing would lose the garden they meant to keep.
+   */
+  const confirmDelete = async (): Promise<void> => {
+    setBusyDelete(true);
+    setDeleteError("");
+    const result = await deleteAccount(confirmEmail);
+    if (!result.ok) {
+      setBusyDelete(false);
+      setDeleteError(result.message);
+      return;
+    }
+    // The server has already destroyed the session; this clears the client's
+    // copy of it and returns the shell to its signed-out state.
+    await signOut().catch(() => {});
+    setBusyDelete(false);
+    setDeleting(false);
+    setConfirmEmail("");
+    onSignedOut();
+  };
   const theme = useTheme();
   const { data: authSession } = useSession();
 
@@ -270,6 +301,81 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
             </button>
           </Row>
         </section>
+
+        {/*
+          Only shown to someone who has an account, because there is nothing to
+          delete otherwise - a local-only garden is cleared through the browser's
+          own site settings, and the privacy policy says so.
+        */}
+        {authSession !== null && (
+          <section className="setting-group danger" aria-labelledby="danger-heading">
+            <h2 id="danger-heading">Deleting your account</h2>
+
+            {!deleting ? (
+              <Row
+                label="Delete my account"
+                hint="Removes your account and everything on our servers: your garden, your sessions, your sign-ins. The copy on this device is untouched and you can keep using Focus Garden without an account."
+              >
+                <button
+                  className="btn btn--danger"
+                  type="button"
+                  onClick={() => { setDeleting(true); setDeleteError(""); }}
+                >
+                  Delete
+                </button>
+              </Row>
+            ) : (
+              <div className="danger__confirm">
+                <p>
+                  <b>This cannot be undone.</b> Export a copy first if there is
+                  anything here you would want back — the file works on the
+                  desktop app and can be imported into a new account later.
+                </p>
+                <div className="danger__actions">
+                  <button className="btn btn--ghost" type="button" onClick={garden.downloadBundle}>
+                    Export first
+                  </button>
+                </div>
+
+                <label className="auth__field">
+                  <span>
+                    Type <b>{authSession.user.email}</b> to confirm
+                  </span>
+                  <input
+                    className="field-input"
+                    type="email"
+                    autoComplete="off"
+                    value={confirmEmail}
+                    onChange={(e) => setConfirmEmail(e.target.value)}
+                  />
+                </label>
+
+                {deleteError !== "" && (
+                  <p className="auth__error" role="alert">{deleteError}</p>
+                )}
+
+                <div className="danger__actions">
+                  <button
+                    className="btn btn--danger"
+                    type="button"
+                    disabled={busyDelete || confirmEmail.trim() === ""}
+                    onClick={() => { void confirmDelete(); }}
+                  >
+                    {busyDelete ? "Deleting…" : "Delete my account permanently"}
+                  </button>
+                  <button
+                    className="btn btn--quiet"
+                    type="button"
+                    disabled={busyDelete}
+                    onClick={() => { setDeleting(false); setConfirmEmail(""); setDeleteError(""); }}
+                  >
+                    Keep my account
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+        )}
       </div>
     </>
   );

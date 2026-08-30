@@ -1601,3 +1601,61 @@
 .more-nav__item b { font-size: var(--t-body); font-weight: 650; }
 .more-nav__item span { font-size: var(--t-small); color: var(--ink-muted); }
 .more-nav__item b { color: var(--ink); }
+
+/* ----------------------------------------------------- deleting an account --- */
+
+/*
+ * Set apart, and it should be. This is the one control in the app that destroys
+ * something, so it does not sit in a row of preferences looking like the others.
+ * The clay border rather than a filled red panel: a warning, not an alarm - the
+ * person came here on purpose and is not being scolded for it.
+ */
+.danger {
+  border-color: color-mix(in oklab, var(--clay) 45%, var(--border-soft));
+}
+.danger h2 { color: var(--clay); }
+
+.btn--danger {
+  background: var(--clay);
+  color: var(--ink-on-accent);
+  border-color: var(--clay);
+}
+.btn--danger:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--clay) 85%, #000);
+}
+.btn--danger:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.danger__confirm {
+  display: grid;
+  gap: var(--sp-sm);
+  padding: var(--sp-md);
+  border-top: 1px solid var(--hairline);
+}
+.danger__confirm > p { margin: 0; font-size: var(--t-body); color: var(--ink-2); }
+
+/*
+ * The confirmation label is not a field label, it is an instruction containing
+ * an email address.
+ *
+ * The shared .auth__field style uppercases labels, which turned
+ * "Type you@example.com to confirm" into a shouted address that also implies you
+ * should type it in capitals. It is sentence case here, and the address is the
+ * emphasised part rather than the word "type".
+ */
+.danger__confirm .auth__field > span {
+  font-size: var(--t-small);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--ink-2);
+}
+.danger__confirm .auth__field > span b {
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.danger__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-xs);
+}

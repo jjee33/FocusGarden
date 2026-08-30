@@ -15,10 +15,12 @@
  */
 
 import { Hono } from "hono";
+import { eq } from "drizzle-orm";
 
 import type { AppBindings } from "../context.js";
 import { createAuth, type MailReport } from "../auth.js";
 import { consume, throttleKey } from "../throttle.js";
+import { user } from "../db/schema.js";
 
 export function accountRoutes() {
   const routes = new Hono<AppBindings>();
@@ -115,6 +117,43 @@ export function accountRoutes() {
       return c.json({ error: "We could not send that email just now. Try again shortly." }, 502);
     }
     return c.json({ sent: true });
+  });
+
+  /*
+   * Delete the account, and everything attached to it.
+   *
+   * THE ONLY AUTHENTICATED ROUTE ON THIS ROUTER, which is otherwise deliberately
+   * open because its whole job is helping people who cannot sign in. So the
+   * session is checked here rather than by middleware - putting a guard on the
+   * whole group would break resend-verification and forgot-password, which is
+   * the opposite of what this file is for.
+   *
+   * CONFIRMED BY TYPING THE ADDRESS, not by a second button. This is permanent
+   * and cascades to twelve tables; the friction is the feature. It is checked
+   * against the SESSION's email, so a typo cannot delete anything and a stale
+   * page cannot delete the wrong account.
+   *
+   * One DELETE does all of it. Every table that references user.id does so with
+   * ON DELETE CASCADE - verified against the live database's CREATE TABLE
+   * statements, all twelve of them - so hand-rolling twelve deletes would be a
+   * second definition of "everything attached to this account" that could fall
+   * out of step with the schema the moment a table was added.
+   */
+  routes.post("/delete", async (c) => {
+    const auth = createAuth(c.env);
+    const result = await auth.api.getSession({ headers: c.req.raw.headers });
+    if (result === null) return c.json({ error: "Not signed in." }, 401);
+
+    const body = await c.req.json<{ email?: unknown }>().catch(() => ({ email: undefined }));
+    const typed = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    if (typed !== result.user.email.trim().toLowerCase()) {
+      return c.json({ error: "That does not match the address on this account." }, 400);
+    }
+
+    await c.get("db").delete(user).where(eq(user.id, result.user.id));
+
+    console.info("Account deleted at the owner's request.");
+    return c.json({ deleted: true });
   });
 
   return routes;

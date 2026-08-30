@@ -118,3 +118,34 @@ export async function completePasswordReset(
   }
   return { ok: true };
 }
+
+/**
+ * Delete the account and everything the server holds for it.
+ *
+ * The address is typed by the person and checked against their session on the
+ * server, so a mistyped confirmation deletes nothing. Irreversible: the caller
+ * is responsible for having offered an export first.
+ */
+export async function deleteAccount(
+  typedEmail: string,
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  let response: Response;
+  try {
+    response = await fetch("/api/account/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ email: typedEmail }),
+    });
+  } catch {
+    return { ok: false, message: "Could not reach the server. Nothing was deleted." };
+  }
+  if (response.ok) return { ok: true };
+  const body = await response.json().catch(() => ({})) as { error?: unknown };
+  return {
+    ok: false,
+    message: typeof body.error === "string"
+      ? body.error
+      : "Something went wrong. Nothing was deleted.",
+  };
+}
