@@ -104,6 +104,11 @@ export function useIsCompact(breakpoint = 768): boolean {
   );
   useEffect(() => {
     const query = matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    // Re-read on mount as well as subscribing. The initialiser runs during the
+    // first render, and a viewport that changes between then and here - a phone
+    // rotated while the bundle loads, a window resized mid-load - would leave a
+    // value that is wrong until the next change event, which may never come.
+    setCompact(query.matches);
     const onChange = (event: MediaQueryListEvent): void => setCompact(event.matches);
     query.addEventListener("change", onChange);
     return () => query.removeEventListener("change", onChange);

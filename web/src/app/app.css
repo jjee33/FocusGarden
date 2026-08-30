@@ -1030,6 +1030,81 @@
     var(--bg-base);
 }
 
+/*
+ * The desktop sign-in, which was a phone card adrift on a widescreen.
+ *
+ * Two columns from 900px: the product on the left, the panel on the right. Below
+ * that the showcase is not rendered at all - `display: none` would still cost
+ * the SVG work, so the component itself bails and a phone pays nothing.
+ *
+ * The panel keeps its own max-width in both layouts. A sign-in form that grows
+ * to fill half a monitor is harder to use, not easier.
+ */
+@media (min-width: 900px) {
+  .auth {
+    /* `auto auto`, not `1fr auto`. A fractional column absorbs every spare pixel
+       on a wide monitor, which pushed the showcase to the far left and the panel
+       to the far right with a canyon between them. Sizing both to their content
+       and centring the pair keeps them reading as one composition at any width. */
+    grid-template-columns: auto auto;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    justify-content: center;
+    align-items: center;
+    padding: var(--sp-xxl);
+  }
+}
+
+.showcase {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .showcase {
+    display: grid;
+    justify-items: center;
+    gap: var(--sp-lg);
+    max-width: 620px;
+  }
+}
+
+/* A shallow bed rather than three plants in a row: the ground line is what
+   stops them reading as clip art and starts them reading as a garden. */
+.showcase__bed {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 2rem);
+  padding: 0 var(--sp-lg) var(--sp-md);
+  position: relative;
+}
+
+.showcase__bed::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--bed-soil) 55%, transparent) 18%,
+    color-mix(in oklab, var(--bed-soil) 55%, transparent) 82%,
+    transparent
+  );
+}
+
+/* Staggered so three plants at three sizes do not sit on one flat line. */
+.showcase__slot--0 { transform: translateY(6px); }
+.showcase__slot--2 { transform: translateY(10px); }
+
+.showcase__caption {
+  margin: 0;
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+  text-align: center;
+}
+
 .auth__panel {
   width: 100%;
   max-width: 430px;

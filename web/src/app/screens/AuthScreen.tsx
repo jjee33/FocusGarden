@@ -27,6 +27,7 @@ import { useState } from "react";
 import {
   readableAuthError, requestPasswordReset, resendVerification, signIn, signUp,
 } from "../auth-client.js";
+import { AuthShowcase } from "../components/AuthShowcase.js";
 
 type Mode = "choose" | "signup" | "signin" | "forgot";
 
@@ -180,6 +181,7 @@ export function AuthScreen({ onSkip }: Props) {
 
   return (
     <main className="auth">
+      <AuthShowcase />
       <div className="auth__panel">
         <div className="auth__brand">
           <b>Focus Garden</b>
