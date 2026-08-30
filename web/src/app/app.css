@@ -104,16 +104,14 @@
   color: var(--ink-on-nav);
   font-weight: 600;
 }
-.rail__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: 0.5;
+/* Icons replaced 7px squares. Held slightly back from full strength so the label
+   leads and the icon supports it, then brought forward on the current page. */
+.rail__item svg {
   flex: none;
+  opacity: 0.72;
 }
-.rail__item[aria-current="page"] .rail__dot {
-  background: var(--moss);
+.rail__item[aria-current="page"] svg,
+.rail__item:hover svg {
   opacity: 1;
 }
 
@@ -154,15 +152,13 @@
 .tabbar__item[aria-current="page"] {
   color: var(--ink-on-nav);
 }
-.tabbar__dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 5px;
-  background: currentColor;
-  opacity: 0.45;
+/* On a phone the icon is doing most of the work - the label under it is 11px -
+   so it carries the state rather than merely decorating it. */
+.tabbar__item svg {
+  opacity: 0.6;
+  transition: opacity var(--d-fast) var(--ease-out);
 }
-.tabbar__item[aria-current="page"] .tabbar__dot {
-  background: var(--moss);
+.tabbar__item[aria-current="page"] svg {
   opacity: 1;
 }
 
@@ -1239,3 +1235,279 @@
   color: var(--ink-muted);
   font-size: var(--t-caption);
 }
+
+/* ------------------------------------------------- catalogue / awards / journal --- */
+
+.empty {
+  margin: 0;
+  padding: var(--sp-xl) var(--sp-lg);
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: var(--t-body);
+}
+
+/* auto-fill, not auto-fit: auto-fit collapses empty tracks and lets three cards
+   stretch across a 1180px row like posters. A fixed minimum keeps every card the
+   size it was designed at, whatever the count. */
+.catalogue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--sp-md);
+}
+
+.spec-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--sp-sm);
+  padding: var(--sp-md);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-soft);
+  background: var(--bg-raised);
+  box-shadow: var(--elev-1);
+}
+
+.spec-card--locked {
+  /* Present but plainly not yours yet: no shadow, muted ground. Greying the text
+     out instead would make the name unreadable, and the name is the point. */
+  box-shadow: none;
+  background: color-mix(in oklab, var(--bg-raised) 60%, var(--bg-base));
+  border-style: dashed;
+}
+
+.spec-card__art {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+}
+
+.spec-card__locked { color: var(--ink-muted); opacity: 0.55; }
+
+.spec-card__body { display: grid; gap: 2px; align-content: start; }
+
+.spec-card__body h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-heading);
+  font-weight: 600;
+}
+
+.spec-card__latin {
+  margin: 0;
+  font-style: italic;
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+}
+
+.spec-card .rarity { justify-self: start; margin-top: var(--sp-xxs); }
+
+.spec-card__facts {
+  margin: var(--sp-xs) 0 0;
+  display: grid;
+  gap: 2px;
+  font-size: var(--t-small);
+}
+.spec-card__facts > div { display: flex; justify-content: space-between; gap: var(--sp-sm); }
+.spec-card__facts dt { color: var(--ink-muted); }
+.spec-card__facts dd { margin: 0; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+.spec-card__hint {
+  margin: var(--sp-xs) 0 0;
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+}
+
+.spec-card__fav {
+  position: absolute;
+  top: var(--sp-xs);
+  right: var(--sp-xs);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.spec-card__fav:hover { background: var(--overlay-hover); }
+/* Filled, not just recoloured. Colour alone is not a state anyone can rely on. */
+.spec-card__fav[aria-pressed="true"] { color: var(--amber); }
+.spec-card__fav[aria-pressed="true"] svg { fill: currentColor; }
+
+/*
+ * On a phone the card becomes a row.
+ *
+ * The grid layout gives every entry a 120px art box, which is right on desktop
+ * where four sit side by side and wrong on a phone where they stack: twelve
+ * species became three thousand pixels of scrolling, most of it an empty square
+ * with a small padlock in it. Turning the card on its side keeps the art, the
+ * name, the rarity and the numbers all visible while roughly halving the height.
+ */
+@media (max-width: 600px) {
+  .catalogue-grid { grid-template-columns: 1fr; gap: var(--sp-xs); }
+
+  .spec-card {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: none;
+    align-items: center;
+    padding: var(--sp-sm);
+  }
+
+  .spec-card__art {
+    min-height: 0;
+    width: 76px;
+    height: 88px;
+  }
+
+  /* The lock no longer needs a box of its own once it sits beside the text. */
+  .spec-card--locked .spec-card__art { width: 44px; height: 44px; }
+
+  .spec-card__facts { grid-template-columns: repeat(2, 1fr); gap: 2px var(--sp-sm); }
+
+  /* Clear of the text rather than over it, now the card is short. */
+  .spec-card__fav { top: 50%; right: var(--sp-xxs); transform: translateY(-50%); }
+  .spec-card__body { padding-right: 34px; }
+}
+
+/* --- achievements --- */
+
+.ach-group h2 {
+  margin: 0 0 var(--sp-sm);
+  font-family: var(--display);
+  font-size: var(--t-title);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.ach-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-xs); }
+
+.ach {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: var(--sp-sm);
+  padding: var(--sp-sm);
+  border-radius: var(--r-md);
+  background: color-mix(in oklab, var(--bg-base) 45%, transparent);
+}
+
+.ach__mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-pill);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-soft);
+  color: var(--ink-muted);
+}
+.ach--done .ach__mark {
+  background: var(--moss);
+  border-color: var(--moss);
+  color: var(--ink-on-accent);
+}
+
+.ach__text { display: grid; gap: 2px; min-width: 0; }
+.ach__text h3 { margin: 0; font-size: var(--t-body); font-weight: 650; }
+.ach__text p { margin: 0; font-size: var(--t-small); color: var(--ink-2); }
+.ach__when { color: var(--ink-muted) !important; }
+
+.ach__bar {
+  position: relative;
+  margin-top: var(--sp-xxs);
+  height: 16px;
+  border-radius: var(--r-pill);
+  background: var(--track);
+  overflow: hidden;
+}
+.ach__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--moss);
+  transition: width var(--d-slow) var(--ease-out);
+}
+.ach__pct {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.ach .rarity { align-self: center; }
+
+/* --- journal --- */
+
+.journal-day h2 {
+  margin: 0 0 var(--sp-sm);
+  font-family: var(--display);
+  font-size: var(--t-heading);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.journal-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-sm); }
+
+.journal-entry {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-sm);
+  align-items: start;
+}
+
+.journal-entry__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-pill);
+  background: var(--accent-subtle);
+  color: var(--chip-ink);
+  flex: none;
+}
+
+.journal-entry h3 { margin: 0; font-size: var(--t-body); font-weight: 650; }
+.journal-entry p { margin: 2px 0 0; font-size: var(--t-small); color: var(--ink-2); }
+
+/*
+ * The mobile route to Catalogue, Achievements and Journal.
+ *
+ * Hidden from 768px up, where the rail already lists all three. Below it, this
+ * is the only way to reach them: the tab bar holds five and there are eight
+ * screens.
+ */
+.more-nav {
+  display: grid;
+  gap: var(--sp-xs);
+}
+
+@media (min-width: 768px) {
+  .more-nav { display: none; }
+}
+
+.more-nav__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--sp-sm);
+  width: 100%;
+  padding: var(--sp-sm) var(--sp-md);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.more-nav__item:hover { background: var(--surface-high); }
+.more-nav__item svg { color: var(--moss); }
+.more-nav__item span { display: grid; gap: 1px; }
+.more-nav__item b { font-size: var(--t-body); font-weight: 650; }
+.more-nav__item span { font-size: var(--t-small); color: var(--ink-muted); }
+.more-nav__item b { color: var(--ink); }

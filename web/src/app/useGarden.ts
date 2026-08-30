@@ -17,6 +17,8 @@ import {
   ALL_ACHIEVEMENTS, ALL_EXPANSIONS, getPot, getSpecies, speciesCount,
 } from "../content/content.js";
 import type { Completion, FocusSession, Kind } from "../domain/focus-session.js";
+import { discover as discoverSpecies, makeCatalogueEntry } from "../domain/catalogue-entry.js";
+import { JournalKind, createJournalEntry } from "../domain/journal-entry.js";
 import {
   Anomaly, Completion as C, Kind as K, countsTowardProgress, createFocusSession,
 } from "../domain/focus-session.js";
@@ -521,6 +523,27 @@ export function useGarden() {
       primaryProjectId: chosen.id,
     });
 
+    /*
+     * PLANTING DISCOVERS THE SPECIES, and writes the first journal entry.
+     *
+     * Both were missing here and neither is optional - the desktop does them in
+     * the same breath as creating the plant (app_state.gd), and its comment is
+     * explicit about why: "Seeing a species in your own pot counts as
+     * discovering it (§16). Growing it to maturity is what fills in the rest of
+     * its catalogue statistics."
+     *
+     * Without this the web catalogue read "0 of 12 found" while a Monstera stood
+     * in a pot on the shelf, and the journal was empty on a day something plainly
+     * happened. The pipeline calls discover() again at maturity, which is
+     * idempotent - that call fills in the statistics, it is not the discovery.
+     *
+     * It only surfaced once there were screens reading these fields. Nothing was
+     * wrong with the records; nothing had ever looked at them.
+     */
+    const species = getSpecies(result.speciesId);
+    const entry = makeCatalogueEntry(result.speciesId);
+    discoverSpecies(entry, now);
+
     setState((prev) => ({
       ...prev,
       save: {
@@ -535,6 +558,14 @@ export function useGarden() {
         },
         projects: [chosen, ...starters],
         plants: [plant],
+        catalogue: [entry],
+        journal: [createJournalEntry(
+          JournalKind.SEED_PLANTED,
+          `Planted ${species?.displayName ?? "a plant"}`,
+          `Started while working on ${chosen.displayName}.`,
+          plant.uid,
+          now,
+        )],
       },
     }));
   }, []);
@@ -674,6 +705,36 @@ export function useGarden() {
     }));
   }, [mutateSave]);
 
+  /**
+   * Mark a species as a favourite, or stop.
+   *
+   * The only thing on the catalogue a person can change, and it is deliberately
+   * the only thing: everything else there is a record of what happened, and a
+   * record you can edit is not a record. `favorite` is already part of
+   * CatalogueEntry and already syncs, so this is a flag flip rather than a
+   * feature.
+   *
+   * An entry is created if the species has none. Favouriting something you have
+   * grown but whose row predates the field costs nothing and avoids a silent
+   * no-op that looks like a broken button.
+   */
+  const toggleFavouriteSpecies = useCallback((speciesId: string) => {
+    mutateSave((s) => {
+      const existing = s.catalogue.find((c) => c.speciesId === speciesId);
+      if (existing === undefined) {
+        return {
+          ...s,
+          catalogue: [...s.catalogue, { ...makeCatalogueEntry(speciesId), favorite: true }],
+        };
+      }
+      return {
+        ...s,
+        catalogue: s.catalogue.map((c) =>
+          c.speciesId === speciesId ? { ...c, favorite: !c.favorite } : c),
+      };
+    });
+  }, [mutateSave]);
+
   const activePlant = summaries.find((s) => s.plant.uid === save.profile.activePlantUid) ?? null;
   const activeProject = save.projects.find((p) => p.id === save.profile.activeProjectId) ?? null;
 
@@ -698,6 +759,7 @@ export function useGarden() {
     persistInFlight, clearInFlight, acceptRecovered, discardRecovered,
     updateSettings, downloadBundle, pickBundleToImport,
     exportBundle, importBundle,
+    toggleFavouriteSpecies,
     getPot,
     /** Sessions that count, for anything wanting the filtered view. */
     countedSessions: sessions.filter(countsTowardProgress),

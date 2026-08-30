@@ -23,15 +23,25 @@ import { useTheme } from "../usePlatform.js";
 import { signOut, useSession } from "../auth-client.js";
 import type { useSync } from "../useSync.js";
 import { formatDatetime } from "../../domain/time-util.js";
+import { Icon } from "../components/Icon.js";
 
 interface Props {
   garden: ReturnType<typeof useGarden>;
   sync: ReturnType<typeof useSync>;
   /** Lets the shell offer the account again once someone signs out. */
   onSignedOut: () => void;
+  /**
+   * The only way to reach Catalogue, Achievements and Journal on a phone.
+   *
+   * They have rail entries on desktop, and the tab bar only holds five, so on
+   * mobile this screen is genuinely "More" and has to carry them. Without it
+   * they were built, deployed, and completely unreachable on the platform this
+   * app was designed for first.
+   */
+  onNavigate: (screen: "catalogue" | "achievements" | "journal") => void;
 }
 
-export function SettingsScreen({ garden, sync, onSignedOut }: Props) {
+export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props) {
   const { save, updateSettings } = garden;
   const settings = save.settings;
   const theme = useTheme();
@@ -58,6 +68,22 @@ export function SettingsScreen({ garden, sync, onSignedOut }: Props) {
         <h1>Settings</h1>
         <p>Everything here is yours to change, and changing it changes nothing you have grown.</p>
       </div>
+
+      {/* Hidden on desktop, where the rail already lists these. */}
+      <nav className="more-nav" aria-label="More sections">
+        <button type="button" className="more-nav__item" onClick={() => onNavigate("catalogue")}>
+          <Icon name="catalogue" size={1.3} />
+          <span><b>Catalogue</b>Every species, and what you have grown</span>
+        </button>
+        <button type="button" className="more-nav__item" onClick={() => onNavigate("achievements")}>
+          <Icon name="achievements" size={1.3} />
+          <span><b>Achievements</b>What your hours have earned</span>
+        </button>
+        <button type="button" className="more-nav__item" onClick={() => onNavigate("journal")}>
+          <Icon name="journal" size={1.3} />
+          <span><b>Journal</b>What happened, in order</span>
+        </button>
+      </nav>
 
       <div className="settings">
         <section className="setting-group" aria-labelledby="timer-heading">

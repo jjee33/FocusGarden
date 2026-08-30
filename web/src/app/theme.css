@@ -85,12 +85,27 @@
   --bed-soil: #6b5236;
   --bed-soil-dark: #513e29;
 
-  /* --- Rarity. Status is never colour alone; every one also has a name. --- */
-  --rarity-common: #8c8171;
-  --rarity-uncommon: #5c8a54;
-  --rarity-rare: #4a7fa5;
+  /* --- Rarity. Status is never colour alone; every one also has a name. ---
+     Badge text is 10px bold, so these need 4.5:1 against whatever sits on them,
+     and three of them did not have it - common 3.76, uncommon 3.96, rare 4.24.
+     Those are darkened just enough, hue held.
+
+     Legendary is the exception and keeps its gold. Darkening it to carry white
+     text turned it to bronze and cost the one rarity that is meant to catch the
+     eye its whole reason for existing; dark ink on the same gold reaches 5.18
+     and looks better than either compromise. Hence a paired ink token rather
+     than one blanket colour. */
+  --rarity-common: #7b7163;
+  --rarity-uncommon: #547d4c;
+  --rarity-rare: #46789c;
   --rarity-epic: #8a5fa8;
   --rarity-legendary: #c98a2e;
+
+  --rarity-ink-common: var(--ink-on-accent);
+  --rarity-ink-uncommon: var(--ink-on-accent);
+  --rarity-ink-rare: var(--ink-on-accent);
+  --rarity-ink-epic: var(--ink-on-accent);
+  --rarity-ink-legendary: #2b2519;
 
   /* --- Renderer-facing --- */
   --foliage-ambient: 1;
@@ -196,6 +211,9 @@
     --rarity-rare: #71acd4;
     --rarity-epic: #b48cd0;
     --rarity-legendary: #e7b65c;
+    /* No exception in dark: --ink-on-accent is already dark ink and every tint
+       clears 6.7:1 against it, legendary included. */
+    --rarity-ink-legendary: var(--ink-on-accent);
     /* Content colours are the same in both themes - a monstera is green at night
        too - but they have to sit down into a dark scene rather than glow out. */
     --foliage-ambient: 0.82;
@@ -250,6 +268,9 @@
   --rarity-rare: #71acd4;
   --rarity-epic: #b48cd0;
   --rarity-legendary: #e7b65c;
+  /* Same reasoning as the media query above; both dark blocks must carry it or
+     an explicit dark choice keeps the light theme's exception. */
+  --rarity-ink-legendary: var(--ink-on-accent);
   --foliage-ambient: 0.82;
   --fg-grain-opacity: 0.07;
   --chip-ink: #7cbb63;

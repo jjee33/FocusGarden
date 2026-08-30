@@ -14,8 +14,12 @@ import { FocusScreen } from "./screens/FocusScreen.js";
 import { GardenScreen } from "./screens/GardenScreen.js";
 import { ShelfScreen } from "./screens/ShelfScreen.js";
 import { StatisticsScreen } from "./screens/StatisticsScreen.js";
+import { CatalogueScreen } from "./screens/CatalogueScreen.js";
+import { AchievementsScreen } from "./screens/AchievementsScreen.js";
+import { JournalScreen } from "./screens/JournalScreen.js";
 import { SettingsScreen } from "./screens/SettingsScreen.js";
 import { OnboardingScreen } from "./screens/OnboardingScreen.js";
+import { Icon, type IconName } from "./components/Icon.js";
 import { AuthScreen } from "./screens/AuthScreen.js";
 import { ResetLinkExpiredScreen, ResetPasswordScreen } from "./screens/ResetPasswordScreen.js";
 import { useSession } from "./auth-client.js";
@@ -23,15 +27,36 @@ import { useSync } from "./useSync.js";
 import { useGarden } from "./useGarden.js";
 import { useTheme } from "./usePlatform.js";
 
-type ScreenId = "focus" | "garden" | "shelf" | "stats" | "settings";
+type ScreenId =
+  | "focus" | "garden" | "shelf" | "catalogue" | "journal"
+  | "achievements" | "stats" | "settings";
 
-/** The four that fit a tab bar. Settings lives behind the last one on mobile. */
-const SCREENS: { id: ScreenId; label: string; short: string }[] = [
-  { id: "focus", label: "Focus", short: "Focus" },
-  { id: "garden", label: "Garden", short: "Garden" },
-  { id: "shelf", label: "Shelf", short: "Shelf" },
-  { id: "stats", label: "Statistics", short: "Stats" },
-  { id: "settings", label: "Settings", short: "More" },
+interface ScreenDef {
+  id: ScreenId;
+  label: string;
+  short: string;
+  icon: IconName;
+  /** Whether it earns one of the five slots a phone tab bar can hold. */
+  onTabBar: boolean;
+}
+
+/*
+ * Eight screens on the rail, five on the tab bar.
+ *
+ * A phone cannot hold eight without each becoming an unlabelled sliver, so the
+ * three that are browsed rather than used every day - catalogue, journal,
+ * achievements - live behind Settings on mobile and get their own rail entries
+ * on desktop, where there is room.
+ */
+const SCREENS: ScreenDef[] = [
+  { id: "focus", label: "Focus", short: "Focus", icon: "focus", onTabBar: true },
+  { id: "garden", label: "Garden", short: "Garden", icon: "garden", onTabBar: true },
+  { id: "shelf", label: "Shelf", short: "Shelf", icon: "shelf", onTabBar: true },
+  { id: "catalogue", label: "Catalogue", short: "Plants", icon: "catalogue", onTabBar: false },
+  { id: "achievements", label: "Achievements", short: "Awards", icon: "achievements", onTabBar: false },
+  { id: "journal", label: "Journal", short: "Journal", icon: "journal", onTabBar: false },
+  { id: "stats", label: "Statistics", short: "Stats", icon: "stats", onTabBar: true },
+  { id: "settings", label: "Settings", short: "More", icon: "settings", onTabBar: true },
 ];
 
 /**
@@ -228,14 +253,14 @@ export function App() {
               {...(screen === s.id ? { "aria-current": "page" as const } : {})}
               onClick={() => setScreen(s.id)}
             >
-              <span className="rail__dot" />
+              <Icon name={s.icon} />
               {s.label}
             </button>
           ))}
         </nav>
         <div className="rail__footer">
           <button className="rail__item" type="button" onClick={theme.cycle}>
-            <span className="rail__dot" />
+            <Icon name={theme.resolved === "dark" ? "sparkle" : "leaf"} />
             {theme.resolved === "dark" ? "Light mode" : "Dark mode"}
           </button>
         </div>
@@ -268,19 +293,23 @@ export function App() {
           )}
           {screen === "garden" && <GardenScreen garden={garden} />}
           {screen === "shelf" && <ShelfScreen garden={garden} />}
+          {screen === "catalogue" && <CatalogueScreen garden={garden} />}
+          {screen === "achievements" && <AchievementsScreen garden={garden} />}
+          {screen === "journal" && <JournalScreen garden={garden} />}
           {screen === "stats" && <StatisticsScreen garden={garden} />}
           {screen === "settings" && (
             <SettingsScreen
               garden={garden}
               sync={sync}
               onSignedOut={() => setLocalOnly(false)}
+              onNavigate={setScreen}
             />
           )}
         </div>
       </main>
 
       <nav className="tabbar" aria-label="Sections">
-        {SCREENS.map((s) => (
+        {SCREENS.filter((s) => s.onTabBar).map((s) => (
           <button
             key={s.id}
             type="button"
@@ -288,7 +317,7 @@ export function App() {
             {...(screen === s.id ? { "aria-current": "page" as const } : {})}
             onClick={() => setScreen(s.id)}
           >
-            <span className="tabbar__dot" />
+            <Icon name={s.icon} size={1.35} />
             {s.short}
           </button>
         ))}

@@ -192,7 +192,10 @@ export function GardenScreen({ garden }: Props) {
                   <span className="tray__name">{s.speciesName}</span>
                   <span
                     className="rarity"
-                    style={{ background: `var(--rarity-${species.rarity})` }}
+                    style={{
+                    background: `var(--rarity-${species.rarity})`,
+                    color: `var(--rarity-ink-${species.rarity})`,
+                  }}
                   >
                     {RARITY_NAMES[species.rarity]}
                   </span>
