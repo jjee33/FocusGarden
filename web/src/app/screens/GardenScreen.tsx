@@ -19,6 +19,8 @@ import { ALL_EXPANSIONS } from "../../content/content.js";
 import { Location, canBeDisplayed } from "../../domain/plant-instance.js";
 import { formatDuration } from "../../domain/time-util.js";
 import { RARITY_NAMES } from "../../domain/species.js";
+import { shareGardenImage } from "../share-garden.js";
+import { Icon } from "../components/Icon.js";
 import { useReducedMotion, useTheme } from "../usePlatform.js";
 
 interface Props {
@@ -26,6 +28,8 @@ interface Props {
 }
 
 export function GardenScreen({ garden }: Props) {
+  const [sharing, setSharing] = useState(false);
+  const [shareNote, setShareNote] = useState("");
   const { summaries, placeInGarden, rotatePlant } = garden;
   const { foliageAmbient } = useTheme();
   const reducedMotion = useReducedMotion();
@@ -69,16 +73,75 @@ export function GardenScreen({ garden }: Props) {
 
   const selected = summaries.find((s) => s.plant.uid === selectedUid) ?? null;
 
+  /**
+   * Draws the garden as a poster and hands it over.
+   *
+   * Everything happens on the device - the plants are already SVG, so this
+   * composes them, rasterises through a canvas, and offers the file. Nothing is
+   * uploaded and nothing is posted on anyone's behalf; the share sheet is the
+   * person's own, and cancelling it is a choice rather than an error.
+   */
+  const shareGarden = async (): Promise<void> => {
+    setSharing(true);
+    setShareNote("");
+    try {
+      const minutes = planted.reduce((sum, s) => sum + s.plant.accumulatedFocusMinutes, 0);
+      const where = await shareGardenImage({
+        plants: planted
+          .map((s) => {
+            const species = getSpecies(s.plant.speciesId);
+            return species?.morphology == null ? null : {
+              morphology: species.morphology,
+              growth: s.ratio,
+              seed: s.plant.uid,
+            };
+          })
+          .filter((p): p is NonNullable<typeof p> => p !== null),
+        subtitle: `${formatDuration(minutes)} of focus`,
+      }, "focus-garden.png");
+      setShareNote(where === "downloaded"
+        ? "Saved as focus-garden.png."
+        : "");
+    } catch {
+      setShareNote("The image could not be drawn on this device. Nothing was sent.");
+    } finally {
+      setSharing(false);
+    }
+  };
+
   return (
     <>
-      <div className="greet">
-        <h1>Your garden</h1>
-        <p>
-          {planted.length} planted ·{" "}
-          {formatDuration(planted.reduce((sum, s) => sum + s.plant.accumulatedFocusMinutes, 0))}{" "}
-          of focus standing in the bed
-        </p>
+      <div className="greet greet--with-action">
+        <div>
+          <h1>Your garden</h1>
+          <p>
+            {planted.length} planted ·{" "}
+            {formatDuration(planted.reduce((sum, s) => sum + s.plant.accumulatedFocusMinutes, 0))}{" "}
+            of focus standing in the bed
+          </p>
+        </div>
+
+        {/*
+          Only offered once there is something to show. A poster of an empty bed
+          is not a thing anyone wants to post, and an always-present button that
+          produces one is worse than no button.
+        */}
+        {planted.length > 0 && (
+          <button
+            className="btn btn--ghost"
+            type="button"
+            disabled={sharing}
+            onClick={() => { void shareGarden(); }}
+          >
+            <Icon name="leaf" />
+            {sharing ? "Drawing…" : "Share"}
+          </button>
+        )}
       </div>
+
+      {shareNote !== "" && (
+        <p className="hint" role="status">{shareNote}</p>
+      )}
 
       <p className="hint" aria-live="polite">
         {selected === null

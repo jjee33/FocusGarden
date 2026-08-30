@@ -1659,3 +1659,18 @@
   flex-wrap: wrap;
   gap: var(--sp-xs);
 }
+
+/* The garden header carries an action, so it stops being a plain stack. */
+.greet--with-action {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+.greet--with-action .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  flex: none;
+}
