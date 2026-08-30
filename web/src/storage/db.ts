@@ -58,8 +58,15 @@ function request<T>(req: IDBRequest<T>): Promise<T> {
  * ephemeral mode that already exists for "storage refused us" - the app works,
  * nothing is written to disk, and the person is told. A degraded app beats a
  * frozen one, and this is the difference between the two.
+ *
+ * GENEROUS ON PURPOSE. This deadline was 4 seconds, and 4 seconds was a false
+ * positive: IndexedDB's events are ordinary main-thread tasks, so on a slow
+ * phone still parsing the bundle and drawing the first plants, a perfectly
+ * healthy success event can arrive late - and the person was told "nothing is
+ * being saved" by an app that could save fine. Wrongly declaring storage dead
+ * is worse than a long wait, so the deadline only needs to beat "forever".
  */
-const OPEN_TIMEOUT_MS = 4000;
+const OPEN_TIMEOUT_MS = 15_000;
 
 export function openDatabase(factory: IdbFactoryLike = indexedDB): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {

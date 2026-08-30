@@ -48,7 +48,7 @@ describe("openDatabase", () => {
   it("gives up on a request that never settles, rather than hanging forever", async () => {
     const promise = openDatabase(silentFactory());
     const assertion = expect(promise).rejects.toThrow(/did not respond/i);
-    await vi.advanceTimersByTimeAsync(5000);
+    await vi.advanceTimersByTimeAsync(16_000);
     await assertion;
   });
 
@@ -57,7 +57,7 @@ describe("openDatabase", () => {
       () => new Error("resolved when it should have timed out"),
       (e: unknown) => e as Error,
     );
-    await vi.advanceTimersByTimeAsync(5000);
+    await vi.advanceTimersByTimeAsync(16_000);
     const error = await promise;
     // The caller turns this into an on-screen notice, so it has to read as a
     // sentence rather than as a symbol.
@@ -77,7 +77,7 @@ describe("openDatabase", () => {
 
     const promise = openDatabase(factory);
     const assertion = expect(promise).rejects.toThrow(/did not respond/i);
-    await vi.advanceTimersByTimeAsync(5000);
+    await vi.advanceTimersByTimeAsync(16_000);
     await assertion;
 
     // The browser finally answers, long after the app moved on. That late

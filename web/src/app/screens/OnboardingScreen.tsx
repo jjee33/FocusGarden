@@ -110,7 +110,7 @@ export function OnboardingScreen({ onComplete }: Props) {
             value={projectName}
             maxLength={60}
             autoFocus
-            placeholder="Network+ revision"
+            placeholder="Piano practice"
             aria-label="What you are working on"
             onChange={(e) => setProjectName(e.target.value)}
             onKeyDown={(e) => {

@@ -167,7 +167,7 @@ function seedDemoGarden(): GardenState {
       settings: makeGameSettings(),
       plants,
       projects: [
-        { ...createProjectCategory("Network+ revision", "sky"), id: "p_networkplus" },
+        { ...createProjectCategory("Piano practice", "sky"), id: "p_networkplus" },
         { ...createProjectCategory("Reading", "terracotta"), id: "p_reading" },
         { ...createProjectCategory("Side project", "amber"), id: "p_sideproject" },
       ],
