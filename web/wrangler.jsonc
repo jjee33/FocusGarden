@@ -19,6 +19,19 @@
 
   "observability": { "enabled": true },
 
+  // Custom domains, not routes: a custom_domain entry makes Cloudflare create and
+  // maintain the DNS record and the certificate itself. A plain route pattern
+  // assumes a record already exists and silently does nothing when it does not,
+  // which presents as a working deploy serving a site nobody can reach.
+  //
+  // www is here as well as the apex because Google's OAuth review and anyone
+  // typing the address by hand will find whichever they find, and a dead www is
+  // an own goal that costs nothing to avoid.
+  "routes": [
+    { "pattern": "thefocusgarden.com", "custom_domain": true },
+    { "pattern": "www.thefocusgarden.com", "custom_domain": true }
+  ],
+
   // ONE binding, named DB, because that is what src/server/env.ts declares and
   // what every query reaches for. `wrangler d1 create` offers to append a second
   // binding named after the database; two bindings onto one database is not an
