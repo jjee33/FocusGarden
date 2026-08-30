@@ -56,6 +56,13 @@ export function App() {
   const theme = useTheme();
   const { data: authSession, isPending: authPending } = useSession();
 
+  // Latched, not derived: once the first session check has resolved we stay
+  // settled, however many times better-auth refetches afterwards.
+  const [settledOnce, setSettledOnce] = useState(false);
+  useEffect(() => {
+    if (!authPending) setSettledOnce(true);
+  }, [authPending]);
+
   // Sync is only ever attempted for a signed-in account with somewhere to store
   // the result. Signed out, the app is complete on its own - that is the whole
   // point of local-first, and it is why nothing below this line can break it.
@@ -74,11 +81,24 @@ export function App() {
     if (authSession !== null && localOnly) setLocalOnly(false);
   }, [authSession, localOnly]);
 
-  // Nothing is rendered until BOTH the local load and the session check settle.
-  // Flashing an empty garden and then filling it in reads as data loss for the
-  // half-second it lasts, and flashing the sign-in screen at someone who is
-  // already signed in is worse.
-  if (!garden.storage.ready || authPending) {
+  // ONCE, on first load - never again, and the difference is a lost account.
+  //
+  // The intent below is right: flashing an empty garden and then filling it in
+  // reads as data loss for the half-second it lasts, and flashing the sign-in
+  // screen at someone already signed in is worse. The mistake was gating on
+  // `authPending` forever.
+  //
+  // Signing up makes better-auth refetch the session. That flipped authPending
+  // back to true, which swapped AuthScreen for this boot screen, which UNMOUNTED
+  // it - destroying the "Check your email" state it had just set. What the person
+  // saw was the form vanish and the start screen come back: identical to a silent
+  // failure. So they try again, are told the address is already taken, and give
+  // up on an account that exists and works. Reproduced on production, and there
+  // is a real signup sitting unverified because of it.
+  //
+  // After the first settle the app has enough to render, and a background
+  // session refresh must never take the UI away from someone mid-task.
+  if (!settledOnce || !garden.storage.ready) {
     return (
       <div className="boot" role="status" aria-live="polite">
         <span className="visually-hidden">Opening your garden</span>
@@ -102,6 +122,29 @@ export function App() {
           }
         }}
       />
+    );
+  }
+
+  /*
+   * A signed-in account gets its first pull before we conclude it needs
+   * onboarding.
+   *
+   * On a second device the local save is empty for the moment before sync lands,
+   * and rendering onboarding into that gap invites someone to fill in a name they
+   * already chose - creating a second garden over the top of the one they came
+   * back for. Only the very first exchange is waited on, and only while it is
+   * actually in flight: if it fails or the device is offline, onboarding proceeds,
+   * because local-first has to keep working when the server does not.
+   */
+  const awaitingFirstSync = authSession !== null
+    && sync.status.lastSyncedAt === 0
+    && sync.status.state === "syncing";
+
+  if (awaitingFirstSync) {
+    return (
+      <div className="boot" role="status" aria-live="polite">
+        <span className="visually-hidden">Fetching your garden</span>
+      </div>
     );
   }
 

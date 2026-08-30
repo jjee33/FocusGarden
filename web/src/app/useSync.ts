@@ -126,14 +126,30 @@ export function useSync(target: SyncTarget) {
       const nextSave: SaveData = { ...save };
       const conflicts: string[] = [];
 
-      // The profile is one record, so last-write-wins is the whole rule. A pulled
-      // copy only replaces the local one when this device has nothing unsent.
+      /*
+       * The profile is one record, so last-write-wins is the whole rule. A pulled
+       * copy only replaces the local one when this device has nothing unsent.
+       *
+       * A DEVICE THAT HAS NEVER SYNCED IS NOT A DEVICE WITH UNSENT WORK, and
+       * conflating the two destroyed gardens. `knownHash` is undefined before the
+       * first sync, so `knownHash === localHash` was false, the remote profile was
+       * never applied, and the untouched local default was then pushed straight
+       * over the real one. Signing in on a second device did not just show
+       * onboarding again - it wiped the first device's garden from the server.
+       *
+       * The distinction that matters is whether the local save has actually been
+       * USED. Someone who played anonymously and then made an account has a real
+       * garden here that must be uploaded, not overwritten - that is the whole
+       * promise of "you can add an account later without losing anything". A
+       * pristine save has nothing to protect, so the server wins outright.
+       */
       const remoteProfile = pulled["profile"];
       if (remoteProfile !== null && remoteProfile !== undefined) {
         const wire = remoteProfile as { data: Json; revision: number };
         const localHash = contentHash(profilePayload(save));
         const knownHash = meta.records["profile"]?.["self"]?.hash;
-        if (knownHash === localHash) {
+        const neverSyncedAndUnused = knownHash === undefined && isPristine(save, sessions);
+        if (knownHash === localHash || neverSyncedAndUnused) {
           const data = wire.data;
           nextSave.profile = playerProfileFromDict(getDict(data, "player"));
           nextSave.settings = gameSettingsFromDict(getDict(data, "settings"));
@@ -342,6 +358,10 @@ export function useSync(target: SyncTarget) {
   // Sync on sign-in, on coming back online, and when the tab is looked at again.
   // Not on a timer: a habit app sits open for hours, and polling an idle server
   // is the kind of background chatter that empties a phone battery.
+  //
+  // AND ON PAGEHIDE, which is the moment data actually goes missing. `unload`
+  // is not fired reliably on mobile - a backgrounded tab is often killed without
+  // it - and pagehide is.
   useEffect(() => {
     if (!target.enabled || target.userId === null) return;
     void sync();
@@ -349,15 +369,102 @@ export function useSync(target: SyncTarget) {
     const onVisible = (): void => {
       if (document.visibilityState === "visible") void sync();
     };
+    const onHide = (): void => void sync();
     window.addEventListener("online", onOnline);
+    window.addEventListener("pagehide", onHide);
     document.addEventListener("visibilitychange", onVisible);
     return () => {
       window.removeEventListener("online", onOnline);
+      window.removeEventListener("pagehide", onHide);
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, [target.enabled, target.userId, sync]);
 
+  /*
+   * AND WHENEVER THE GARDEN ACTUALLY CHANGES, which was the missing trigger and
+   * very nearly shipped.
+   *
+   * The list above looks complete until you notice what is not in it: finishing
+   * a session, planting something, completing onboarding. None of them synced.
+   * Driving the real app on production, sign-in pushed an empty profile and then
+   * the first plant, the first project and the first completed session all
+   * stayed on the device - server had profiles:1, plants:0, projects:0,
+   * sessions:0. Close the tab, open your phone, and the work is simply not
+   * there, which is the one promise an account makes.
+   *
+   * Debounced rather than immediate: a finishing session writes the session, the
+   * plant, the profile and the statistics in quick succession, and each of those
+   * is a React render. Syncing per render would be four round trips for one
+   * logical event.
+   *
+   * The signature guard is what stops this looping. A completed sync calls
+   * onMerged, which changes `save`, which re-runs this effect - so the signature
+   * at the end of a sync is recorded, and an unchanged one schedules nothing.
+   */
+  const lastSignature = useRef("");
+  useEffect(() => {
+    if (!target.enabled || target.userId === null) return;
+    const signature = localSignature(target.save, target.sessions);
+    if (signature === lastSignature.current) return;
+
+    const timer = setTimeout(() => {
+      lastSignature.current = localSignature(latest.current.save, latest.current.sessions);
+      void sync();
+    }, CHANGE_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [target.enabled, target.userId, target.save, target.sessions, sync]);
+
   return { status, sync };
+}
+
+/**
+ * Has this device's save actually been used, or is it the untouched default?
+ *
+ * Only asked of a device that has never synced, and only to decide whether the
+ * server's copy may replace it wholesale. Deliberately conservative: anything
+ * that looks like real activity counts as used, because the cost of guessing
+ * wrong in that direction is a redundant upload, and the cost of guessing wrong
+ * in the other is somebody's garden.
+ */
+function isPristine(save: SaveData, sessions: FocusSession[]): boolean {
+  return !save.profile.onboardingCompleted
+    && sessions.length === 0
+    && save.plants.length === 0
+    && save.journal.length === 0
+    && save.profile.totalXp === 0
+    && save.profile.currentStreak === 0;
+}
+
+/** Long enough that one finishing session is one sync, short enough to feel live. */
+const CHANGE_DEBOUNCE_MS = 2500;
+
+/**
+ * A cheap stand-in for "has anything worth syncing changed".
+ *
+ * Deliberately not a hash of the whole save: this runs on every render, and
+ * serialising the entire garden to decide whether to do nothing would cost more
+ * than the sync it is trying to avoid. Counts plus the newest timestamps catch
+ * every real edit - a plant added, a session finished, a name changed - because
+ * all of them move a count or a stamp.
+ */
+function localSignature(save: SaveData, sessions: FocusSession[]): string {
+  const newest = (xs: number[]): number => (xs.length === 0 ? 0 : Math.max(...xs));
+  return [
+    sessions.length,
+    newest(sessions.map((s) => s.endedAtUtc || s.startedAtUtc)),
+    save.plants.length,
+    newest(save.plants.map((p) => p.accumulatedFocusMinutes)),
+    save.projects.length,
+    save.catalogue.length,
+    save.achievements.length,
+    save.journal.length,
+    save.profile.totalXp,
+    save.profile.currentStreak,
+    save.profile.displayName,
+    save.profile.activePlantUid,
+    save.profile.activeProjectId,
+    String(save.profile.onboardingCompleted),
+  ].join("|");
 }
 
 /** The single-record half of the save: everything that is not a collection. */

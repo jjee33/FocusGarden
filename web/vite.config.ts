@@ -52,7 +52,28 @@ export default defineConfig({
          * Google's OAuth review fetches these URLs too, and it does not run our
          * JavaScript.
          */
-        navigateFallbackDenylist: [/^\/privacy$/, /^\/terms$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/],
+        navigateFallbackDenylist: [
+          /*
+           * /api/ FIRST, because getting this wrong breaks sign-up for everyone.
+           *
+           * The email verification link is a TOP-LEVEL NAVIGATION to
+           * /api/auth/verify-email. Without this entry the service worker treats
+           * it as an app route, answers it from the precache with index.html, and
+           * the request never reaches the server: the account stays unverified,
+           * the person is bounced to the sign-in screen, and clicking the link
+           * again does the same thing forever.
+           *
+           * It passes every test that does not involve a service worker - curl
+           * verifies correctly, and so does a browser that has never visited the
+           * site. It fails for exactly the people who WILL hit it: anyone who
+           * loaded the app before opening their email, which is everyone who just
+           * signed up. Caught by driving the real flow on production.
+           *
+           * OAuth callbacks live under /api/auth/ too and are also navigations.
+           */
+          /^\/api\//,
+          /^\/privacy$/, /^\/terms$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/,
+        ],
         // Fonts come from Google's CDN; cache them so a second launch offline
         // does not fall back to a system serif and reflow the whole page.
         runtimeCaching: [
