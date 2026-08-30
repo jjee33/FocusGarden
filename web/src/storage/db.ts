@@ -44,8 +44,42 @@ function request<T>(req: IDBRequest<T>): Promise<T> {
   });
 }
 
+/**
+ * How long to wait for IndexedDB before giving up on it.
+ *
+ * `open()` is specified to fire success, error or blocked - and in practice it
+ * can fire NONE of them and simply hang. A connection left half-closed by a
+ * crashed tab, a delete that never finished, storage pressure, private mode on
+ * some browsers: the request just never settles.
+ *
+ * Without a deadline that hang propagates all the way up: the shell waits for
+ * storage before it renders anything, so the whole app sits on the loading
+ * screen forever with no message and no way out. Timing out drops to the
+ * ephemeral mode that already exists for "storage refused us" - the app works,
+ * nothing is written to disk, and the person is told. A degraded app beats a
+ * frozen one, and this is the difference between the two.
+ */
+const OPEN_TIMEOUT_MS = 4000;
+
 export function openDatabase(factory: IdbFactoryLike = indexedDB): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
+    let settled = false;
+    // Bare timers, not window.*: this module is exercised by tests that run in a
+    // node environment where `window` does not exist, and a storage layer that
+    // only works in a browser cannot be tested outside one.
+    const finish = (fn: () => void): void => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      fn();
+    };
+    const timer = setTimeout(() => {
+      finish(() => reject(new Error(
+        "IndexedDB did not respond. Your garden will work but cannot be saved on "
+        + "this device until the browser's storage recovers.",
+      )));
+    }, OPEN_TIMEOUT_MS);
+
     const open = factory.open(DB_NAME, DB_VERSION);
     open.onupgradeneeded = () => {
       const db = open.result;
@@ -59,9 +93,23 @@ export function openDatabase(factory: IdbFactoryLike = indexedDB): Promise<IDBDa
         sessions.createIndex("plant_uid", "plant_uid", { unique: false });
       }
     };
-    open.onsuccess = () => resolve(open.result);
-    open.onerror = () => reject(open.error ?? new Error("Could not open IndexedDB"));
-    open.onblocked = () => reject(new Error("IndexedDB upgrade blocked by another tab"));
+    open.onsuccess = () => {
+      if (settled) {
+        // A success arriving after the deadline is a connection nobody will
+        // ever use. Left open it would hold the upgrade lock for the rest of
+        // the tab's life - the very half-closed state this timeout guards
+        // against.
+        open.result.close();
+        return;
+      }
+      finish(() => { resolve(open.result); });
+    };
+    open.onerror = () => {
+      finish(() => { reject(open.error ?? new Error("Could not open IndexedDB")); });
+    };
+    open.onblocked = () => {
+      finish(() => { reject(new Error("IndexedDB upgrade blocked by another tab")); });
+    };
   });
 }
 

@@ -1116,81 +1116,6 @@
     var(--bg-base);
 }
 
-/*
- * The desktop sign-in, which was a phone card adrift on a widescreen.
- *
- * Two columns from 900px: the product on the left, the panel on the right. Below
- * that the showcase is not rendered at all - `display: none` would still cost
- * the SVG work, so the component itself bails and a phone pays nothing.
- *
- * The panel keeps its own max-width in both layouts. A sign-in form that grows
- * to fill half a monitor is harder to use, not easier.
- */
-@media (min-width: 900px) {
-  .auth {
-    /* `auto auto`, not `1fr auto`. A fractional column absorbs every spare pixel
-       on a wide monitor, which pushed the showcase to the far left and the panel
-       to the far right with a canyon between them. Sizing both to their content
-       and centring the pair keeps them reading as one composition at any width. */
-    grid-template-columns: auto auto;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    justify-content: center;
-    align-items: center;
-    padding: var(--sp-xxl);
-  }
-}
-
-.showcase {
-  display: none;
-}
-
-@media (min-width: 900px) {
-  .showcase {
-    display: grid;
-    justify-items: center;
-    gap: var(--sp-lg);
-    max-width: 620px;
-  }
-}
-
-/* A shallow bed rather than three plants in a row: the ground line is what
-   stops them reading as clip art and starts them reading as a garden. */
-.showcase__bed {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: clamp(0.5rem, 2vw, 2rem);
-  padding: 0 var(--sp-lg) var(--sp-md);
-  position: relative;
-}
-
-.showcase__bed::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: var(--r-pill);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in oklab, var(--bed-soil) 55%, transparent) 18%,
-    color-mix(in oklab, var(--bed-soil) 55%, transparent) 82%,
-    transparent
-  );
-}
-
-/* Staggered so three plants at three sizes do not sit on one flat line. */
-.showcase__slot--0 { transform: translateY(6px); }
-.showcase__slot--2 { transform: translateY(10px); }
-
-.showcase__caption {
-  margin: 0;
-  font-size: var(--t-small);
-  color: var(--ink-muted);
-  text-align: center;
-}
-
 .auth__panel {
   width: 100%;
   max-width: 430px;
@@ -1219,7 +1144,8 @@
   font-size: var(--t-caption);
 }
 
-.auth__panel h1 {
+.auth__panel h1,
+.auth__panel h2 {
   margin: 0;
   font-family: var(--display);
   font-size: var(--t-title);
@@ -1730,3 +1656,230 @@
 }
 .token-add .auth__field { width: 100%; max-width: 22rem; }
 .token-add .auth__field > span { text-transform: none; letter-spacing: normal; font-weight: 400; font-size: var(--t-small); color: var(--ink-2); }
+
+/* ============================================================== landing === */
+/*
+ * The page a stranger sees. It shares the app's tokens exactly - this is the
+ * same shop, not a marketing skin over it - and spends all of its boldness in
+ * one place: the hero bed, where three plants grow while you read.
+ *
+ * Everything else is deliberately quiet. One ornament, executed properly, beats
+ * five competing for the same attention.
+ */
+
+.land {
+  min-height: 100dvh;
+  background:
+    radial-gradient(120% 80% at 50% -10%,
+      color-mix(in oklab, var(--amber-glow) 30%, transparent), transparent 58%),
+    var(--bg-base);
+  color: var(--ink);
+}
+
+.land > section,
+.land__bar,
+.land__foot {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding-inline: clamp(1.25rem, 5vw, 3rem);
+}
+
+/* --- bar --- */
+.land__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-md);
+  padding-block: var(--sp-lg);
+}
+.land__mark { display: grid; gap: 1px; }
+.land__mark b { font-family: var(--display); font-size: 1.15rem; font-weight: 600; }
+.land__mark span { font-size: var(--t-small); color: var(--ink-muted); }
+.land__jump {
+  font-size: var(--t-small);
+  font-weight: 650;
+  color: var(--moss-deep);
+  text-underline-offset: 4px;
+}
+
+/* --- hero --- */
+.land__hero {
+  display: grid;
+  gap: clamp(1.5rem, 5vw, 3rem);
+  padding-block: clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 7vw, 5rem);
+}
+@media (min-width: 860px) {
+  .land__hero { grid-template-columns: 1.05fr 1fr; align-items: center; }
+}
+
+.land__words h1 {
+  margin: 0 0 var(--sp-md);
+  font-family: var(--display);
+  /* Tighter than the body scale allows: a headline this long needs the leading
+     pulled in or it reads as three unrelated lines. */
+  font-size: clamp(2rem, 5.4vw, 3.1rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  /* Balanced, not hard-broken: a <br> tuned for one width orphans a word at
+     every other, and this headline is read at all of them. */
+  text-wrap: balance;
+}
+.land__words > p {
+  margin: 0 0 var(--sp-lg);
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.6vw, 1.075rem);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.land__cta { display: flex; flex-wrap: wrap; gap: var(--sp-sm); }
+.land__cta .btn { text-decoration: none; }
+
+/* --- the bed: the one ornament --- */
+.land__bed { display: grid; justify-items: center; gap: var(--sp-sm); }
+
+.land__plants {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.25rem, 2vw, 1.5rem);
+  padding: 0 var(--sp-md) var(--sp-sm);
+  /* Reserved so the column does not jump as the plants fill out. Growth changes
+     the drawing, not the box. */
+  min-height: 262px;
+}
+@media (max-width: 759px) { .land__plants { min-height: 170px; } }
+
+.land__plants::after {
+  content: "";
+  position: absolute;
+  inset-inline: 4%;
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, transparent,
+    color-mix(in oklab, var(--bed-soil) 50%, transparent) 16%,
+    color-mix(in oklab, var(--bed-soil) 50%, transparent) 84%, transparent);
+}
+.land__plant { display: grid; align-items: end; }
+
+.land__ticker {
+  margin: 0;
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.land__ticker b {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* --- how --- */
+.land__how { padding-block: clamp(2rem, 6vw, 4rem); }
+.land__how h2,
+.land__shelfwords h2,
+.land__plain h2 {
+  margin: 0 0 var(--sp-lg);
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.land__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-lg);
+}
+@media (min-width: 760px) { .land__steps { grid-template-columns: repeat(3, 1fr); gap: var(--sp-xl); } }
+
+.land__steps li { display: grid; gap: var(--sp-xxs); align-content: start; }
+/* Words, not digits. "01 / 02 / 03" is the house style of every AI landing page
+   this year, and these are three plain steps rather than a technical sequence. */
+.land__num {
+  font-family: var(--display);
+  font-size: var(--t-small);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--moss-deep);
+}
+.land__steps h3 { margin: 0; font-size: 1.05rem; font-weight: 650; }
+.land__steps p { margin: 0; font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); }
+
+/* --- shelf --- */
+.land__shelf {
+  padding-block: clamp(2rem, 6vw, 4rem);
+  display: grid;
+  gap: var(--sp-lg);
+}
+.land__shelfwords p {
+  margin: 0;
+  max-width: 54ch;
+  font-size: var(--t-body);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.land__specimens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--sp-md);
+}
+.land__specimens li {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-xxs);
+  padding: var(--sp-md) var(--sp-xs) var(--sp-sm);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-soft);
+  background: var(--bg-raised);
+  box-shadow: var(--elev-1);
+}
+.land__specimens b { font-size: var(--t-small); font-weight: 650; text-align: center; }
+
+/* --- plain facts --- */
+.land__plain { padding-block: clamp(2rem, 6vw, 4rem); }
+.land__facts { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-sm); }
+@media (min-width: 760px) { .land__facts { grid-template-columns: repeat(2, 1fr); gap: var(--sp-md); } }
+.land__facts li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-sm);
+  align-items: start;
+  font-size: var(--t-body);
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.land__facts svg { color: var(--moss); margin-top: 2px; }
+.land__facts b { color: var(--ink); font-weight: 650; }
+
+/* --- the ask --- */
+.land__start {
+  padding-block: clamp(2rem, 6vw, 4rem) clamp(2.5rem, 7vw, 4rem);
+  display: grid;
+  justify-items: center;
+}
+/* The panel is a card in a page now, not a page of its own. */
+.land__start .auth__panel { width: 100%; max-width: 430px; }
+
+.land__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-md);
+  align-items: center;
+  padding-block: var(--sp-lg) var(--sp-xxl);
+  border-top: 1px solid var(--hairline);
+  font-size: var(--t-small);
+  color: var(--ink-muted);
+}
+.land__foot a { color: var(--ink-muted); text-underline-offset: 3px; }
+.land__foot a:hover { color: var(--ink-2); }

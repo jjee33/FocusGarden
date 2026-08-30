@@ -21,7 +21,7 @@ import { SettingsScreen } from "./screens/SettingsScreen.js";
 import { OnboardingScreen } from "./screens/OnboardingScreen.js";
 import { Icon, type IconName } from "./components/Icon.js";
 import { BootScreen } from "./components/BootScreen.js";
-import { AuthScreen } from "./screens/AuthScreen.js";
+import { LandingScreen } from "./screens/LandingScreen.js";
 import { ResetLinkExpiredScreen, ResetPasswordScreen } from "./screens/ResetPasswordScreen.js";
 import { useSession } from "./auth-client.js";
 import { useSync } from "./useSync.js";
@@ -114,7 +114,17 @@ export function App() {
   const [localOnly, setLocalOnly] = useState(readLocalOnly);
   const garden = useGarden();
   const theme = useTheme();
-  const { data: authSession, isPending: authPending } = useSession();
+  const { data: rawSession, isPending: authPending } = useSession();
+
+  // Not trusted until it looks like a session. better-auth hands back whatever
+  // the endpoint answered with, and behind a captive portal or a misconfigured
+  // proxy that can be an HTML page wearing a 200 - a truthy non-session that
+  // crashed the entire app on `authSession.user.id`. A local-first app must
+  // shrug that off as "signed out", not die on it.
+  const authSession =
+    rawSession !== null && typeof rawSession === "object" && "user" in rawSession
+      ? rawSession
+      : null;
 
   // Latched, not derived: once the first session check has resolved we stay
   // settled, however many times better-auth refetches afterwards.
@@ -169,8 +179,8 @@ export function App() {
   // `authPending` forever.
   //
   // Signing up makes better-auth refetch the session. That flipped authPending
-  // back to true, which swapped AuthScreen for this boot screen, which UNMOUNTED
-  // it - destroying the "Check your email" state it had just set. What the person
+  // back to true, which swapped the sign-in screen for this boot screen, which
+  // UNMOUNTED it - destroying the "Check your email" state it had just set. What the person
   // saw was the form vanish and the start screen come back: identical to a silent
   // failure. So they try again, are told the address is already taken, and give
   // up on an account that exists and works. Reproduced on production, and there
@@ -190,7 +200,7 @@ export function App() {
   // for nothing anyone can see yet.
   if (authSession === null && !localOnly) {
     return (
-      <AuthScreen
+      <LandingScreen
         onSkip={() => {
           setLocalOnly(true);
           try {
