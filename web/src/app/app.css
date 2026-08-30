@@ -1868,6 +1868,14 @@
   display: grid;
   justify-items: center;
 }
+.land__promise {
+  margin: 0 0 var(--sp-lg);
+  max-width: 46ch;
+  text-align: center;
+  font-size: var(--t-body);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
 /* The panel is a card in a page now, not a page of its own. */
 .land__start .auth__panel { width: 100%; max-width: 430px; }
 

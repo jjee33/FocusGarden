@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `founder` integer DEFAULT true NOT NULL;

@@ -36,6 +36,13 @@
       "when": 1788089794367,
       "tag": "0004_smart_wonder_man",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1788125526473,
+      "tag": "0005_boring_paibok",
+      "breakpoints": true
     }
   ]
 }

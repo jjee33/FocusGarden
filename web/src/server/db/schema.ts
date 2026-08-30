@@ -37,6 +37,22 @@ export const user = sqliteTable("user", {
   image: text("image"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  /**
+   * THE PROMISE ON THE LANDING PAGE, made structural.
+   *
+   * The site tells people that everyone who signs up before ads or a paid tier
+   * exist keeps everything free, forever. This column is how that stays true
+   * without anyone having to remember it: the DATABASE default stamps every
+   * account created while the app is free, including better-auth's inserts,
+   * which know nothing about this column. The migration that added it also
+   * backfilled every account that already existed.
+   *
+   * The day monetization launches, ONE migration flips the default to false -
+   * and nothing else. No backfill, no date arithmetic, no guessing later which
+   * side of the line an account was on. Existing rows keep their `true`, and
+   * whatever gates ads or paid features must check this flag first.
+   */
+  founder: integer("founder", { mode: "boolean" }).notNull().default(true),
 });
 
 export const session = sqliteTable("session", {

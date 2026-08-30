@@ -240,7 +240,7 @@ export function LandingScreen({ onSkip }: Props) {
       <section className="land__plain">
         <h2>A quiet corner of the internet</h2>
         <ul className="land__facts">
-          <li><Icon name="check" /><span><b>No ads, no payment, no upsell.</b> There is no paid tier and nothing to buy.</span></li>
+          <li><Icon name="check" /><span><b>Everything is free right now.</b> And for everyone who signs up before ads or paid extras ever arrive, it stays free — all of it, forever.</span></li>
           <li><Icon name="check" /><span><b>No tracking.</b> Nothing here watches you or follows you around the internet.</span></li>
           <li><Icon name="check" /><span><b>Works offline.</b> Your garden lives with you, not somewhere far away — it keeps growing on a plane, on a train, or anywhere without signal.</span></li>
           <li><Icon name="check" /><span><b>An account is optional.</b> It buys one thing: the same garden on your other devices.</span></li>
@@ -248,8 +248,16 @@ export function LandingScreen({ onSkip }: Props) {
         </ul>
       </section>
 
-      {/* --- the ask ------------------------------------------------------ */}
+      {/* --- the ask ------------------------------------------------------
+          The founder's promise sits with the sign-up form because the promise
+          is attached to the account: it is made to the people who sign up
+          while the app is free, and the database stamps every one of them. */}
       <section className="land__start" id="start">
+        <p className="land__promise">
+          Focus Garden is young, and everything in it is free. Sign up before
+          ads or paid extras ever exist, and yours stays that way — every
+          feature, no ads, for good.
+        </p>
         <AuthPanel onSkip={onSkip} />
       </section>
 
