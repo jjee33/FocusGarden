@@ -1,0 +1,12 @@
+# Lighthouse reported this as invalid because there was no such file: the SPA
+# fallback answered /robots.txt with index.html, and a crawler parsing "<!doctype
+# html>" as a directive gives up on the whole file.
+User-agent: *
+Allow: /
+
+# The app itself is behind a sign-in and renders in JavaScript. There is nothing
+# for a crawler to index past these, and asking it not to try keeps the crawl
+# budget on the pages that do have content.
+Disallow: /api/
+
+Sitemap: https://thefocusgarden.com/sitemap.xml

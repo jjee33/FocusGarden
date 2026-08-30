@@ -52,7 +52,7 @@ export default defineConfig({
          * Google's OAuth review fetches these URLs too, and it does not run our
          * JavaScript.
          */
-        navigateFallbackDenylist: [/^\/privacy$/, /^\/terms$/],
+        navigateFallbackDenylist: [/^\/privacy$/, /^\/terms$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/],
         // Fonts come from Google's CDN; cache them so a second launch offline
         // does not fall back to a system serif and reflow the whole page.
         runtimeCaching: [

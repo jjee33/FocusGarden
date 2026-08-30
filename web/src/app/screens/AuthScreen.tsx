@@ -95,7 +95,7 @@ export function AuthScreen({ onSkip }: Props) {
 
   if (sentTo !== "") {
     return (
-      <div className="auth">
+      <main className="auth">
         <div className="auth__panel">
           <h1>Check your email</h1>
           <p>
@@ -132,12 +132,12 @@ export function AuthScreen({ onSkip }: Props) {
             </button>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="auth">
+    <main className="auth">
       <div className="auth__panel">
         <div className="auth__brand">
           <b>Focus Garden</b>
@@ -252,6 +252,6 @@ export function AuthScreen({ onSkip }: Props) {
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 }

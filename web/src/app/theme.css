@@ -40,10 +40,15 @@
   /* --- Ink --- */
   --ink: #2b2519;
   --ink-2: #5c5240;
-  --ink-muted: #8b7c64;
+  /* Muted ink is measured, not eyeballed. WCAG AA wants 4.5:1 for normal text and
+     the old values were 3.07 (light, on bg-base) and 4.12 (dark, on bg-raised) -
+     the light one was the worse of the two and the one Lighthouse never saw,
+     because it audits in dark. Hue preserved; only lightness moved, and only as
+     far as the darkest surface each is actually used on demands. */
+  --ink-muted: #675c4a;
   --ink-on-accent: #fffdf7;
   --ink-on-nav: #f2e9d6;
-  --ink-on-nav-muted: #a8c2b3;
+  --ink-on-nav-muted: #dfe9e3;
   --ink-on-disabled: #6b6355;
 
   /* --- Accents --- */
@@ -153,7 +158,7 @@
     --bg-nav-active: #22302a;
     --ink: #ede7d8;
     --ink-2: #bcb5a4;
-    --ink-muted: #8b8878;
+    --ink-muted: #a09c8c;
     --ink-on-accent: #0f1410;
     --ink-on-nav: #ede7d8;
     --ink-on-nav-muted: #93a89a;
@@ -207,7 +212,7 @@
   --bg-nav-active: #22302a;
   --ink: #ede7d8;
   --ink-2: #bcb5a4;
-  --ink-muted: #8b8878;
+  --ink-muted: #a09c8c;
   --ink-on-accent: #0f1410;
   --ink-on-nav: #ede7d8;
   --ink-on-nav-muted: #93a89a;
