@@ -70,3 +70,51 @@ export async function resendVerification(
     : "We could not send that email just now. Try again shortly.";
   return { ok: false, message };
 }
+
+/**
+ * Ask for a password reset email.
+ *
+ * Through our own endpoint rather than better-auth's, for the same reasons as
+ * `resendVerification`: it is throttled there, and it answers identically
+ * whether or not the address exists.
+ */
+export async function requestPasswordReset(
+  email: string,
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  let response: Response;
+  try {
+    response = await fetch("/api/account/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+  } catch {
+    return { ok: false, message: "Could not reach the server. Try again in a moment." };
+  }
+  if (response.ok) return { ok: true };
+  const body = await response.json().catch(() => ({})) as { error?: unknown };
+  return {
+    ok: false,
+    message: typeof body.error === "string"
+      ? body.error
+      : "We could not send that email just now. Try again shortly.",
+  };
+}
+
+/** Set a new password from a reset token. better-auth validates the token. */
+export async function completePasswordReset(
+  token: string, newPassword: string,
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  const result = await authClient.resetPassword({ newPassword, token });
+  if (result.error !== null && result.error !== undefined) {
+    const raw = (result.error.message ?? "").toLowerCase();
+    if (raw.includes("token") || raw.includes("expired") || raw.includes("invalid")) {
+      return {
+        ok: false,
+        message: "That link has expired or has already been used. Ask for a new one.",
+      };
+    }
+    return { ok: false, message: readableAuthError(result.error.message) };
+  }
+  return { ok: true };
+}

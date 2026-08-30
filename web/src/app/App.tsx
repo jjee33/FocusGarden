@@ -17,6 +17,7 @@ import { StatisticsScreen } from "./screens/StatisticsScreen.js";
 import { SettingsScreen } from "./screens/SettingsScreen.js";
 import { OnboardingScreen } from "./screens/OnboardingScreen.js";
 import { AuthScreen } from "./screens/AuthScreen.js";
+import { ResetLinkExpiredScreen, ResetPasswordScreen } from "./screens/ResetPasswordScreen.js";
 import { useSession } from "./auth-client.js";
 import { useSync } from "./useSync.js";
 import { useGarden } from "./useGarden.js";
@@ -48,7 +49,40 @@ function readLocalOnly(): boolean {
   }
 }
 
+/**
+ * The one URL this app reads.
+ *
+ * There is no router, and adding one to serve a single screen would be a
+ * dependency and a refactor in exchange for nothing. better-auth sends people to
+ * /reset?token=... once it has checked the link, so that is the only path worth
+ * recognising; everything else is the app.
+ */
+interface ResetArrival {
+  token: string;
+  /** Set when better-auth rejected the link before we ever saw a token. */
+  failed: boolean;
+}
+
+function resetFromUrl(): ResetArrival {
+  try {
+    const url = new URL(window.location.href);
+    if (url.pathname !== "/reset") return { token: "", failed: false };
+    // A spent or expired link comes back as ?error=INVALID_TOKEN with no token.
+    // Reading only the token would drop those people into the app with no idea
+    // why the thing they clicked did nothing.
+    return {
+      token: url.searchParams.get("token") ?? "",
+      failed: url.searchParams.get("error") !== null,
+    };
+  } catch {
+    return { token: "", failed: false };
+  }
+}
+
 export function App() {
+  // Read once, at mount. Re-deriving it on render would resurrect the screen
+  // after it has been dismissed and the URL tidied up.
+  const [reset, setReset] = useState(resetFromUrl);
   const [screen, setScreen] = useState<ScreenId>("focus");
   const [presetMinutes, setPresetMinutes] = useState(25);
   const [localOnly, setLocalOnly] = useState(readLocalOnly);
@@ -80,6 +114,26 @@ export function App() {
   useEffect(() => {
     if (authSession !== null && localOnly) setLocalOnly(false);
   }, [authSession, localOnly]);
+
+  /*
+   * The reset screen comes before every other gate.
+   *
+   * Someone arriving on this link may be signed out, half onboarded, or signed
+   * in as somebody else on a shared machine. None of that belongs between them
+   * and the password they came to change - the token authorises this, not the
+   * session.
+   */
+  if (reset.token !== "" || reset.failed) {
+    const clear = (): void => {
+      setReset({ token: "", failed: false });
+      // The token is single-use and now spent; leaving it in the address bar
+      // means a refresh reopens a screen that can only fail.
+      window.history.replaceState(null, "", "/");
+    };
+    return reset.failed
+      ? <ResetLinkExpiredScreen onDone={clear} />
+      : <ResetPasswordScreen token={reset.token} onDone={clear} />;
+  }
 
   // ONCE, on first load - never again, and the difference is a lost account.
   //

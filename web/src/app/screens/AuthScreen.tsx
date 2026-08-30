@@ -24,9 +24,11 @@
 
 import { useState } from "react";
 
-import { readableAuthError, resendVerification, signIn, signUp } from "../auth-client.js";
+import {
+  readableAuthError, requestPasswordReset, resendVerification, signIn, signUp,
+} from "../auth-client.js";
 
-type Mode = "choose" | "signup" | "signin";
+type Mode = "choose" | "signup" | "signin" | "forgot";
 
 interface Props {
   /** Continue without an account. The garden stays on this device. */
@@ -45,6 +47,7 @@ export function AuthScreen({ onSkip }: Props) {
   // which is the one failure where naming the cause helps rather than leaks: the
   // person already proved they know the password.
   const [unverified, setUnverified] = useState(false);
+  const [resetSentTo, setResetSentTo] = useState("");
   const [resendState, setResendState] = useState<"idle" | "busy" | "sent">("idle");
 
   const resend = async (address: string): Promise<void> => {
@@ -70,6 +73,21 @@ export function AuthScreen({ onSkip }: Props) {
     }
   };
 
+  const forgot = async (event: React.FormEvent): Promise<void> => {
+    event.preventDefault();
+    setError("");
+    setBusy(true);
+    const result = await requestPasswordReset(email.trim());
+    setBusy(false);
+    if (!result.ok) {
+      setError(result.message);
+      return;
+    }
+    // Shown whether or not the address is registered. Saying "no account with
+    // that email" here would undo the care taken everywhere else.
+    setResetSentTo(email.trim());
+  };
+
   const submit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
     setError("");
@@ -92,6 +110,30 @@ export function AuthScreen({ onSkip }: Props) {
     // land you in the app - it lands you at your inbox.
     if (mode === "signup") setSentTo(email.trim());
   };
+
+  if (resetSentTo !== "") {
+    return (
+      <main className="auth">
+        <div className="auth__panel">
+          <h1>Check your email</h1>
+          <p>
+            If there is an account for <b>{resetSentTo}</b>, a link to set a new
+            password is on its way. It is good for an hour.
+          </p>
+          <p className="hint">
+            Worth a look in spam if nothing arrives in a minute.
+          </p>
+          <button
+            className="btn btn--ghost"
+            type="button"
+            onClick={() => { setResetSentTo(""); setMode("signin"); }}
+          >
+            Back to sign in
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   if (sentTo !== "") {
     return (
@@ -173,7 +215,38 @@ export function AuthScreen({ onSkip }: Props) {
           </>
         )}
 
-        {mode !== "choose" && (
+        {mode === "forgot" && (
+          <>
+            <h1>Reset your password</h1>
+            <p>
+              Tell us the address on the account and we will send a link to set a
+              new password.
+            </p>
+            <form className="auth__form" onSubmit={(e) => void forgot(e)}>
+              <label className="auth__field">
+                <span>Email</span>
+                <input
+                  className="field-input" type="email" value={email} required
+                  autoComplete="email" autoFocus
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+              {error !== "" && <p className="auth__error" role="alert">{error}</p>}
+              <button className="btn" type="submit" disabled={busy}>
+                {busy ? "One moment…" : "Send the link"}
+              </button>
+            </form>
+            <button
+              className="btn btn--quiet"
+              type="button"
+              onClick={() => { setMode("signin"); setError(""); }}
+            >
+              Back to sign in
+            </button>
+          </>
+        )}
+
+        {(mode === "signup" || mode === "signin") && (
           <>
             <h1>{mode === "signup" ? "Create your account" : "Welcome back"}</h1>
             <form className="auth__form" onSubmit={(e) => void submit(e)}>
@@ -225,6 +298,16 @@ export function AuthScreen({ onSkip }: Props) {
                 {busy ? "One moment…" : mode === "signup" ? "Create account" : "Sign in"}
               </button>
             </form>
+
+            {mode === "signin" && (
+              <button
+                className="auth__skip"
+                type="button"
+                onClick={() => { setMode("forgot"); setError(""); setUnverified(false); }}
+              >
+                Forgot your password?
+              </button>
+            )}
 
             <div className="auth__actions">
               <button className="btn btn--ghost" type="button" disabled={busy} onClick={() => void google()}>

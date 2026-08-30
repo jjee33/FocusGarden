@@ -7,7 +7,7 @@
  * from SessionCycle. Nothing is a hardcoded number dressed up as one.
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { PlantView } from "../components/PlantView.js";
 import type { useGarden } from "../useGarden.js";
@@ -17,6 +17,7 @@ import { getSpecies } from "../../content/content.js";
 import { getDisplayFocusMinutes } from "../../domain/species.js";
 import { formatCountdown, formatDuration } from "../../domain/time-util.js";
 import { useReducedMotion, useTheme } from "../usePlatform.js";
+import { announceComplete, clearTitle, requestNotifyPermission, setTitleCountdown } from "../alerts.js";
 
 const PRESETS = [15, 25, 45, 90];
 /** Circumference of the dial's r=46 circle, for the dash offset. */
@@ -34,10 +35,37 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
   const reducedMotion = useReducedMotion();
 
   const timer = useFocusTimer({
-    onFinished: garden.applyFinished,
+    onFinished: (session) => {
+      // Announced before the session is applied, so the chime lands with the
+      // moment rather than after a round of state updates. Both are best-effort
+      // and neither can throw into the credit path.
+      announceComplete(
+        session.kind === Kind.FOCUS,
+        session.actualFocusMinutes,
+        save.settings,
+      );
+      garden.applyFinished(session);
+    },
     onPersist: garden.persistInFlight,
     onCleared: garden.clearInFlight,
   });
+
+  /*
+   * The countdown in the tab title.
+   *
+   * The whole point of a focus timer is that you go and look at something else,
+   * which until now meant no way to tell how long was left without coming back.
+   * This costs nothing and needs no permission, so it is the layer that always
+   * works - the notification and the chime are improvements on top of it.
+   */
+  useEffect(() => {
+    if (timer.snapshot.state === "idle") {
+      clearTitle();
+      return;
+    }
+    setTitleCountdown(timer.snapshot.remainingSeconds, timer.snapshot.kind === Kind.FOCUS);
+    return clearTitle;
+  }, [timer.snapshot.state, timer.snapshot.remainingSeconds, timer.snapshot.kind]);
 
   const running = timer.snapshot.state !== "idle";
   const species = activePlant === null ? null : getSpecies(activePlant.plant.speciesId);
@@ -166,10 +194,17 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
                 <button
                   className="btn"
                   type="button"
-                  onClick={() => timer.start(
-                    Kind.FOCUS, presetMinutes,
-                    save.profile.activeProjectId, save.profile.activePlantUid,
-                  )}
+                  onClick={() => {
+                    // Asked here and nowhere else: someone who has just committed
+                    // to sitting still for a while has a reason to be asked
+                    // whether they want telling when it is over. On page load
+                    // they do not, and that prompt gets dismissed on reflex.
+                    void requestNotifyPermission();
+                    timer.start(
+                      Kind.FOCUS, presetMinutes,
+                      save.profile.activeProjectId, save.profile.activePlantUid,
+                    );
+                  }}
                 >
                   Start focusing
                 </button>

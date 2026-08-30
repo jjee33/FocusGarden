@@ -63,12 +63,25 @@ export function createAuth(env: Env, report?: MailReport) {
       // this off is the difference between an account system and a spam vector.
       requireEmailVerification: true,
       minPasswordLength: 10,
+      /**
+       * Reported rather than thrown, for the same reason as verification: the
+       * caller needs to know whether the mail actually went, and a 500 with an
+       * empty body tells nobody anything.
+       */
       sendResetPassword: async ({ user, url }) => {
-        await sendMail(env, {
-          to: user.email,
-          subject: "Reset your Focus Garden password",
-          ...resetPasswordEmail(url),
-        });
+        try {
+          await sendMail(env, {
+            to: user.email,
+            subject: "Reset your Focus Garden password",
+            ...resetPasswordEmail(url),
+          });
+        } catch (caught) {
+          const detail = caught instanceof Error ? caught.message : String(caught);
+          console.error("Password reset email failed:", detail);
+          if (report === undefined) return;
+          report.failed = true;
+          report.detail = detail;
+        }
       },
     },
 

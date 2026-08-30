@@ -67,5 +67,55 @@ export function accountRoutes() {
     return c.json({ sent: true });
   });
 
+  /*
+   * The way back in for someone who has forgotten their password.
+   *
+   * better-auth exposes /api/auth/forget-password directly, and this wraps it for
+   * the same reason resend-verification exists: it sends mail to an address an
+   * anonymous caller chose, so it needs the same throttle, and it must answer
+   * identically whether or not the address is registered.
+   *
+   * Its own budget, separate from verification. Being unable to reset your
+   * password because you asked for a verification link earlier is a lockout
+   * wearing a rate limit's clothes.
+   */
+  routes.post("/forgot-password", async (c) => {
+    const body = await c.req.json<{ email?: unknown }>().catch(() => ({ email: undefined }));
+    const email = typeof body.email === "string" ? body.email.trim() : "";
+    if (email === "" || !email.includes("@") || email.length > 320) {
+      return c.json({ error: "That does not look like an email address." }, 400);
+    }
+
+    const now = Math.floor(Date.now() / 1000);
+    const key = await throttleKey("reset", email);
+    const decision = await consume(c.get("db"), key, now);
+    if (!decision.allowed) {
+      return c.json(
+        { error: "Give it a minute before asking for another.", retryAfter: decision.retryAfter },
+        429,
+        { "Retry-After": String(decision.retryAfter) },
+      );
+    }
+
+    const report: MailReport = { failed: false, detail: "" };
+    const auth = createAuth(c.env, report);
+    try {
+      // redirectTo is where better-auth sends the person AFTER it has checked the
+      // token, with the token appended. It must be same-origin; better-auth
+      // enforces that itself.
+      await auth.api.requestPasswordReset({ body: { email, redirectTo: "/reset" } });
+    } catch (caught) {
+      // An unknown address lands here and is nobody's business.
+      console.warn("Password reset skipped:", caught instanceof Error ? caught.message : caught);
+      return c.json({ sent: true });
+    }
+
+    if (report.failed) {
+      console.error("Password reset failed to send:", report.detail);
+      return c.json({ error: "We could not send that email just now. Try again shortly." }, 502);
+    }
+    return c.json({ sent: true });
+  });
+
   return routes;
 }
