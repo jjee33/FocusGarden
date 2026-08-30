@@ -47,10 +47,22 @@ func _init() -> void:
 	root.add_child(main)
 	await process_frame
 
+	# LIGHT IS SET EXPLICITLY, not assumed. The theme follows the OS by default,
+	# so on a machine set to dark the first pass captured dark, the dark pass
+	# captured dark again, and five of the nine pairs came out byte-identical -
+	# a comparison between two copies of the same thing, which is worse than no
+	# comparison because it looks like one.
+	main.apply_theme_mode("light")
+	await process_frame
+
 	var captured := 0
 	for resolution: Vector2i in RESOLUTIONS:
-		root.size = resolution
+		# The window and the root viewport are resized together, then given a
+		# settle. A resize that has not been through a drawn frame yet produces a
+		# texture at the OLD size or an undrawn one at the new size - which is
+		# what made every 1920x1080 capture come out blank.
 		DisplayServer.window_set_size(resolution)
+		root.size = resolution
 		await _settle()
 
 		for entry: Dictionary in main.SCREENS:
@@ -157,6 +169,20 @@ func _capture_running_timer(main: Node) -> int:
 	return 1 if saved else 0
 
 
+## Wait for the screen to be LAID OUT and then actually DRAWN.
+##
+## The original awaited process_frame alone, and that is why every capture at a
+## given resolution came out byte-identical: SceneTree.process_frame fires BEFORE
+## the frame is rendered, so `root.get_texture().get_image()` read a texture that
+## still held whatever was on screen when the tool started. Nine navigations, nine
+## copies of the Home screen.
+##
+## RenderingServer.frame_post_draw is emitted after the frame has been drawn,
+## which is the only moment the viewport texture is guaranteed to match what the
+## scene now looks like. Both waits are needed and in this order: process_frame
+## lets layout and the fade transition run, frame_post_draw makes the result
+## readable.
 func _settle() -> void:
 	for i in SETTLE_FRAMES:
 		await process_frame
+	await RenderingServer.frame_post_draw
