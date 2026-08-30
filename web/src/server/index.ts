@@ -22,6 +22,7 @@ import { createAuth } from "./auth.js";
 import { bearerFrom, ownerOf } from "./device-token.js";
 import { accountRoutes } from "./routes/account.js";
 import { syncRoutes } from "./routes/sync.js";
+import { bundleRoutes } from "./routes/bundle.js";
 
 export function createApp() {
   const app = new Hono<AppBindings>();
@@ -157,6 +158,8 @@ export function createApp() {
   });
 
   app.route("/api/sync", syncRoutes());
+  // Whole-bundle exchange for the desktop, behind the same guard.
+  app.route("/api/sync", bundleRoutes());
 
   app.notFound((c) => c.json({ error: "No such endpoint." }, 404));
 
