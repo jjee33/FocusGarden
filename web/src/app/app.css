@@ -147,6 +147,14 @@
   padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
   background: var(--bg-nav);
   border-top: 1px solid var(--bg-nav-deep);
+  /* Pinned to the bottom of the viewport. The shell is min-height, so the
+     document scrolls rather than .shell__main, and without this the bar sat
+     after the content: off-screen on four of five screens on a 390x844 phone,
+     and 1,300px down on More. Sticky rather than fixed keeps it in the flow,
+     so nothing has to reserve space for it. */
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 @media (min-width: 768px) {
   .tabbar {
