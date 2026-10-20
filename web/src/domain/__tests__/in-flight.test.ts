@@ -138,6 +138,22 @@ describe("recoverInFlight", () => {
     expect(recovered.pausedMinutes).toBeCloseTo((60 + 8 * 3600) / 60, 6);
   });
 
+  it("keeps paused time excluded after a recovered clock resumes", () => {
+    const c = clocks();
+    const clock = new GameClock(c.providers);
+    clock.start();
+    c.advance(300);
+    clock.pause();
+    const stored = clock.toDict();
+    const reopened = clocks(START + 300 + 8 * 3600);
+    const restored = GameClock.fromDict(stored, reopened.providers);
+    expect(restored.sample().creditedSeconds).toBeCloseTo(300);
+    restored.resume();
+    expect(restored.sample().creditedSeconds).toBeCloseTo(300);
+    reopened.advance(60);
+    expect(restored.sample().creditedSeconds).toBeCloseTo(360);
+  });
+
   it("does not let process uptime leak into a legacy paused record", () => {
     // Records written before the pause's wall anchor was stored. The pause is
     // treated as beginning at recovery, so the figure no longer depends on how

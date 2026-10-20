@@ -114,9 +114,13 @@ func pause() -> void:
 func resume() -> void:
 	if state != State.PAUSED:
 		return
-	# Pause length is measured monotonically. Using wall time here would let a
-	# clock change while paused silently add or remove focus credit.
-	_paused_accumulated += maxf(0.0, _mono_provider.call() - _pause_began_mono)
+	# A recovered pause crossed a process boundary, so its original monotonic
+	# anchor is gone. Keep the same wall-based pause used by sample(); otherwise
+	# resuming would suddenly credit the entire time the app was closed.
+	if _recovered_from_save and _pause_began_wall > 0.0:
+		_paused_accumulated += maxf(0.0, _wall_provider.call() - _pause_began_wall)
+	else:
+		_paused_accumulated += maxf(0.0, _mono_provider.call() - _pause_began_mono)
 	_pause_began_mono = 0.0
 	_pause_began_wall = 0.0
 	state = State.RUNNING

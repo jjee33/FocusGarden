@@ -122,9 +122,12 @@ export class GameClock {
 
   resume(): void {
     if (this.state !== ClockState.PAUSED) return;
-    // Pause length is measured monotonically. Using wall time here would let a
-    // clock change while paused silently add or remove focus credit.
-    this.pausedAccumulated += maxf(0, this.providers.monotonic() - this.pauseBeganMono);
+    // A recovered pause crossed a process boundary, so its original monotonic
+    // anchor is gone. Keep the same wall-based pause used by sample(); otherwise
+    // resuming would suddenly credit the entire time the app was closed.
+    this.pausedAccumulated += this.recoveredFromSave && this.pauseBeganWall > 0
+      ? maxf(0, this.providers.wall() - this.pauseBeganWall)
+      : maxf(0, this.providers.monotonic() - this.pauseBeganMono);
     this.pauseBeganMono = 0;
     this.pauseBeganWall = 0;
     this.state = ClockState.RUNNING;

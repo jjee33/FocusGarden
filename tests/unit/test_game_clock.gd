@@ -149,6 +149,25 @@ func test_recovered_paused_clock_excludes_time_spent_closed() -> void:
 	restored.reset_time_providers()
 
 
+func test_recovered_pause_stays_excluded_after_resume() -> void:
+	_clock.start()
+	_advance(300.0)
+	_clock.pause()
+	var stored := _clock.to_dict()
+	_advance(8.0 * 3600.0)
+	var restored := GameClock.from_dict(stored)
+	restored.set_time_providers(
+		func() -> float: return _mono[0],
+		func() -> float: return _wall[0]
+	)
+	assert_almost_eq(restored.sample().credited_seconds, 300.0, "closed pause earns no credit")
+	restored.resume()
+	assert_almost_eq(restored.sample().credited_seconds, 300.0, "resume cannot credit the closed pause")
+	_advance(60.0)
+	assert_almost_eq(restored.sample().credited_seconds, 360.0, "focus after resume earns credit")
+	restored.reset_time_providers()
+
+
 func test_running_clock_dict_has_no_pause_anchor() -> void:
 	_clock.start()
 	_advance(30.0)
