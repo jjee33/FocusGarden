@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1] - 2026-10-20
+
+### Fixed
+
+- Corrected the Windows release build gate's handling of Godot stderr so the
+  installer can build in CI. No gameplay changes since 0.2.0.
+
 ## [0.2.0] - 2026-10-20
 
 ### Fixed — sessions, saves and the phone layout

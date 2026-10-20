@@ -7,7 +7,7 @@ config_version=5
 
 config/name="Focus Garden"
 config/description="A cozy garden grown from the time you invest in yourself."
-config/version="0.2.0"
+config/version="0.2.1"
 run/main_scene="res://scenes/main/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 ; A productivity app has no reason to render faster than the display. Uncapped,
