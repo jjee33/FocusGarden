@@ -122,6 +122,13 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
         </section>
       )}
 
+      {garden.writeError !== "" && !garden.storage.blocked && !garden.storage.ephemeral && (
+        <section className="notice notice--clay" role="alert">
+          <h2>Not saved yet</h2>
+          <p>{garden.writeError}</p>
+        </section>
+      )}
+
       <section className="focus-hero fg-grain" aria-labelledby="focus-heading">
         <div className="dial">
           <svg viewBox="0 0 100 100" aria-hidden="true">

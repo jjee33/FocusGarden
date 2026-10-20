@@ -244,6 +244,33 @@ export function useGarden() {
   });
   /** A session interrupted by the tab closing, offered back but not applied. */
   const [recovered, setRecovered] = useState<FocusSession | null>(null);
+  /**
+   * Set when a write to IndexedDB failed - the disk is full, the browser's quota
+   * is spent, or storage was revoked mid-session. Cleared by the next write that
+   * lands. Without it a failed write was an unhandled rejection and the player
+   * went on believing every session was being kept.
+   */
+  const [writeError, setWriteError] = useState("");
+  /**
+   * Writes are numbered so that only one STARTED after the latest failure can
+   * clear the warning. Otherwise an earlier write landing late would hide a
+   * later one that failed.
+   */
+  const writeSeq = useRef({ next: 0, lastFailed: -1 });
+  const reportWrite = useCallback((write: Promise<unknown>, onFailure?: () => void) => {
+    const id = writeSeq.current.next++;
+    write.then(
+      () => {
+        if (id > writeSeq.current.lastFailed) setWriteError("");
+      },
+      () => {
+        writeSeq.current.lastFailed = Math.max(writeSeq.current.lastFailed, id);
+        onFailure?.();
+        setWriteError("Focus Garden could not save your latest changes on this device. "
+          + "It will try again with your next change; export a copy from Settings if this does not clear.");
+      },
+    );
+  }, []);
   /** Result of the last import or export, shown once then dismissed. */
   const [transferMessage, setTransferMessage] = useState("");
   /**
@@ -320,16 +347,20 @@ export function useGarden() {
   // rewrite a decade of history.
   useEffect(() => {
     if (!canWrite || db.current === null) return;
-    void saveGarden(db.current, save, storage.blocked);
-  }, [save, canWrite, storage.blocked]);
+    reportWrite(saveGarden(db.current, save, storage.blocked));
+  }, [save, canWrite, storage.blocked, reportWrite]);
 
   useEffect(() => {
     if (!canWrite || db.current === null) return;
     const unwritten = sessions.filter((s) => !persistedSessions.current.has(s.id));
     if (unwritten.length === 0) return;
     for (const s of unwritten) persistedSessions.current.add(s.id);
-    void putSessions(db.current, unwritten, storage.blocked);
-  }, [sessions, canWrite, storage.blocked]);
+    // A failed batch is un-marked, so the next change to the history retries it
+    // instead of treating those sessions as written for good.
+    reportWrite(putSessions(db.current, unwritten, storage.blocked), () => {
+      for (const s of unwritten) persistedSessions.current.delete(s.id);
+    });
+  }, [sessions, canWrite, storage.blocked, reportWrite]);
 
   const summaries = useMemo<PlantSummary[]>(() => {
     const out: PlantSummary[] = [];
@@ -509,10 +540,20 @@ export function useGarden() {
   }, []);
 
   const applyImport = useCallback(async (imported: ImportedBundle) => {
+    let written = true;
     if (db.current !== null && !storage.blocked && !storage.ephemeral) {
-      await replaceAll(db.current, imported.save, imported.sessions);
+      try {
+        await replaceAll(db.current, imported.save, imported.sessions);
+      } catch {
+        // The garden in memory is the imported one either way, and the persist
+        // effects rewrite it in full: none of its sessions are marked as written.
+        written = false;
+        setWriteError("The imported garden is open, but could not be saved on this device yet.");
+      }
     }
-    persistedSessions.current = new Set(imported.sessions.map((s) => s.id));
+    persistedSessions.current = written
+      ? new Set(imported.sessions.map((s) => s.id))
+      : new Set();
     setState({ save: imported.save, sessions: imported.sessions });
     setRecovered(null);
   }, [storage.blocked, storage.ephemeral]);
@@ -633,10 +674,12 @@ export function useGarden() {
       return { save: mergedSave, sessions: mergedSessions };
     });
     if (db.current !== null && !storage.blocked && !storage.ephemeral) {
-      void saveGarden(db.current, mergedSave, storage.blocked);
-      void putSessions(db.current, mergedSessions, storage.blocked);
+      reportWrite(saveGarden(db.current, mergedSave, storage.blocked));
+      reportWrite(putSessions(db.current, mergedSessions, storage.blocked), () => {
+        for (const s of mergedSessions) persistedSessions.current.delete(s.id);
+      });
     }
-  }, [storage.blocked, storage.ephemeral]);
+  }, [storage.blocked, storage.ephemeral, reportWrite]);
 
   const mutateSave = useCallback((change: (draft: SaveData) => SaveData) => {
     setState((prev) => ({ ...prev, save: change(prev.save) }));
@@ -801,7 +844,7 @@ export function useGarden() {
 
   return {
     state, save, sessions, summaries, stats, activePlant, activeProject,
-    expansion, lastOutcome, storage, recovered, transferMessage, setTransferMessage,
+    expansion, lastOutcome, storage, writeError, recovered, transferMessage, setTransferMessage,
     pendingImport, previewImport, confirmImport, cancelImport,
     db: db.current, applyMerged,
     completeSession, applyFinished, completeOnboarding,
