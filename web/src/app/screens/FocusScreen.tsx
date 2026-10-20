@@ -7,17 +7,18 @@
  * from SessionCycle. Nothing is a hardcoded number dressed up as one.
  */
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { PlantView } from "../components/PlantView.js";
 import type { useGarden } from "../useGarden.js";
-import { useFocusTimer } from "../useFocusTimer.js";
+import type { useFocusTimer } from "../useFocusTimer.js";
 import { Kind } from "../../domain/focus-session.js";
 import { getSpecies } from "../../content/content.js";
 import { getDisplayFocusMinutes } from "../../domain/species.js";
 import { formatCountdown, formatDuration } from "../../domain/time-util.js";
 import { useReducedMotion, useTheme } from "../usePlatform.js";
-import { announceComplete, clearTitle, requestNotifyPermission, setTitleCountdown } from "../alerts.js";
+import { requestNotifyPermission } from "../alerts.js";
+import { greeting } from "../greeting.js";
 
 const PRESETS = [15, 25, 45, 90];
 /** Circumference of the dial's r=46 circle, for the dash offset. */
@@ -25,49 +26,50 @@ const DIAL_CIRCUMFERENCE = 2 * Math.PI * 46;
 
 interface Props {
   garden: ReturnType<typeof useGarden>;
+  /**
+   * Owned by the shell, not by this screen. A screen unmounts when another tab
+   * is chosen, and a timer living here died with it: the session stopped
+   * counting, never finished, and the next start overwrote its record.
+   */
+  timer: ReturnType<typeof useFocusTimer>;
   presetMinutes: number;
   onPresetChange: (minutes: number) => void;
 }
 
-export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
+export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Props) {
   const { stats, activePlant, activeProject, save } = garden;
   const { foliageAmbient } = useTheme();
   const reducedMotion = useReducedMotion();
 
-  const timer = useFocusTimer({
-    onFinished: (session) => {
-      // Announced before the session is applied, so the chime lands with the
-      // moment rather than after a round of state updates. Both are best-effort
-      // and neither can throw into the credit path.
-      announceComplete(
-        session.kind === Kind.FOCUS,
-        session.actualFocusMinutes,
-        save.settings,
-      );
-      garden.applyFinished(session);
-    },
-    onPersist: garden.persistInFlight,
-    onCleared: garden.clearInFlight,
-  });
-
-  /*
-   * The countdown in the tab title.
-   *
-   * The whole point of a focus timer is that you go and look at something else,
-   * which until now meant no way to tell how long was left without coming back.
-   * This costs nothing and needs no permission, so it is the layer that always
-   * works - the notification and the chime are improvements on top of it.
-   */
-  useEffect(() => {
-    if (timer.snapshot.state === "idle") {
-      clearTitle();
-      return;
-    }
-    setTitleCountdown(timer.snapshot.remainingSeconds, timer.snapshot.kind === Kind.FOCUS);
-    return clearTitle;
-  }, [timer.snapshot.state, timer.snapshot.remainingSeconds, timer.snapshot.kind]);
-
   const running = timer.snapshot.state !== "idle";
+  const [confirmingDiscard, setConfirmingDiscard] = useState(false);
+  const discardButton = useRef<HTMLButtonElement>(null);
+  /** Closes the question and puts keyboard focus back where it was asked from. */
+  const keepGoing = (): void => {
+    setConfirmingDiscard(false);
+    discardButton.current?.focus();
+  };
+  // A session that ends while the question is open takes the question with it.
+  useEffect(() => {
+    if (!running) setConfirmingDiscard(false);
+  }, [running]);
+  /*
+   * A destructive action never happens on one accidental click (§49). Discard
+   * sits beside End early, and the web build skipped the confirmation the
+   * desktop has always asked for - and that its own Settings toggle promised.
+   */
+  const discard = (): void => {
+    if (save.settings.confirmBeforeCancelSession) setConfirmingDiscard(true);
+    else timer.cancel();
+  };
+  // The configured length is always offered, as the desktop does, so a default
+  // of 30 minutes is visibly the selected one rather than matching no button.
+  const presets = useMemo(() => {
+    const configured = Math.round(presetMinutes);
+    return PRESETS.includes(configured)
+      ? PRESETS
+      : [...PRESETS, configured].sort((a, b) => a - b);
+  }, [presetMinutes]);
   const species = activePlant === null ? null : getSpecies(activePlant.plant.speciesId);
 
   // While a session runs the plant is shown at where it WILL be, so the player
@@ -92,10 +94,10 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
   return (
     <>
       <div className="greet">
-        <h1>{running ? greetingForKind(timer.snapshot.kind) : `Good evening, ${save.profile.displayName}`}</h1>
+        <h1>{running ? greetingForKind(timer.snapshot.kind) : greeting(save.profile.displayName)}</h1>
         <p>
           {running
-            ? `Session ${stats.cyclePosition} of 4 · ${stats.nextBreak === Kind.LONG_BREAK ? "long break" : "short break"} next`
+            ? `Session ${stats.cyclePosition} of ${Math.max(1, save.settings.sessionsBeforeLongBreak)} · ${stats.nextBreak === Kind.LONG_BREAK ? "long break" : "short break"} next`
             : "Every plant here grew out of time you spent focusing."}
         </p>
       </div>
@@ -123,6 +125,13 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
         <section className="notice notice--clay" aria-live="polite">
           <h2>{garden.storage.blocked ? "This garden is read-only" : "Nothing is being saved"}</h2>
           <p>{garden.storage.blockedReason}</p>
+        </section>
+      )}
+
+      {garden.writeError !== "" && !garden.storage.blocked && !garden.storage.ephemeral && (
+        <section className="notice notice--clay" role="alert">
+          <h2>Not saved yet</h2>
+          <p>{garden.writeError}</p>
         </section>
       )}
 
@@ -169,21 +178,58 @@ export function FocusScreen({ garden, presetMinutes, onPresetChange }: Props) {
                 <button className="btn btn--ghost" type="button" onClick={timer.endEarly}>
                   End early
                 </button>
-                <button className="btn btn--quiet" type="button" onClick={timer.cancel}>
+                <button
+                  ref={discardButton}
+                  className="btn btn--quiet"
+                  type="button"
+                  aria-expanded={confirmingDiscard}
+                  onClick={discard}
+                >
                   Discard
                 </button>
               </div>
+              {confirmingDiscard && (
+                <div
+                  className="notice notice--clay"
+                  role="alertdialog"
+                  aria-labelledby="discard-heading"
+                  onKeyDown={(e) => { if (e.key === "Escape") keepGoing(); }}
+                >
+                  <h3 id="discard-heading">Discard this session?</h3>
+                  <p>
+                    The time you have focused so far will not be counted. If you
+                    want to keep it, choose End early instead.
+                  </p>
+                  <div className="notice__actions">
+                    <button
+                      className="btn btn--ghost"
+                      type="button"
+                      onClick={() => { setConfirmingDiscard(false); timer.cancel(); }}
+                    >
+                      Discard
+                    </button>
+                    <button
+                      className="btn"
+                      type="button"
+                      autoFocus
+                      onClick={keepGoing}
+                    >
+                      Keep going
+                    </button>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>
               <p>Pick how long you want to sit with it.</p>
               <div className="presets">
-                {PRESETS.map((minutes) => (
+                {presets.map((minutes) => (
                   <button
                     key={minutes}
                     className="preset"
                     type="button"
-                    aria-pressed={minutes === presetMinutes}
+                    aria-pressed={minutes === Math.round(presetMinutes)}
                     onClick={() => onPresetChange(minutes)}
                   >
                     {minutes}m

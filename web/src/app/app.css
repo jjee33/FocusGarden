@@ -147,6 +147,14 @@
   padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
   background: var(--bg-nav);
   border-top: 1px solid var(--bg-nav-deep);
+  /* Pinned to the bottom of the viewport. The shell is min-height, so the
+     document scrolls rather than .shell__main, and without this the bar sat
+     after the content: off-screen on four of five screens on a 390x844 phone,
+     and 1,300px down on More. Sticky rather than fixed keeps it in the flow,
+     so nothing has to reserve space for it. */
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 @media (min-width: 768px) {
   .tabbar {
@@ -179,6 +187,28 @@
 }
 .tabbar__item[aria-current="page"] svg {
   opacity: 1;
+}
+
+/* A session keeps running while another screen is open; this dot is how that
+   stays visible without pulling anyone back to the timer. */
+.rail__item[data-running]::after,
+.tabbar__item[data-running]::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.rail__item[data-running]::after {
+  margin-left: auto;
+}
+.tabbar__item {
+  position: relative;
+}
+.tabbar__item[data-running]::after {
+  position: absolute;
+  top: 6px;
+  left: calc(50% + 10px);
 }
 
 /* --------------------------------------------------------------- common --- */
@@ -694,7 +724,8 @@
 .notice--clay {
   border-color: color-mix(in oklab, var(--clay) 45%, transparent);
 }
-.notice h2 {
+.notice h2,
+.notice h3 {
   margin: 0;
   font-family: var(--display);
   font-size: var(--t-heading);

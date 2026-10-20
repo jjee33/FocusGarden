@@ -56,6 +56,10 @@ var _mono_start: float = 0.0
 ## pauses must not count toward focus time (§12).
 var _paused_accumulated: float = 0.0
 var _pause_began_mono: float = 0.0
+## Wall time the pause in progress began. Persisted so a session paused and then
+## closed is not credited for the time it sat closed: after a restart the
+## monotonic anchor is gone, and the wall clock is all that is left.
+var _pause_began_wall: float = 0.0
 ## Set when the clock is rebuilt from a persisted session after an app restart.
 ## Monotonic history is gone in that case, so measurement falls back to wall time.
 var _recovered_from_save: bool = false
@@ -94,6 +98,7 @@ func start() -> void:
 	_mono_start = _mono_provider.call()
 	_paused_accumulated = 0.0
 	_pause_began_mono = 0.0
+	_pause_began_wall = 0.0
 	_recovered_from_save = false
 	state = State.RUNNING
 
@@ -102,16 +107,22 @@ func pause() -> void:
 	if state != State.RUNNING:
 		return
 	_pause_began_mono = _mono_provider.call()
+	_pause_began_wall = _wall_provider.call()
 	state = State.PAUSED
 
 
 func resume() -> void:
 	if state != State.PAUSED:
 		return
-	# Pause length is measured monotonically. Using wall time here would let a
-	# clock change while paused silently add or remove focus credit.
-	_paused_accumulated += maxf(0.0, _mono_provider.call() - _pause_began_mono)
+	# A recovered pause crossed a process boundary, so its original monotonic
+	# anchor is gone. Keep the same wall-based pause used by sample(); otherwise
+	# resuming would suddenly credit the entire time the app was closed.
+	if _recovered_from_save and _pause_began_wall > 0.0:
+		_paused_accumulated += maxf(0.0, _wall_provider.call() - _pause_began_wall)
+	else:
+		_paused_accumulated += maxf(0.0, _mono_provider.call() - _pause_began_mono)
 	_pause_began_mono = 0.0
+	_pause_began_wall = 0.0
 	state = State.RUNNING
 
 
@@ -132,7 +143,13 @@ func sample() -> Sample:
 	# A pause still in progress is not yet in the accumulator.
 	var paused := _paused_accumulated
 	if state == State.PAUSED:
-		paused += maxf(0.0, now_mono - _pause_began_mono)
+		if _recovered_from_save and _pause_began_wall > 0.0:
+			# The pause spanned a restart, so its monotonic anchor is gone. It is
+			# measured on the wall clock it was recorded against, which keeps the
+			# time a paused session sat closed out of its credit.
+			paused += maxf(0.0, now_wall - _pause_began_wall)
+		else:
+			paused += maxf(0.0, now_mono - _pause_began_mono)
 
 	var mono_elapsed := (now_mono - _mono_start) - paused
 	var wall_elapsed := (now_wall - _wall_start) - paused
@@ -175,11 +192,16 @@ func sample() -> Sample:
 ## Serializes the in-flight clock so a session survives the app closing (§54).
 ## Only wall time is stored: monotonic values are meaningless across a restart.
 func to_dict() -> Dictionary:
-	return {
+	var data := {
 		"wall_start": _wall_start,
 		"paused_accumulated": _paused_accumulated,
 		"state": int(state),
 	}
+	# Only while paused, so a running session's record keeps the exact shape every
+	# earlier build wrote and reads.
+	if state == State.PAUSED:
+		data["pause_began_wall"] = _pause_began_wall
+	return data
 
 
 ## Rebuilds a clock from a persisted in-flight session. The result measures with
@@ -194,5 +216,10 @@ static func from_dict(data: Dictionary) -> GameClock:
 		raw_state as State if raw_state >= 0 and raw_state <= int(State.PAUSED) else State.IDLE
 	)
 	clock._mono_start = clock._mono_provider.call()
+	# A record written before pause_began_wall existed has no anchor for the pause
+	# in progress. Treating it as beginning now keeps the result from depending on
+	# how long this process has been up.
+	clock._pause_began_mono = clock._mono_start
+	clock._pause_began_wall = maxf(0.0, DictUtil.get_float(data, "pause_began_wall"))
 	clock._recovered_from_save = true
 	return clock

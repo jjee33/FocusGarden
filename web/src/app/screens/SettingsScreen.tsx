@@ -20,9 +20,12 @@ import type { GameSettings, ThemeMode } from "../../domain/game-settings.js";
 import { formatDuration } from "../../domain/time-util.js";
 import type { ThemeChoice } from "../usePlatform.js";
 import { useTheme } from "../usePlatform.js";
-import { deleteAccount, signOut, useSession } from "../auth-client.js";
+import { deleteAccount, signOut } from "../auth-client.js";
+import { useAccountSession } from "../account-session.js";
 import type { useSync } from "../useSync.js";
 import { formatDatetime } from "../../domain/time-util.js";
+import { describeRange } from "../../domain/save-bundle.js";
+import type { BundleSummary } from "../../domain/save-bundle.js";
 import { Icon } from "../components/Icon.js";
 import { DeviceTokens } from "./DeviceTokens.js";
 
@@ -77,7 +80,7 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
     onSignedOut();
   };
   const theme = useTheme();
-  const { data: authSession } = useSession();
+  const { session: authSession } = useAccountSession();
 
   // The in-app motion preference, applied as a multiplier on every duration
   // token. Zero when reduced motion is on, which is what switches looping
@@ -123,7 +126,10 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
           <Slider
             label="Focus session"
             hint="How long a focus session runs by default."
-            value={settings.focusDurationMinutes} min={1} max={120} step={5}
+            // min 5, not 1: with a step of 5 a range input only accepts values
+            // on min + 5n, so min 1 put the default of 25 off the grid and the
+            // thumb snapped to 26.
+            value={settings.focusDurationMinutes} min={5} max={120} step={5}
             format={formatDuration}
             onChange={(v) => set("focusDurationMinutes", v)}
           />
@@ -301,6 +307,15 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
               Import
             </button>
           </Row>
+          {garden.pendingImport !== null && (
+            <ImportConfirm
+              summary={garden.pendingImport.imported.summary}
+              fileName={garden.pendingImport.fileName}
+              onReplace={() => { void garden.confirmImport(); }}
+              onExportFirst={garden.downloadBundle}
+              onCancel={garden.cancelImport}
+            />
+          )}
         </section>
 
         {/* Tokens only mean anything for an account that can sync. */}
@@ -412,6 +427,49 @@ function Toggle({
         onChange={(e) => onChange(e.target.checked)}
       />
     </Row>
+  );
+}
+
+/**
+ * What a picked file holds, before it replaces anything.
+ *
+ * Import replaces the whole garden, so this is the last point a wrong file can
+ * be refused. It says what will arrive, in the player's terms, and offers the
+ * export beside it - the same pairing the account deletion uses.
+ */
+function ImportConfirm({
+  summary, fileName, onReplace, onExportFirst, onCancel,
+}: {
+  summary: BundleSummary;
+  fileName: string;
+  onReplace: () => void;
+  onExportFirst: () => void;
+  onCancel: () => void;
+}) {
+  const range = describeRange(summary);
+  return (
+    <div className="notice notice--amber" role="region" aria-labelledby="import-confirm-heading">
+      <h3 id="import-confirm-heading">
+        Replace this garden with {fileName === "" ? "the file" : fileName}?
+      </h3>
+      <p>
+        It holds {summary.plantCount} {summary.plantCount === 1 ? "plant" : "plants"} and{" "}
+        {summary.sessionCount} {summary.sessionCount === 1 ? "session" : "sessions"}
+        {summary.focusMinutes > 0 ? `, ${formatDuration(summary.focusMinutes)} of focus` : ""}
+        {range === "" ? "" : `, from ${range}`}.
+        {!summary.hasSessions && " It carries no session history."}
+        {summary.skippedCount > 0
+          && ` ${summary.skippedCount} ${summary.skippedCount === 1 ? "row" : "rows"} could not be read.`}
+      </p>
+      <p>Everything currently here will be replaced. This cannot be undone.</p>
+      <div className="notice__actions">
+        <button className="btn" type="button" onClick={onReplace}>Replace my garden</button>
+        <button className="btn btn--ghost" type="button" onClick={onExportFirst}>
+          Export current first
+        </button>
+        <button className="btn btn--quiet" type="button" onClick={onCancel}>Cancel</button>
+      </div>
+    </div>
   );
 }
 

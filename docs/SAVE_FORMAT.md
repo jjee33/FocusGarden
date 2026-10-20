@@ -167,6 +167,26 @@ session interrupted by a crash can be offered back to the player on next launch
 instead of being silently lost. It is written on state changes, not on every
 tick — a tick-rate write would hammer the disk for hours.
 
+```jsonc
+"in_flight_session": {
+  "session": FocusSession,
+  "clock": {
+    "wall_start": 1780000000.0,       // Unix seconds the session started
+    "paused_accumulated": 120.0,      // seconds of finished pauses
+    "state": 1,                       // 0 idle, 1 running, 2 paused
+    "pause_began_wall": 1780000900.0  // ONLY while paused
+  }
+}
+```
+
+`pause_began_wall` is written only while the clock is paused, so a running
+session's record is byte-for-byte what earlier builds wrote. It exists because
+the pause in progress is otherwise held only as a monotonic timestamp, which
+does not survive a restart: without it, a session paused and then closed was
+recovered with the whole closed stretch counted as focus. A record without the
+key (written by an older build) anchors the pause at the moment of recovery.
+Older builds ignore the key, so no save version bump is involved.
+
 Field-by-field descriptions are in [DATA_MODEL.md](DATA_MODEL.md).
 
 ## Export bundles

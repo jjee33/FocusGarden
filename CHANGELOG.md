@@ -2,6 +2,29 @@
 
 ## [Unreleased]
 
+### Fixed — sessions, saves and the phone layout
+
+- **A paused session no longer earns the time it sat closed.** Pausing and
+  then closing the app or tab, on either client, offered the whole closed
+  stretch back as focus on the next launch — five minutes then an overnight
+  close came back as a full session. The pause's wall-clock start is now saved
+  with the in-flight record (`pause_began_wall`, see SAVE_FORMAT.md).
+- **Web: a session survives opening another screen.** The timer lived inside
+  the Focus screen, so visiting the garden mid-session stopped it for good. The
+  Focus entry in the navigation now shows a dot while a session runs elsewhere.
+- **Web: the timer settings are honoured.** The default focus length, the
+  cycle length in "Session N of M", and "Confirm before discarding a session"
+  were all ignored. Picking a preset now remembers it, as on the desktop.
+- **Web: import shows what a file holds before replacing anything**, with
+  Replace, Export current first and Cancel — as its own hint always said.
+- **Web: failed saves are reported.** A full disk or spent storage quota now
+  shows a notice instead of failing silently, and an unsaved session is retried.
+- **Web: Settings no longer crashes** when the session endpoint answers with
+  something that is not a session (a captive portal's sign-in page).
+- **Web: the phone tab bar stays on screen** instead of sitting below the
+  content of every long screen.
+- The idle greeting follows the time of day, as the desktop's does.
+
 ### Added — Focus Garden on the web
 
 **[thefocusgarden.com](https://thefocusgarden.com) is live.** The whole game runs

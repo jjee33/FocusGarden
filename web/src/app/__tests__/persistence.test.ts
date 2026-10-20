@@ -267,3 +267,58 @@ describe("transfer", () => {
     expect(bundle["in_flight_session"]).toEqual({});
   });
 });
+
+describe("a write that fails", () => {
+  /** Makes every readwrite transaction on the hook's database throw, as a full disk does. */
+  function failWrites(db: IDBDatabase) {
+    const real = db.transaction.bind(db);
+    return vi.spyOn(db, "transaction").mockImplementation(((stores: string[], mode?: IDBTransactionMode) => {
+      if (mode === "readwrite") throw new DOMException("quota", "QuotaExceededError");
+      return real(stores, mode);
+    }) as typeof db.transaction);
+  }
+
+  it("is reported rather than swallowed, and clears once a write lands", async () => {
+    const { result } = await mounted();
+    const spy = failWrites(result.current.db!);
+    act(() => result.current.updateSettings({ dailyGoalMinutes: 90 }));
+    await waitFor(() => expect(result.current.writeError).toContain("could not save"));
+
+    spy.mockRestore();
+    act(() => result.current.updateSettings({ dailyGoalMinutes: 95 }));
+    await waitFor(() => expect(result.current.writeError).toBe(""));
+  });
+
+  it("retries a session whose write failed instead of forgetting it", async () => {
+    const first = await mounted();
+    act(() => {
+      first.result.current.completeOnboarding({
+        displayName: "Ada", projectName: "Thesis", speciesId: "aloe_vera",
+      });
+    });
+    const spy = failWrites(first.result.current.db!);
+    act(() => {
+      first.result.current.completeSession(
+        Kind.FOCUS, 25, 25, Completion.COMPLETED,
+        first.result.current.save.profile.activeProjectId,
+        first.result.current.save.profile.activePlantUid,
+      );
+    });
+    await waitFor(() => expect(first.result.current.writeError).not.toBe(""));
+
+    spy.mockRestore();
+    act(() => {
+      first.result.current.completeSession(
+        Kind.FOCUS, 15, 15, Completion.COMPLETED,
+        first.result.current.save.profile.activeProjectId,
+        first.result.current.save.profile.activePlantUid,
+      );
+    });
+    await waitFor(() => expect(first.result.current.writeError).toBe(""));
+    first.unmount();
+
+    // A reload sees both sessions, including the one whose first write failed.
+    const second = await mounted();
+    await waitFor(() => expect(second.result.current.sessions).toHaveLength(2));
+  });
+});
