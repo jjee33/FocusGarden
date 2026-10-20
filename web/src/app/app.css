@@ -181,6 +181,28 @@
   opacity: 1;
 }
 
+/* A session keeps running while another screen is open; this dot is how that
+   stays visible without pulling anyone back to the timer. */
+.rail__item[data-running]::after,
+.tabbar__item[data-running]::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.rail__item[data-running]::after {
+  margin-left: auto;
+}
+.tabbar__item {
+  position: relative;
+}
+.tabbar__item[data-running]::after {
+  position: absolute;
+  top: 6px;
+  left: calc(50% + 10px);
+}
+
 /* --------------------------------------------------------------- common --- */
 
 .eyebrow {

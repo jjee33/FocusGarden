@@ -26,7 +26,10 @@ import { ResetLinkExpiredScreen, ResetPasswordScreen } from "./screens/ResetPass
 import { useSession } from "./auth-client.js";
 import { useSync } from "./useSync.js";
 import { useGarden } from "./useGarden.js";
+import { useFocusTimer } from "./useFocusTimer.js";
 import { useTheme } from "./usePlatform.js";
+import { announceComplete, clearTitle, setTitleCountdown } from "./alerts.js";
+import { Kind } from "../domain/focus-session.js";
 
 type ScreenId =
   | "focus" | "garden" | "shelf" | "catalogue" | "journal"
@@ -110,10 +113,52 @@ export function App() {
   // after it has been dismissed and the URL tidied up.
   const [reset, setReset] = useState(resetFromUrl);
   const [screen, setScreen] = useState<ScreenId>("focus");
-  const [presetMinutes, setPresetMinutes] = useState(25);
   const [localOnly, setLocalOnly] = useState(readLocalOnly);
   const garden = useGarden();
   const theme = useTheme();
+
+  /*
+   * The timer belongs to the shell, because a session outlives any one screen.
+   *
+   * It used to live in FocusScreen, and every screen here unmounts when another
+   * tab is chosen. Opening the garden mid-session therefore destroyed the clock:
+   * the session stopped counting, never finished, and the next start silently
+   * overwrote its in-flight record. Looking at the garden while focusing is the
+   * most natural thing to do in this app.
+   */
+  const timer = useFocusTimer({
+    onFinished: (session) => {
+      // Announced before the session is applied, so the chime lands with the
+      // moment rather than after a round of state updates. Both are best-effort
+      // and neither can throw into the credit path.
+      announceComplete(
+        session.kind === Kind.FOCUS,
+        session.actualFocusMinutes,
+        garden.save.settings,
+      );
+      garden.applyFinished(session);
+    },
+    onPersist: garden.persistInFlight,
+    onCleared: garden.clearInFlight,
+  });
+
+  /*
+   * The countdown in the tab title.
+   *
+   * The whole point of a focus timer is that you go and look at something else,
+   * which until now meant no way to tell how long was left without coming back.
+   * This costs nothing and needs no permission, so it is the layer that always
+   * works - the notification and the chime are improvements on top of it.
+   */
+  useEffect(() => {
+    if (timer.snapshot.state === "idle") {
+      clearTitle();
+      return;
+    }
+    setTitleCountdown(timer.snapshot.remainingSeconds, timer.snapshot.kind === Kind.FOCUS);
+    return clearTitle;
+  }, [timer.snapshot.state, timer.snapshot.remainingSeconds, timer.snapshot.kind]);
+  const sessionRunning = timer.snapshot.state !== "idle";
   const { data: rawSession, isPending: authPending } = useSession();
 
   // Not trusted until it looks like a session. better-auth hands back whatever
@@ -258,10 +303,14 @@ export function App() {
               type="button"
               className="rail__item"
               {...(screen === s.id ? { "aria-current": "page" as const } : {})}
+              {...(s.id === "focus" && sessionRunning ? { "data-running": "" } : {})}
               onClick={() => setScreen(s.id)}
             >
               <Icon name={s.icon} />
               {s.label}
+              {s.id === "focus" && sessionRunning && (
+                <span className="visually-hidden"> (session in progress)</span>
+              )}
             </button>
           ))}
         </nav>
@@ -294,8 +343,13 @@ export function App() {
           {screen === "focus" && (
             <FocusScreen
               garden={garden}
-              presetMinutes={presetMinutes}
-              onPresetChange={setPresetMinutes}
+              timer={timer}
+              // The configured length IS the selection, and picking a preset
+              // makes it the new default - the desktop's rule (focus_screen.gd
+              // `_persist_duration`). A local 25 here left the Settings slider
+              // doing nothing and forgot the choice on every reload.
+              presetMinutes={garden.save.settings.focusDurationMinutes}
+              onPresetChange={(minutes) => garden.updateSettings({ focusDurationMinutes: minutes })}
             />
           )}
           {screen === "garden" && <GardenScreen garden={garden} />}
@@ -322,10 +376,14 @@ export function App() {
             type="button"
             className="tabbar__item"
             {...(screen === s.id ? { "aria-current": "page" as const } : {})}
+            {...(s.id === "focus" && sessionRunning ? { "data-running": "" } : {})}
             onClick={() => setScreen(s.id)}
           >
             <Icon name={s.icon} size={1.35} />
             {s.short}
+            {s.id === "focus" && sessionRunning && (
+              <span className="visually-hidden"> (session in progress)</span>
+            )}
           </button>
         ))}
       </nav>

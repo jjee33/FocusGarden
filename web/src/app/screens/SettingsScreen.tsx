@@ -123,7 +123,10 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
           <Slider
             label="Focus session"
             hint="How long a focus session runs by default."
-            value={settings.focusDurationMinutes} min={1} max={120} step={5}
+            // min 5, not 1: with a step of 5 a range input only accepts values
+            // on min + 5n, so min 1 put the default of 25 off the grid and the
+            // thumb snapped to 26.
+            value={settings.focusDurationMinutes} min={5} max={120} step={5}
             format={formatDuration}
             onChange={(v) => set("focusDurationMinutes", v)}
           />
