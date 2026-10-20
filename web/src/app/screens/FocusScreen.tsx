@@ -7,7 +7,7 @@
  * from SessionCycle. Nothing is a hardcoded number dressed up as one.
  */
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { PlantView } from "../components/PlantView.js";
 import type { useGarden } from "../useGarden.js";
@@ -42,6 +42,20 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
   const reducedMotion = useReducedMotion();
 
   const running = timer.snapshot.state !== "idle";
+  const [confirmingDiscard, setConfirmingDiscard] = useState(false);
+  // A session that ends while the question is open takes the question with it.
+  useEffect(() => {
+    if (!running) setConfirmingDiscard(false);
+  }, [running]);
+  /*
+   * A destructive action never happens on one accidental click (§49). Discard
+   * sits beside End early, and the web build skipped the confirmation the
+   * desktop has always asked for - and that its own Settings toggle promised.
+   */
+  const discard = (): void => {
+    if (save.settings.confirmBeforeCancelSession) setConfirmingDiscard(true);
+    else timer.cancel();
+  };
   // The configured length is always offered, as the desktop does, so a default
   // of 30 minutes is visibly the selected one rather than matching no button.
   const presets = useMemo(() => {
@@ -151,10 +165,41 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
                 <button className="btn btn--ghost" type="button" onClick={timer.endEarly}>
                   End early
                 </button>
-                <button className="btn btn--quiet" type="button" onClick={timer.cancel}>
+                <button
+                  className="btn btn--quiet"
+                  type="button"
+                  aria-expanded={confirmingDiscard}
+                  onClick={discard}
+                >
                   Discard
                 </button>
               </div>
+              {confirmingDiscard && (
+                <div className="notice notice--clay" role="alertdialog" aria-labelledby="discard-heading">
+                  <h3 id="discard-heading">Discard this session?</h3>
+                  <p>
+                    The time you have focused so far will not be counted. If you
+                    want to keep it, choose End early instead.
+                  </p>
+                  <div className="notice__actions">
+                    <button
+                      className="btn btn--ghost"
+                      type="button"
+                      onClick={() => { setConfirmingDiscard(false); timer.cancel(); }}
+                    >
+                      Discard
+                    </button>
+                    <button
+                      className="btn"
+                      type="button"
+                      autoFocus
+                      onClick={() => setConfirmingDiscard(false)}
+                    >
+                      Keep going
+                    </button>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>

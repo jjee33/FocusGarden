@@ -716,7 +716,8 @@
 .notice--clay {
   border-color: color-mix(in oklab, var(--clay) 45%, transparent);
 }
-.notice h2 {
+.notice h2,
+.notice h3 {
   margin: 0;
   font-family: var(--display);
   font-size: var(--t-heading);

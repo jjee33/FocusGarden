@@ -1,5 +1,8 @@
 // @vitest-environment jsdom
 /**
+ * The shell, rendered whole: the timer, the focus screen's settings, discard,
+ * import and export.
+ *
  * A session outlives the screen it was started on.
  *
  * Every screen in the shell unmounts when another tab is chosen. The timer used
@@ -140,5 +143,120 @@ describe("the focus screen reads the player's settings", () => {
     fireEvent.click(screen.getByRole("button", { name: "45m" }));
     fireEvent.click(nav(/^Settings/));
     expect((screen.getByLabelText("Focus session") as HTMLInputElement).value).toBe("45");
+  });
+});
+
+describe("discarding a session", () => {
+  async function running() {
+    await openApp();
+    fireEvent.click(screen.getByRole("button", { name: "Start focusing" }));
+    advance(60);
+  }
+
+  it("asks first, as the setting says it will", async () => {
+    await running();
+    fireEvent.click(screen.getByRole("button", { name: "Discard" }));
+    expect(screen.getByRole("alertdialog", { name: "Discard this session?" })).toBeTruthy();
+    // Still running underneath the question.
+    expect(screen.getByRole("button", { name: "Pause" })).toBeTruthy();
+  });
+
+  it("keeps going when the player says so", async () => {
+    await running();
+    fireEvent.click(screen.getByRole("button", { name: "Discard" }));
+    fireEvent.click(screen.getByRole("button", { name: "Keep going" }));
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(screen.getByRole("button", { name: "Pause" })).toBeTruthy();
+  });
+
+  it("discards once confirmed", async () => {
+    await running();
+    fireEvent.click(screen.getByRole("button", { name: "Discard" }));
+    const dialog = screen.getByRole("alertdialog");
+    fireEvent.click(within(dialog).getByRole("button", { name: "Discard" }));
+    expect(screen.getByRole("button", { name: "Start focusing" })).toBeTruthy();
+  });
+
+  it("discards at once when the confirmation is turned off", async () => {
+    await openApp();
+    fireEvent.click(nav(/^Settings/));
+    fireEvent.click(screen.getByLabelText("Confirm before discarding a session"));
+    fireEvent.click(nav(/^Focus/));
+    fireEvent.click(screen.getByRole("button", { name: "Start focusing" }));
+    fireEvent.click(screen.getByRole("button", { name: "Discard" }));
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(screen.getByRole("button", { name: "Start focusing" })).toBeTruthy();
+  });
+});
+
+describe("importing a garden", () => {
+  /** Answers the hidden file picker with `content`, as a person choosing a file would. */
+  function pickFile(content: string, name = "other-garden.json"): void {
+    vi.spyOn(HTMLInputElement.prototype, "click").mockImplementation(function (this: HTMLInputElement) {
+      if (this.type !== "file") return;
+      Object.defineProperty(this, "files", { value: [new File([content], name)] });
+      this.onchange?.(new Event("change"));
+    });
+  }
+
+  const emptyBundle = JSON.stringify({
+    save_version: 2,
+    player: { display_name: "Someone else", onboarding_completed: true },
+  });
+
+  it("shows what the file holds and replaces nothing until confirmed", async () => {
+    await openApp();
+    const before = lifetimeFocus();
+    fireEvent.click(nav(/^Settings/));
+    pickFile(emptyBundle);
+    fireEvent.click(screen.getByRole("button", { name: "Import" }));
+
+    const panel = await screen.findByRole("region", { name: /Replace this garden with other-garden\.json/ });
+    expect(panel.textContent).toContain("0 plants");
+    fireEvent.click(within(panel).getByRole("button", { name: "Cancel" }));
+    expect(screen.queryByRole("region", { name: /Replace this garden/ })).toBeNull();
+
+    fireEvent.click(nav(/^Focus/));
+    expect(lifetimeFocus()).toBe(before);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toContain("Joshua");
+  });
+
+  it("replaces the garden once the player says yes", async () => {
+    await openApp();
+    fireEvent.click(nav(/^Settings/));
+    pickFile(emptyBundle);
+    fireEvent.click(screen.getByRole("button", { name: "Import" }));
+    const panel = await screen.findByRole("region", { name: /Replace this garden/ });
+    fireEvent.click(within(panel).getByRole("button", { name: "Replace my garden" }));
+    await screen.findByText(/^Imported 0 plants and 0 sessions\./);
+    fireEvent.click(nav(/^Focus/));
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toContain("Someone else");
+  });
+
+  it("reports an unreadable file without staging anything", async () => {
+    await openApp();
+    fireEvent.click(nav(/^Settings/));
+    pickFile("not json");
+    fireEvent.click(screen.getByRole("button", { name: "Import" }));
+    await screen.findByText("That file is not readable as a Focus Garden export.");
+    expect(screen.queryByRole("region", { name: /Replace this garden/ })).toBeNull();
+  });
+});
+
+describe("exporting a garden", () => {
+  it("does not revoke the download's URL in the same task as the click", async () => {
+    await openApp();
+    const created = vi.fn(() => "blob:fg-test");
+    const revoked = vi.fn();
+    vi.stubGlobal("URL", Object.assign(URL, { createObjectURL: created, revokeObjectURL: revoked }));
+    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
+    vi.useFakeTimers({ toFake: ["setInterval", "clearInterval", "setTimeout", "clearTimeout"] });
+
+    fireEvent.click(nav(/^Settings/));
+    fireEvent.click(screen.getByRole("button", { name: "Export" }));
+    expect(created).toHaveBeenCalledTimes(1);
+    expect(revoked).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(60_000);
+    expect(revoked).toHaveBeenCalledWith("blob:fg-test");
   });
 });

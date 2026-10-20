@@ -54,8 +54,17 @@ import {
   loadGarden, openDatabase, putSessions, replaceAll, saveGarden,
 } from "../storage/save-store.js";
 import { buildBundle, readBundle } from "../domain/save-bundle.js";
+import type { BundleSummary, ImportedBundle } from "../domain/save-bundle.js";
 import { migrate, MigrationStatus } from "../domain/migrations.js";
 import type { Json } from "../domain/dict-util.js";
+
+/** How long an export's object URL outlives the click that started the download. */
+const DOWNLOAD_URL_LIFETIME_MS = 60_000;
+
+function importedMessage(summary: BundleSummary): string {
+  return `Imported ${summary.plantCount} plants and ${summary.sessionCount} sessions.`
+    + (summary.skippedCount > 0 ? ` ${summary.skippedCount} rows could not be read.` : "");
+}
 
 export interface GardenState {
   save: SaveData;
@@ -237,6 +246,13 @@ export function useGarden() {
   const [recovered, setRecovered] = useState<FocusSession | null>(null);
   /** Result of the last import or export, shown once then dismissed. */
   const [transferMessage, setTransferMessage] = useState("");
+  /**
+   * A file that has been read and summarised but NOT applied. Import replaces
+   * everything, so the player sees what the file holds and says yes first.
+   */
+  const [pendingImport, setPendingImport] = useState<
+    { imported: ImportedBundle; fileName: string } | null
+  >(null);
   const db = useRef<IDBDatabase | null>(null);
   /** Session ids already written, so a re-render does not rewrite the history. */
   const persistedSessions = useRef(new Set<string>());
@@ -472,32 +488,64 @@ export function useGarden() {
     buildBundle(save, sessions, appVersion), [save, sessions]);
 
   /**
-   * Reads a bundle and REPLACES everything with it.
+   * Migrates and reads a bundle without touching the garden.
    *
    * Validates completely before destroying anything: the file is migrated, read
    * and summarised while the existing garden is still untouched, so a caller can
-   * show what it contains and let the player refuse. Only then is anything
-   * written.
+   * show what it contains and let the player refuse. Only `applyImport` writes.
    */
-  const importBundle = useCallback(async (raw: Json) => {
+  const readImport = useCallback((raw: Json):
+    { ok: true; imported: ImportedBundle } | { ok: false; reason: string } => {
     const migration = migrate(raw);
     if (migration.status !== MigrationStatus.OK) {
       return {
-        ok: false as const,
+        ok: false,
         reason: migration.status === MigrationStatus.FUTURE_VERSION
           ? "That file was written by a newer version of Focus Garden."
           : "That file's save format cannot be read by this version.",
       };
     }
-    const imported = readBundle(migration.data);
+    return { ok: true, imported: readBundle(migration.data) };
+  }, []);
+
+  const applyImport = useCallback(async (imported: ImportedBundle) => {
     if (db.current !== null && !storage.blocked && !storage.ephemeral) {
       await replaceAll(db.current, imported.save, imported.sessions);
     }
     persistedSessions.current = new Set(imported.sessions.map((s) => s.id));
     setState({ save: imported.save, sessions: imported.sessions });
     setRecovered(null);
-    return { ok: true as const, summary: imported.summary };
   }, [storage.blocked, storage.ephemeral]);
+
+  /** Reads a bundle and REPLACES everything with it, in one step. */
+  const importBundle = useCallback(async (raw: Json) => {
+    const read = readImport(raw);
+    if (!read.ok) return read;
+    await applyImport(read.imported);
+    return { ok: true as const, summary: read.imported.summary };
+  }, [readImport, applyImport]);
+
+  /**
+   * Reads and summarises a bundle, and stages it. Nothing is replaced until
+   * `confirmImport`.
+   */
+  const previewImport = useCallback((raw: Json, fileName = "") => {
+    const read = readImport(raw);
+    if (!read.ok) return read;
+    setPendingImport({ imported: read.imported, fileName });
+    return { ok: true as const, summary: read.imported.summary };
+  }, [readImport]);
+
+  /** The player has seen what the file holds and said yes. */
+  const confirmImport = useCallback(async () => {
+    const pending = pendingImport;
+    if (pending === null) return;
+    setPendingImport(null);
+    await applyImport(pending.imported);
+    setTransferMessage(importedMessage(pending.imported.summary));
+  }, [pendingImport, applyImport]);
+
+  const cancelImport = useCallback(() => setPendingImport(null), []);
 
 
   /**
@@ -607,8 +655,13 @@ export function useGarden() {
     const link = document.createElement("a");
     link.href = url;
     link.download = `focus-garden-${todayKey()}.json`;
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    // Not revoked synchronously: some browsers (Safari in particular) start the
+    // download after click() returns, and a URL revoked in the same task can
+    // cancel it - the one copy someone asked for silently never arrives.
+    setTimeout(() => URL.revokeObjectURL(url), DOWNLOAD_URL_LIFETIME_MS);
   }, [save, sessions]);
 
   /**
@@ -637,18 +690,15 @@ export function useGarden() {
           setTransferMessage("That file is not readable as a Focus Garden export.");
           return;
         }
-        const outcome = await importBundle(parsed as Json);
-        setTransferMessage(outcome.ok
-          ? `Imported ${outcome.summary.plantCount} plants and `
-            + `${outcome.summary.sessionCount} sessions.`
-            + (outcome.summary.skippedCount > 0
-              ? ` ${outcome.summary.skippedCount} rows could not be read.`
-              : "")
-          : outcome.reason);
+        // Staged, not applied. The hint beside the button promises the player
+        // sees what the file holds before anything is replaced; this used to
+        // replace the whole garden the moment a file was picked.
+        const outcome = previewImport(parsed as Json, file.name);
+        if (!outcome.ok) setTransferMessage(outcome.reason);
       });
     };
     input.click();
-  }, [importBundle]);
+  }, [previewImport]);
 
   const setActivePlant = useCallback((uid: string) => {
     mutateSave((s) => ({ ...s, profile: { ...s.profile, activePlantUid: uid } }));
@@ -752,6 +802,7 @@ export function useGarden() {
   return {
     state, save, sessions, summaries, stats, activePlant, activeProject,
     expansion, lastOutcome, storage, recovered, transferMessage, setTransferMessage,
+    pendingImport, previewImport, confirmImport, cancelImport,
     db: db.current, applyMerged,
     completeSession, applyFinished, completeOnboarding,
     setActivePlant, setActiveProject, placeInGarden, rotatePlant,
