@@ -18,8 +18,10 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Signed out, and settled: the shell renders the local-only app straight away.
+// `auth.data` is what the session endpoint "answered"; some tests replace it.
+const auth = vi.hoisted(() => ({ data: null as unknown }));
 vi.mock("../auth-client.js", () => ({
-  useSession: () => ({ data: null, isPending: false }),
+  useSession: () => ({ data: auth.data, isPending: false }),
   signIn: {}, signUp: {}, signOut: async () => {},
   readableAuthError: (m: string | undefined) => m ?? "",
   resendVerification: async () => ({ ok: true }),
@@ -36,6 +38,7 @@ function advance(seconds: number): void {
 }
 
 beforeEach(() => {
+  auth.data = null;
   globalThis.indexedDB = new IDBFactory();
   millis = EPOCH_MS;
   // Both clocks from one source, so they cannot drift into a false anomaly.
@@ -259,4 +262,23 @@ describe("exporting a garden", () => {
     vi.advanceTimersByTime(60_000);
     expect(revoked).toHaveBeenCalledWith("blob:fg-test");
   });
+});
+
+describe("a session endpoint that answers with something else", () => {
+  // A captive portal, a proxy, or a static host serving index.html for /api.
+  for (const [label, data] of [
+    ["an HTML page", "<!doctype html><html><body>Sign in to Wi-Fi</body></html>"],
+    ["an object with no user", { session: {} }],
+    ["a null user", { user: null }],
+    ["undefined", undefined],
+  ] as const) {
+    it(`treats ${label} as signed out, and Settings still opens`, async () => {
+      auth.data = data;
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      await openApp();
+      fireEvent.click(nav(/^Settings/));
+      expect(screen.queryByText(/Something broke on this screen/i)).toBeNull();
+      expect(screen.getByRole("button", { name: "Export" })).toBeTruthy();
+    });
+  }
 });

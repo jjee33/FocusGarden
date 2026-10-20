@@ -20,7 +20,8 @@ import type { GameSettings, ThemeMode } from "../../domain/game-settings.js";
 import { formatDuration } from "../../domain/time-util.js";
 import type { ThemeChoice } from "../usePlatform.js";
 import { useTheme } from "../usePlatform.js";
-import { deleteAccount, signOut, useSession } from "../auth-client.js";
+import { deleteAccount, signOut } from "../auth-client.js";
+import { useAccountSession } from "../account-session.js";
 import type { useSync } from "../useSync.js";
 import { formatDatetime } from "../../domain/time-util.js";
 import { describeRange } from "../../domain/save-bundle.js";
@@ -79,7 +80,7 @@ export function SettingsScreen({ garden, sync, onSignedOut, onNavigate }: Props)
     onSignedOut();
   };
   const theme = useTheme();
-  const { data: authSession } = useSession();
+  const { session: authSession } = useAccountSession();
 
   // The in-app motion preference, applied as a multiplier on every duration
   // token. Zero when reduced motion is on, which is what switches looping

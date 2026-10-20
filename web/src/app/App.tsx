@@ -23,7 +23,7 @@ import { Icon, type IconName } from "./components/Icon.js";
 import { BootScreen } from "./components/BootScreen.js";
 import { LandingScreen } from "./screens/LandingScreen.js";
 import { ResetLinkExpiredScreen, ResetPasswordScreen } from "./screens/ResetPasswordScreen.js";
-import { useSession } from "./auth-client.js";
+import { useAccountSession } from "./account-session.js";
 import { useSync } from "./useSync.js";
 import { useGarden } from "./useGarden.js";
 import { useFocusTimer } from "./useFocusTimer.js";
@@ -159,17 +159,9 @@ export function App() {
     return clearTitle;
   }, [timer.snapshot.state, timer.snapshot.remainingSeconds, timer.snapshot.kind]);
   const sessionRunning = timer.snapshot.state !== "idle";
-  const { data: rawSession, isPending: authPending } = useSession();
-
-  // Not trusted until it looks like a session. better-auth hands back whatever
-  // the endpoint answered with, and behind a captive portal or a misconfigured
-  // proxy that can be an HTML page wearing a 200 - a truthy non-session that
-  // crashed the entire app on `authSession.user.id`. A local-first app must
-  // shrug that off as "signed out", not die on it.
-  const authSession =
-    rawSession !== null && typeof rawSession === "object" && "user" in rawSession
-      ? rawSession
-      : null;
+  // Not trusted until it looks like a session: a captive portal's HTML page is
+  // "signed out", not a crash. See account-session.ts.
+  const { session: authSession, isPending: authPending } = useAccountSession();
 
   // Latched, not derived: once the first session check has resolved we stay
   // settled, however many times better-auth refetches afterwards.
