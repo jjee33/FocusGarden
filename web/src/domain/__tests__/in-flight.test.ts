@@ -119,6 +119,55 @@ describe("recoverInFlight", () => {
     expect(recovered.pausedMinutes).toBeCloseTo(3, 6);
   });
 
+  it("does not credit the time a paused session spent closed", () => {
+    // Five minutes of focus, then a pause, then the tab is shut for eight hours.
+    // The pause in progress was never in the accumulator, so recovery used to
+    // count the whole closed stretch as focus and offer the full 25 minutes.
+    const c = clocks();
+    const clock = new GameClock(c.providers);
+    clock.start();
+    c.advance(300);
+    clock.pause();
+    c.advance(60);
+    const stored = buildInFlight(runningSession(25), clock);
+
+    const reopenedAt = START + 360 + 8 * 3600;
+    const after = clocks(reopenedAt);
+    const recovered = recoverInFlight(stored, reopenedAt, after.providers)!;
+    expect(recovered.actualFocusMinutes).toBeCloseTo(5, 6);
+    expect(recovered.pausedMinutes).toBeCloseTo((60 + 8 * 3600) / 60, 6);
+  });
+
+  it("does not let process uptime leak into a legacy paused record", () => {
+    // Records written before the pause's wall anchor was stored. The pause is
+    // treated as beginning at recovery, so the figure no longer depends on how
+    // long the page had been open when it read the record.
+    const stored = {
+      session: { id: "s_legacy", intended_duration_minutes: 25 },
+      clock: { wall_start: START, paused_accumulated: 0, state: 2 },
+    };
+    const early = recoverInFlight(stored, START + 600, {
+      monotonic: () => 1, wall: () => START + 600,
+    })!;
+    const late = recoverInFlight(stored, START + 600, {
+      monotonic: () => 5000, wall: () => START + 600,
+    })!;
+    expect(early.actualFocusMinutes).toBeCloseTo(10, 6);
+    expect(late.actualFocusMinutes).toBeCloseTo(10, 6);
+  });
+
+  it("stores the pause's wall anchor only while paused", () => {
+    const c = clocks();
+    const clock = new GameClock(c.providers);
+    clock.start();
+    c.advance(30);
+    expect("pause_began_wall" in clock.toDict()).toBe(false);
+    clock.pause();
+    expect(clock.toDict()["pause_began_wall"]).toBe(START + 30);
+    clock.resume();
+    expect("pause_began_wall" in clock.toDict()).toBe(false);
+  });
+
   it("keeps the record and flags it rather than discarding an anomalous one", () => {
     // A recovered session is measured from wall time alone, which is exactly the
     // clock that can jump. It is kept and flagged, never dropped.

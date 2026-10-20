@@ -126,6 +126,58 @@ func test_resume_without_pause_is_ignored() -> void:
 	assert_almost_eq(_clock.sample().credited_seconds, 20.0, "a stray resume changes nothing")
 
 
+func test_recovered_paused_clock_excludes_time_spent_closed() -> void:
+	# Five minutes of focus, a pause, then the app is shut for eight hours. The
+	# pause in progress was never in the accumulator, so recovery used to count the
+	# whole closed stretch as focus.
+	_clock.start()
+	_advance(300.0)
+	_clock.pause()
+	_advance(60.0)
+	var stored := _clock.to_dict()
+	assert_almost_eq(float(stored["pause_began_wall"]), 1_700_000_300.0, "a paused clock stores its pause anchor")
+
+	_advance(8.0 * 3600.0)
+	var restored := GameClock.from_dict(stored)
+	restored.set_time_providers(
+		func() -> float: return _mono[0],
+		func() -> float: return _wall[0]
+	)
+	var sample := restored.sample()
+	assert_almost_eq(sample.credited_seconds, 300.0, "time spent paused and closed earns nothing")
+	assert_almost_eq(sample.paused_seconds, 60.0 + 8.0 * 3600.0, "the whole pause is reported as paused")
+	restored.reset_time_providers()
+
+
+func test_running_clock_dict_has_no_pause_anchor() -> void:
+	_clock.start()
+	_advance(30.0)
+	assert_false(_clock.to_dict().has("pause_began_wall"), "a running record keeps its original shape")
+	_clock.pause()
+	_clock.resume()
+	assert_false(_clock.to_dict().has("pause_began_wall"), "resuming clears the anchor")
+
+
+func test_legacy_paused_record_ignores_process_uptime() -> void:
+	# Records written before the anchor existed: the pause is treated as starting
+	# at recovery, so uptime cannot leak into the figure.
+	var legacy := {"wall_start": 1_700_000_000.0, "paused_accumulated": 0.0, "state": 2}
+	_mono[0] = 5000.0
+	_wall[0] = 1_700_000_600.0
+	var restored := GameClock.from_dict(legacy)
+	# from_dict reads the real monotonic clock, so pin the anchor it chose rather
+	# than re-deriving it: the pause must begin where the rebuilt clock begins.
+	assert_almost_eq(restored._pause_began_mono, restored._mono_start, "a legacy pause is anchored at recovery")
+	restored.set_time_providers(
+		func() -> float: return _mono[0],
+		func() -> float: return _wall[0]
+	)
+	restored._mono_start = _mono[0]
+	restored._pause_began_mono = _mono[0]
+	assert_almost_eq(restored.sample().credited_seconds, 600.0, "legacy paused records credit wall time to recovery")
+	restored.reset_time_providers()
+
+
 func test_recovered_clock_uses_wall_time() -> void:
 	# After a restart the monotonic origin is gone, so a recovered session must
 	# fall back to wall time or it would credit zero for real work.

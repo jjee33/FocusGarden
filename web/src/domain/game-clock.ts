@@ -85,6 +85,12 @@ export class GameClock {
   /** Paused time across all previous pauses, measured monotonically. */
   private pausedAccumulated = 0;
   private pauseBeganMono = 0;
+  /**
+   * Wall time the pause in progress began. Persisted so a session paused and
+   * then closed is not credited for the time it sat closed: after a restart the
+   * monotonic anchor is gone, and the wall clock is all that is left.
+   */
+  private pauseBeganWall = 0;
   /** Set when rebuilt from a persisted session; monotonic history is then gone. */
   private recoveredFromSave = false;
   private providers: TimeProviders;
@@ -102,6 +108,7 @@ export class GameClock {
     this.monoStart = this.providers.monotonic();
     this.pausedAccumulated = 0;
     this.pauseBeganMono = 0;
+    this.pauseBeganWall = 0;
     this.recoveredFromSave = false;
     this.state = ClockState.RUNNING;
   }
@@ -109,6 +116,7 @@ export class GameClock {
   pause(): void {
     if (this.state !== ClockState.RUNNING) return;
     this.pauseBeganMono = this.providers.monotonic();
+    this.pauseBeganWall = this.providers.wall();
     this.state = ClockState.PAUSED;
   }
 
@@ -118,6 +126,7 @@ export class GameClock {
     // clock change while paused silently add or remove focus credit.
     this.pausedAccumulated += maxf(0, this.providers.monotonic() - this.pauseBeganMono);
     this.pauseBeganMono = 0;
+    this.pauseBeganWall = 0;
     this.state = ClockState.RUNNING;
   }
 
@@ -139,7 +148,14 @@ export class GameClock {
     // A pause still in progress is not yet in the accumulator.
     let paused = this.pausedAccumulated;
     if (this.state === ClockState.PAUSED) {
-      paused += maxf(0, nowMono - this.pauseBeganMono);
+      if (this.recoveredFromSave && this.pauseBeganWall > 0) {
+        // The pause spanned a restart, so its monotonic anchor is gone. It is
+        // measured on the wall clock it was recorded against, which keeps the
+        // time a paused session sat closed out of its credit.
+        paused += maxf(0, nowWall - this.pauseBeganWall);
+      } else {
+        paused += maxf(0, nowMono - this.pauseBeganMono);
+      }
     }
 
     const monoElapsed = nowMono - this.monoStart - paused;
@@ -185,11 +201,15 @@ export class GameClock {
    * Only wall time is stored: monotonic values are meaningless across a reload.
    */
   toDict(): Json {
-    return {
+    const data: Json = {
       wall_start: this.wallStart,
       paused_accumulated: this.pausedAccumulated,
       state: this.state,
     };
+    // Only while paused, so a running session's record keeps the exact shape
+    // every earlier build wrote and reads.
+    if (this.state === ClockState.PAUSED) data["pause_began_wall"] = this.pauseBeganWall;
+    return data;
   }
 
   /**
@@ -206,6 +226,11 @@ export class GameClock {
       ? (rawState as ClockState)
       : ClockState.IDLE;
     clock.monoStart = clock.providers.monotonic();
+    // A record written before pause_began_wall existed has no anchor for the
+    // pause in progress. Treating it as beginning now keeps the result from
+    // depending on how long this process has been up.
+    clock.pauseBeganMono = clock.monoStart;
+    clock.pauseBeganWall = maxf(0, getFloat(data, "pause_began_wall"));
     clock.recoveredFromSave = true;
     return clock;
   }
