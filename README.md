@@ -42,7 +42,7 @@ what lets the whole app work with no network at all.
 npm --prefix web install
 npm --prefix web run dev        # Vite, port 5173
 npx --prefix web wrangler dev   # the Worker and the API, port 8787
-npm --prefix web test           # 194 tests
+npm --prefix web test           # 270 tests
 ```
 
 Auth needs credentials in `web/.dev.vars` — see
@@ -126,7 +126,7 @@ Confirm every engine API the project uses actually exists:
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/api_probe.gd
 ```
 
-Run the unit tests (168 tests, 1084 assertions):
+Run the unit tests (213 tests, 1206 assertions):
 
 ```bash
 tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script res://tests/cli_test_runner.gd
@@ -228,7 +228,7 @@ Both paths need the export templates first — see [RELEASE.md](docs/RELEASE.md)
 - **Audio**: seven synthesised cues on five independently controllable buses
 - **Onboarding**: five questions on first launch, answerable in about fifteen
   seconds, every one with a working default
-- 131 unit tests, an engine API probe, end-to-end timer and reliability probes
+- 213 unit tests, an engine API probe, end-to-end timer and reliability probes
 
 ## Performance
 

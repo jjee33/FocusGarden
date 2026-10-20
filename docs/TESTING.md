@@ -8,7 +8,7 @@ tools/godot/Godot_v4.7.1-stable_win64_console.exe --headless --path . --script r
 
 Exits non-zero on failure, so it can gate a commit or a build.
 
-As of Milestone 1: **116 tests, 931 assertions, 0 failures.**
+Currently: **213 tests, 1206 assertions, 0 failures.**
 
 ## The API probe
 
