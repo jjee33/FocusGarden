@@ -7,7 +7,7 @@
  * from SessionCycle. Nothing is a hardcoded number dressed up as one.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { PlantView } from "../components/PlantView.js";
 import type { useGarden } from "../useGarden.js";
@@ -43,6 +43,12 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
 
   const running = timer.snapshot.state !== "idle";
   const [confirmingDiscard, setConfirmingDiscard] = useState(false);
+  const discardButton = useRef<HTMLButtonElement>(null);
+  /** Closes the question and puts keyboard focus back where it was asked from. */
+  const keepGoing = (): void => {
+    setConfirmingDiscard(false);
+    discardButton.current?.focus();
+  };
   // A session that ends while the question is open takes the question with it.
   useEffect(() => {
     if (!running) setConfirmingDiscard(false);
@@ -173,6 +179,7 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
                   End early
                 </button>
                 <button
+                  ref={discardButton}
                   className="btn btn--quiet"
                   type="button"
                   aria-expanded={confirmingDiscard}
@@ -182,7 +189,12 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
                 </button>
               </div>
               {confirmingDiscard && (
-                <div className="notice notice--clay" role="alertdialog" aria-labelledby="discard-heading">
+                <div
+                  className="notice notice--clay"
+                  role="alertdialog"
+                  aria-labelledby="discard-heading"
+                  onKeyDown={(e) => { if (e.key === "Escape") keepGoing(); }}
+                >
                   <h3 id="discard-heading">Discard this session?</h3>
                   <p>
                     The time you have focused so far will not be counted. If you
@@ -200,7 +212,7 @@ export function FocusScreen({ garden, timer, presetMinutes, onPresetChange }: Pr
                       className="btn"
                       type="button"
                       autoFocus
-                      onClick={() => setConfirmingDiscard(false)}
+                      onClick={keepGoing}
                     >
                       Keep going
                     </button>

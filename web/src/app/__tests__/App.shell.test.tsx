@@ -172,6 +172,17 @@ describe("discarding a session", () => {
     expect(screen.getByRole("button", { name: "Pause" })).toBeTruthy();
   });
 
+  it("is keyboard-complete: focus lands on Keep going, Escape closes, focus returns", async () => {
+    await running();
+    const discard = screen.getByRole("button", { name: "Discard" });
+    fireEvent.click(discard);
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Keep going" }));
+    fireEvent.keyDown(screen.getByRole("alertdialog"), { key: "Escape" });
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(document.activeElement).toBe(discard);
+    expect(screen.getByRole("button", { name: "Pause" })).toBeTruthy();
+  });
+
   it("discards once confirmed", async () => {
     await running();
     fireEvent.click(screen.getByRole("button", { name: "Discard" }));
