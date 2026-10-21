@@ -25,7 +25,7 @@
 
 import { execFile } from "node:child_process";
 import { DatabaseSync } from "node:sqlite";
-import { mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, renameSync } from "node:fs";
+import { chmodSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, renameSync } from "node:fs";
 import { join } from "node:path";
 import { promisify } from "node:util";
 
@@ -138,7 +138,8 @@ export function planRetention(names, now, keep = RETENTION) {
 }
 
 async function main() {
-  mkdirSync(DIR, { recursive: true });
+  mkdirSync(DIR, { recursive: true, mode: 0o700 });
+  chmodSync(DIR, 0o700);
 
   const name = `focus-garden-${stamp(new Date())}.sql`;
   const finalPath = join(DIR, name);
@@ -149,9 +150,9 @@ async function main() {
   console.log(`Exporting ${DATABASE}…`);
   try {
     await run("npx", ["wrangler", "d1", "export", DATABASE, "--remote", "--output", tempPath], {
-      shell: true,
       maxBuffer: 64 * 1024 * 1024,
     });
+    chmodSync(tempPath, 0o600);
   } catch (error) {
     // The message can carry the signed URL; report the failure without it.
     console.error("Export failed. wrangler exited non-zero.");
@@ -176,6 +177,7 @@ async function main() {
   console.log(`    ${check.bytes} bytes, ${check.tables} tables, ${check.rows} rows, ${check.users} account(s) recoverable`);
 
   const existing = readdirSync(DIR).filter((f) => f.endsWith(".sql"));
+  for (const f of existing) chmodSync(join(DIR, f), 0o600);
   const { keep, drop } = planRetention(existing, new Date());
   console.log(`Retention: keeping ${keep.length}, removing ${drop.length}`);
   for (const f of drop) {

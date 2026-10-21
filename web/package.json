@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Focus Garden for the web. Domain logic ported from the Godot app and pinned to it by fixtures.",
   "scripts": {
-    "test": "vitest run",
+    "test": "node tools/run-tests.mjs",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "dev": "vite",
